@@ -12,6 +12,7 @@ import { MessageList, MessageInput } from "stream-chat-react";
 import { StreamChat } from "stream-chat";
 import ThemeContext from '../contexts/theme';
 import Error from './Error'
+import Loading from './Loading'
 import "stream-chat-react/dist/css/index.css";
 
 const sort = { last_message_at: -1 };
@@ -54,24 +55,11 @@ function ChatApp (props){
   }
 
   return (
-    
-    (one2one && 
-    <Chat client={client} theme={"messaging light"}>
-    <Channel channel={channel}>
-      <Window>
-        <ChannelHeader />
-        <MessageList />
-        <MessageInput />
-      </Window>
-      <Thread />
-    </Channel>
-  </Chat>) ||(
+    (client === undefined && <Loading/>)||
+    (
+      (one2one && 
       <Chat client={client} theme={"messaging light"}>
-      <ChannelList
-        filters= {{ type: 'messaging', members: { $in: [theme.uid] } }}
-        sort={sort}
-      />
-      <Channel>
+      <Channel channel={channel}>
         <Window>
           <ChannelHeader />
           <MessageList />
@@ -79,8 +67,23 @@ function ChatApp (props){
         </Window>
         <Thread />
       </Channel>
-    </Chat>
-    
+    </Chat>) ||(
+        <Chat client={client} theme={"messaging light"}>
+        <ChannelList
+          filters= {{ type: 'messaging', members: { $in: [theme.uid] } }}
+          sort={sort}
+        />
+        <Channel>
+          <Window>
+            <ChannelHeader />
+            <MessageList />
+            <MessageInput />
+          </Window>
+          <Thread />
+        </Channel>
+      </Chat>
+      
+      )
     )
   )
 }

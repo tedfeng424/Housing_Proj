@@ -17,7 +17,6 @@ import { BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 
 import Error from './components/Error'
 import People from './components/People'
-import Profile from './components/Profile'
 
 window.onclick = function(event) {
 	if (!event.target.matches('.dropbtn img') && !$(event.target).parents('.dropdown-content').length) {
@@ -35,9 +34,9 @@ window.onclick = function(event) {
 function App() {
 	const cookies = Object.fromEntries(document.cookie.split('; ').map(x => x.split('=')))
 	const [uid, setUid] = React.useState(cookies["userid"] ||false)
-	const [token, setToken] = React.useState(cookies["token"] || false)
+	const [token, setToken] = React.useState(false)
 	const [login, setLogin] = React.useState((cookies["userid"] !== undefined) || false)
-	const [pic, setPic] = React.useState(cookies["profile_pic"] || "./app/resources/login.svg")
+	const [pic, setPic] = React.useState(cookies["profile_pic"] || "./app/resources/login.png")
 	const [theme, setTheme] = React.useState('love')
 	const toggleTheme = () => setTheme((theme) => theme === 'love' ? 'loved' : 'love')
 	const toggleLogin = () => setLogin((login) => login === true ? false : true)
@@ -63,7 +62,6 @@ function App() {
 				<Route exact path='/streamapi' component={ChatApp} />
 				<Route exact path='/tenant' component={People} />
 				<Route exact path='/calendar' component={CalendarSelect} />
-				<Route exact path='/profile' component={Profile} />
 				<Route component={() => <Error message="Unexplored Territory -- FORT OH FORT"/>} />
 			</Switch>
 				</React.Fragment>
