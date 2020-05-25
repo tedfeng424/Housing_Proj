@@ -15,8 +15,16 @@ export default function Nav () {
             className='nav-link'>
               <img src="./app/resources/logo.png" alt="logo" width="50%" height="50px" style={{marginLeft:"20px",marginBottom:"5px",marginTop:"5px"}}/>
           </NavLink>
-          <ul className='row nav' style={{marginRight:"20px"}}>
+          <ul className='row nav'>
             <li>
+              <button
+              style={{fontSize: 30}}
+              className='btn-clear'
+              onClick={toggleTheme}
+              >
+              {theme === 'love' ? <img src="./app/resources/love.png" alt="love" width="30px" height="30px"/> : 
+              <img src="./app/resources/loved.png" alt="loved" width="30px" height="30px"/>}
+              </button>
             </li>
             <li>
               <MainDrop img={profile_pic}></MainDrop>
