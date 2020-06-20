@@ -5,7 +5,7 @@ html,body,#app {
 }
 
 body{
-	font-family: Chilanka
+	font-family: 'Cormorant Garamond';
 }
 
 ul {
@@ -17,7 +17,7 @@ ul li {
 }
 
 .main_container {
-	background-image: url("./resources/light_bg.png");
+	background-image: url("./resources/main_bg.png");
 	/* Full height */
 	height: 100%;
 	width: 100%;
@@ -29,7 +29,6 @@ ul li {
 }
 
 .left_container {
-	background-image: url("./resources/main_bg.png");
 	/* Full height */
 	width: 100%;
 	height: 100%;
@@ -152,7 +151,7 @@ ul li {
 }
 
 .dropdown .dropbtn {
-	font-family: Chilanka;
+	font-family: 'Cormorant Garamond';
 	font-style: normal;
 	font-weight: normal;
 	font-size: 20px;
@@ -263,6 +262,27 @@ ol li {
 
 *:focus {
 	outline: none;
+}
+
+.profile-card {
+	margin-left: 10px;
+	height: 52px;
+	width: 195px;
+	margin-top: 50px;
+	background-image: url("./resources/profile_card.svg");
+	text-align: center;
+}
+
+.centered {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.container_pro {
+  position: relative;
+  text-align: center;
 }
 
 

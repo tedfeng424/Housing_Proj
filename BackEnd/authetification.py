@@ -19,7 +19,7 @@ session = DBSession()
 authetification = Blueprint('auth', __name__)
 
 # initialize chat API
-client = StreamChat(api_key="ttybfdwbzwca", api_secret="a7q3sqf8rj7hmtuma76zpctzh3kh8fcrxpczuz5b2dfarm5hv39wjsp4ntrvdfss")
+client = StreamChat(api_key="tqnbvvgngey3", api_secret="4q22sqqsqgauudergg4vqdxqbrrdk96qppp3223fh8eb4na2vzb2gbb99589qzf5")
 client.update_user({"id": "system", "name": "The Server"})
 user_token = client.create_token('system')
 #cs = client.query_channels({"type": 'messaging',"members": { "$in": ["yizong"] } },{ "last_message_at": -1 })
@@ -113,10 +113,12 @@ def gconnect():
         img = login_session['profile_pic']
         createUser(login_session)
     uid = login_session['email'][:login_session['email'].find("@")]
-    response = make_response(jsonify([img,uid,client.create_token(uid).decode("utf-8")]), 200)
+    streamchat_token = client.create_token(uid).decode("utf-8")
+    response = make_response(jsonify([img,uid,streamchat_token]), 200)
     response.headers['Content-Type'] = 'application/json'  
     response.headers['Access-Control-Allow-Credentials'] = 'true'
     response.set_cookie('userid', uid)
+    response.set_cookie('token', streamchat_token)
     response.set_cookie('profile_pic', login_session['profile_pic'])
     print("connected success",response)
     return response

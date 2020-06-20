@@ -22,7 +22,7 @@ export default function TenantCard ({ move_time, stay_period,timetoschool,timeto
                     </NavLink>
                 </div>
             </div>
-            <div className="col" style={{marginLeft:"5px","font-family": "Chilanka"}}>
+            <div className="col" style={{marginLeft:"5px"}}>
                 <div className="norm_row" style={{color: "#9D9D9D","font-size": "15px",marginTop:"15px"}}>Move in Time:</div>
                 <div className="norm_row" >{move_time}</div>
                 <div className="norm_row" style={{color: "#9D9D9D","font-size": "15px",marginTop:"15px"}}>Minimum Stay Period:</div>
@@ -31,7 +31,7 @@ export default function TenantCard ({ move_time, stay_period,timetoschool,timeto
 
 
           </div>
-            <div className="col" style={{"font-family": "Chilanka","font-style": "normal",
+            <div className="col" style={{"font-style": "normal",
             "font-weight": "normal",marginLeft:"15px"}}> 
                 <div className="norm_row" style={{"font-size": "20px"}}>Looking for housing: </div>
                 <div className="norm_row" style={{marginTop:"10px"}}>{timetobus}</div>

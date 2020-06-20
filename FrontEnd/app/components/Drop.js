@@ -1,11 +1,10 @@
 import React from 'react'
 import Slider from 'rc-slider';
-import Select from "react-dropdown-select";
 import CalendarSelect from './CalendarSelect'
 import DTS from './DTS'
 import RMT from './RMT'
 import STP from './STP'
-import {options_transportation,options_time,options_number, options_lease, options_months, options_timecategories} from './options';
+
 
 
 export function toggleShow(name) {

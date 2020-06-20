@@ -15,7 +15,16 @@ export default function MainDrop ({img}) {
     {({ toggleLogin, login}) => (
       <div className="dropdown">
         <button className="dropbtn">
+        {login &&
             <img onClick={()=>toggleShow("main_bar" )} src={img} alt="login" width="32px" height="32px" style={{marginRight:"20px","border-radius": '100%'}}/>
+        }
+        {!login &&<NavLink
+            to='/login'
+            activeStyle={activeStyle}
+            className='nav-link'>
+            <img src={img} alt="login" height="32px" width="100px"/>
+        </NavLink>
+        }
         </button>
         <div id="main_bar" className="dropdown-content">
             
@@ -36,16 +45,6 @@ export default function MainDrop ({img}) {
                 </NavLink>
             </React.Fragment>
             }
-
-            {!login &&<NavLink
-                to='/login'
-                activeStyle={activeStyle}
-                className='nav-link'>
-                Login
-            </NavLink>
-            }
-            
-        
         </div>
       </div>
     )}

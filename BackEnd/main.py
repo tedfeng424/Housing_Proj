@@ -131,4 +131,4 @@ def handle_my_custom_event(json, methods=['GET', 'POST']):
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
     app.debug = True
-    app.run(host='0.0.0.0', port=3001)
+    app.run(host='localhost', port=3001)

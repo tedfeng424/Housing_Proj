@@ -1,6 +1,6 @@
 // distance to skoo
 import React from 'react'
-import {options_transportation,options_time,options_number, options_lease, options_months, options_timecategories} from './options';
+import {options_transportation,options_time} from './options';
 export default function DTS(){
     return (
         <div className="row" >
