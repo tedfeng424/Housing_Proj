@@ -112,6 +112,7 @@ export default class Form1 extends React.Component{
         this.state.bulk["pets"] && 
         this.state.bulk["parking"] && 
         this.state.bulk["furnished"]){
+            console.log(this.state.photos)
             this.setState({hidden:true})
         } else {
             alert("Please fill out the required form!")
