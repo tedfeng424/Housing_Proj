@@ -2,7 +2,7 @@
 1. Download npm from [this](https://www.npmjs.com/get-npm) if not already
 2. Download this Repo and go to the local folder.
 3. Open <b> 2 </b> terminal windows and go to FrontEnd and BackEnd folders, respectively.
-4. (In <b> BackEnd </b> terminal) create the a virtual environment using the template code `python3 -m venv env`
+4. (In <b> BackEnd </b> terminal) create the a virtual environment using the template code `pip install --upgrade virtualenv`, then `virtualenv -p python3 venv`
 5. (In <b> BackEnd </b> terminal) start the created environment with      `source venv/bin/activate `
 6. (In <b> BackEnd </b> terminal) download libraries through `pip install -r requirements.txt`
 7. (In <b> BackEnd </b> terminal) run backend by `python main.py`
