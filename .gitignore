@@ -7,3 +7,4 @@ BackEnd/!.elasticbeanstalk/*.global.yml
 # Caches
 **/.DS_Store
 **/__pycache__
+FrontEnd/app/components/.DS_Store
