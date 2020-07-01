@@ -1,0 +1,9 @@
+
+# Elastic Beanstalk Files
+BackEnd/.elasticbeanstalk/*
+BackEnd/!.elasticbeanstalk/*.cfg.yml
+BackEnd/!.elasticbeanstalk/*.global.yml
+
+# Caches
+**/.DS_Store
+**/__pycache__
