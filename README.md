@@ -10,7 +10,10 @@
 9. (In <b> FrontEnd </b> terminal) download other packages by `npm install`
 10. (In <b> FrontEnd </b> terminal) run the server by `npm run start`
 
-# Potential errors: 
+# Potential Errata: 
+
+<b> E1 </b>
+
 1. If receiving errors from chat section: try new API key and secret(will be updated regularly):
 
     Key: 57tcrkskk54w 
@@ -22,3 +25,9 @@
     a. Update the <b> ChatApp.js </b> in the components file(only key needed) from FrontEnd folder
 
     b. Update the <b> authentification.py </b> from BackEnd folder(can be found in the beginning of the code). 
+    
+<b> E2 </b>
+
+During some unknown circumstances (different machines, preexisting node_modules), there might be this weird behavior of webpack keeping recompiling. 
+
+If this happens: go to [This Issue](https://github.com/Yizong98/Housing_Proj/issues/18)
