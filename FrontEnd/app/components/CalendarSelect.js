@@ -4,7 +4,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 export default class CalendarSelect extends Component {
   state = {
-    date: new Date(),
+    date: [new Date(),new Date()],
   }
 
   onChange = date => this.setState({ date },()=>console.log(date))
