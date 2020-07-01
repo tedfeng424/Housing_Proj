@@ -7,7 +7,8 @@
 6. (In <b> BackEnd </b> terminal) download libraries through `pip install -r requirements.txt`
 7. (In <b> BackEnd </b> terminal) run backend by `python main.py`
 8. (In <b> FrontEnd </b> terminal) download webpack server `npm i webpack-dev-server`
-9. (In <b> FrontEnd </b> terminal) run the server by `npm run start`
+9. (In <b> FrontEnd </b> terminal) download other packages by `npm install`
+10. (In <b> FrontEnd </b> terminal) run the server by `npm run start`
 
 # Potential errors: 
 1. If receiving errors from chat section: try new API key and secret(will be updated regularly):
