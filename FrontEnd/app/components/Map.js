@@ -33,7 +33,7 @@ export default class Map extends React.Component {
                   ? { backgroundColor: '#fafafa', cursor: 'pointer' }
                   : { backgroundColor: '#ffffff', cursor: 'pointer' }
                 return (
-                  // TODO: add key
+                  // TODO: Missing "key" prop for element in iterator
                   <div
                     {...getSuggestionItemProps(suggestion, {
                       className,
