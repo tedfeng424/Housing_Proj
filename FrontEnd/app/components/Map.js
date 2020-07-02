@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'
 import PlacesAutocomplete, {
   geocodeByAddress,
-  getLatLng,
-} from 'react-places-autocomplete';
+  getLatLng
+} from 'react-places-autocomplete'
 
 export default class Map extends React.Component {
-  render() {
+  render () {
     return (
       <PlacesAutocomplete
         value={this.props.address}
@@ -18,34 +18,34 @@ export default class Map extends React.Component {
               {...getInputProps({
                 placeholder: 'Search Places ...',
                 className: 'location-search-input',
-                style:{width:"200px",marginLeft:"20px",height:"25px"}
+                style: { width: '200px', marginLeft: '20px', height: '25px' }
               })}
             />
-            <div className="autocomplete-dropdown-container">
+            <div className='autocomplete-dropdown-container'>
               {loading && <div>Loading...</div>}
               {suggestions.map(suggestion => {
                 const className = suggestion.active
                   ? 'suggestion-item--active'
-                  : 'suggestion-item';
+                  : 'suggestion-item'
                 // inline style for demonstration purpose
                 const style = suggestion.active
                   ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                  : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                  : { backgroundColor: '#ffffff', cursor: 'pointer' }
                 return (
                   <div
                     {...getSuggestionItemProps(suggestion, {
                       className,
-                      style,
+                      style
                     })}
                   >
                     <span>{suggestion.description}</span>
                   </div>
-                );
+                )
               })}
             </div>
           </div>
         )}
       </PlacesAutocomplete>
-    );
+    )
   }
 }

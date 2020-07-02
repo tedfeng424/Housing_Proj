@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { compose, withProps, withStateHandlers } from "recompose";
+import React, { Component } from 'react'
+import { compose, withProps, withStateHandlers } from 'recompose'
 import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
   Marker,
   InfoWindow
-} from "react-google-maps";
+} from 'react-google-maps'
 
 const SimpleMap = compose(
   withProps({
@@ -16,10 +16,10 @@ const SimpleMap = compose(
      * The key "AIzaSyBkNaAGLEVq0YLQMi-PYEMabFeREadYe1Q" can be ONLY used in this sandbox (no forked).
      */
     googleMapURL:
-      "https://maps.googleapis.com/maps/api/js?key=AIzaSyDP7ZDv6xGzfVe7y7Sgb3MsYMqCVLNljeY&v=3.exp&libraries=geometry,drawing,places",
-    loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `100%` }} />,
-    mapElement: <div style={{ height: `100%` }} />
+      'https://maps.googleapis.com/maps/api/js?key=AIzaSyDP7ZDv6xGzfVe7y7Sgb3MsYMqCVLNljeY&v=3.exp&libraries=geometry,drawing,places',
+    loadingElement: <div style={{ height: '100%' }} />,
+    containerElement: <div style={{ height: '100%' }} />,
+    mapElement: <div style={{ height: '100%' }} />
   }),
   withStateHandlers(
     () => ({
@@ -37,7 +37,7 @@ const SimpleMap = compose(
   return (
     <GoogleMap
       defaultZoom={15}
-      defaultCenter={{lat:100,lng:-100}}
+      defaultCenter={{ lat: 100, lng: -100 }}
       center={props.markers[0] && props.markers[0].location}
       mapTypeControl={false}
     >
@@ -52,9 +52,9 @@ const SimpleMap = compose(
               <div>Open</div>
             </InfoWindow>
           )}
-        </Marker>;
+        </Marker>
       })}
     </GoogleMap>
-  );
-});
-export default SimpleMap;
+  )
+})
+export default SimpleMap
