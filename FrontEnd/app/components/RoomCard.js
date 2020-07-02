@@ -12,12 +12,10 @@ export default function RoomCard ({ name, intro, pic, children, header }) {
       <div className='col'>
         <h2 className='cardname'>
           <NavLink
-            to={
-              {
-                pathname: '/details',
-                search: `?Room=${header}`
-            }
-            }
+            to={{
+              pathname: '/details',
+              search: `?Room=${header}`
+            }}
             exact
           >
             {name}

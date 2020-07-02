@@ -9,7 +9,7 @@ const responseGoogle = (response) => {
 }
 
 export default function GoogleAuth () {
-  const [state_token, setstate_token] = React.useState(null)
+  const [stateToken, setStateToken] = React.useState(null)
   const theme = React.useContext(ThemeContext)
   const { toggleLogin, setPic, setUid, setToken, login } = theme
   React.useEffect(() => {
@@ -17,11 +17,11 @@ export default function GoogleAuth () {
       mode: 'cors',
       credentials: 'include'
     }).then((res) => res.json())
-      .then((data) => setstate_token(data))
+      .then((data) => setStateToken(data))
       .then(() => console.log('hello'))
   }, [])
   const onSuccess = (response) => {
-    response.state_token = state_token
+    response.state_token = stateToken
     fetch('http://localhost:3001/gconnect', {
       mode: 'cors',
       method: 'POST',
@@ -51,7 +51,9 @@ export default function GoogleAuth () {
           render={renderProps => (
             <NavLink
               to='/haha'
-              onClick={renderProps.onClick} disabled={renderProps.disabled}
+              // TODO: Handler function for onClick prop key must begin with 'handle'
+              onClick={renderProps.onClick}
+              disabled={renderProps.disabled}
             >
               <img
                 src='./app/resources/login_account.svg' style={{ width: '80%', height: '10%', marginLeft: '35px', marginTop: '25px' }}

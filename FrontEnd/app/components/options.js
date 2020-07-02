@@ -232,7 +232,7 @@ export const options = [
   }
 ]
 
-export const options_transportation = [
+export const optionsTransportation = [
   {
     name: 'Ride Hailing'
   },
@@ -253,7 +253,7 @@ export const options_transportation = [
   }
 ]
 
-export const options_time = [
+export const optionsTime = [
   {
     name: '< 10 minutes'
   },
@@ -268,7 +268,7 @@ export const options_time = [
   }
 ]
 
-export const options_timecategories = [
+export const optionsTimeCategories = [
   {
     name: 'Early'
   },
@@ -280,7 +280,7 @@ export const options_timecategories = [
   }
 ]
 
-export const options_months = [
+export const optionsMonths = [
   {
     name: 'January'
   },
@@ -319,7 +319,7 @@ export const options_months = [
   }
 ]
 
-export const options_lease = [
+export const optionsLease = [
   {
     name: '< One Year'
   },
@@ -340,7 +340,7 @@ export const options_lease = [
   }
 ]
 
-export const options_lease_short = [
+export const optionsLeaseShort = [
   {
     name: '< One Year'
   },
@@ -349,7 +349,7 @@ export const options_lease_short = [
   }
 ]
 
-export const options_number = [
+export const optionsNumber = [
   {
     name: '0'
   },
@@ -367,7 +367,7 @@ export const options_number = [
   }
 ]
 
-export const options_room = [
+export const optionsRoom = [
   {
     name: 'Master'
   },
@@ -398,7 +398,7 @@ export const options_room = [
 
 ]
 
-export const options_interval = [
+export const optionsInterval = [
   {
     name: 'Day(s)'
   },

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { compose, withProps, withStateHandlers } from 'recompose'
 import {
   withScriptjs,
@@ -43,16 +43,17 @@ const SimpleMap = compose(
     >
       {props.markers.map(marker => {
         console.log(marker.location)
-        return <Marker
-          key={marker.place_id}
-          position={marker.location}
-        >
-          {props.isOpen && (
-            <InfoWindow onCloseClick={props.onToggleOpen}>
-              <div>Open</div>
-            </InfoWindow>
-          )}
-        </Marker>
+        return (
+          <Marker
+            key={marker.place_id}
+            position={marker.location}
+          >
+            {props.isOpen && (
+              <InfoWindow onCloseClick={props.onToggleOpen}>
+                <div>Open</div>
+              </InfoWindow>
+            )}
+          </Marker>)
       })}
     </GoogleMap>
   )

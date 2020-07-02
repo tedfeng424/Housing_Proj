@@ -1,13 +1,14 @@
 // stay period
 import React from 'react'
-import { options_lease_short, options_interval } from './options'
+import { optionsLeaseShort, optionsInterval } from './options'
 export default function STP () {
   return (
     <div className='col'>
       <div className='col' style={{ float: 'left', display: 'flex', 'flex-wrap': 'wrap' }}>
         {
-          options_lease_short.map(({ name }) => {
+          optionsLeaseShort.map(({ name }) => {
             return (
+              // TODO: Missing "key" prop for element in iterator
               <div>
                 <input type='radio' id='name' name='name' value={name} />
                 <label for={name}> {name}</label>
@@ -23,8 +24,9 @@ export default function STP () {
         </div>
         <div className='col'>
           {
-            options_interval.map(({ name }) => {
+            optionsInterval.map(({ name }) => {
               return (
+                // TODO: Missing "key" prop for element in iterator
                 <div>
                   <input type='radio' id='time_interval' name='time_interval' value={name} />
                   <label for={name}> {name}</label>

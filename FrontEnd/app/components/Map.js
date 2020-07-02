@@ -1,8 +1,9 @@
 import React from 'react'
-import PlacesAutocomplete, {
+import PlacesAutocomplete from 'react-places-autocomplete'
+/* import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng
-} from 'react-places-autocomplete'
+} from 'react-places-autocomplete' */
 
 export default class Map extends React.Component {
   render () {
@@ -32,6 +33,7 @@ export default class Map extends React.Component {
                   ? { backgroundColor: '#fafafa', cursor: 'pointer' }
                   : { backgroundColor: '#ffffff', cursor: 'pointer' }
                 return (
+                  // TODO: add key
                   <div
                     {...getSuggestionItemProps(suggestion, {
                       className,

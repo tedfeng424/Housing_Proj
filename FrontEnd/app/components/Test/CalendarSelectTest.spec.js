@@ -24,12 +24,12 @@ describe('Check if two dates are updated correctly', () => {
   test('Same Dates Today', () => {
     const date1 = new Date()
     const date2 = new Date()
-    const day_range = [date1, date2]
+    const dayRange = [date1, date2]
     const component = create(<CalendarSelect />)
     const instance = component.root
     const calendar = instance.findByType(Calendar)
-    calendar.props.onChange(day_range)
-    expect(calendar.props.value).toBe(day_range)
+    calendar.props.onChange(dayRange)
+    expect(calendar.props.value).toBe(dayRange)
   })
 })
 
@@ -37,12 +37,12 @@ describe('Check random two dates', () => {
   test('Random Dates', () => {
     const date1 = Date.parse('04 Dec 1995 00:12:00 GMT')
     const date2 = Date.parse('04 Dec 2020 00:12:00 GMT')
-    const day_range = [date1, date2]
+    const dayRange = [date1, date2]
     const component = create(<CalendarSelect />)
     const instance = component.root
     const calendar = instance.findByType(Calendar)
-    calendar.props.onChange(day_range)
-    expect(calendar.props.value).toBe(day_range)
+    calendar.props.onChange(dayRange)
+    expect(calendar.props.value).toBe(dayRange)
   })
 })
 
@@ -50,11 +50,11 @@ describe('Check if two dates are updated correctly', () => {
   test('Same Dates non-today', () => {
     const date1 = Date.parse('04 Dec 2020 00:12:00 GMT')
     const date2 = Date.parse('04 Dec 2020 00:12:00 GMT')
-    const day_range = [date1, date2]
+    const dayRange = [date1, date2]
     const component = create(<CalendarSelect />)
     const instance = component.root
     const calendar = instance.findByType(Calendar)
-    calendar.props.onChange(day_range)
-    expect(calendar.props.value).toBe(day_range)
+    calendar.props.onChange(dayRange)
+    expect(calendar.props.value).toBe(dayRange)
   })
 })

@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { ThemeConsumer } from '../contexts/theme'
 import { NavLink } from 'react-router-dom'
@@ -7,7 +6,7 @@ import MainDrop from './MainDrop'
 export default function Nav () {
   return (
     <ThemeConsumer>
-      {({ theme, toggleTheme, profile_pic }) => (
+      {({ theme, toggleTheme, profilePic }) => (
         <nav className='row space-between distinct'>
           <NavLink
             to='/'
@@ -19,7 +18,7 @@ export default function Nav () {
           <ul className='row nav' style={{ marginRight: '20px' }}>
             <li />
             <li>
-              <MainDrop img={profile_pic} />
+              <MainDrop img={profilePic} />
             </li>
           </ul>
         </nav>

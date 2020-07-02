@@ -1,24 +1,24 @@
-import React, { Component } from 'react';
-import Calendar from 'react-calendar';
+import React, { Component } from 'react'
+import Calendar from 'react-calendar'
 
-import 'react-calendar/dist/Calendar.css';
+import 'react-calendar/dist/Calendar.css'
 export default class CalendarSelect extends Component {
   state = {
-    date: [new Date(),new Date()],
+    date: [new Date(), new Date()]
   }
 
-  onChange = date => this.setState({ date },()=>console.log(date))
+  onChange = date => this.setState({ date }, () => console.log(date))
 
-  render() {
+  render () {
     return (
       <div>
         <Calendar
-          returnValue = {"range"}
-          selectRange = {true}
+          returnValue='range'
+          selectRange
           onChange={this.onChange}
           value={this.state.date}
         />
       </div>
-    );
+    )
   }
 }

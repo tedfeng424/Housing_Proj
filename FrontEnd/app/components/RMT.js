@@ -1,6 +1,6 @@
 // room type
 import React from 'react'
-import { options_room } from './options'
+import { optionsRoom } from './options'
 export default function RMT () {
   return (
     <div className='col'>
@@ -15,9 +15,10 @@ export default function RMT () {
       <img style={{ marginTop: '10px' }} src='./app/resources/horizontal_div.svg' />
       <div className='col' style={{ marginTop: '10px', marginLeft: '40px', float: 'left', display: 'flex', 'flex-wrap': 'wrap' }}>
         {
-          options_room.map(({ name }) => {
+          optionsRoom.map(({ name }) => {
             console.log(name)
             return (
+              // TODO: Missing "key" prop for element in iterator
               <div>
                 <input type='checkbox' id={name} name={name} value={name} />
                 <label for={name}> {name}</label>

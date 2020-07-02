@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import {
   Chat,
   Channel,
@@ -46,10 +46,11 @@ function ChatApp (props) {
   }
 
   if (!theme.login) {
-    return <Redirect to={{
-      pathname: '/'
-    }}
-    />
+    return (
+      <Redirect to={{
+        pathname: '/'
+      }}
+      />)
   }
 
   if (error) {
@@ -69,23 +70,23 @@ function ChatApp (props) {
             </Window>
             <Thread />
           </Channel>
-        </Chat>) || (
-        <Chat client={client} theme='messaging light'>
+        </Chat>) ||
+        (
+          <Chat client={client} theme='messaging light'>
             <ChannelList
-            filters={{ type: 'messaging', members: { $in: [theme.uid] } }}
-            sort={sort}
-          />
+              filters={{ type: 'messaging', members: { $in: [theme.uid] } }}
+              sort={sort}
+            />
             <Channel>
-            <Window>
+              <Window>
                 <ChannelHeader />
                 <MessageList />
                 <MessageInput />
               </Window>
-            <Thread />
-          </Channel>
+              <Thread />
+            </Channel>
           </Chat>
-
-      )
+        )
     )
   )
 }

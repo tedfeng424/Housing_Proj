@@ -4,7 +4,8 @@ import ThemeContext from '../contexts/theme'
 
 export default function Logout () {
   const theme = React.useContext(ThemeContext)
-  const { toggleLogin, setPic, setUid, setToken } = theme
+  // toggleLogin
+  const { setPic, setUid, setToken } = theme
   React.useEffect(() => {
     fetch('http://localhost:3001/gdisconnect', {
       mode: 'cors',

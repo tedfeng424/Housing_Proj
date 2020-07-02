@@ -13,7 +13,7 @@ export function toggleShow (name) {
   // remove other dropdowns
   for (i = 0; i < dropdowns.length; i++) {
     var openDropdown = dropdowns[i]
-    if (openDropdown.id != name && openDropdown.classList.contains('show')) {
+    if (openDropdown.id !== name && openDropdown.classList.contains('show')) {
       openDropdown.classList.remove('show')
     }
   }
@@ -39,9 +39,10 @@ export default function Drop ({ name }) {
         <Range style={{ width: '200px' }} min={0} max={10000} marks={{ 1000: 1000, 2500: 2500, 5000: 5000, 7500: 7500, 10000: 10000 }} tipFormatter={value => `${value}`} />
       </div>
   } else if (name === 'Move in Time') {
-    component = <div id={name} className='dropdown-content'>
-      <CalendarSelect style={{ width: '200px' }} />
-    </div>
+    component =
+      <div id={name} className='dropdown-content'>
+        <CalendarSelect style={{ width: '200px' }} />
+      </div>
   } else if (name === 'Stay Period') {
     component =
       <div id={name} className='dropdown-content'>
