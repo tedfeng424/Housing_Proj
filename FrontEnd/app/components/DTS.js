@@ -1,43 +1,39 @@
 // distance to skoo
 import React from 'react'
-import {options_transportation,options_time} from './options';
-export default function DTS(){
-    return (
-        <div className="row" >
-            <div className="col" style={{float: "left",display:"flex", "flex-wrap": "wrap"}}>
+import { options_transportation, options_time } from './options'
+export default function DTS () {
+  return (
+    <div className='row'>
+      <div className='col' style={{ float: 'left', display: 'flex', 'flex-wrap': 'wrap' }}>
             Time(min)
-            {
-                options_time.map(({name})=>{
-                    console.log(name)
-                    return (
-                        <div>
-                            <input type="radio" id="name" name="name" value={name}/>
-                            <label for={name}> {name}</label>
-                        </div>
-                    )
-                })
-            }
-            </div>
-            <img src="./app/resources/divider.svg" />
-            <div className="col" style={{float: "left",display:"flex", "flex-wrap": "wrap"}}>
+        {
+          options_time.map(({ name }) => {
+            console.log(name)
+            return (
+              <div>
+                <input type='radio' id='name' name='name' value={name} />
+                <label for={name}> {name}</label>
+              </div>
+            )
+          })
+        }
+      </div>
+      <img src='./app/resources/divider.svg' />
+      <div className='col' style={{ float: 'left', display: 'flex', 'flex-wrap': 'wrap' }}>
             Type of Transportation
-            {
-                options_transportation.map(({name})=>{
-                    console.log(name)
-                    return (
-                        <div>
-                            <input type="radio" id="tran" name="tran" value={name}/>
-                            <label for={name}> {name}</label>
-                        </div>
-                    )
-                })
-            }
-            </div>
-        
-        
-        
-        
-        </div>
-    )
+        {
+          options_transportation.map(({ name }) => {
+            console.log(name)
+            return (
+              <div>
+                <input type='radio' id='tran' name='tran' value={name} />
+                <label for={name}> {name}</label>
+              </div>
+            )
+          })
+        }
+      </div>
 
+    </div>
+  )
 }
