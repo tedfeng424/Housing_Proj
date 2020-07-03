@@ -24,7 +24,7 @@ export default class Map extends React.Component {
             />
             <div className='autocomplete-dropdown-container'>
               {loading && <div>Loading...</div>}
-              {suggestions.map(suggestion => {
+              {suggestions.map((suggestion, index) => {
                 const className = suggestion.active
                   ? 'suggestion-item--active'
                   : 'suggestion-item'
@@ -35,6 +35,7 @@ export default class Map extends React.Component {
                 return (
                   // TODO: Missing "key" prop for element in iterator
                   <div
+                    key={index}
                     {...getSuggestionItemProps(suggestion, {
                       className,
                       style

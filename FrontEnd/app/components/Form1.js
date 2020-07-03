@@ -2,7 +2,7 @@ import { Redirect } from 'react-router-dom'
 import Select from 'react-dropdown-select'
 import React from 'react'
 import Slider from 'rc-slider'
-import { optionsTransportation, optionsTime, optionsNumber, optionsLease, optionsMonths, optionsTimeCategories } from './options'
+import { options_transportation, options_time, options_number, options_lease, options_months, options_timecategories } from './options'
 import 'rc-tooltip/assets/bootstrap.css'
 import 'rc-slider/assets/index.css'
 import ImageUploader from 'react-images-upload'
@@ -23,8 +23,8 @@ export default class Form1 extends React.Component {
       address: '',
       transportation: '',
       time: '',
-      busCnt: '0',
-      priceRange: '',
+      bus_cnt: '0',
+      price_range: '',
       private: '',
       gender: '',
       living: '',
@@ -37,11 +37,11 @@ export default class Form1 extends React.Component {
       single: 'no',
       double: 'no',
       triple: 'no',
-      livingRoom: 'no',
+      living_room: 'no',
       den: 'no',
       studio: 'no',
       suite: 'no',
-      othersRoom: 'no',
+      others_room: 'no',
       all: 'no',
       washer: 'no',
       patio: 'no',
@@ -55,13 +55,13 @@ export default class Form1 extends React.Component {
       elevator: 'no',
       hardwood: 'no',
       Nearby: '',
-      roommate: '',
+      roommmate: '',
       bedroom: '1B',
       bathroom: '1B',
-      hostGender: '',
-      moveTime1: 'Early',
-      moveTime2: 'January',
-      stayPeriod: 'One Year Lease'
+      host_gender: '',
+      move_time1: 'Early',
+      move_time2: 'January',
+      stay_period: 'One Year Lease'
     },
     photos: [],
     hidden: false,
@@ -109,7 +109,7 @@ export default class Form1 extends React.Component {
       if (this.state.bulk.address &&
         this.state.bulk.transportation &&
         this.state.bulk.time &&
-        this.state.bulk.priceRange &&
+        this.state.bulk.price_range &&
         this.state.photos &&
         this.state.bulk.private &&
         this.state.bulk.gender &&
@@ -132,7 +132,7 @@ export default class Form1 extends React.Component {
       this.setState(({ bulk }) => ({
         bulk: {
           ...bulk,
-          priceRange: props
+          price_range: props
         }
       }
       ))
@@ -200,11 +200,11 @@ export default class Form1 extends React.Component {
         'single',
         'double',
         'triple',
-        'livingRoom',
+        'living_room',
         'den',
         'studio',
         'suite',
-        'othersRoom',
+        'others_room',
         'all',
         'washer',
         'patio',
@@ -270,20 +270,20 @@ export default class Form1 extends React.Component {
                     <div> Distance to school: </div>
                     <div> Type of Transportation
                       <Select
-                        style={{ width: '135px', 'min-height': '13px', height: '20px' }} options={optionsTransportation} placeholder='selected ....' labelField='name'
+                        style={{ width: '135px', 'min-height': '13px', height: '20px' }} options={options_transportation} placeholder='selected ....' labelField='name'
                         valueField={this.state.bulk.transportation || ''} onChange={(val) => this.handleDrop('transportation', val)} required
                       />
                     </div>
                     <div> # of Bus(if applicable)
                       <Select
-                        style={{ width: '135px', 'min-height': '13px', height: '20px' }} options={optionsNumber} placeholder='selected ....' labelField='name'
-                        valueField={this.state.bulk.busCnt || ''} onChange={(val) => this.handleDrop('busCnt', val)}
+                        style={{ width: '135px', 'min-height': '13px', height: '20px' }} options={options_number} placeholder='selected ....' labelField='name'
+                        valueField={this.state.bulk.bus_cnt || ''} onChange={(val) => this.handleDrop('bus_cnt', val)}
                       />
                     </div>
                     <div> Time
 
                       <Select
-                        style={{ width: '135px', 'min-height': '13px', height: '20px' }} options={optionsTime} placeholder='selected ....' labelField='name'
+                        style={{ width: '135px', 'min-height': '13px', height: '20px' }} options={options_time} placeholder='selected ....' labelField='name'
                         valueField={this.state.bulk.time || ''} onChange={(val) => this.handleDrop('time', val)} required
                       />
                     </div>
@@ -295,12 +295,12 @@ export default class Form1 extends React.Component {
                     Room Type:
                     </div>
                     <Select
-                      style={{ width: '135px', 'min-height': '13px', height: '13px', marginLeft: '200px', marginRight: '10px' }} options={optionsNumber} placeholder='selected ....' labelField='name'
+                      style={{ width: '135px', 'min-height': '13px', height: '13px', marginLeft: '200px', marginRight: '10px' }} options={options_number} placeholder='selected ....' labelField='name'
                       valueField={this.state.bulk.bedroom || ''} onChange={(val) => this.handleDrop('bedroom', val)} required
                     />
                     <span> Bedroom</span>
                     <Select
-                      style={{ width: '135px', 'min-height': '13px', height: '13px', marginLeft: '10px', marginRight: '10px' }} options={optionsNumber} placeholder='selected ....' labelField='name'
+                      style={{ width: '135px', 'min-height': '13px', height: '13px', marginLeft: '10px', marginRight: '10px' }} options={options_number} placeholder='selected ....' labelField='name'
                       valueField={this.state.bulk.bathroom || ''} onChange={(val) => this.handleDrop('bathroom', val)} required
                     />
                     <span> Bathroom</span>
@@ -317,8 +317,8 @@ export default class Form1 extends React.Component {
                       <label for='double'> Double </label><br />
                       <input type='checkbox' id='triple' name='triple' value={this.state.bulk.triple} checked={this.state.bulk.triple === 'yes'} onChange={this.handleChange} />
                       <label for='triple'> Triple </label><br />
-                      <input type='checkbox' id='livingRoom' name='livingRoom' value={this.state.bulk.livingRoom} checked={this.state.bulk.livingRoom === 'yes'} onChange={this.handleChange} />
-                      <label for='livingRoom'> Living Room</label>
+                      <input type='checkbox' id='living_room' name='living_room' value={this.state.bulk.living_room} checked={this.state.bulk.living_room === 'yes'} onChange={this.handleChange} />
+                      <label for='living_room'> Living Room</label>
                       <input type='checkbox' id='den' name='den' value={this.state.bulk.den} checked={this.state.bulk.den === 'yes'} onChange={this.handleChange} />
                       <label for='den'> Den</label>
                       <input type='checkbox' id='studio' name='studio' value={this.state.bulk.studio} checked={this.state.bulk.studio === 'yes'} onChange={this.handleChange} />
@@ -420,10 +420,10 @@ export default class Form1 extends React.Component {
               <ol style={!this.state.hidden ? styles : null}>
                 <li>
                     About Your Gender
-                  <input type='radio' name='hostGender' value='female' checked={this.state.bulk.hostGender === 'female'} onChange={this.handleChange} required /> Female
-                  <input type='radio' name='hostGender' value='male' checked={this.state.bulk.hostGender === 'male'} onChange={this.handleChange} /> Male
-                  <input type='radio' name='hostGender' value='LGBTQ' checked={this.state.bulk.hostGender === 'LGBTQ'} onChange={this.handleChange} /> LGBTQ
-                  <input type='radio' name='hostGender' value='otherGender' checked={this.state.bulk.hostGender === 'otherGender'} onChange={this.handleChange} /> Others
+                  <input type='radio' name='host_gender' value='female' checked={this.state.bulk.host_gender === 'female'} onChange={this.handleChange} required /> Female
+                  <input type='radio' name='host_gender' value='male' checked={this.state.bulk.host_gender === 'male'} onChange={this.handleChange} /> Male
+                  <input type='radio' name='host_gender' value='LGBTQ' checked={this.state.bulk.host_gender === 'LGBTQ'} onChange={this.handleChange} /> LGBTQ
+                  <input type='radio' name='host_gender' value='other_gender' checked={this.state.bulk.host_gender === 'other_gender'} onChange={this.handleChange} /> Others
                 </li>
                 <li>
                   <div className='row'>
@@ -431,12 +431,12 @@ export default class Form1 extends React.Component {
                     Ideal Move in Time
                     </div>
                     <Select
-                      style={{ width: '135px', 'min-height': '13px', height: '20px', marginLeft: '10px', marginRight: '10px' }} options={optionsTimeCategories} placeholder='selected ....' labelField='name'
-                      valueField={this.state.bulk.moveTime1} onChange={(val) => this.handleDrop('moveTime1', val)} required
+                      style={{ width: '135px', 'min-height': '13px', height: '20px', marginLeft: '10px', marginRight: '10px' }} options={options_timecategories} placeholder='selected ....' labelField='name'
+                      valueField={this.state.bulk.move_time1} onChange={(val) => this.handleDrop('move_time1', val)} required
                     />
                     <Select
-                      style={{ width: '135px', 'min-height': '13px', height: '20px' }} options={optionsMonths} placeholder='selected ....' labelField='name'
-                      valueField={this.state.bulk.moveTime2} onChange={(val) => this.handleDrop('moveTime2', val)} required
+                      style={{ width: '135px', 'min-height': '13px', height: '20px' }} options={options_months} placeholder='selected ....' labelField='name'
+                      valueField={this.state.bulk.move_time2} onChange={(val) => this.handleDrop('move_time2', val)} required
                     />
                   </div>
                 </li>
@@ -446,11 +446,11 @@ export default class Form1 extends React.Component {
                     Minimum Stay Period
                     </div>
                     <Select
-                      style={{ width: '135px', 'min-height': '13px', height: '20px', marginLeft: '10px', marginRight: '10px' }} options={optionsLease} placeholder='selected ....' labelField='name'
-                      valueField={this.state.bulk.stayPeriod} onChange={(val) => this.handleDrop('stayPeriod', val)} required
+                      style={{ width: '135px', 'min-height': '13px', height: '20px', marginLeft: '10px', marginRight: '10px' }} options={options_lease} placeholder='selected ....' labelField='name'
+                      valueField={this.state.bulk.stay_period} onChange={(val) => this.handleDrop('stay_period', val)} required
                     />
                     <div>
-                        Others/Notes: <input name='hostStayPeriodNotes' value={this.state.bulk.hostStayPeriodNotes} onChange={this.handleChange} />
+                        Others/Notes: <input name='host_stay_period_notes' value={this.state.bulk.host_stay_period_notes} onChange={this.handleChange} />
                     </div>
                   </div>
                 </li>

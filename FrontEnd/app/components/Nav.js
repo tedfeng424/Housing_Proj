@@ -6,7 +6,7 @@ import MainDrop from './MainDrop'
 export default function Nav () {
   return (
     <ThemeConsumer>
-      {({ theme, toggleTheme, profilePic }) => (
+      {({ theme, toggleTheme, profile_pic }) => (
         <nav className='row space-between distinct'>
           <NavLink
             to='/'
@@ -18,7 +18,7 @@ export default function Nav () {
           <ul className='row nav' style={{ marginRight: '20px' }}>
             <li />
             <li>
-              <MainDrop img={profilePic} />
+              <MainDrop img={profile_pic} />
             </li>
           </ul>
         </nav>

@@ -33,14 +33,14 @@ export default class People extends React.Component {
       <>
         <DropDown />
         <ul style={{ float: 'left', display: 'flex', 'flex-wrap': 'wrap' }}>
-          {this.state.post.map((personInfo) => {
-            const { moveTime, stayPeriod, timeToSchool, timeToBus, rType, priceRange, name, others, intro, id, mainPic, email } = personInfo
-            console.log(personInfo)
+          {this.state.post.map((person_info) => {
+            const { move_time, stay_period, timetoschool, timetobus, r_type, price_range, name, others, intro, id, main_pic, email } = person_info
+            console.log(person_info)
             return (
               <li key={id}>
                 <TenantCard
-                  moveTime={moveTime} stayPeriod={stayPeriod} timeToSchool={timeToSchool} timeToBus={timeToBus} rType={rType} priceRange={priceRange} name={name} others={others} intro={intro}
-                  mainPic={mainPic} email={email}
+                  move_time={move_time} stay_period={stay_period} timetoschool={timetoschool} timetobus={timetobus} r_type={r_type} price_range={price_range} name={name} others={others} intro={intro}
+                  main_pic={main_pic} email={email}
                 />
               </li>
             )

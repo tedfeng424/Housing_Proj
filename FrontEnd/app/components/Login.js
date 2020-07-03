@@ -4,7 +4,6 @@ import GoogleAuth from './GoogleAuth'
 export default class Login extends React.Component {
   render () {
     return (
-
       <div className='row-main'>
         <div className='left_login_container' />
         <div className='right_container col flex-center'>

@@ -44,7 +44,7 @@ export default class HouseDetail extends React.Component {
       },
       body: JSON.stringify({ house_id: Room })
     }).then((res) => res.json())
-      .then(({ name, id, intro, mainPic, pics, priceRange, stayPeriod, moveTime, others, lat, lng }) => this.setState({ name, id, intro, mainPic, pics, priceRange, stayPeriod, moveTime, others, lat, lng }))
+      .then(({ name, id, intro, main_pic, pics, price_range, stay_period, move_time, others, lat, lng }) => this.setState({ name, id, intro, main_pic, pics, price_range, stay_period, move_time, others, lat, lng }))
       .then(() => this.setState({ markers: [{ location: { lat: this.state.lat, lng: this.state.lng }, place_id: this.state.id, title: this.state.name }] }))
       .then(() => this.updateDimensions())
   }
@@ -63,10 +63,9 @@ export default class HouseDetail extends React.Component {
         <div className='detailrow'>
           <div className='left'>
             <h2>About this Place</h2>
-            {this.state.others.map((name) => {
+            {this.state.others.map((name, index) => {
               return (
-                // TODO: Missing "key" prop for element in iterator
-                <img src={`./app/resources/${name}.svg`} alt={name} width='90' height='90' />
+                <img key={index} src={`./app/resources/${name}.svg`} alt={name} width='90' height='90' />
               )
             }
             )}

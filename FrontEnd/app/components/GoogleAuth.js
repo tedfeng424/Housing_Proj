@@ -9,19 +9,19 @@ const responseGoogle = (response) => {
 }
 
 export default function GoogleAuth () {
-  const [stateToken, setStateToken] = React.useState(null)
+  const [state_token, setstate_token] = React.useState(null)
   const theme = React.useContext(ThemeContext)
-  const { toggleLogin, setPic, setUid, setToken, login } = theme
+  const { toggleLogin, setPic, setUid, set_token, login } = theme
   React.useEffect(() => {
     fetch('http://localhost:3001/getstate', {
       mode: 'cors',
       credentials: 'include'
     }).then((res) => res.json())
-      .then((data) => setStateToken(data))
+      .then((data) => setstate_token(data))
       .then(() => console.log('hello'))
   }, [])
   const onSuccess = (response) => {
-    response.state_token = stateToken
+    response.state_token = state_token
     fetch('http://localhost:3001/gconnect', {
       mode: 'cors',
       method: 'POST',

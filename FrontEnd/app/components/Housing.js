@@ -39,29 +39,29 @@ export default class Housing extends React.Component {
       <>
         <DropDown />
         <ul>
-          {this.state.post.map((houseInfo) => {
-            const { name, intro, mainPic, priceRange, stayPeriod, moveTime, id } = houseInfo
-            console.log(houseInfo)
+          {this.state.post.map((house_info) => {
+            const { name, intro, main_pic, price_range, stay_period, move_time, id } = house_info
+            console.log(house_info)
             return (
               <li key={name}>
-                <RoomCard header={id} name={name} intro={intro} pic={mainPic}>
+                <RoomCard header={id} name={name} intro={intro} pic={main_pic}>
                   <ul className='row space-between cardname'>
                     <li>
                       <div className='col subitem'>
                         <span><IoIosPricetag color='rgb(255, 215, 0)' size={22} />Price Range</span>
-                        <span>{priceRange}</span>
+                        <span>{price_range}</span>
                       </div>
                     </li>
                     <li>
                       <div className='col subitem'>
                         <span><GiSandsOfTime color='rgb(129, 195, 245)' size={22} /> Stay in Period</span>
-                        <span>{stayPeriod}</span>
+                        <span>{stay_period}</span>
                       </div>
                     </li>
                     <li>
                       <div className='col subitem'>
                         <span><FaRegCalendarTimes color='rgb(241, 138, 147)' size={22} /> Move in Time </span>
-                        <span>{moveTime}</span>
+                        <span>{move_time}</span>
                       </div>
                     </li>
                   </ul>

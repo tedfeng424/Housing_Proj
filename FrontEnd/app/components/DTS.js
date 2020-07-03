@@ -1,17 +1,16 @@
 // distance to skoo
 import React from 'react'
-import { optionsTransportation, optionsTime } from './options'
+import { options_transportation, options_time } from './options'
 export default function DTS () {
   return (
     <div className='row'>
       <div className='col' style={{ float: 'left', display: 'flex', 'flex-wrap': 'wrap' }}>
             Time(min)
         {
-          optionsTime.map(({ name }) => {
+          options_time.map(({ name }, index) => {
             console.log(name)
             return (
-              // TODO: Missing "key" prop for element in iterator
-              <div>
+              <div key={index}>
                 <input type='radio' id='name' name='name' value={name} />
                 <label for={name}> {name}</label>
               </div>
@@ -23,11 +22,10 @@ export default function DTS () {
       <div className='col' style={{ float: 'left', display: 'flex', 'flex-wrap': 'wrap' }}>
             Type of Transportation
         {
-          optionsTransportation.map(({ name }) => {
+          options_transportation.map(({ name }, index) => {
             console.log(name)
             return (
-              // TODO: Missing "key" prop for element in iterator
-              <div>
+              <div key={index}>
                 <input type='radio' id='tran' name='tran' value={name} />
                 <label for={name}> {name}</label>
               </div>
@@ -35,7 +33,6 @@ export default function DTS () {
           })
         }
       </div>
-
     </div>
   )
 }
