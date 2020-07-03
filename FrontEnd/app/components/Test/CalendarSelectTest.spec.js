@@ -1,22 +1,20 @@
-import React from "react";
-import { create } from "react-test-renderer";
-import Calendar from 'react-calendar';
-import CalendarSelect from '../CalendarSelect';
+import React from 'react'
+import { create } from 'react-test-renderer'
+import Calendar from 'react-calendar'
+import CalendarSelect from '../CalendarSelect'
 
 /**
  * Test Cases for the component CalendarSelectTest.js
- * Contains three tests (expects an array for return value): 
- * 1. select same dates today 
- * 2. select same dates non-today 
+ * Contains three tests (expects an array for return value):
+ * 1. select same dates today
+ * 2. select same dates non-today
  * 3. select different dates
  * Assumptions: onChange takes in an array of length 2
  * sorted chronologically (done by library). 
  * The reason for it is still unclear since this test only
  * contains Array(len == 2) of Date objects.
- * 
+ *
  */
-
-
 
 describe("Check if two dates are updated correctly", () => {
   test("Same Dates Today", () => {
@@ -57,3 +55,4 @@ describe("Check if two dates are updated correctly", () => {
     expect(calendar.props.value).toBe(day_range);
   });
 });
+

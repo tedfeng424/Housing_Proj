@@ -31,3 +31,8 @@
 During some unknown circumstances (different machines, preexisting node_modules), there might be this weird behavior of webpack keeping recompiling. 
 
 If this happens: go to [This Issue](https://github.com/Yizong98/Housing_Proj/issues/18)
+
+# Style
+to check your style, run the following code  
+npx standard --fix
+
