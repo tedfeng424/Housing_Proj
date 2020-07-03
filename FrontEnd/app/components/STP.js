@@ -6,10 +6,9 @@ export default function STP () {
     <div className='col'>
       <div className='col' style={{ float: 'left', display: 'flex', 'flex-wrap': 'wrap' }}>
         {
-          optionsLeaseShort.map(({ name }) => {
+          optionsLeaseShort.map(({ name }, index) => {
             return (
-              // TODO: Missing "key" prop for element in iterator
-              <div>
+              <div key={index}>
                 <input type='radio' id='name' name='name' value={name} />
                 <label for={name}> {name}</label>
               </div>
@@ -24,10 +23,10 @@ export default function STP () {
         </div>
         <div className='col'>
           {
-            optionsInterval.map(({ name }) => {
+            optionsInterval.map(({ name }, index) => {
               return (
                 // TODO: Missing "key" prop for element in iterator
-                <div>
+                <div key={index}>
                   <input type='radio' id='time_interval' name='time_interval' value={name} />
                   <label for={name}> {name}</label>
                 </div>
