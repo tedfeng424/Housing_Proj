@@ -1,4 +1,6 @@
 matrix:
   include:
-    - language: nodejs
+    - language: node_js
     - language: python
+node_js:
+  - '4'
