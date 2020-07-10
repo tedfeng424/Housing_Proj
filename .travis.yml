@@ -3,8 +3,6 @@ matrix:
     - language: node_js
       before_install:
         - cd FrontEnd/
-      install: 
-        - npm install
       script:
         - npm test
 
