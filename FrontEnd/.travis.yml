@@ -1,1 +1,4 @@
-language: node_js
+matrix:
+  include:
+    - language: nodejs
+    - language: python
