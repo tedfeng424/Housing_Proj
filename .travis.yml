@@ -1,8 +1,13 @@
 matrix:
   include:
     - language: node_js
+      node_js:
+        - "stable"
       before_install:
         - cd FrontEnd/
+      cache:
+        directories:
+        - node_modules
       script:
         - npm test
 
@@ -13,5 +18,3 @@ matrix:
         - pip install -r requirements.txt
       script:
         - python test.py
-node_js:
-  - '4'
