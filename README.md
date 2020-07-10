@@ -59,7 +59,7 @@ Please use [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp
 
 ## Hard Rules
 
-1. <b> Any </b> code change <b> must not </b>  be directly pushed to Master, the purpose of Master branch is to ensure no matter how we modify the code we still can go back to a working codebase if everything is just messed up.
+1. <b> Any </b> code change <b> must not </b>  be directly pushed to Master, the purpose of Master branch is to ensure no matter how we modify the code we still can go back to a working codebase if everything is just messed up. This rule is enforced by Rule setting on Github and any push to Master will be rejected.
 
 2. <b> PR must </b> 1. pass all written tests 2. be reviewed by two developers of the team to be merged into Master. This is to ensure all checks are clear to maintain the quality of existing codebase.
 
