@@ -63,6 +63,14 @@ Please use [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp
 
 2. <b> PR must </b> 1. pass all written tests 2. be reviewed by two developers of the team to be merged into Master. This is to ensure all checks are clear to maintain the quality of existing codebase.
 
+## Testings
+
+1. For Python we will be using the [unit test framework](https://docs.python.org/3/library/unittest.html).
+2. For npm we will be using JEST and react-test-renderer. [Example](https://github.com/Yizong98/Housing_Proj/blob/master/FrontEnd/app/components/Test/CalendarSelectTest.spec.js) can be found here.
+
+
+
+
 
 
 
