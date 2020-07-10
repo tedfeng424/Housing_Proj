@@ -32,7 +32,41 @@ During some unknown circumstances (different machines, preexisting node_modules)
 
 If this happens: go to [This Issue](https://github.com/Yizong98/Housing_Proj/issues/18)
 
-# Style
-to check your style, run the following code while in FrontEnd dir  
-`npx standard --fix`
+# Development Guide
+## Editor
+It is highly recommended to use Visual Studio Code for its extensive library support. 
+## Style
+For React style guide, please refer to [the Airbnb Style Guide](https://github.com/airbnb/javascript/tree/master/react)
+
+Please use [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) to autoformat for React Code along with style guide. The set up for <b> setting.json </b> is the following:
+
+
+{
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "[javascriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.formatOnSave": true
+    },
+    // Set the default
+    "editor.formatOnSave": false,
+}
+
+## CI/CD
+
+1. "In software engineering, CI/CD or CICD generally refers to the combined practices of continuous integration and either continuous delivery or continuous deployment." [link](https://en.wikipedia.org/wiki/CI/CD)
+
+2. Such principle is implemented by Travis CI in Github. The configuration can be found in [this file](https://github.com/Yizong98/Housing_Proj/blob/master/.travis.yml)
+
+## Hard Rules
+
+1. <b> Any </b> code change <b> must not </b>  be directly pushed to Master, the purpose of Master branch is to ensure no matter how we modify the code we still can go back to a working codebase if everything is just messed up.
+
+2. <b> PR must </b> 1. pass all written tests 2. be reviewed by two developers of the team to be merged into Master. This is to ensure all checks are clear to maintain the quality of existing codebase.
+
+
+
+
+
+
+
 
