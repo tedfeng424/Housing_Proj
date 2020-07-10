@@ -1,4 +1,0 @@
-matrix:
-  include:
-    - language: nodejs
-    - language: python
