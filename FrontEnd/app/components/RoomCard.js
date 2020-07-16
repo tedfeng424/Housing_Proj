@@ -1,19 +1,15 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import React from "react";
+import { NavLink } from "react-router-dom";
 
-export default function RoomCard ({ name, intro, pic, children, header }) {
+export default function RoomCard({ name, intro, pic, children, header }) {
   return (
-    <div className='bg-card'>
-      <img
-        className='pic'
-        src={pic}
-        alt={`Pic for ${name}`}
-      />
-      <div className='col'>
-        <h2 className='cardname'>
+    <div className="bg-card">
+      <img className="pic" src={pic} alt={`Pic for ${name}`} />
+      <div className="col">
+        <h2 className="cardname">
           <NavLink
             to={{
-              pathname: '/details',
+              pathname: "/details",
               search: `?Room=${header}`
             }}
             exact
@@ -21,9 +17,9 @@ export default function RoomCard ({ name, intro, pic, children, header }) {
             {name}
           </NavLink>
         </h2>
-        <div className='cardname'>{intro}</div>
+        <div className="cardname">{intro}</div>
         {children}
       </div>
     </div>
-  )
+  );
 }
