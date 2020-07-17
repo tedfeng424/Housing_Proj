@@ -698,14 +698,16 @@ export default class Form1 extends React.Component {
                 About Your Gender
                 {hostGenderInfo.map((obj, i) => {
                   <input
-                  type="radio"
-                  name="host_gender"
-                  value={obj.type}
-                  checked={this.state.bulk.host_gender === obj.type}
-                  onChange={this.handleChange}
-                  required
-                />;
-                {obj.name}
+                    type="radio"
+                    name="host_gender"
+                    value={obj.type}
+                    checked={this.state.bulk.host_gender === obj.type}
+                    onChange={this.handleChange}
+                    required
+                  />;
+                  {
+                    obj.name;
+                  }
                 })}
               </li>
               <li>
