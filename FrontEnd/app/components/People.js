@@ -1,12 +1,13 @@
 import React from "react";
 import DropDown from "./DropDown";
+import ThemeContext from "../contexts/theme";
 import TenantCard from "./TenantCard";
 import { NavLink } from "react-router-dom";
 
 export default class People extends React.Component {
+  static contextType = ThemeContext;
   constructor(props) {
     super(props);
-
     this.state = { post: [] };
   }
 
@@ -31,6 +32,8 @@ export default class People extends React.Component {
   }
 
   render() {
+    const user = this.context;
+    var pathname = user.login ? "/hosting_form" : "/login";
     return (
       <>
         <DropDown />
@@ -50,7 +53,6 @@ export default class People extends React.Component {
               main_pic,
               email
             } = person_info;
-            console.log(person_info);
             return (
               <li key={id}>
                 <TenantCard
@@ -72,7 +74,7 @@ export default class People extends React.Component {
         </ul>
         <NavLink
           to={{
-            pathname: "/hosting_form",
+            pathname: pathname,
             endpoint: "http://localhost:3001/addtenant"
           }}
           style={{

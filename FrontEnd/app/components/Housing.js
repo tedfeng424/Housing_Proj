@@ -1,12 +1,14 @@
 import React from "react";
 import DropDown from "./DropDown";
 import RoomCard from "./RoomCard";
+import ThemeContext from "../contexts/theme";
 import { FaRegCalendarTimes } from "react-icons/fa";
 import { IoIosPricetag } from "react-icons/io";
 import { GiSandsOfTime } from "react-icons/gi";
 import { NavLink } from "react-router-dom";
 
 export default class Housing extends React.Component {
+  static contextType = ThemeContext;
   constructor(props) {
     super(props);
 
@@ -37,6 +39,8 @@ export default class Housing extends React.Component {
   }
 
   render() {
+    const user = this.context;
+    var pathname = user.login ? "/hosting_form" : "/login";
     return (
       <>
         <DropDown />
@@ -51,7 +55,6 @@ export default class Housing extends React.Component {
               move_time,
               id
             } = house_info;
-            console.log(house_info);
             return (
               <li key={name}>
                 <RoomCard header={id} name={name} intro={intro} pic={main_pic}>
@@ -94,7 +97,7 @@ export default class Housing extends React.Component {
         </ul>
         <NavLink
           to={{
-            pathname: "/hosting_form",
+            pathname: pathname,
             endpoint: "http://localhost:3001/result"
           }}
           style={{

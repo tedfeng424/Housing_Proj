@@ -113,7 +113,7 @@ def gconnect():
         img = login_session['profile_pic']
         createUser(login_session)
     uid = login_session['email'][:login_session['email'].find("@")]
-    streamchat_token = client.create_token(uid).decode("utf-8")
+    streamchat_token = client.create_token(uid)
     response = make_response(jsonify([img,uid,streamchat_token]), 200)
     response.headers['Content-Type'] = 'application/json'  
     response.headers['Access-Control-Allow-Credentials'] = 'true'
