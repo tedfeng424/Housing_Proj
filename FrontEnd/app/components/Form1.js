@@ -17,6 +17,19 @@ import Map from "./Map";
 import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
 const Range = createSliderWithTooltip(Slider.Range);
+const facilityArr = [
+  "washer",
+  "patio",
+  "fridge",
+  "microwave",
+  "oven",
+  "ac",
+  "pool",
+  "SPA",
+  "gym",
+  "elevator",
+  "hardwood"
+];
 const styles = {
   hidden: {
     display: "none"
@@ -292,6 +305,15 @@ export default class Form1 extends React.Component {
     return location;
   };
 
+  AllChecked = () => {
+    for (let i = 0; i < facilityArr.length; i++) {
+      if (this.state.bulk[facilityArr[i]] === "no") {
+        return false;
+      }
+    }
+    return true;
+  };
+
   handleSubmit = event => {
     event.preventDefault();
     const formData = new FormData();
@@ -398,17 +420,12 @@ export default class Form1 extends React.Component {
   };
 
   handleDrop = (name, val) => {
-    this.setState(
-      ({ bulk }) => ({
-        bulk: {
-          ...bulk,
-          [name]: val[0].name
-        }
-      }),
-      () => {
-        console.log(this.state.bulk);
+    this.setState(({ bulk }) => ({
+      bulk: {
+        ...bulk,
+        [name]: val[0].name
       }
-    );
+    }));
   };
 
   handleChange = event => {
@@ -441,7 +458,6 @@ export default class Form1 extends React.Component {
       ].includes(name) &&
       (val === "yes" || val === "no")
     ) {
-      console.log(val);
       val = val === "yes" ? "no" : "yes";
     }
     this.setState(
@@ -452,7 +468,24 @@ export default class Form1 extends React.Component {
         }
       }),
       () => {
-        console.log(this.state.bulk);
+        if (facilityArr.includes(name)) {
+          if (this.state.bulk["all"] === "yes" && !this.AllChecked()) {
+            this.setState(({ bulk }) => ({
+              bulk: {
+                ...bulk,
+                all: "no"
+              }
+            }));
+          }
+          if (this.state.bulk["all"] === "no" && this.AllChecked()) {
+            this.setState(({ bulk }) => ({
+              bulk: {
+                ...bulk,
+                all: "yes"
+              }
+            }));
+          }
+        }
       }
     );
   };
@@ -533,7 +566,7 @@ export default class Form1 extends React.Component {
                     <React.Fragment>
                       <Select
                         key={i}
-                        style={style.roomCount}
+                        style={styles.roomCount}
                         options={options_number}
                         placeholder="selected ...."
                         labelField="name"
@@ -641,7 +674,7 @@ export default class Form1 extends React.Component {
                 </li>;
               })}
 
-              <li style={{ background: "#FAFAF4" }}>
+              <li style={{ background: "#FAFAF4" }} id="facility">
                 Required Facilities:
                 <input
                   type="checkbox"
@@ -652,20 +685,20 @@ export default class Form1 extends React.Component {
                   onChange={this.handleAll}
                 />
                 <label for="all"> All</label>
-                {facilitiesInfo.map((obj, i) => {
-                  <React.Fragment>
+                {facilitiesInfo.map(obj => (
+                  <React.Fragment key={obj.type}>
                     <input
                       type="checkbox"
                       id={obj.type}
                       name={obj.type}
                       value={this.state.bulk[obj.type]}
                       checked={this.state.bulk[obj.type] === "yes"}
-                      onChange={this.handleChange}
+                      onChange={this.props.handleChange}
                     />
-                    <label for={obj.type}> {obj.name} </label>
+                    <label htmlFor={obj.type}> {obj.name} </label>
                     <br />
-                  </React.Fragment>;
-                })}
+                  </React.Fragment>
+                ))}
               </li>
               <li>
                 Nearby:{" "}
