@@ -222,6 +222,10 @@ const facilitiesInfo = [
     name: " Oven"
   },
   {
+    type: "microwave",
+    name: " Microwave"
+  },
+  {
     type: "ac",
     name: " Air Conditioning"
   },
