@@ -330,3 +330,36 @@ describe("Check autoselect all option", () => {
     expect(mockForm.state("bulk")["microwave"]).toEqual("yes");
   });
 });
+
+/** Singular */
+describe("check singular select", () => {
+  test("transportation select", () => {
+    const mockForm = mount(<Form1 />);
+    transportation_options = mockForm.find("#transportation");
+
+    // initial
+    expect(mockForm.state("bulk")["transportation"]).toEqual("no");
+    expect(mockForm.state("bulk")["bus_cnt"]).toEqual("no");
+    expect(mockForm.state("bulk")["time"]).toEqual("no");
+
+    // select transport
+    time_options.invoke("onChange")("transportation", mockForm.state("bulk"));
+    expect(mockForm.state("bulk")["transportation"]).toEqual("yes");
+    expect(mockForm.state("bulk")["bus_cnt"]).toEqual("no");
+    expect(mockForm.state("bulk")["time"]).toEqual("no");
+
+    // select transport
+    bus_options = mockForm.find("#bus_cnt");
+    time_options.invoke("onChange")("bus_cnt", mockForm.state("bulk"));
+    expect(mockForm.state("bulk")["transportation"]).toEqual("yes");
+    expect(mockForm.state("bulk")["bus_cnt"]).toEqual("yes");
+    expect(mockForm.state("bulk")["time"]).toEqual("yes");
+
+    time_options = mockForm.find("#time");
+    time_options.invoke("onChange")("time", mockForm.state("bulk"));
+    expect(mockForm.state("bulk")["transportation"]).toEqual("yes");
+    expect(mockForm.state("bulk")["bus_cnt"]).toEqual("yes");
+    expect(mockForm.state("bulk")["time"]).toEqual("yes");
+
+  })
+})
