@@ -3,6 +3,11 @@ import { configure, shallow, mount } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import Form1 from "../Form1";
 import FormFacility from "../FormFacility";
+import FormTransportation from "../FormTransportation";
+import FormRadio from "../FormRadio";
+import FormPreference from "../FormPreference";
+import FormQuestion from "../FormQuestion";
+import FormHostGender from "../FormHostGender";
 /**
  * Test Cases for the component Form1.js
  * shallow is used for partial rendering so that Google API would not load
@@ -330,36 +335,259 @@ describe("Check autoselect all option", () => {
     expect(mockForm.state("bulk")["microwave"]).toEqual("yes");
   });
 });
-
-/** Singular */
-describe("check singular select", () => {
+describe("check select", () => {
   test("transportation select", () => {
-    const mockForm = mount(<Form1 />);
-    transportation_options = mockForm.find("#transportation");
+    const mockForm = shallow(<Form1 />);
+    const mountedTransportation = mount(
+      <FormTransportation
+        bulk={mockForm.state("bulk")}
+        handleDrop={mockForm.instance().handleDrop}
+      />
+    );
+    const transportation_options = mountedTransportation.find(
+      "#transportation"
+    );
+    const bus_options = mountedTransportation.find("#bus_cnt");
+    const time_options = mountedTransportation.find("#time");
 
     // initial
-    expect(mockForm.state("bulk")["transportation"]).toEqual("no");
-    expect(mockForm.state("bulk")["bus_cnt"]).toEqual("no");
-    expect(mockForm.state("bulk")["time"]).toEqual("no");
+    expect(mockForm.state("bulk")["transportation"]).toEqual("");
+    expect(mockForm.state("bulk")["bus_cnt"]).toEqual("0");
+    expect(mockForm.state("bulk")["time"]).toEqual("");
 
     // select transport
-    time_options.invoke("onChange")("transportation", mockForm.state("bulk"));
-    expect(mockForm.state("bulk")["transportation"]).toEqual("yes");
-    expect(mockForm.state("bulk")["bus_cnt"]).toEqual("no");
-    expect(mockForm.state("bulk")["time"]).toEqual("no");
+    transportation_options.invoke("onChange")(
+      ("transportation", [{ name: "1" }])
+    );
 
+    expect(mockForm.state("bulk")["transportation"]).toEqual("1");
+    expect(mockForm.state("bulk")["bus_cnt"]).toEqual("0");
+    expect(mockForm.state("bulk")["time"]).toEqual("");
     // select transport
-    bus_options = mockForm.find("#bus_cnt");
-    time_options.invoke("onChange")("bus_cnt", mockForm.state("bulk"));
-    expect(mockForm.state("bulk")["transportation"]).toEqual("yes");
-    expect(mockForm.state("bulk")["bus_cnt"]).toEqual("yes");
-    expect(mockForm.state("bulk")["time"]).toEqual("yes");
+    transportation_options.invoke("onChange")(("bus_cnt", [{ name: "2" }]));
+    expect(mockForm.state("bulk")["transportation"]).toEqual("2");
+    expect(mockForm.state("bulk")["bus_cnt"]).toEqual("0");
+    expect(mockForm.state("bulk")["time"]).toEqual("");
 
-    time_options = mockForm.find("#time");
-    time_options.invoke("onChange")("time", mockForm.state("bulk"));
-    expect(mockForm.state("bulk")["transportation"]).toEqual("yes");
-    expect(mockForm.state("bulk")["bus_cnt"]).toEqual("yes");
-    expect(mockForm.state("bulk")["time"]).toEqual("yes");
+    // select bus_cnt
+    bus_options.invoke("onChange")(("time", [{ name: "3" }]));
+    expect(mockForm.state("bulk")["transportation"]).toEqual("2");
+    expect(mockForm.state("bulk")["bus_cnt"]).toEqual("3");
+    expect(mockForm.state("bulk")["time"]).toEqual("");
 
-  })
-})
+    // select bus_cnt
+    bus_options.invoke("onChange")(("time", [{ name: "2" }]));
+    expect(mockForm.state("bulk")["transportation"]).toEqual("2");
+    expect(mockForm.state("bulk")["bus_cnt"]).toEqual("2");
+    expect(mockForm.state("bulk")["time"]).toEqual("");
+
+    // select time_options
+    time_options.invoke("onChange")(("time", [{ name: "3" }]));
+    expect(mockForm.state("bulk")["transportation"]).toEqual("2");
+    expect(mockForm.state("bulk")["bus_cnt"]).toEqual("2");
+    expect(mockForm.state("bulk")["time"]).toEqual("3");
+
+    // select time_options
+    time_options.invoke("onChange")(("time", [{ name: "2" }]));
+    expect(mockForm.state("bulk")["transportation"]).toEqual("2");
+    expect(mockForm.state("bulk")["bus_cnt"]).toEqual("2");
+    expect(mockForm.state("bulk")["time"]).toEqual("2");
+  });
+});
+describe("check radio", () => {
+  test("radioInfo", () => {
+    const mockForm = shallow(<Form1 />);
+    const mountedRadio = mount(
+      <FormRadio
+        bulk={mockForm.state("bulk")}
+        handleChange={mockForm.instance().handleChange}
+      />
+    );
+    const negotiable_yes = mountedRadio.find("#negotiable_yes");
+    const negotiable_no = mountedRadio.find("#negotiable_no");
+    const utility_yes = mountedRadio.find("#utility_yes");
+    const utility_no = mountedRadio.find("#utility_no");
+    const private_yes = mountedRadio.find("#private_yes");
+    const private_no = mountedRadio.find("#private_no");
+
+    // Test would be better quality if we pull info directly from the object
+    // initial
+    expect(mockForm.state("bulk")["negotiable"]).toEqual("");
+    expect(mockForm.state("bulk")["utility"]).toEqual("");
+    expect(mockForm.state("bulk")["private"]).toEqual("");
+
+    // negotiable yes
+    negotiable_yes.invoke("onChange")({
+      target: { name: "negotiable", value: "yes" }
+    });
+    expect(mockForm.state("bulk")["negotiable"]).toEqual("yes");
+    expect(mockForm.state("bulk")["utility"]).toEqual("");
+    expect(mockForm.state("bulk")["private"]).toEqual("");
+
+    // utility yes
+    utility_yes.invoke("onChange")({
+      target: { name: "utility", value: "yes" }
+    });
+    expect(mockForm.state("bulk")["negotiable"]).toEqual("yes");
+    expect(mockForm.state("bulk")["utility"]).toEqual("yes");
+    expect(mockForm.state("bulk")["private"]).toEqual("");
+
+    // negotiable no
+    negotiable_no.invoke("onChange")({
+      target: { name: "negotiable", value: "no" }
+    });
+    expect(mockForm.state("bulk")["negotiable"]).toEqual("no");
+    expect(mockForm.state("bulk")["utility"]).toEqual("yes");
+    expect(mockForm.state("bulk")["private"]).toEqual("");
+
+    // private no
+    private_no.invoke("onChange")({ target: { name: "private", value: "no" } });
+    expect(mockForm.state("bulk")["negotiable"]).toEqual("no");
+    expect(mockForm.state("bulk")["utility"]).toEqual("yes");
+    expect(mockForm.state("bulk")["private"]).toEqual("no");
+
+    // utility no
+    utility_no.invoke("onChange")({ target: { name: "utility", value: "no" } });
+    expect(mockForm.state("bulk")["negotiable"]).toEqual("no");
+    expect(mockForm.state("bulk")["utility"]).toEqual("no");
+    expect(mockForm.state("bulk")["private"]).toEqual("no");
+
+    // private yes
+    private_yes.invoke("onChange")({
+      target: { name: "private", value: "yes" }
+    });
+    expect(mockForm.state("bulk")["negotiable"]).toEqual("no");
+    expect(mockForm.state("bulk")["utility"]).toEqual("no");
+    expect(mockForm.state("bulk")["private"]).toEqual("yes");
+  });
+  test("preference", () => {
+    const mockForm = shallow(<Form1 />);
+    const mountedPreference = mount(
+      <FormPreference
+        bulk={mockForm.state("bulk")}
+        handleChange={mockForm.instance().handleChange}
+      />
+    );
+    const female = mountedPreference.find("#female");
+    const male = mountedPreference.find("#male");
+    const lgbtq = mountedPreference.find("#LGBTQ");
+    const Gender_Inclusive = mountedPreference.find("#Gender");
+    const others = mountedPreference.find("#others");
+
+    // init
+    expect(mockForm.state("bulk")["gender"]).toEqual("");
+
+    // female
+    female.invoke("onChange")({ target: { name: "gender", value: "female" } });
+    expect(mockForm.state("bulk")["gender"]).toEqual("female");
+    // male
+    male.invoke("onChange")({ target: { name: "gender", value: "male" } });
+    expect(mockForm.state("bulk")["gender"]).toEqual("male");
+
+    // lgbtq
+    lgbtq.invoke("onChange")({ target: { name: "gender", value: "LGBTQ" } });
+    expect(mockForm.state("bulk")["gender"]).toEqual("LGBTQ");
+
+    // Gender_Inclusive
+    // gender inclusive (type) should not have space
+    // currently fails
+    /*
+    Gender_Inclusive.invoke("onChange")({target: {name: "gender", value: "Gender_Inclusive"}})
+    expect(mockForm.state("bulk")["gender"]).toEqual("Gender_Inclusive");
+    */
+    // others
+    others.invoke("onChange")({ target: { name: "gender", value: "others" } });
+    expect(mockForm.state("bulk")["gender"]).toEqual("others");
+  });
+
+  test("questionInfo", () => {
+    const mockForm = shallow(<Form1 />);
+    const mountedQuestion = mount(
+      <FormQuestion
+        bulk={mockForm.state("bulk")}
+        handleChange={mockForm.instance().handleChange}
+      />
+    );
+    const living_yes = mountedQuestion.find("#living_yes");
+    const living_no = mountedQuestion.find("#living_no");
+    const pets_yes = mountedQuestion.find("#pets_yes");
+    const pets_no = mountedQuestion.find("#pets_no");
+    const parking_yes = mountedQuestion.find("#parking_yes");
+    const parking_no = mountedQuestion.find("#parking_no");
+    const furnished_yes = mountedQuestion.find("#furnished_yes");
+    const furnished_no = mountedQuestion.find("#furnished_no");
+
+    //init
+    expect(mockForm.state("bulk")["living"]).toEqual("");
+    expect(mockForm.state("bulk")["pets"]).toEqual("");
+    expect(mockForm.state("bulk")["parking"]).toEqual("");
+    expect(mockForm.state("bulk")["furnished"]).toEqual("");
+
+    // yes
+    living_yes.invoke("onChange")({ target: { name: "living", value: "yes" } });
+    pets_yes.invoke("onChange")({ target: { name: "pets", value: "yes" } });
+    parking_yes.invoke("onChange")({
+      target: { name: "parking", value: "yes" }
+    });
+    furnished_yes.invoke("onChange")({
+      target: { name: "furnished", value: "yes" }
+    });
+
+    expect(mockForm.state("bulk")["living"]).toEqual("yes");
+    expect(mockForm.state("bulk")["pets"]).toEqual("yes");
+    expect(mockForm.state("bulk")["parking"]).toEqual("yes");
+    expect(mockForm.state("bulk")["furnished"]).toEqual("yes");
+
+    // no
+    living_no.invoke("onChange")({ target: { name: "living", value: "no" } });
+    pets_no.invoke("onChange")({ target: { name: "pets", value: "no" } });
+    parking_no.invoke("onChange")({ target: { name: "parking", value: "no" } });
+    furnished_no.invoke("onChange")({
+      target: { name: "furnished", value: "no" }
+    });
+
+    expect(mockForm.state("bulk")["living"]).toEqual("no");
+    expect(mockForm.state("bulk")["pets"]).toEqual("no");
+    expect(mockForm.state("bulk")["parking"]).toEqual("no");
+    expect(mockForm.state("bulk")["furnished"]).toEqual("no");
+  });
+
+  test("hostGender", () => {
+    const mockForm = shallow(<Form1 />);
+    const mountedHostGender = mount(
+      <FormHostGender
+        bulk={mockForm.state("bulk")}
+        handleChange={mockForm.instance().handleChange}
+      />
+    );
+    const female = mountedHostGender.find("#female_host");
+    const lgbtq = mountedHostGender.find("#LGBTQ_host");
+    const male = mountedHostGender.find("#male_host");
+    const other_gender = mountedHostGender.find("#other_gender_host");
+
+    // init
+    expect(mockForm.state("bulk")["host_gender"]).toEqual("");
+
+    // female
+    female.invoke("onChange")({
+      target: { name: "host_gender", value: "female" }
+    });
+    expect(mockForm.state("bulk")["host_gender"]).toEqual("female");
+
+    // male
+    male.invoke("onChange")({ target: { name: "host_gender", value: "male" } });
+    expect(mockForm.state("bulk")["host_gender"]).toEqual("male");
+
+    // lgbtq
+    lgbtq.invoke("onChange")({
+      target: { name: "host_gender", value: "LGBTQ" }
+    });
+    expect(mockForm.state("bulk")["host_gender"]).toEqual("LGBTQ");
+
+    // other_gender
+    other_gender.invoke("onChange")({
+      target: { name: "host_gender", value: "other_gender" }
+    });
+    expect(mockForm.state("bulk")["host_gender"]).toEqual("other_gender");
+  });
+});

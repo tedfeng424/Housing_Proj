@@ -150,7 +150,7 @@ const preferenceInfo = [
     required: false
   },
   {
-    type: "Gender Inclusive",
+    type: "Gender Inclusive", // fix this
     name: " Gender Inclusive",
     required: false
   },
@@ -251,58 +251,71 @@ const facilitiesInfo = [
   }
 ];
 export default class Form1 extends React.Component {
-  state = {
-    bulk: {
-      negotiable: "",
-      utility: "",
-      address: "",
-      transportation: "",
-      time: "",
-      bus_cnt: "0",
-      price_range: "",
-      private: "",
-      gender: "",
-      living: "",
-      pets: "",
-      parking: "",
-      furnished: "",
-      latlng: {},
-      master: "no",
-      guest: "no",
-      single: "no",
-      double: "no",
-      triple: "no",
-      living_room: "no",
-      den: "no",
-      studio: "no",
-      suite: "no",
-      others_room: "no",
-      all: "no",
-      washer: "no",
-      patio: "no",
-      fridge: "no",
-      microwave: "no",
-      oven: "no",
-      ac: "no",
-      pool: "no",
-      SPA: "no",
-      gym: "no",
-      elevator: "no",
-      hardwood: "no",
-      Nearby: "",
-      roommmate: "",
-      bedroom: "1B",
-      bathroom: "1B",
-      host_gender: "",
-      move_time1: "Early",
-      move_time2: "January",
-      stay_period: "One Year Lease"
-    },
-    photos: [],
-    hidden: false,
-    redirect: false
-  };
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      bulk: {
+        negotiable: "",
+        utility: "",
+        address: "",
+        transportation: "",
+        time: "",
+        bus_cnt: "0",
+        price_range: "",
+        private: "",
+        gender: "",
+        living: "",
+        pets: "",
+        parking: "",
+        furnished: "",
+        latlng: {},
+        master: "no",
+        guest: "no",
+        single: "no",
+        double: "no",
+        triple: "no",
+        living_room: "no",
+        den: "no",
+        studio: "no",
+        suite: "no",
+        others_room: "no",
+        all: "no",
+        washer: "no",
+        patio: "no",
+        fridge: "no",
+        microwave: "no",
+        oven: "no",
+        ac: "no",
+        pool: "no",
+        SPA: "no",
+        gym: "no",
+        elevator: "no",
+        hardwood: "no",
+        Nearby: "",
+        roommmate: "",
+        bedroom: "1B",
+        bathroom: "1B",
+        host_gender: "",
+        move_time1: "Early",
+        move_time2: "January",
+        stay_period: "One Year Lease"
+      },
+      photos: [],
+      hidden: false,
+      redirect: false
+    };
+    this.LatLngHelper = this.LatLngHelper.bind(this);
+    this.AllChecked = this.AllChecked.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleNext = this.handleNext.bind(this);
+    this.handleBack = this.handleBack.bind(this);
+    this.handleRange = this.handleRange.bind(this);
+    this.handleUpload = this.handleUpload.bind(this);
+    this.handleMap = this.handleMap.bind(this);
+    this.handleAll = this.handleAll.bind(this);
+    this.handleDrop = this.handleDrop.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
   LatLngHelper = () => {
     var code = geocodeByAddress(this.state.bulk.address);
     var location = code.then(results => getLatLng(results[0]));
@@ -446,7 +459,7 @@ export default class Form1 extends React.Component {
         "den",
         "studio",
         "suite",
-        "others_room",
+        "others_room", // we're missing this
         "all",
         "washer",
         "patio",
@@ -528,8 +541,8 @@ export default class Form1 extends React.Component {
               maxFileSize={5242880}
               withPreview
             />
-            <ol style={this.state.hidden ? styles.hidden : null}>
-              <li style={{ background: "#FAFAF4" }}>
+            <ol style={this.state.hidden ? styles.hidden : null} key="bjaksbf">
+              <li style={{ background: "#FAFAF4" }} key="afasf">
                 <div className="row form">
                   <div> My Location (Make sure it is searchable!): </div>
                   {/* TODO: Prop key for handleMap must begin with 'on' */}
@@ -542,15 +555,15 @@ export default class Form1 extends React.Component {
                   />
                 </div>
               </li>
-              <li>
-                <div className="row space-between form">
-                  <div> Distance to school: </div>
-                  {transportationInfo.map((obj, i) => {
-                    <div>
+              <li key="sfoid">
+                <div className="row space-between form" key="formatter">
+                  <div key="distanceSchool"> Distance to school: </div>
+                  {transportationInfo.map((obj, i) => (
+                    <div key={i}>
                       {" "}
                       {obj.name}
                       <Select
-                        key={i}
+                        id={obj.type}
                         style={styles.transportation}
                         options={obj.options}
                         placeholder="selected ...."
@@ -559,17 +572,16 @@ export default class Form1 extends React.Component {
                         onChange={val => this.handleDrop(obj.type, val)}
                         required={obj.required}
                       />
-                    </div>;
-                  })}
+                    </div>
+                  ))}
                 </div>
               </li>
-              <li style={{ background: "#FAFAF4" }}>
+              <li style={{ background: "#FAFAF4" }} key="asfi">
                 <div className="row">
                   <div>Room Type:</div>
-                  {roomCountInfo.map((obj, i) => {
-                    <React.Fragment>
+                  {roomCountInfo.map((obj, i) => (
+                    <React.Fragment key={i}>
                       <Select
-                        key={i}
                         style={styles.roomCount}
                         options={options_number}
                         placeholder="selected ...."
@@ -579,27 +591,29 @@ export default class Form1 extends React.Component {
                         required
                       />
                       <span> {obj.name}</span>
-                    </React.Fragment>;
-                  })}
+                    </React.Fragment>
+                  ))}
                 </div>
                 <div className="row rt2">
-                  {roomTypeInfo.map((obj, i) => {
-                    <React.Fragment>
-                      <input
-                        key={obj.type}
-                        type="checkbox"
-                        id={obj.type}
-                        value={this.state.bulk[obj.type]}
-                        checked={this.state.bulk[obj.type] === "yes"}
-                        onChange={this.handleChange}
-                      />
-                      <label for={obj.type}> {obj.name}</label>
-                      <br />
-                    </React.Fragment>;
-                  })}
+                  <div>
+                    {roomTypeInfo.map((obj, i) => (
+                      <React.Fragment key={i}>
+                        <input
+                          type="checkbox"
+                          id={obj.type}
+                          name={obj.type}
+                          value={this.state.bulk[obj.type]}
+                          checked={this.state.bulk[obj.type] === "yes"}
+                          onChange={this.handleChange}
+                        />
+                        <label htmlFor={obj.type}> {obj.name}</label>
+                        <br />
+                      </React.Fragment>
+                    ))}
+                  </div>
                 </div>
               </li>
-              <li>
+              <li key="orices">
                 Price Range(Drag the dot to set lower and upper bound):
                 <div className="form">
                   <Range
@@ -617,14 +631,18 @@ export default class Form1 extends React.Component {
                   />
                 </div>
               </li>
-              {radioInfo.map((obj, i) => {
-                <li style={obj.background && { background: "#FAFAF4" }}>
+              {radioInfo.map((obj, i) => (
+                <li
+                  style={obj.background ? { background: "#FAFAF4" } : null}
+                  key={i}
+                >
                   {" "}
                   {/*make sure this works*/}
                   {obj.name}
                   <input
                     type="radio"
                     name={obj.type}
+                    id={`${obj.type}_yes`}
                     value="yes"
                     checked={this.state.bulk[obj.type] === "yes"}
                     onChange={this.handleChange}
@@ -634,29 +652,36 @@ export default class Form1 extends React.Component {
                   <input
                     type="radio"
                     name={obj.type}
+                    id={`${obj.type}_no`}
                     value="no"
                     checked={this.state.bulk[obj.type] === "no"}
                     onChange={this.handleChange}
                   />{" "}
                   No
-                </li>;
-              })}
-              <li>
+                </li>
+              ))}
+              <li key="pjssgs">
                 Any preference on prospect tenants?
-                {preferenceInfo.map((obj, i) => {
-                  <input
-                    type="radio"
-                    name="gender"
-                    value={obj.type}
-                    checked={this.state.bulk.gender === obj.type}
-                    onChange={this.handleChange}
-                    required={obj.required}
-                  />;
-                  obj.name;
-                })}
+                {preferenceInfo.map((obj, i) => (
+                  <React.Fragment key={i}>
+                    <input
+                      type="radio"
+                      name="gender"
+                      id={obj.type}
+                      value={obj.type}
+                      checked={this.state.bulk.gender === obj.type}
+                      onChange={this.handleChange}
+                      required={obj.required}
+                    />
+                    {obj.name}
+                  </React.Fragment>
+                ))}
               </li>
-              {questionInfo.map((obj, i) => {
-                <li style={{ background: "#FAFAF4" }}>
+              {questionInfo.map((obj, i) => (
+                <li
+                  style={obj.background ? { background: "#FAFAF4" } : null}
+                  key={i}
+                >
                   {obj.question}
                   <input
                     type="radio"
@@ -675,10 +700,9 @@ export default class Form1 extends React.Component {
                     onChange={this.handleChange}
                   />{" "}
                   No
-                </li>;
-              })}
-
-              <li style={{ background: "#FAFAF4" }} id="facility">
+                </li>
+              ))}
+              <li style={{ background: "#FAFAF4" }} key="asfbuae">
                 Required Facilities:
                 <input
                   type="checkbox"
@@ -688,7 +712,7 @@ export default class Form1 extends React.Component {
                   checked={this.state.bulk.all === "yes"}
                   onChange={this.handleAll}
                 />
-                <label for="all"> All</label>
+                <label htmlFor="all"> All</label>
                 {facilitiesInfo.map(obj => (
                   <React.Fragment key={obj.type}>
                     <input
@@ -697,7 +721,7 @@ export default class Form1 extends React.Component {
                       name={obj.type}
                       value={this.state.bulk[obj.type]}
                       checked={this.state.bulk[obj.type] === "yes"}
-                      onChange={this.props.handleChange}
+                      onChange={this.handleChange}
                     />
                     <label htmlFor={obj.type}> {obj.name} </label>
                     <br />
@@ -730,24 +754,27 @@ export default class Form1 extends React.Component {
                 <img src="./app/resources/next.svg" alt="next" />{" "}
               </button>
             </ol>
-            <ol style={!this.state.hidden ? styles.hidden : null}>
-              <li>
+            <ol
+              style={!this.state.hidden ? styles.hidden : null}
+              key="styleCheck"
+            >
+              <li key="gender">
                 About Your Gender
-                {hostGenderInfo.map((obj, i) => {
-                  <input
-                    type="radio"
-                    name="host_gender"
-                    value={obj.type}
-                    checked={this.state.bulk.host_gender === obj.type}
-                    onChange={this.handleChange}
-                    required
-                  />;
-                  {
-                    obj.name;
-                  }
-                })}
+                {hostGenderInfo.map((obj, i) => (
+                  <React.Fragment key={i}>
+                    <input
+                      type="radio"
+                      name="host_gender"
+                      value={obj.type}
+                      checked={this.state.bulk.host_gender === obj.type}
+                      onChange={this.handleChange}
+                      required
+                    />
+                    {obj.name}
+                  </React.Fragment>
+                ))}
               </li>
-              <li>
+              <li key="moveTime">
                 <div className="row">
                   <div>Ideal Move in Time</div>
                   <Select
@@ -780,7 +807,7 @@ export default class Form1 extends React.Component {
                   />
                 </div>
               </li>
-              <li>
+              <li key="minStayPeriod">
                 <div className="row">
                   <div>Minimum Stay Period</div>
                   <Select
