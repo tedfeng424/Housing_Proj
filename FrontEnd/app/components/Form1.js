@@ -17,65 +17,318 @@ import Map from "./Map";
 import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
 const Range = createSliderWithTooltip(Slider.Range);
-const styles = { display: "none" };
+const facilityArr = [
+  "washer",
+  "patio",
+  "fridge",
+  "microwave",
+  "oven",
+  "ac",
+  "pool",
+  "SPA",
+  "gym",
+  "elevator",
+  "hardwood"
+];
+const styles = {
+  hidden: {
+    display: "none"
+  },
+  transportation: {
+    width: "135px",
+    "min-height": "13px",
+    height: "20px"
+  },
+  roomCount: {
+    width: "135px",
+    "min-height": "13px",
+    height: "13px",
+    marginLeft: "200px",
+    marginRight: "10px"
+  }
+};
 
+const transportationInfo = [
+  {
+    name: "Type of Transportation",
+    options: options_transportation,
+    type: "transportation",
+    required: true
+  },
+  {
+    name: "Number of Buses (if applicable)",
+    options: options_number,
+    type: "bus_cnt",
+    required: false
+  },
+  {
+    name: "Type",
+    options: options_time,
+    type: "time",
+    required: true
+  }
+];
+const roomCountInfo = [
+  {
+    type: "bedroom",
+    name: "Bedroom"
+  },
+  {
+    type: "bathroom",
+    name: "Bathroom"
+  }
+];
+const roomTypeInfo = [
+  {
+    type: "master",
+    name: "Master"
+  },
+  {
+    type: "guest",
+    name: "Guest"
+  },
+  {
+    type: "single",
+    name: "Single"
+  },
+  {
+    type: "double",
+    name: "Double"
+  },
+  {
+    type: "triple",
+    name: "Triple"
+  },
+  {
+    type: "living_room",
+    name: "Living Room"
+  },
+  {
+    type: "den",
+    name: "Den"
+  },
+  {
+    type: "studio",
+    name: "Studio"
+  },
+  {
+    type: "suite",
+    name: "Suite"
+  }
+];
+const radioInfo = [
+  {
+    name: "Price Negotiable:",
+    type: "negotiable",
+    background: true
+  },
+  {
+    name: "Utilities included:",
+    type: "utility",
+    background: false
+  },
+  {
+    name: "Private Bathroom:",
+    type: "private",
+    background: true
+  }
+];
+const preferenceInfo = [
+  {
+    type: "female",
+    name: " Female",
+    required: true
+  },
+  {
+    type: "male",
+    name: " Male",
+    required: false
+  },
+  {
+    type: "LGBTQ",
+    name: " LGBTQ",
+    required: false
+  },
+  {
+    type: "Gender Inclusive", // fix this
+    name: " Gender Inclusive",
+    required: false
+  },
+  {
+    type: "others",
+    name: " Others",
+    required: false
+  }
+];
+const hostGenderInfo = [
+  {
+    type: "female",
+    name: " Female",
+    required: true
+  },
+  {
+    type: "male",
+    name: " Male",
+    required: false
+  },
+  {
+    type: "LGBTQ", // LGBTQ isn't a gender lmao
+    name: " LGBTQ",
+    required: false
+  },
+  {
+    type: "other_gender",
+    name: " Other",
+    required: false
+  }
+];
+const questionInfo = [
+  {
+    background: true,
+    question: "Do you mind if other tenants are in the living room?",
+    name: "living"
+  },
+  {
+    background: false,
+    question: "Do you have pets?",
+    name: "pets"
+  },
+  {
+    background: true,
+    question: "Parking:",
+    name: "parking"
+  },
+  {
+    background: false,
+    question: "Furnished:",
+    name: "furnished"
+  }
+];
+const facilitiesInfo = [
+  {
+    type: "washer",
+    name: " Indoor Washer"
+  },
+  {
+    type: "patio",
+    name: " Patio/Balcony"
+  },
+  {
+    type: "fridge",
+    name: " Refrigerator"
+  },
+  {
+    type: "oven",
+    name: " Oven"
+  },
+  {
+    type: "microwave",
+    name: " Microwave"
+  },
+  {
+    type: "ac",
+    name: " Air Conditioning"
+  },
+  {
+    type: "pool",
+    name: " Pool"
+  },
+  {
+    type: "SPA", // why is spa capitalized?
+    name: " SPA"
+  },
+  {
+    type: "gym",
+    name: " Gym"
+  },
+  {
+    type: "elevator",
+    name: " Elevator"
+  },
+  {
+    type: "hardwood",
+    name: " Hardwood floor"
+  }
+];
 export default class Form1 extends React.Component {
-  state = {
-    bulk: {
-      negotiable: "",
-      utility: "",
-      address: "",
-      transportation: "",
-      time: "",
-      bus_cnt: "0",
-      price_range: "",
-      private: "",
-      gender: "",
-      living: "",
-      pets: "",
-      parking: "",
-      furnished: "",
-      latlng: {},
-      master: "no",
-      guest: "no",
-      single: "no",
-      double: "no",
-      triple: "no",
-      living_room: "no",
-      den: "no",
-      studio: "no",
-      suite: "no",
-      others_room: "no",
-      all: "no",
-      washer: "no",
-      patio: "no",
-      fridge: "no",
-      microwave: "no",
-      oven: "no",
-      ac: "no",
-      pool: "no",
-      SPA: "no",
-      gym: "no",
-      elevator: "no",
-      hardwood: "no",
-      Nearby: "",
-      roommmate: "",
-      bedroom: "1B",
-      bathroom: "1B",
-      host_gender: "",
-      move_time1: "Early",
-      move_time2: "January",
-      stay_period: "One Year Lease"
-    },
-    photos: [],
-    hidden: false,
-    redirect: false
-  };
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      bulk: {
+        negotiable: "",
+        utility: "",
+        address: "",
+        transportation: "",
+        time: "",
+        bus_cnt: "0",
+        price_range: "",
+        private: "",
+        gender: "",
+        living: "",
+        pets: "",
+        parking: "",
+        furnished: "",
+        latlng: {},
+        master: "no",
+        guest: "no",
+        single: "no",
+        double: "no",
+        triple: "no",
+        living_room: "no",
+        den: "no",
+        studio: "no",
+        suite: "no",
+        others_room: "no",
+        all: "no",
+        washer: "no",
+        patio: "no",
+        fridge: "no",
+        microwave: "no",
+        oven: "no",
+        ac: "no",
+        pool: "no",
+        SPA: "no",
+        gym: "no",
+        elevator: "no",
+        hardwood: "no",
+        Nearby: "",
+        roommmate: "",
+        bedroom: "1B",
+        bathroom: "1B",
+        host_gender: "",
+        move_time1: "Early",
+        move_time2: "January",
+        stay_period: "One Year Lease"
+      },
+      photos: [],
+      hidden: false,
+      redirect: false
+    };
+    this.LatLngHelper = this.LatLngHelper.bind(this);
+    this.AllChecked = this.AllChecked.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleNext = this.handleNext.bind(this);
+    this.handleBack = this.handleBack.bind(this);
+    this.handleRange = this.handleRange.bind(this);
+    this.handleUpload = this.handleUpload.bind(this);
+    this.handleMap = this.handleMap.bind(this);
+    this.handleAll = this.handleAll.bind(this);
+    this.handleDrop = this.handleDrop.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
   LatLngHelper = () => {
     var code = geocodeByAddress(this.state.bulk.address);
     var location = code.then(results => getLatLng(results[0]));
     return location;
+  };
+
+  AllChecked = () => {
+    for (let i = 0; i < facilityArr.length; i++) {
+      if (this.state.bulk[facilityArr[i]] === "no") {
+        return false;
+      }
+    }
+    return true;
   };
 
   handleSubmit = event => {
@@ -184,17 +437,12 @@ export default class Form1 extends React.Component {
   };
 
   handleDrop = (name, val) => {
-    this.setState(
-      ({ bulk }) => ({
-        bulk: {
-          ...bulk,
-          [name]: val[0].name
-        }
-      }),
-      () => {
-        console.log(this.state.bulk);
+    this.setState(({ bulk }) => ({
+      bulk: {
+        ...bulk,
+        [name]: val[0].name
       }
-    );
+    }));
   };
 
   handleChange = event => {
@@ -211,7 +459,7 @@ export default class Form1 extends React.Component {
         "den",
         "studio",
         "suite",
-        "others_room",
+        "others_room", // we're missing this
         "all",
         "washer",
         "patio",
@@ -227,7 +475,6 @@ export default class Form1 extends React.Component {
       ].includes(name) &&
       (val === "yes" || val === "no")
     ) {
-      console.log(val);
       val = val === "yes" ? "no" : "yes";
     }
     this.setState(
@@ -238,7 +485,24 @@ export default class Form1 extends React.Component {
         }
       }),
       () => {
-        console.log(this.state.bulk);
+        if (facilityArr.includes(name)) {
+          if (this.state.bulk["all"] === "yes" && !this.AllChecked()) {
+            this.setState(({ bulk }) => ({
+              bulk: {
+                ...bulk,
+                all: "no"
+              }
+            }));
+          }
+          if (this.state.bulk["all"] === "no" && this.AllChecked()) {
+            this.setState(({ bulk }) => ({
+              bulk: {
+                ...bulk,
+                all: "yes"
+              }
+            }));
+          }
+        }
       }
     );
   };
@@ -267,7 +531,7 @@ export default class Form1 extends React.Component {
           <h2>Create an account</h2>
           <form onSubmit={this.handleSubmit}>
             <ImageUploader
-              style={this.state.hidden ? styles : null}
+              style={this.state.hidden ? styles.hidden : null}
               type="file"
               name="photos"
               withIcon
@@ -277,8 +541,8 @@ export default class Form1 extends React.Component {
               maxFileSize={5242880}
               withPreview
             />
-            <ol style={this.state.hidden ? styles : null}>
-              <li style={{ background: "#FAFAF4" }}>
+            <ol style={this.state.hidden ? styles.hidden : null} key="bjaksbf">
+              <li style={{ background: "#FAFAF4" }} key="afasf">
                 <div className="row form">
                   <div> My Location (Make sure it is searchable!): </div>
                   {/* TODO: Prop key for handleMap must begin with 'on' */}
@@ -291,188 +555,65 @@ export default class Form1 extends React.Component {
                   />
                 </div>
               </li>
-              <li>
-                <div className="row space-between form">
-                  <div> Distance to school: </div>
-                  <div>
-                    {" "}
-                    Type of Transportation
-                    <Select
-                      style={{
-                        width: "135px",
-                        "min-height": "13px",
-                        height: "20px"
-                      }}
-                      options={options_transportation}
-                      placeholder="selected ...."
-                      labelField="name"
-                      valueField={this.state.bulk.transportation || ""}
-                      onChange={val => this.handleDrop("transportation", val)}
-                      required
-                    />
-                  </div>
-                  <div>
-                    {" "}
-                    # of Bus(if applicable)
-                    <Select
-                      style={{
-                        width: "135px",
-                        "min-height": "13px",
-                        height: "20px"
-                      }}
-                      options={options_number}
-                      placeholder="selected ...."
-                      labelField="name"
-                      valueField={this.state.bulk.bus_cnt || ""}
-                      onChange={val => this.handleDrop("bus_cnt", val)}
-                    />
-                  </div>
-                  <div>
-                    {" "}
-                    Time
-                    <Select
-                      style={{
-                        width: "135px",
-                        "min-height": "13px",
-                        height: "20px"
-                      }}
-                      options={options_time}
-                      placeholder="selected ...."
-                      labelField="name"
-                      valueField={this.state.bulk.time || ""}
-                      onChange={val => this.handleDrop("time", val)}
-                      required
-                    />
-                  </div>
+              <li key="sfoid">
+                <div className="row space-between form" key="formatter">
+                  <div key="distanceSchool"> Distance to school: </div>
+                  {transportationInfo.map((obj, i) => (
+                    <div key={i}>
+                      {" "}
+                      {obj.name}
+                      <Select
+                        id={obj.type}
+                        style={styles.transportation}
+                        options={obj.options}
+                        placeholder="selected ...."
+                        labelField="name"
+                        valueField={this.state.bulk[obj.type] || ""}
+                        onChange={val => this.handleDrop(obj.type, val)}
+                        required={obj.required}
+                      />
+                    </div>
+                  ))}
                 </div>
               </li>
-              <li style={{ background: "#FAFAF4" }}>
+              <li style={{ background: "#FAFAF4" }} key="asfi">
                 <div className="row">
                   <div>Room Type:</div>
-                  <Select
-                    style={{
-                      width: "135px",
-                      "min-height": "13px",
-                      height: "13px",
-                      marginLeft: "200px",
-                      marginRight: "10px"
-                    }}
-                    options={options_number}
-                    placeholder="selected ...."
-                    labelField="name"
-                    valueField={this.state.bulk.bedroom || ""}
-                    onChange={val => this.handleDrop("bedroom", val)}
-                    required
-                  />
-                  <span> Bedroom</span>
-                  <Select
-                    style={{
-                      width: "135px",
-                      "min-height": "13px",
-                      height: "13px",
-                      marginLeft: "10px",
-                      marginRight: "10px"
-                    }}
-                    options={options_number}
-                    placeholder="selected ...."
-                    labelField="name"
-                    valueField={this.state.bulk.bathroom || ""}
-                    onChange={val => this.handleDrop("bathroom", val)}
-                    required
-                  />
-                  <span> Bathroom</span>
+                  {roomCountInfo.map((obj, i) => (
+                    <React.Fragment key={i}>
+                      <Select
+                        style={styles.roomCount}
+                        options={options_number}
+                        placeholder="selected ...."
+                        labelField="name"
+                        valueField={this.state.bulk[obj.type] || ""}
+                        onChange={val => this.handleDrop(obj.type, val)}
+                        required
+                      />
+                      <span> {obj.name}</span>
+                    </React.Fragment>
+                  ))}
                 </div>
                 <div className="row rt2">
                   <div>
-                    <input
-                      type="checkbox"
-                      id="master"
-                      name="master"
-                      value={this.state.bulk.master}
-                      checked={this.state.bulk.master === "yes"}
-                      onChange={this.handleChange}
-                    />
-                    <label for="master"> Master </label>
-                    <br />
-                    <input
-                      type="checkbox"
-                      id="guest"
-                      name="guest"
-                      value={this.state.bulk.guest}
-                      checked={this.state.bulk.guest === "yes"}
-                      onChange={this.handleChange}
-                    />
-                    <label for="guest"> Guest </label>
-                    <br />
-                    <input
-                      type="checkbox"
-                      id="single"
-                      name="single"
-                      value={this.state.bulk.single}
-                      checked={this.state.bulk.single === "yes"}
-                      onChange={this.handleChange}
-                    />
-                    <label for="single"> Single</label>
-                    <input
-                      type="checkbox"
-                      id="double"
-                      name="double"
-                      value={this.state.bulk.double}
-                      checked={this.state.bulk.double === "yes"}
-                      onChange={this.handleChange}
-                    />
-                    <label for="double"> Double </label>
-                    <br />
-                    <input
-                      type="checkbox"
-                      id="triple"
-                      name="triple"
-                      value={this.state.bulk.triple}
-                      checked={this.state.bulk.triple === "yes"}
-                      onChange={this.handleChange}
-                    />
-                    <label for="triple"> Triple </label>
-                    <br />
-                    <input
-                      type="checkbox"
-                      id="living_room"
-                      name="living_room"
-                      value={this.state.bulk.living_room}
-                      checked={this.state.bulk.living_room === "yes"}
-                      onChange={this.handleChange}
-                    />
-                    <label for="living_room"> Living Room</label>
-                    <input
-                      type="checkbox"
-                      id="den"
-                      name="den"
-                      value={this.state.bulk.den}
-                      checked={this.state.bulk.den === "yes"}
-                      onChange={this.handleChange}
-                    />
-                    <label for="den"> Den</label>
-                    <input
-                      type="checkbox"
-                      id="studio"
-                      name="studio"
-                      value={this.state.bulk.studio}
-                      checked={this.state.bulk.studio === "yes"}
-                      onChange={this.handleChange}
-                    />
-                    <label for="studio"> Studio</label>
-                    <input
-                      type="checkbox"
-                      id="suite"
-                      name="suite"
-                      value={this.state.bulk.suite}
-                      checked={this.state.bulk.suite === "yes"}
-                      onChange={this.handleChange}
-                    />
-                    <label for="suite"> Suite</label>
+                    {roomTypeInfo.map((obj, i) => (
+                      <React.Fragment key={i}>
+                        <input
+                          type="checkbox"
+                          id={obj.type}
+                          name={obj.type}
+                          value={this.state.bulk[obj.type]}
+                          checked={this.state.bulk[obj.type] === "yes"}
+                          onChange={this.handleChange}
+                        />
+                        <label htmlFor={obj.type}> {obj.name}</label>
+                        <br />
+                      </React.Fragment>
+                    ))}
                   </div>
                 </div>
               </li>
-              <li>
+              <li key="orices">
                 Price Range(Drag the dot to set lower and upper bound):
                 <div className="form">
                   <Range
@@ -490,191 +631,78 @@ export default class Form1 extends React.Component {
                   />
                 </div>
               </li>
-              <li style={{ background: "#FAFAF4" }}>
-                Price Negotiable?:
-                <input
-                  type="radio"
-                  name="negotiable"
-                  value="yes"
-                  checked={this.state.bulk.negotiable === "yes"}
-                  onChange={this.handleChange}
-                  required
-                />{" "}
-                Yes
-                <input
-                  type="radio"
-                  name="negotiable"
-                  value="no"
-                  checked={this.state.bulk.negotiable === "no"}
-                  onChange={this.handleChange}
-                />{" "}
-                No
-              </li>
-              <li>
-                Utilities included?:
-                <input
-                  type="radio"
-                  name="utility"
-                  value="yes"
-                  checked={this.state.bulk.utility === "yes"}
-                  onChange={this.handleChange}
-                  required
-                />{" "}
-                Yes
-                <input
-                  type="radio"
-                  name="utility"
-                  value="no"
-                  checked={this.state.bulk.utility === "no"}
-                  onChange={this.handleChange}
-                />{" "}
-                No
-              </li>
-              <li style={{ background: "#FAFAF4" }}>
-                Private Bathroom:
-                <input
-                  type="radio"
-                  name="private"
-                  value="yes"
-                  checked={this.state.bulk.private === "yes"}
-                  onChange={this.handleChange}
-                  required
-                />{" "}
-                Yes
-                <input
-                  type="radio"
-                  name="private"
-                  value="no"
-                  checked={this.state.bulk.private === "no"}
-                  onChange={this.handleChange}
-                />{" "}
-                No
-              </li>
-              <li>
+              {radioInfo.map((obj, i) => (
+                <li
+                  style={obj.background ? { background: "#FAFAF4" } : null}
+                  key={i}
+                >
+                  {" "}
+                  {/*make sure this works*/}
+                  {obj.name}
+                  <input
+                    type="radio"
+                    name={obj.type}
+                    id={`${obj.type}_yes`}
+                    value="yes"
+                    checked={this.state.bulk[obj.type] === "yes"}
+                    onChange={this.handleChange}
+                    required
+                  />{" "}
+                  Yes
+                  <input
+                    type="radio"
+                    name={obj.type}
+                    id={`${obj.type}_no`}
+                    value="no"
+                    checked={this.state.bulk[obj.type] === "no"}
+                    onChange={this.handleChange}
+                  />{" "}
+                  No
+                </li>
+              ))}
+              <li key="pjssgs">
                 Any preference on prospect tenants?
-                <input
-                  type="radio"
-                  name="gender"
-                  value="female"
-                  checked={this.state.bulk.gender === "female"}
-                  onChange={this.handleChange}
-                  required
-                />{" "}
-                Female
-                <input
-                  type="radio"
-                  name="gender"
-                  value="male"
-                  checked={this.state.bulk.gender === "male"}
-                  onChange={this.handleChange}
-                />{" "}
-                Male
-                <input
-                  type="radio"
-                  name="gender"
-                  value="LGBTQ"
-                  checked={this.state.bulk.gender === "LGBTQ"}
-                  onChange={this.handleChange}
-                />{" "}
-                LGBTQ
-                <input
-                  type="radio"
-                  name="gender"
-                  value="Gender Inclusive"
-                  checked={this.state.bulk.gender === "Gender Inclusive"}
-                  onChange={this.handleChange}
-                />{" "}
-                Gender Inclusive
-                <input
-                  type="radio"
-                  name="gender"
-                  value="others"
-                  checked={this.state.bulk.gender === "others"}
-                  onChange={this.handleChange}
-                />{" "}
-                Others
+                {preferenceInfo.map((obj, i) => (
+                  <React.Fragment key={i}>
+                    <input
+                      type="radio"
+                      name="gender"
+                      id={obj.type}
+                      value={obj.type}
+                      checked={this.state.bulk.gender === obj.type}
+                      onChange={this.handleChange}
+                      required={obj.required}
+                    />
+                    {obj.name}
+                  </React.Fragment>
+                ))}
               </li>
-              <li style={{ background: "#FAFAF4" }}>
-                Do you mind if other tenants are in the living room?
-                <input
-                  type="radio"
-                  name="living"
-                  value="yes"
-                  checked={this.state.bulk.living === "yes"}
-                  onChange={this.handleChange}
-                  required
-                />{" "}
-                Yes
-                <input
-                  type="radio"
-                  name="living"
-                  value="no"
-                  checked={this.state.bulk.living === "no"}
-                  onChange={this.handleChange}
-                />{" "}
-                No
-              </li>
-              <li>
-                Do you have pets?
-                <input
-                  type="radio"
-                  name="pets"
-                  value="yes"
-                  checked={this.state.bulk.pets === "yes"}
-                  onChange={this.handleChange}
-                  required
-                />{" "}
-                Yes
-                <input
-                  type="radio"
-                  name="pets"
-                  value="no"
-                  checked={this.state.bulk.pets === "no"}
-                  onChange={this.handleChange}
-                />{" "}
-                No
-              </li>
-              <li style={{ background: "#FAFAF4" }}>
-                Parking:
-                <input
-                  type="radio"
-                  name="parking"
-                  value="yes"
-                  checked={this.state.bulk.parking === "yes"}
-                  onChange={this.handleChange}
-                  required
-                />{" "}
-                Yes
-                <input
-                  type="radio"
-                  name="parking"
-                  value="no"
-                  checked={this.state.bulk.parking === "no"}
-                  onChange={this.handleChange}
-                />{" "}
-                No
-              </li>
-              <li>
-                Furnished:
-                <input
-                  type="radio"
-                  name="furnished"
-                  value="yes"
-                  checked={this.state.bulk.furnished === "yes"}
-                  onChange={this.handleChange}
-                  required
-                />{" "}
-                Yes
-                <input
-                  type="radio"
-                  name="furnished"
-                  value="no"
-                  checked={this.state.bulk.furnished === "no"}
-                  onChange={this.handleChange}
-                />{" "}
-                No
-              </li>
-              <li style={{ background: "#FAFAF4" }}>
+              {questionInfo.map((obj, i) => (
+                <li
+                  style={obj.background ? { background: "#FAFAF4" } : null}
+                  key={i}
+                >
+                  {obj.question}
+                  <input
+                    type="radio"
+                    name={obj.name}
+                    value="yes"
+                    checked={this.state.bulk[obj.name] === "yes"}
+                    onChange={this.handleChange}
+                    required
+                  />{" "}
+                  Yes
+                  <input
+                    type="radio"
+                    name={obj.name}
+                    value="no"
+                    checked={this.state.bulk[obj.name] === "no"}
+                    onChange={this.handleChange}
+                  />{" "}
+                  No
+                </li>
+              ))}
+              <li style={{ background: "#FAFAF4" }} key="asfbuae">
                 Required Facilities:
                 <input
                   type="checkbox"
@@ -684,110 +712,21 @@ export default class Form1 extends React.Component {
                   checked={this.state.bulk.all === "yes"}
                   onChange={this.handleAll}
                 />
-                <label for="all"> All</label>
-                <input
-                  type="checkbox"
-                  id="washer"
-                  name="washer"
-                  value={this.state.bulk.washer}
-                  checked={this.state.bulk.washer === "yes"}
-                  onChange={this.handleChange}
-                />
-                <label for="washer"> Indoor Washer </label>
-                <br />
-                <input
-                  type="checkbox"
-                  id="patio"
-                  name="patio"
-                  value={this.state.bulk.patio}
-                  checked={this.state.bulk.patio === "yes"}
-                  onChange={this.handleChange}
-                />
-                <label for="patio"> Patio/Balcony </label>
-                <br />
-                <input
-                  type="checkbox"
-                  id="fridge"
-                  name="fridge"
-                  value={this.state.bulk.fridge}
-                  checked={this.state.bulk.fridge === "yes"}
-                  onChange={this.handleChange}
-                />
-                <label for="fridge"> Refrigerator</label>
-                <input
-                  type="checkbox"
-                  id="microwave"
-                  name="microwave"
-                  value={this.state.bulk.microwave}
-                  checked={this.state.bulk.microwave === "yes"}
-                  onChange={this.handleChange}
-                />
-                <label for="microwave"> Microwave </label>
-                <br />
-                <input
-                  type="checkbox"
-                  id="oven"
-                  name="oven"
-                  value={this.state.bulk.oven}
-                  checked={this.state.bulk.oven === "yes"}
-                  onChange={this.handleChange}
-                />
-                <label for="oven"> Oven </label>
-                <br />
-                <input
-                  type="checkbox"
-                  id="ac"
-                  name="ac"
-                  value={this.state.bulk.ac}
-                  checked={this.state.bulk.ac === "yes"}
-                  onChange={this.handleChange}
-                />
-                <label for="ac"> AC </label>
-                <input
-                  type="checkbox"
-                  id="pool"
-                  name="pool"
-                  value={this.state.bulk.pool}
-                  checked={this.state.bulk.pool === "yes"}
-                  onChange={this.handleChange}
-                />
-                <label for="pool"> Pool </label>
-                <input
-                  type="checkbox"
-                  id="SPA"
-                  name="SPA"
-                  value={this.state.bulk.SPA}
-                  checked={this.state.bulk.SPA === "yes"}
-                  onChange={this.handleChange}
-                />
-                <label for="SPA"> SPA</label>
-                <input
-                  type="checkbox"
-                  id="gym"
-                  name="gym"
-                  value={this.state.bulk.gym}
-                  checked={this.state.bulk.gym === "yes"}
-                  onChange={this.handleChange}
-                />
-                <label for="gym"> Gym</label>
-                <input
-                  type="checkbox"
-                  id="elevator"
-                  name="elevator"
-                  value={this.state.bulk.elevator}
-                  checked={this.state.bulk.elevator === "yes"}
-                  onChange={this.handleChange}
-                />
-                <label for="elevator"> Elevator</label>
-                <input
-                  type="checkbox"
-                  id="hardwood"
-                  name="hardwood"
-                  value={this.state.bulk.hardwood}
-                  checked={this.state.bulk.hardwood === "yes"}
-                  onChange={this.handleChange}
-                />
-                <label for="hardwood"> Hardwood floor</label>
+                <label htmlFor="all"> All</label>
+                {facilitiesInfo.map(obj => (
+                  <React.Fragment key={obj.type}>
+                    <input
+                      type="checkbox"
+                      id={obj.type}
+                      name={obj.type}
+                      value={this.state.bulk[obj.type]}
+                      checked={this.state.bulk[obj.type] === "yes"}
+                      onChange={this.handleChange}
+                    />
+                    <label htmlFor={obj.type}> {obj.name} </label>
+                    <br />
+                  </React.Fragment>
+                ))}
               </li>
               <li>
                 Nearby:{" "}
@@ -815,44 +754,27 @@ export default class Form1 extends React.Component {
                 <img src="./app/resources/next.svg" alt="next" />{" "}
               </button>
             </ol>
-            <ol style={!this.state.hidden ? styles : null}>
-              <li>
+            <ol
+              style={!this.state.hidden ? styles.hidden : null}
+              key="styleCheck"
+            >
+              <li key="gender">
                 About Your Gender
-                <input
-                  type="radio"
-                  name="host_gender"
-                  value="female"
-                  checked={this.state.bulk.host_gender === "female"}
-                  onChange={this.handleChange}
-                  required
-                />{" "}
-                Female
-                <input
-                  type="radio"
-                  name="host_gender"
-                  value="male"
-                  checked={this.state.bulk.host_gender === "male"}
-                  onChange={this.handleChange}
-                />{" "}
-                Male
-                <input
-                  type="radio"
-                  name="host_gender"
-                  value="LGBTQ"
-                  checked={this.state.bulk.host_gender === "LGBTQ"}
-                  onChange={this.handleChange}
-                />{" "}
-                LGBTQ
-                <input
-                  type="radio"
-                  name="host_gender"
-                  value="other_gender"
-                  checked={this.state.bulk.host_gender === "other_gender"}
-                  onChange={this.handleChange}
-                />{" "}
-                Others
+                {hostGenderInfo.map((obj, i) => (
+                  <React.Fragment key={i}>
+                    <input
+                      type="radio"
+                      name="host_gender"
+                      value={obj.type}
+                      checked={this.state.bulk.host_gender === obj.type}
+                      onChange={this.handleChange}
+                      required
+                    />
+                    {obj.name}
+                  </React.Fragment>
+                ))}
               </li>
-              <li>
+              <li key="moveTime">
                 <div className="row">
                   <div>Ideal Move in Time</div>
                   <Select
@@ -885,7 +807,7 @@ export default class Form1 extends React.Component {
                   />
                 </div>
               </li>
-              <li>
+              <li key="minStayPeriod">
                 <div className="row">
                   <div>Minimum Stay Period</div>
                   <Select
@@ -918,7 +840,7 @@ export default class Form1 extends React.Component {
               type="button"
               value="Submit"
               onClick={this.handleBack}
-              style={!this.state.hidden ? styles : null}
+              style={!this.state.hidden ? styles.hidden : null}
             >
               {" "}
               Go Back{" "}
@@ -927,7 +849,7 @@ export default class Form1 extends React.Component {
               type="submit"
               name="submit"
               value="submit"
-              style={!this.state.hidden ? styles : null}
+              style={!this.state.hidden ? styles.hidden : null}
             />
           </form>
         </div>
