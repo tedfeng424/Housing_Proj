@@ -19,18 +19,18 @@ session = DBSession()
 authetification = Blueprint('auth', __name__)
 
 # initialize chat API
-client = StreamChat(api_key="tqnbvvgngey3", api_secret="4q22sqqsqgauudergg4vqdxqbrrdk96qppp3223fh8eb4na2vzb2gbb99589qzf5")
-client.update_user({"id": "system", "name": "The Server"})
-user_token = client.create_token('system')
-#cs = client.query_channels({"type": 'messaging',"members": { "$in": ["yizong"] } },{ "last_message_at": -1 })
-#print(cs)
-print(user_token)
-#t_id = '!members-WC2hY0GhjANpKNMZgANMWmSxf5Ahh_5mU6XFxZxlfq0'
-#print(client.channel("messaging", t_id).delete())
-channel = client.channel("messaging", "kung-fu")
-channel.create("system")
-channel.add_members(["system"])
-response = channel.send_message({"text": "AMA about kung-fu"}, 'system')
+# client = StreamChat(api_key="57tcrkskk54w", api_secret="jp592pew7pst9jt2w5v3zz6ytpb8j7euq7mfakp5ezxn9j4s2a2e7xch35vk9dgn")
+# client.update_user({"id": "system", "name": "The Server"})
+# user_token = client.create_token('system')
+# #cs = client.query_channels({"type": 'messaging',"members": { "$in": ["yizong"] } },{ "last_message_at": -1 })
+# #print(cs)
+# print(user_token)
+# #t_id = '!members-WC2hY0GhjANpKNMZgANMWmSxf5Ahh_5mU6XFxZxlfq0'
+# #print(client.channel("messaging", t_id).delete())
+# channel = client.channel("messaging", "kung-fu")
+# channel.create("system")
+# channel.add_members(["system"])
+# response = channel.send_message({"text": "AMA about kung-fu"}, 'system')
 
 @authetification.route("/getstate",methods=['GET'])
 def generate_state():

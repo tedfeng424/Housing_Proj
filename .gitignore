@@ -4,7 +4,15 @@ BackEnd/.elasticbeanstalk/*
 BackEnd/!.elasticbeanstalk/*.cfg.yml
 BackEnd/!.elasticbeanstalk/*.global.yml
 
+# virtual env
+BackEnd/env/*
+.vscode/
+
 # Caches
 **/.DS_Store
 **/__pycache__
 FrontEnd/node_modules
+
+# new frontend
+NewFrontEnd/node_modules
+NewFrontEnd/coverage

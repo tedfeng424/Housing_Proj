@@ -1,0 +1,25 @@
+.house-type {
+  @extend .h4;
+  @extend .px-3;
+  @extend .py-2;
+  @extend .rounded;
+  color: theme-color('secondary');
+  background-color: theme-color('secondary-light');
+}
+
+.price {
+  @extend .h2;
+  color: theme-color('primary');
+  font-weight: 600;
+}
+
+.owner-description {
+  @extend .px-3;
+  @extend .py-2;
+  @extend .rounded-lg;
+  background-color: theme-color('secondary-light');
+  position: absolute;
+  bottom: 0;
+  max-height: 50%;
+  min-height: 20%;
+}
