@@ -24,3 +24,15 @@ $theme-colors: (
   @extend .p-3;
   border-radius: 40px;
 }
+
+.carousel-inner {
+  height: 100%;
+}
+
+.carousel {
+  height: 100%;
+}
+
+.carousel-item {
+  height: 100%;
+}
