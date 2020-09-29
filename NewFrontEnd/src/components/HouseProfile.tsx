@@ -15,7 +15,7 @@ interface PathProps {
   stayPeriod: String;
   facilities: String[];
   lookingFor: String[];
-  distance: number;
+  distance: String;
   address: String;
 }
 
