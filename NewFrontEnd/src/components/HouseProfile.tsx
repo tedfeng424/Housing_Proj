@@ -5,17 +5,23 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import FlexButton from './utility/FlexButton'
+import { Image } from 'react-bootstrap'
 
 interface PathProps {
-  houseType: String;
+  houseType: string;
   pricePerMonth: number;
-  roomType: String;
-  moveIn: String;
-  stayPeriod: String;
-  facilities: String[];
-  lookingFor: String[];
+  roomType: string;
+  moveIn: string;
+  stayPeriod: string;
+  facilities: string[];
+  lookingFor: string[];
   distance: number;
-  address: String;
+  address: string;
+  bioName: string;
+  bioYear: number;
+  bioMajor: string;
+  bioProfilePic: string;
+  bioDescription: string;
 }
 
 const HouseProfile: React.FC<PathProps> = ({
@@ -28,6 +34,11 @@ const HouseProfile: React.FC<PathProps> = ({
   lookingFor,
   distance,
   address,
+  bioName,
+  bioYear,
+  bioMajor,
+  bioProfilePic,
+  bioDescription,
 }) => {
   const [show, setShow] = useState<boolean>(true);
 
@@ -97,14 +108,30 @@ const HouseProfile: React.FC<PathProps> = ({
             </Col>
 
             {/* third column */}
-            <Col sm={12} md={3}>
-              <FlexButton>Add to my list!</FlexButton>
+            <Col sm={12} md={3} className="d-flex flex-column">
+              <Button className="w-90">Add to my list!</Button>
 
-              <div className="text-primary"><b>{distance} miles from school</b></div>
-              <div>{address}</div>
-              <div>Map goes here.</div>
+                <div className="text-primary"><b>{distance} miles from school</b></div>
+                <div>{address}</div>
+                <div>Map goes here.</div>
 
-              <Container className="owner-description">Owner description goes here.</Container>
+                <Container className="bio">
+                  <Row>
+                    <Col md={8} className="text-center">
+                      <div><b>{bioName}</b></div>
+
+                      <div>{bioYear} | {bioMajor}</div>
+
+                      <div>Contact icons here</div>
+                    </Col>
+
+                    <Col md={4} className="mt-auto">
+                      <Image src={bioProfilePic} roundedCircle fluid />
+                    </Col>
+                  </Row>
+
+                  <div className="speech-bubble">{bioDescription}</div>
+                </Container>
 
             </Col>
           </Row>

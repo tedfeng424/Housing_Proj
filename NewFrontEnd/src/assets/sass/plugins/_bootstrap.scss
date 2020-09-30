@@ -1,19 +1,28 @@
 // Edit bootstrap style here! Change the vars before importing bootstrap,
 // and change classes after importing.
 
+/* CHANGE BOOTSTRAP VARIABLES HERE */
 $theme-colors: (
   'primary': $primary-color,
   'secondary': $secondary-color,
   'secondary-light': #E6F0D8,
 );
 
+$sizes: (
+  90: 90%,
+);
+
+/* IMPORT BOOTSTRAP SASS HERE (which uses the overrided variables above) */
 @import '~bootstrap/scss/bootstrap';
 
+/* OVERRIDE THE BOOTSTRAP SASS BELOW */
 .btn {
   @extend .py-1;
   @extend .px-4;
   @extend .mx-4;
   @extend .my-2;
+  // padding: $size1 $size4;
+  // margin: $size2 $size4;
   color: white;
   font-weight: 600;
   border-radius: 20px;
@@ -22,5 +31,5 @@ $theme-colors: (
 
 .modal-content {
   @extend .p-3;
-  border-radius: 40px;
+  border-radius: $rounded-lg;
 }
