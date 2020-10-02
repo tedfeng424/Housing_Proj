@@ -390,6 +390,7 @@ const [price, setPrice] = useState<Price>({
                     />
                     </Button>
                     </Row>
+                    <br></br>
           </Form>
         <Row>
         </Row>
