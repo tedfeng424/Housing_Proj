@@ -33,3 +33,24 @@ $sizes: (
   @extend .p-3;
   border-radius: $rounded-lg;
 }
+
+.carousel-inner {
+  height: 100%;
+}
+
+.carousel {
+  height: 100%;
+}
+
+.carousel-item {
+  height: 100%;
+}
+
+.card-body{
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem
+}
+
+.valid-feedback, .invalid-feedback{
+  text-align: right
+}

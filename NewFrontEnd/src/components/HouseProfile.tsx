@@ -5,7 +5,9 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import FlexButton from './utility/FlexButton'
-import { Image } from 'react-bootstrap'
+import Image from 'react-bootstrap/Image'
+import SlideShow from './SlideShow'
+import { PathProps } from '../assets/interface/props'
 
 interface PathProps {
   houseType: string;
@@ -40,7 +42,7 @@ const HouseProfile: React.FC<PathProps> = ({
   bioProfilePic,
   bioDescription,
 }) => {
-  const [show, setShow] = useState<boolean>(true);
+  const [show, setShow] = useState<boolean>(false);
 
   return (
     <>
@@ -54,12 +56,12 @@ const HouseProfile: React.FC<PathProps> = ({
         <Container>
           <Row>
             {/* first column */}
-            <Col sm={12} md={3} className="text-center">
-              Pictures go here
+            <Col sm={12} md={4} className="text-center">
+              <SlideShow></SlideShow>
             </Col>
 
             {/* second column */}
-            <Col sm={12} md={6}>
+            <Col sm={12} md={5}>
               <Container>
                 <Row><span className="house-type">{houseType}</span></Row>
 
