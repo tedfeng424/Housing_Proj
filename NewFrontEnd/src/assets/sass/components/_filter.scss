@@ -1,0 +1,83 @@
+input {
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 3px solid #E7936D;
+    line-height: 10px;
+}
+
+.small-input {
+  width: 50px;
+}
+
+.med-input {
+  width: 100px;
+}
+
+.word {
+  color: #D3AB98;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.title {
+  text-align: center;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 57px;
+  width: 229px;
+  height: 57px;
+  color: #A6623F;
+  background-image: url("../../icons/wordBubble.svg")
+}
+
+.right-button {
+  margin-left: 0rem !important;
+}
+
+.notes {
+  width: 115px;
+}
+
+.drop-width{
+  width: 120px;
+}
+
+.menu{
+  height: 130px;
+  overflow: scroll;
+}
+
+.clear-border {
+  padding-left: 0rem;
+  border: 0;
+}
+
+.form-dropdown{
+  margin-right: 0rem !important;
+  margin-top: 0rem !important;
+}
+
+.form-input {
+    width: 10rem;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 3px solid #E7936D;
+    line-height: 10px;
+}
+
+.btn-filter{
+  margin: 0rem !important;
+  background-color: #fff !important;
+  border-color: #fff !important;
+}
+
+hr {
+  width: 20rem;
+  border: 0;
+  border-top: 3px dashed #D3AB98;
+}

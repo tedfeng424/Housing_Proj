@@ -6,18 +6,7 @@ import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import FlexButton from './utility/FlexButton'
 import SlideShow from './SlideShow'
-
-interface PathProps {
-  houseType: String;
-  pricePerMonth: number;
-  roomType: String;
-  moveIn: String;
-  stayPeriod: String;
-  facilities: String[];
-  lookingFor: String[];
-  distance: String;
-  address: String;
-}
+import {PathProps} from '../assets/interface/props'
 
 const HouseProfile: React.FC<PathProps> = ({
   houseType,
@@ -30,7 +19,7 @@ const HouseProfile: React.FC<PathProps> = ({
   distance,
   address,
 }) => {
-  const [show, setShow] = useState<boolean>(true);
+  const [show, setShow] = useState<boolean>(false);
 
   return (
     <>

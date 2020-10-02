@@ -1,35 +1,18 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import SlideShow from './SlideShow'
-
-interface PathProps {
-    houseType: String;
-    pricePerMonth: number;
-    roomType: String;
-    moveIn: String;
-    stayPeriod: String;
-    facilities: String[];
-    lookingFor: String[];
-    distance: String;
-    address: String;
-  }
+import {PathProps} from '../assets/interface/props'
 
 const HouseCard: React.FC<PathProps> = ({
-    houseType,
     pricePerMonth,
     roomType,
     moveIn,
-    stayPeriod,
-    facilities,
-    lookingFor,
     distance,
     address,
-  }) => {
-    const [show, setShow] = useState<boolean>(true);
-  
+  }) => {  
     return (
           <Container>
             <Row>
