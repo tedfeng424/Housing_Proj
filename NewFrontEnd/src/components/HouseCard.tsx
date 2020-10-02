@@ -4,7 +4,14 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import SlideShow from './SlideShow'
-import {PathProps} from '../assets/interface/props'
+
+interface PathProps {
+  pricePerMonth: number;
+  roomType: string;
+  moveIn: string;
+  distance: number;
+  address: string;
+}
 
 const HouseCard: React.FC<PathProps> = ({
     pricePerMonth,
