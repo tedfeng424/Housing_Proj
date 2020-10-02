@@ -1,7 +1,12 @@
 import React, { useState } from 'react'
 import Container from 'react-bootstrap/Container'
 import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
+import GoogleLogin from "react-google-login"
 
+const responseGoogle = (response:Response) => {
+  console.log(response);
+};
 
 // https://developers.google.com/identity/sign-in/web/sign-in
 interface PathProps {
@@ -20,30 +25,32 @@ const Login: React.FC<PathProps> = ({
       onHide={handleClose}
       centered
     >
-      <div className="card">
-        <article className="card-body">
-          <h4 className="card-title text-center">Sign in</h4>
-          <hr></hr>
-          <form>
-            <div className="form-group">
-              <p className="text-center">insert google signin here</p>
-            </div>
-            <div className="form-group">
-              <input name="" className="form-control" placeholder="UCSD Email" type="email"></input>
-            </div>
-            <div className="form-group">
-              <input className="form-control" placeholder="*********" type="password"></input>
-            </div>
-            <div className="form-group text-center">
-              <button type="submit" className="btn btn-primary">Login</button>
-            </div> 
-
-            <div className="text-center">
-              <a className="small" href="#">Forgot password?</a>
-            </div>                                            
-          </form>
-        </article>
-      </div>
+    <Button className="btn-filter">
+    <img
+    className="d-block"
+    src="/close.svg"
+    alt="Close"
+    onClick={() => handleClose()}
+    />
+    </Button>
+        <img
+    className="d-block"
+    src="/login.svg"
+    alt="LogIn"
+    />
+      <GoogleLogin
+        className="g-auth"
+        clientId="778916194800-977823s60p7mtu1sj72ru0922p2pqh6m.apps.googleusercontent.com"
+        onFailure={responseGoogle}
+        cookiePolicy="single_host_origin"
+        icon={false}
+      >
+          <img
+    className="d-block"
+    src="/loginButton.svg"
+    alt="LogInButton"
+    />
+      </GoogleLogin>
     </Modal>
   );
 };
