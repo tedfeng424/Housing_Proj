@@ -4,10 +4,8 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
-import FlexButton from './utility/FlexButton'
 import Image from 'react-bootstrap/Image'
 import SlideShow from './SlideShow'
-import { PathProps } from '../assets/interface/props'
 
 interface PathProps {
   houseType: string;

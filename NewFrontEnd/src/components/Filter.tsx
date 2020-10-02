@@ -18,8 +18,7 @@ import tripleChosen from '../assets/icons/roomType/tripleChosen.svg'
 import livingRoomChosen from '../assets/icons/roomType/livingRoomChosen.svg'
 import studioChosen from '../assets/icons/roomType/studioChosen.svg'
 import suiteChosen from '../assets/icons/roomType/suiteChosen.svg'
-import {PathProps} from '../assets/interface/props'
-import {intervalOptions,yearMonths} from '../assets/interface/constants'
+import {intervalOptions, yearMonths} from '../assets/interface/constants'
 import {
     female,
     femaleChosen,
@@ -84,8 +83,9 @@ function StringWrap(toWrap:string|null){
     return toWrap
 }
 
-const Filter: React.FC<PathProps> = ({
-}) => {
+interface PathProps {}
+
+const Filter: React.FC<PathProps> = () => {
   const [show, setShow] = useState<boolean>(false);
   const [selectedEarlyInterval, setEarlyInterval] = useState<string>("Anytime");
   const [selectedEarlyMonth, setEarlyMonth] = useState<string>("Anytime");
