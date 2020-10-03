@@ -22,6 +22,8 @@ interface PathProps {
   bioMajor: string;
   bioProfilePic: string;
   bioDescription: string;
+  show: boolean;
+  setShow: (show: boolean) => void;
 }
 
 const HouseProfile: React.FC<PathProps> = ({
@@ -39,105 +41,103 @@ const HouseProfile: React.FC<PathProps> = ({
   bioMajor,
   bioProfilePic,
   bioDescription,
+  show,
+  setShow,
 }) => {
-  const [show, setShow] = useState<boolean>(false);
 
   return (
-    <>
-      <Button onClick={() => setShow(true)}>click me!</Button>
-      <Modal
-        show={show}
-        onHide={() => setShow(false)}
-        size="xl"
-        centered
-      >
-        <Container>
-          <Row>
-            {/* first column */}
-            <Col sm={12} md={4} className="text-center">
-              <SlideShow></SlideShow>
-            </Col>
+    <Modal
+      show={show}
+      onHide={() => setShow(false)}
+      size="xl"
+      centered
+    >
+      <Container>
+        <Row>
+          {/* first column */}
+          <Col sm={12} md={4} className="text-center">
+            <SlideShow setShow={(fake: boolean) => {return;}}></SlideShow>
+          </Col>
 
-            {/* second column */}
-            <Col sm={12} md={5}>
-              <Container>
-                <Row><span className="house-type">{houseType}</span></Row>
+          {/* second column */}
+          <Col sm={12} md={5}>
+            <Container>
+              <Row><span className="house-type">{houseType}</span></Row>
 
-                <Row>
-                  <Col className="price" md={5}>
-                    <Row>${pricePerMonth}</Row>
+              <Row>
+                <Col className="price" md={5}>
+                  <Row>${pricePerMonth}</Row>
+                </Col>
+                <Col md={{ span: 5, offset: 2 }}>
+                  <Row>Room type</Row>
+                  <Row><h4><b>{roomType}</b></h4></Row>
+                </Col>
+              </Row>
+
+              <Row>
+                <Col md={5}>
+                  <Row>Move in time</Row>
+                  <Row><h4><b>{moveIn}</b></h4></Row>
+                </Col>
+
+                <Col md={{ span: 5, offset: 2 }}>
+                  <Row>Stay period</Row>
+                  <Row><h4><b>{stayPeriod}</b></h4></Row>
+                </Col>
+              </Row>
+
+              <Row>. . .</Row>
+              <Row>Facilities</Row>
+              <Row>
+                {facilities.map(facility =>
+                  <Col
+                    sm={{ span: 4, offset: 2 }}
+                    lg={{ span: 3, offset: 1 }}
+                  >
+                    {facility}
                   </Col>
-                  <Col md={{ span: 5, offset: 2 }}>
-                    <Row>Room type</Row>
-                    <Row><h4><b>{roomType}</b></h4></Row>
+                )}
+              </Row>
+
+              <Row>. . .</Row>
+              <Row>Looking for</Row>
+              <ul>
+                {lookingFor.map(description => <li>{description}</li>)}
+              </ul>
+
+            </Container>
+          </Col>
+
+          {/* third column */}
+          <Col sm={12} md={3} className="d-flex flex-column">
+            <Button className="w-90">Add to my list!</Button>
+
+              <div className="text-primary"><b>{distance} miles from school</b></div>
+              <div>{address}</div>
+              <div>Map goes here.</div>
+
+              <Container className="bio">
+                <Row>
+                  <Col md={8} className="text-center">
+                    <div><b>{bioName}</b></div>
+
+                    <div>{bioYear} | {bioMajor}</div>
+
+                    <div>Contact icons here</div>
+                  </Col>
+
+                  <Col md={4} className="mt-auto">
+                    <Image src={bioProfilePic} roundedCircle fluid />
                   </Col>
                 </Row>
 
-                <Row>
-                  <Col md={5}>
-                    <Row>Move in time</Row>
-                    <Row><h4><b>{moveIn}</b></h4></Row>
-                  </Col>
-
-                  <Col md={{ span: 5, offset: 2 }}>
-                    <Row>Stay period</Row>
-                    <Row><h4><b>{stayPeriod}</b></h4></Row>
-                  </Col>
-                </Row>
-
-                <Row>. . .</Row>
-                <Row>Facilities</Row>
-                <Row>
-                  {facilities.map(facility =>
-                    <Col
-                      sm={{ span: 4, offset: 2 }}
-                      lg={{ span: 3, offset: 1 }}
-                    >
-                      {facility}
-                    </Col>
-                  )}
-                </Row>
-
-                <Row>. . .</Row>
-                <Row>Looking for</Row>
-                <ul>
-                  {lookingFor.map(description => <li>{description}</li>)}
-                </ul>
-
+                <div className="speech-bubble">{bioDescription}</div>
               </Container>
-            </Col>
 
-            {/* third column */}
-            <Col sm={12} md={3} className="d-flex flex-column">
-              <Button className="w-90">Add to my list!</Button>
-
-                <div className="text-primary"><b>{distance} miles from school</b></div>
-                <div>{address}</div>
-                <div>Map goes here.</div>
-
-                <Container className="bio">
-                  <Row>
-                    <Col md={8} className="text-center">
-                      <div><b>{bioName}</b></div>
-
-                      <div>{bioYear} | {bioMajor}</div>
-
-                      <div>Contact icons here</div>
-                    </Col>
-
-                    <Col md={4} className="mt-auto">
-                      <Image src={bioProfilePic} roundedCircle fluid />
-                    </Col>
-                  </Row>
-
-                  <div className="speech-bubble">{bioDescription}</div>
-                </Container>
-
-            </Col>
-          </Row>
-        </Container>
-      </Modal>
-    </>
+          </Col>
+        </Row>
+      </Container>
+    </Modal>
   );
 };
 
