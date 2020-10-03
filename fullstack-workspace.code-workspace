@@ -1,0 +1,16 @@
+{
+  "folders": [
+	{
+		"path": "NewFrontEnd"
+	},
+	{
+		"path": "BackEnd"
+	},
+	{
+		"path": "FrontEnd"
+	}
+],
+  "settings": {
+    "eslint.alwaysShowStatus": true
+  }
+}
