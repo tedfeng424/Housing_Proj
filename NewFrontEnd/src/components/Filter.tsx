@@ -6,35 +6,8 @@ import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import Dropdown from 'react-bootstrap/Dropdown'
 import Form from 'react-bootstrap/Form'
-import single from '../assets/icons/roomType/single.svg'
-import double from '../assets/icons/roomType/double.svg'
-import triple from '../assets/icons/roomType/triple.svg'
-import livingRoom from '../assets/icons/roomType/livingRoom.svg'
-import studio from '../assets/icons/roomType/studio.svg'
-import suite from '../assets/icons/roomType/suite.svg'
-import singleChosen from '../assets/icons/roomType/singleChosen.svg'
-import doubleChosen from '../assets/icons/roomType/doubleChosen.svg'
-import tripleChosen from '../assets/icons/roomType/tripleChosen.svg'
-import livingRoomChosen from '../assets/icons/roomType/livingRoomChosen.svg'
-import studioChosen from '../assets/icons/roomType/studioChosen.svg'
-import suiteChosen from '../assets/icons/roomType/suiteChosen.svg'
+import { roomTypeIcons, otherIcons } from '../assets/icons/all'
 import {intervalOptions, yearMonths} from '../assets/interface/constants'
-import {
-    female,
-    femaleChosen,
-    male,
-    maleChosen,
-    lgbtq,
-    lgbtqChosen,
-    parking,
-    parkingChosen,
-    pets,
-    petsChosen,
-    privateBath,
-    privateBathChosen,
-    fourTwoZero,
-    fourTwoZeroChosen
-} from "./utility/OtherPic"
 
 interface OtherReq {
     female: boolean;
@@ -165,7 +138,7 @@ const [price, setPrice] = useState<Price>({
                     <Button className="btn-filter">
                     <img
                     className="d-block"
-                    src={roomType["single"] ? singleChosen : single}
+                    src={roomType["single"] ? roomTypeIcons.singleChosen : roomTypeIcons.single}
                     onClick ={()=>{setRoomType({...roomType, single:!roomType["single"]})}}
                     alt="Single"
                     />
@@ -173,7 +146,7 @@ const [price, setPrice] = useState<Price>({
                     <Button className="btn-filter">
                     <img
                     className="d-block"
-                    src={roomType["double"] ? doubleChosen : double}
+                    src={roomType["double"] ? roomTypeIcons.doubleChosen : roomTypeIcons.double}
                     onClick ={()=>{setRoomType({...roomType, double:!roomType["double"]})}}
                     alt="Double"
                     />
@@ -181,7 +154,7 @@ const [price, setPrice] = useState<Price>({
                     <Button className="btn-filter">
                     <img
                     className="d-block"
-                    src={roomType["triple"] ? tripleChosen : triple}
+                    src={roomType["triple"] ? roomTypeIcons.tripleChosen : roomTypeIcons.triple}
                     onClick ={()=>{setRoomType({...roomType, triple:!roomType["triple"]})}}
                     alt="Triple"
                     />
@@ -191,7 +164,7 @@ const [price, setPrice] = useState<Price>({
                     <Button className="btn-filter">
                     <img
                     className="d-block"
-                    src={roomType["livingRoom"] ? livingRoomChosen : livingRoom}
+                    src={roomType["livingRoom"] ? roomTypeIcons.livingRoomChosen : roomTypeIcons.livingRoom}
                     onClick ={()=>{setRoomType({...roomType, livingRoom:!roomType["livingRoom"]})}}
                     alt="LivingRoom"
                     />
@@ -199,7 +172,7 @@ const [price, setPrice] = useState<Price>({
                     <Button className="btn-filter">
                     <img
                     className="d-block"
-                    src={roomType["suite"] ? suiteChosen : suite}
+                    src={roomType["suite"] ? roomTypeIcons.suiteChosen : roomTypeIcons.suite}
                     onClick ={()=>{setRoomType({...roomType, suite:!roomType["suite"]})}}
                     alt="Suite"
                     />
@@ -207,7 +180,7 @@ const [price, setPrice] = useState<Price>({
                     <Button className="btn-filter">
                     <img
                     className="d-block"
-                    src={roomType["studio"] ? studioChosen : studio}
+                    src={roomType["studio"] ? roomTypeIcons.studioChosen : roomTypeIcons.studio}
                     onClick ={()=>{setRoomType({...roomType, studio:!roomType["studio"]})}}
                     alt="Studio"
                     />
@@ -334,7 +307,7 @@ const [price, setPrice] = useState<Price>({
                     <Button className="btn-filter">
                     <img
                     className="d-block"
-                    src={OtherReq["female"] ? femaleChosen : female}
+                    src={OtherReq["female"] ? otherIcons.femaleChosen : otherIcons.female}
                     onClick ={()=>{setOtherReq({...OtherReq, female:!OtherReq["female"]})}}
                     alt="Female"
                     />
@@ -342,7 +315,7 @@ const [price, setPrice] = useState<Price>({
                     <Button className="btn-filter">
                     <img
                     className="d-block"
-                    src={OtherReq["male"] ? maleChosen : male}
+                    src={OtherReq["male"] ? otherIcons.maleChosen : otherIcons.male}
                     onClick ={()=>{setOtherReq({...OtherReq, male:!OtherReq["male"]})}}
                     alt="Male"
                     />
@@ -350,7 +323,7 @@ const [price, setPrice] = useState<Price>({
                     <Button className="btn-filter">
                     <img
                     className="d-block"
-                    src={OtherReq["parking"] ? parkingChosen : parking}
+                    src={OtherReq["parking"] ? otherIcons.parkingChosen : otherIcons.parking}
                     onClick ={()=>{setOtherReq({...OtherReq, parking:!OtherReq["parking"]})}}
                     alt="Parking"
                     />
@@ -360,7 +333,7 @@ const [price, setPrice] = useState<Price>({
                     <Button className="btn-filter">
                     <img
                     className="d-block"
-                    src={OtherReq["pets"] ? petsChosen : pets}
+                    src={OtherReq["pets"] ? otherIcons.petsChosen : otherIcons.pets}
                     onClick ={()=>{setOtherReq({...OtherReq, pets:!OtherReq["pets"]})}}
                     alt="Pets"
                     />
@@ -368,7 +341,7 @@ const [price, setPrice] = useState<Price>({
                     <Button className="btn-filter">
                     <img
                     className="d-block"
-                    src={OtherReq["lgbtq"] ? lgbtqChosen : lgbtq}
+                    src={OtherReq["lgbtq"] ? otherIcons.LGBTQChosen : otherIcons.LGBTQ}
                     onClick ={()=>{setOtherReq({...OtherReq, lgbtq:!OtherReq["lgbtq"]})}}
                     alt="Lgbtq"
                     />
@@ -376,7 +349,7 @@ const [price, setPrice] = useState<Price>({
                     <Button className="btn-filter">
                     <img
                     className="d-block"
-                    src={OtherReq["privateBath"] ? privateBathChosen : privateBath}
+                    src={OtherReq["privateBath"] ? otherIcons.privateBathChosen : otherIcons.privateBath}
                     onClick ={()=>{setOtherReq({...OtherReq, privateBath:!OtherReq["privateBath"]})}}
                     alt="PrivateBath"
                     />
@@ -384,7 +357,7 @@ const [price, setPrice] = useState<Price>({
                     <Button className="btn-filter">
                     <img
                     className="d-block"
-                    src={OtherReq["fourTwoZero"] ? fourTwoZeroChosen : fourTwoZero}
+                    src={OtherReq["fourTwoZero"] ? otherIcons._420Chosen : otherIcons._420}
                     onClick ={()=>{setOtherReq({...OtherReq, fourTwoZero:!OtherReq["fourTwoZero"]})}}
                     alt="420"
                     />
