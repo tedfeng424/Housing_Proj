@@ -6,6 +6,8 @@ import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import Image from 'react-bootstrap/Image'
 import SlideShow from './SlideShow'
+import GoogleMap from './GoogleMap'
+
 
 interface PathProps {
   houseType: string;
@@ -114,7 +116,7 @@ const HouseProfile: React.FC<PathProps> = ({
 
               <div className="text-primary"><b>{distance} miles from school</b></div>
               <div>{address}</div>
-              <div>Map goes here.</div>
+              <div><GoogleMap/></div>
 
               <Container className="bio">
                 <Row>
