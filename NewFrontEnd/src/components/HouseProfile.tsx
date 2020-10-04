@@ -9,7 +9,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import SlideShow from './SlideShow';
 import GoogleMap from './GoogleMap';
-import { contactIcons, miscIcons } from '../assets/icons/all';
+import { contactIcons, miscIcons, facilityIcons } from '../assets/icons/all';
 
 const Ellipse: React.FC<{}> = () => (
   <Row className="justify-content-center">
@@ -19,13 +19,26 @@ const Ellipse: React.FC<{}> = () => (
   </Row>
 );
 
+const facilityToIcon = {
+  Parking: <facilityIcons.parking />,
+  Elevator: <facilityIcons.elevator />,
+  'Gym room': <facilityIcons.gym />,
+  'Swimming pool': <facilityIcons.swimmingPool />,
+  'Pets friendly': <facilityIcons.swimmingPool />, // TODO update to the correct icon
+  'Indoor washer': <facilityIcons.swimmingPool />, // TODO update to the correct icon
+};
+
+const GetIcon: React.FC<{ str: keyof typeof facilityToIcon }> = ({ str }) => (
+  <div className="mt-2">{facilityToIcon[str]}</div>
+);
+
 interface PathProps {
   houseType: string;
   pricePerMonth: number;
   roomType: string;
   moveIn: string;
   stayPeriod: string;
-  facilities: string[];
+  facilities: (keyof typeof facilityToIcon)[];
   lookingFor: string[];
   distance: number;
   address: string;
@@ -115,7 +128,8 @@ const HouseProfile: React.FC<PathProps> = ({
               <Row>Facilities</Row>
               <Row>
                 {facilities.map((facility) => (
-                  <Col sm={{ span: 4, offset: 2 }} lg={{ span: 3, offset: 1 }}>
+                  <Col xs={{ span: 3, offset: 1 }} className="text-center">
+                    <GetIcon str={facility} />
                     {facility}
                   </Col>
                 ))}
