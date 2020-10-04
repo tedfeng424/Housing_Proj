@@ -1,6 +1,7 @@
 import navIcons from './nav/all';
-import otherIcons from './other/all';
+import preferencesIcons from './preferences/all';
 import roomTypeIcons from './roomType/all';
-import wordBubble from './wordBubble.svg';
+import contactIcons from './contact/all';
+import miscIcons from './misc/all';
 
-export { navIcons, otherIcons, roomTypeIcons, wordBubble };
+export { navIcons, preferencesIcons, roomTypeIcons, contactIcons, miscIcons };

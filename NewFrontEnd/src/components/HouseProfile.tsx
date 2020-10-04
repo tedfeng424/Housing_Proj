@@ -1,12 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 import SlideShow from './SlideShow';
 import GoogleMap from './GoogleMap';
+import { contactIcons, miscIcons } from '../assets/icons/all';
+
+const Ellipse: React.FC<{}> = () => (
+  <Row className="justify-content-center">
+    <miscIcons.ellipse className="m-3" />
+    <miscIcons.ellipse className="m-3" />
+    <miscIcons.ellipse className="m-3" />
+  </Row>
+);
 
 interface PathProps {
   houseType: string;
@@ -21,6 +32,8 @@ interface PathProps {
   bioName: string;
   bioYear: number;
   bioMajor: string;
+  email: string;
+  phone: string;
   bioProfilePic: string;
   bioDescription: string;
   show: boolean;
@@ -40,6 +53,8 @@ const HouseProfile: React.FC<PathProps> = ({
   bioName,
   bioYear,
   bioMajor,
+  email,
+  phone,
   bioProfilePic,
   bioDescription,
   show,
@@ -95,7 +110,8 @@ const HouseProfile: React.FC<PathProps> = ({
                 </Col>
               </Row>
 
-              <Row>. . .</Row>
+              <Ellipse />
+
               <Row>Facilities</Row>
               <Row>
                 {facilities.map((facility) => (
@@ -105,7 +121,8 @@ const HouseProfile: React.FC<PathProps> = ({
                 ))}
               </Row>
 
-              <Row>. . .</Row>
+              <Ellipse />
+
               <Row>Looking for</Row>
               <ul>
                 {lookingFor.map((description) => (
@@ -138,7 +155,33 @@ const HouseProfile: React.FC<PathProps> = ({
                     {bioYear} | {bioMajor}
                   </div>
 
-                  <div>Contact icons here</div>
+                  <Row className="justify-content-center">
+                    <OverlayTrigger
+                      placement="bottom"
+                      overlay={<Tooltip id="tooltip">{email}</Tooltip>}
+                    >
+                      <contactIcons.email
+                        className="d-block mr-3"
+                        onClick={async () => {
+                          await navigator.clipboard.writeText(email);
+                          window.open(`mailto:${email}`, '_blank');
+                        }}
+                      />
+                    </OverlayTrigger>
+
+                    <OverlayTrigger
+                      placement="bottom"
+                      overlay={<Tooltip id="tooltip">{phone}</Tooltip>}
+                    >
+                      <contactIcons.phone
+                        className="d-block mr-3"
+                        onClick={async () => {
+                          await navigator.clipboard.writeText(phone);
+                          window.open(`tel:${phone}`, '_blank');
+                        }}
+                      />
+                    </OverlayTrigger>
+                  </Row>
                 </Col>
 
                 <Col md={4} className="mt-auto">

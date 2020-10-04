@@ -1,9 +1,9 @@
 input {
-    border: 0;
-    outline: 0;
-    background: transparent;
-    border-bottom: 3px solid #E7936D;
-    line-height: 10px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  border-bottom: 3px solid #e7936d;
+  line-height: 10px;
 }
 
 .small-input {
@@ -15,7 +15,7 @@ input {
 }
 
 .word {
-  color: #D3AB98;
+  color: #d3ab98;
   font-style: normal;
   font-weight: bold;
   font-size: 24px;
@@ -30,8 +30,8 @@ input {
   line-height: 57px;
   width: 229px;
   height: 57px;
-  color: #A6623F;
-  background-image: url("../../icons/wordBubble.svg")
+  color: #a6623f;
+  background-image: url('../../icons/misc/wordBubble.svg');
 }
 
 .right-button {
@@ -42,11 +42,11 @@ input {
   width: 115px;
 }
 
-.drop-width{
+.drop-width {
   width: 120px;
 }
 
-.menu{
+.menu {
   height: 130px;
   overflow: scroll;
 }
@@ -56,21 +56,21 @@ input {
   border: 0;
 }
 
-.form-dropdown{
+.form-dropdown {
   margin-right: 0rem !important;
   margin-top: 0rem !important;
 }
 
 .form-input {
-    width: 10rem;
-    border: 0;
-    outline: 0;
-    background: transparent;
-    border-bottom: 3px solid #E7936D;
-    line-height: 10px;
+  width: 10rem;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  border-bottom: 3px solid #e7936d;
+  line-height: 10px;
 }
 
-.btn-filter{
+.btn-filter {
   margin: 0rem !important;
   background-color: #fff !important;
   border-color: #fff !important;
@@ -79,5 +79,5 @@ input {
 hr {
   width: 20rem;
   border: 0;
-  border-top: 3px dashed #D3AB98;
+  border-top: 3px dashed #d3ab98;
 }

@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
-import { roomTypeIcons, otherIcons } from '../assets/icons/all';
+import { roomTypeIcons, preferencesIcons } from '../assets/icons/all';
 import { intervalOptions, yearMonths } from '../assets/interface/constants';
 
 interface OtherReq {
@@ -158,106 +158,94 @@ const Filter: React.FC<{}> = () => {
             <Row>
               <Col md={{ span: 6, offset: 1 }}>
                 <Row>
-                  <Button className="btn-filter">
-                    <img
-                      className="d-block"
-                      src={
-                        roomType.single
-                          ? roomTypeIcons.singleChosen
-                          : roomTypeIcons.single
-                      }
-                      onClick={() => {
-                        setRoomType({
-                          ...roomType,
-                          single: !roomType.single,
-                        });
-                      }}
-                      alt="Single"
-                    />
+                  <Button
+                    className="btn-filter"
+                    onClick={() => {
+                      setRoomType({
+                        ...roomType,
+                        single: !roomType.single,
+                      });
+                    }}
+                  >
+                    {roomType.single ? (
+                      <roomTypeIcons.singleChosen className="d-block" />
+                    ) : (
+                      <roomTypeIcons.single className="d-block" />
+                    )}
                   </Button>
-                  <Button className="btn-filter">
-                    <img
-                      className="d-block"
-                      src={
-                        roomType.double
-                          ? roomTypeIcons.doubleChosen
-                          : roomTypeIcons.double
-                      }
-                      onClick={() => {
-                        setRoomType({
-                          ...roomType,
-                          double: !roomType.double,
-                        });
-                      }}
-                      alt="Double"
-                    />
+                  <Button
+                    className="btn-filter"
+                    onClick={() => {
+                      setRoomType({
+                        ...roomType,
+                        double: !roomType.double,
+                      });
+                    }}
+                  >
+                    {roomType.double ? (
+                      <roomTypeIcons.doubleChosen className="d-block" />
+                    ) : (
+                      <roomTypeIcons.double className="d-block" />
+                    )}
                   </Button>
-                  <Button className="btn-filter">
-                    <img
-                      className="d-block"
-                      src={
-                        roomType.triple
-                          ? roomTypeIcons.tripleChosen
-                          : roomTypeIcons.triple
-                      }
-                      onClick={() => {
-                        setRoomType({
-                          ...roomType,
-                          triple: !roomType.triple,
-                        });
-                      }}
-                      alt="Triple"
-                    />
+                  <Button
+                    className="btn-filter"
+                    onClick={() => {
+                      setRoomType({
+                        ...roomType,
+                        triple: !roomType.triple,
+                      });
+                    }}
+                  >
+                    {roomType.triple ? (
+                      <roomTypeIcons.tripleChosen className="d-block" />
+                    ) : (
+                      <roomTypeIcons.triple className="d-block" />
+                    )}
                   </Button>
                 </Row>
                 <Row>
-                  <Button className="btn-filter">
-                    <img
-                      className="d-block"
-                      src={
-                        roomType.livingRoom
-                          ? roomTypeIcons.livingRoomChosen
-                          : roomTypeIcons.livingRoom
-                      }
-                      onClick={() => {
-                        setRoomType({
-                          ...roomType,
-                          livingRoom: !roomType.livingRoom,
-                        });
-                      }}
-                      alt="LivingRoom"
-                    />
+                  <Button
+                    className="btn-filter"
+                    onClick={() => {
+                      setRoomType({
+                        ...roomType,
+                        livingRoom: !roomType.livingRoom,
+                      });
+                    }}
+                  >
+                    {roomType.livingRoom ? (
+                      <roomTypeIcons.livingRoomChosen className="d-block" />
+                    ) : (
+                      <roomTypeIcons.livingRoom className="d-block" />
+                    )}
                   </Button>
-                  <Button className="btn-filter">
-                    <img
-                      className="d-block"
-                      src={
-                        roomType.suite
-                          ? roomTypeIcons.suiteChosen
-                          : roomTypeIcons.suite
-                      }
-                      onClick={() => {
-                        setRoomType({ ...roomType, suite: !roomType.suite });
-                      }}
-                      alt="Suite"
-                    />
+                  <Button
+                    className="btn-filter"
+                    onClick={() => {
+                      setRoomType({ ...roomType, suite: !roomType.suite });
+                    }}
+                  >
+                    {roomType.suite ? (
+                      <roomTypeIcons.suiteChosen className="d-block" />
+                    ) : (
+                      <roomTypeIcons.suite className="d-block" />
+                    )}
                   </Button>
-                  <Button className="btn-filter">
-                    <img
-                      className="d-block"
-                      src={
-                        roomType.studio
-                          ? roomTypeIcons.studioChosen
-                          : roomTypeIcons.studio
-                      }
-                      onClick={() => {
-                        setRoomType({
-                          ...roomType,
-                          studio: !roomType.studio,
-                        });
-                      }}
-                      alt="Studio"
-                    />
+                  <Button
+                    className="btn-filter"
+                    onClick={() => {
+                      setRoomType({
+                        ...roomType,
+                        studio: !roomType.studio,
+                      });
+                    }}
+                  >
+                    {roomType.studio ? (
+                      <roomTypeIcons.studioChosen className="d-block" />
+                    ) : (
+                      <roomTypeIcons.studio className="d-block" />
+                    )}
                   </Button>
                 </Row>
               </Col>
@@ -472,101 +460,97 @@ const Filter: React.FC<{}> = () => {
             </Row>
             <br />
             <Row>
-              <Button className="btn-filter">
-                <img
-                  className="d-block"
-                  src={
-                    OtherReq.female
-                      ? otherIcons.femaleChosen
-                      : otherIcons.female
-                  }
-                  onClick={() => {
-                    setOtherReq({ ...OtherReq, female: !OtherReq.female });
-                  }}
-                  alt="Female"
-                />
+              <Button
+                className="btn-filter"
+                onClick={() => {
+                  setOtherReq({ ...OtherReq, female: !OtherReq.female });
+                }}
+              >
+                {OtherReq.female ? (
+                  <preferencesIcons.femaleChosen className="d-block" />
+                ) : (
+                  <preferencesIcons.female className="d-block" />
+                )}
               </Button>
-              <Button className="btn-filter">
-                <img
-                  className="d-block"
-                  src={OtherReq.male ? otherIcons.maleChosen : otherIcons.male}
-                  onClick={() => {
-                    setOtherReq({ ...OtherReq, male: !OtherReq.male });
-                  }}
-                  alt="Male"
-                />
+              <Button
+                className="btn-filter"
+                onClick={() => {
+                  setOtherReq({ ...OtherReq, male: !OtherReq.male });
+                }}
+              >
+                {OtherReq.male ? (
+                  <preferencesIcons.maleChosen className="d-block" />
+                ) : (
+                  <preferencesIcons.male className="d-block" />
+                )}
               </Button>
-              <Button className="btn-filter">
-                <img
-                  className="d-block"
-                  src={
-                    OtherReq.parking
-                      ? otherIcons.parkingChosen
-                      : otherIcons.parking
-                  }
-                  onClick={() => {
-                    setOtherReq({ ...OtherReq, parking: !OtherReq.parking });
-                  }}
-                  alt="Parking"
-                />
+              <Button
+                className="btn-filter"
+                onClick={() => {
+                  setOtherReq({ ...OtherReq, parking: !OtherReq.parking });
+                }}
+              >
+                {OtherReq.parking ? (
+                  <preferencesIcons.parkingChosen className="d-block" />
+                ) : (
+                  <preferencesIcons.parking className="d-block" />
+                )}
               </Button>
             </Row>
             <Row>
-              <Button className="btn-filter">
-                <img
-                  className="d-block"
-                  src={OtherReq.pets ? otherIcons.petsChosen : otherIcons.pets}
-                  onClick={() => {
-                    setOtherReq({ ...OtherReq, pets: !OtherReq.pets });
-                  }}
-                  alt="Pets"
-                />
+              <Button
+                className="btn-filter"
+                onClick={() => {
+                  setOtherReq({ ...OtherReq, pets: !OtherReq.pets });
+                }}
+              >
+                {OtherReq.pets ? (
+                  <preferencesIcons.petsChosen className="d-block" />
+                ) : (
+                  <preferencesIcons.pets className="d-block" />
+                )}
               </Button>
-              <Button className="btn-filter">
-                <img
-                  className="d-block"
-                  src={
-                    OtherReq.lgbtq ? otherIcons.LGBTQChosen : otherIcons.LGBTQ
-                  }
-                  onClick={() => {
-                    setOtherReq({ ...OtherReq, lgbtq: !OtherReq.lgbtq });
-                  }}
-                  alt="Lgbtq"
-                />
+              <Button
+                className="btn-filter"
+                onClick={() => {
+                  setOtherReq({ ...OtherReq, lgbtq: !OtherReq.lgbtq });
+                }}
+              >
+                {OtherReq.lgbtq ? (
+                  <preferencesIcons.LGBTQChosen className="d-block" />
+                ) : (
+                  <preferencesIcons.LGBTQ className="d-block" />
+                )}
               </Button>
-              <Button className="btn-filter">
-                <img
-                  className="d-block"
-                  src={
-                    OtherReq.privateBath
-                      ? otherIcons.privateBathChosen
-                      : otherIcons.privateBath
-                  }
-                  onClick={() => {
-                    setOtherReq({
-                      ...OtherReq,
-                      privateBath: !OtherReq.privateBath,
-                    });
-                  }}
-                  alt="PrivateBath"
-                />
+              <Button
+                className="btn-filter"
+                onClick={() => {
+                  setOtherReq({
+                    ...OtherReq,
+                    privateBath: !OtherReq.privateBath,
+                  });
+                }}
+              >
+                {OtherReq.privateBath ? (
+                  <preferencesIcons.privateBathChosen className="d-block" />
+                ) : (
+                  <preferencesIcons.privateBath className="d-block" />
+                )}
               </Button>
-              <Button className="btn-filter">
-                <img
-                  className="d-block"
-                  src={
-                    OtherReq.fourTwoZero
-                      ? otherIcons._420Chosen
-                      : otherIcons._420
-                  }
-                  onClick={() => {
-                    setOtherReq({
-                      ...OtherReq,
-                      fourTwoZero: !OtherReq.fourTwoZero,
-                    });
-                  }}
-                  alt="420"
-                />
+              <Button
+                className="btn-filter"
+                onClick={() => {
+                  setOtherReq({
+                    ...OtherReq,
+                    fourTwoZero: !OtherReq.fourTwoZero,
+                  });
+                }}
+              >
+                {OtherReq.fourTwoZero ? (
+                  <preferencesIcons._420Chosen className="d-block" />
+                ) : (
+                  <preferencesIcons._420 className="d-block" />
+                )}
               </Button>
             </Row>
             <br />
