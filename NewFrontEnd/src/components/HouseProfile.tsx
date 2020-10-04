@@ -78,14 +78,14 @@ const HouseProfile: React.FC<PathProps> = ({
       <Container>
         <Row>
           {/* first column */}
-          <Col sm={12} md={4} className="text-center">
+          <Col sm={12} md={12} lg={5} className="text-center mb-3">
             <SlideShow setShow={(fake: boolean) => {}} />
           </Col>
 
           {/* second column */}
-          <Col sm={12} md={5}>
+          <Col sm={12} md={6} lg={4}>
             <Container>
-              <Row>
+              <Row className="justify-content-center">
                 <span className="house-type">{houseType}</span>
               </Row>
 
@@ -103,7 +103,7 @@ const HouseProfile: React.FC<PathProps> = ({
                 </Col>
               </Row>
 
-              <Row>
+              <Row className="justify-content-center">
                 <Col md={5}>
                   <Row>Move in time</Row>
                   <Row>
@@ -147,7 +147,7 @@ const HouseProfile: React.FC<PathProps> = ({
           </Col>
 
           {/* third column */}
-          <Col sm={12} md={3} className="d-flex flex-column">
+          <Col sm={12} md={6} lg={3} className="d-flex flex-column">
             <Button className="w-90">Add to my list!</Button>
 
             <div className="text-primary">
@@ -198,7 +198,7 @@ const HouseProfile: React.FC<PathProps> = ({
                   </Row>
                 </Col>
 
-                <Col md={4} className="mt-auto">
+                <Col md={4} className="mt-auto text-center">
                   <Image src={bioProfilePic} roundedCircle fluid />
                 </Col>
               </Row>
