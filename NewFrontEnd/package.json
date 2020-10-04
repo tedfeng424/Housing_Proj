@@ -37,7 +37,7 @@
     "lint": "eslint --fix src/**/*.{js,jsx,ts,tsx}"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "airbnb-typescript-prettier"
   },
   "browserslist": {
     "production": [

@@ -1,3 +1,11 @@
 {
-  "eslint.workingDirectories": ["./NewFrontEnd"]
+  "eslint.workingDirectories": ["./NewFrontEnd"],
+  "editor.formatOnSave": true,
+  "[javascript]": {
+    "editor.formatOnSave": false
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.alwaysShowStatus": true,
 }

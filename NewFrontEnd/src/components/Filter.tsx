@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
 import { roomTypeIcons, preferencesIcons } from '../assets/icons/all';
-import { intervalOptions, yearMonths } from '../assets/interface/constants';
+import { intervalOptions, yearMonths } from '../assets/constants/constants';
 
 interface OtherReq {
   female: boolean;
