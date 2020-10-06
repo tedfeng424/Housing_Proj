@@ -6,7 +6,6 @@ BackEnd/!.elasticbeanstalk/*.global.yml
 
 # virtual env
 BackEnd/env/*
-.vscode/
 
 # Caches
 **/.DS_Store

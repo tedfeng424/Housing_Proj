@@ -1,5 +1,5 @@
-import React from "react";
-import Carousel from "react-bootstrap/Carousel";
+import React from 'react';
+import Carousel from 'react-bootstrap/Carousel';
 
 interface PathProps {
   setShow: (show: boolean) => void;
@@ -36,4 +36,4 @@ const SlideShow: React.FC<PathProps> = ({ setShow }) => {
   );
 };
 
-export default SlideShow
+export default SlideShow;

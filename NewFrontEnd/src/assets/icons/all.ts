@@ -1,13 +1,15 @@
-import navIcons from './nav/all'
-import otherIcons from './other/all'
-import roomTypeIcons from './roomType/all'
-import filterIcons from './filter/all'
-import wordBubble from './wordBubble.svg'
+import navIcons from './nav/all';
+import preferencesIcons from './preferences/all';
+import roomTypeIcons from './roomType/all';
+import contactIcons from './contact/all';
+import miscIcons from './misc/all';
+import facilityIcons from './facilities/all';
 
 export {
   navIcons,
-  otherIcons,
+  preferencesIcons,
   roomTypeIcons,
-  wordBubble,
-  filterIcons
-}
+  contactIcons,
+  miscIcons,
+  facilityIcons,
+};
