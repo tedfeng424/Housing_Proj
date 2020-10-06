@@ -81,3 +81,18 @@ hr {
   border: 0;
   border-top: 3px dashed #D3AB98;
 }
+
+.main-filter{
+  border-width: 50px;
+  border-style: solid;
+  border-image: url("../../icons/filter/filter.svg") 30 round;
+}
+
+.main-filter-button{
+  top: 20%;
+  position: absolute;
+  width:70%;
+  height:60%;
+  border-radius: 50px;
+  font-size: calc(50% + 0.5vw + 1vh);
+}

@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button'
 import Image from 'react-bootstrap/Image'
 import SlideShow from './SlideShow'
 import GoogleMap from './GoogleMap'
+import Example from './NewSlideShow'
 
 
 interface PathProps {
@@ -58,7 +59,7 @@ const HouseProfile: React.FC<PathProps> = ({
         <Row>
           {/* first column */}
           <Col sm={12} md={4} className="text-center">
-            <SlideShow setShow={(fake: boolean) => {return;}}></SlideShow>
+                  <Example/>
           </Col>
 
           {/* second column */}

@@ -29,22 +29,24 @@ const Home: React.FC<{}> = () => {
   }, []);
 
   return (
-    <Container>
-      <Row>
+    <Container fluid>
+      <Col md={{span:8,offset:1}}>
+        <Row>
         {
           cards.map(({ pricePerMonth, roomType, moveIn, distance, address }) => (
             <Col md={6} style={{ marginBottom: "50px" }}>
-              <HouseCard
-                pricePerMonth={pricePerMonth}
-                roomType={roomType}
-                moveIn={moveIn}
-                distance={distance}
-                address={address}
-              />
+                <HouseCard
+                  pricePerMonth={pricePerMonth}
+                  roomType={roomType}
+                  moveIn={moveIn}
+                  distance={distance}
+                  address={address}
+                />
             </Col>
           ))
         }
-      </Row>
+        </Row>
+      </Col>
     </Container>
   )
 }

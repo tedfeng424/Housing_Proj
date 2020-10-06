@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import Dropdown from 'react-bootstrap/Dropdown'
 import Form from 'react-bootstrap/Form'
-import { roomTypeIcons, otherIcons } from '../assets/icons/all'
+import { roomTypeIcons, otherIcons, filterIcons} from '../assets/icons/all'
 import {intervalOptions, yearMonths} from '../assets/interface/constants'
 
 interface OtherReq {
@@ -90,7 +90,29 @@ const [price, setPrice] = useState<Price>({
 });
   return (
     <>
-      <Button onClick={() => setShow(true)}>Filter & Match</Button>
+    <Container>
+    <Row style={{ marginBottom: "50px" }} className="main-filter">
+            <Col md={4}>
+                <Row className="h-100 justify-content-around">
+                    <img src={filterIcons.hello}>
+                    </img>
+                    <img src={filterIcons.arrow}>
+                    </img>
+                </Row>
+            </Col>
+            <Col md={4}>
+                    <Button className="main-filter-button" onClick={() => setShow(true)}>Filter & Match</Button>
+            </Col>
+            <Col md={4}>
+                <Row className="h-100 justify-content-around">
+                    <img src={filterIcons.arrow}>
+                    </img>
+                    <img src={filterIcons.loveHouse}>
+                    </img>
+                </Row>
+            </Col>
+    </Row>
+    </Container>
       <Modal
         show={show}
         onHide={() => setShow(false)}

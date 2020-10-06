@@ -7,7 +7,7 @@ interface PathProps {
 
 const SlideShow: React.FC<PathProps> = ({ setShow }) => {
   return (
-    <Carousel>
+    <Carousel interval={null}>
       <Carousel.Item>
         <img
           className="d-block w-100 h-100"
