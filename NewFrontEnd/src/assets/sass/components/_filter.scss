@@ -22,6 +22,7 @@ input {
 }
 
 .title {
+  @extend .mb-3;
   text-align: center;
   font-family: Montserrat;
   font-style: normal;
@@ -36,14 +37,6 @@ input {
 
 .right-button {
   margin-left: 0rem !important;
-}
-
-.notes {
-  width: 115px;
-}
-
-.drop-width {
-  width: 120px;
 }
 
 .menu {
@@ -61,8 +54,11 @@ input {
   margin-top: 0rem !important;
 }
 
-.form-input {
+.w-10rem {
   width: 10rem;
+}
+
+.form-input {
   border: 0;
   outline: 0;
   background: transparent;
@@ -72,12 +68,28 @@ input {
 
 .btn-filter {
   margin: 0rem !important;
+  padding: 0 !important;
   background-color: #fff !important;
   border-color: #fff !important;
 }
 
-hr {
-  width: 20rem;
+.separator {
+  width: 50%;
   border: 0;
   border-top: 3px dashed #d3ab98;
+}
+
+.main-filter {
+  border-width: 50px;
+  border-style: solid;
+  border-image: url('../../icons/filter/filter.svg') 30 round;
+}
+
+.main-filter-button {
+  top: 20%;
+  position: absolute;
+  width: 70%;
+  height: 60%;
+  border-radius: 50px;
+  font-size: calc(50% + 0.5vw + 1vh);
 }

@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import Container from 'react-bootstrap/Container';
+import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import GoogleLogin from 'react-google-login';
