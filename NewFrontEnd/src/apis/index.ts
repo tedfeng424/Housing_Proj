@@ -1,7 +1,4 @@
-import { fakeHousingAPI } from './housing'
-import { fakeUserAPI } from './user'
+import { fakeHousingAPI } from './housing';
+import { fakeUserAPI } from './user';
 
-export {
-  fakeHousingAPI,
-  fakeUserAPI,
-}
+export { fakeHousingAPI, fakeUserAPI };
