@@ -7,7 +7,6 @@ import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
-import SlideShow from './SlideShow';
 import GoogleMap from './GoogleMap';
 import Example from './NewSlideShow';
 import { contactIcons, miscIcons, facilityIcons } from '../assets/icons/all';

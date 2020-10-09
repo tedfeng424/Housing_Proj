@@ -15,6 +15,26 @@ import { ReactComponent as petsChosen } from './petsChosen.svg';
 import { ReactComponent as privateBath } from './privateBath.svg';
 import { ReactComponent as privateBathChosen } from './privateBathChosen.svg';
 
+export const preferencesChosen = {
+  _420Chosen,
+  femaleChosen,
+  LGBTQChosen,
+  maleChosen,
+  parkingChosen,
+  petsChosen,
+  privateBathChosen,
+};
+
+export const preferencesUnchosen = {
+  _420,
+  female,
+  LGBTQ,
+  male,
+  parking,
+  pets,
+  privateBath,
+};
+
 export default {
   _420,
   _420Chosen,

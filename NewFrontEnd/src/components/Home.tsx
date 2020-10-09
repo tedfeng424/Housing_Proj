@@ -8,7 +8,7 @@ const Home: React.FC<{}> = () => {
   const [cards, setCards] = useState<PathProps[]>([]);
 
   useEffect(() => {
-    // api call to get the housing cards
+    // fake the api call to get the housing card info
     setCards([
       {
         pricePerMonth: 1200,
@@ -120,23 +120,19 @@ const Home: React.FC<{}> = () => {
 
   return (
     <Container fluid>
-      <Col md={{ span: 8, offset: 1 }}>
-        <Row>
-          {cards.map(
-            ({ pricePerMonth, roomType, moveIn, distance, address }) => (
-              <Col md={6} style={{ marginBottom: '50px' }}>
-                <HouseCard
-                  pricePerMonth={pricePerMonth}
-                  roomType={roomType}
-                  moveIn={moveIn}
-                  distance={distance}
-                  address={address}
-                />
-              </Col>
-            ),
-          )}
-        </Row>
-      </Col>
+      <Row>
+        {cards.map(({ pricePerMonth, roomType, moveIn, distance, address }) => (
+          <Col xs={12} md={6} lg={4} style={{ marginBottom: '50px' }}>
+            <HouseCard
+              pricePerMonth={pricePerMonth}
+              roomType={roomType}
+              moveIn={moveIn}
+              distance={distance}
+              address={address}
+            />
+          </Col>
+        ))}
+      </Row>
     </Container>
   );
 };

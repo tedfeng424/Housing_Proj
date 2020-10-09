@@ -1,11 +1,11 @@
-import arrow from './arrow.svg'
-import filter from './filter.svg'
-import hello from './hello.svg'
-import loveHouse from './loveHouse.svg'
+import { ReactComponent as arrow } from './arrow.svg';
+import { ReactComponent as filter } from './filter.svg';
+import { ReactComponent as hello } from './hello.svg';
+import { ReactComponent as loveHouse } from './loveHouse.svg';
 
 export default {
-    arrow,
-    filter,
-    hello,
-    loveHouse
-}
+  arrow,
+  filter,
+  hello,
+  loveHouse,
+};

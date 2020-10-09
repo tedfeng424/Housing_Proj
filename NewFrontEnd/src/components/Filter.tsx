@@ -6,27 +6,25 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
-import { roomTypeIcons, preferencesIcons } from '../assets/icons/all';
+import {
+  roomTypeIcons,
+  roomTypeUnchosen,
+  filterIcons,
+  preferencesIcons,
+} from '../assets/icons/all';
 import { intervalOptions, yearMonths } from '../assets/constants/constants';
 
-interface OtherReq {
+interface Preferences {
   female: boolean;
   male: boolean;
   lgbtq: boolean;
   parking: boolean;
   pets: boolean;
   privateBath: boolean;
-  fourTwoZero: boolean;
+  _420: boolean;
 }
 
-interface RoomType {
-  single: boolean;
-  double: boolean;
-  triple: boolean;
-  livingRoom: boolean;
-  suite: boolean;
-  studio: boolean;
-}
+type RoomType = { [P in keyof typeof roomTypeUnchosen]: boolean };
 
 interface Price {
   minimum: number;
@@ -34,32 +32,26 @@ interface Price {
 }
 
 function MoveInSelect(
-  selectedEarlyMonth: string,
-  selectedEarlyInterval: string,
-  selectedLateMonth: string,
-  selectedLateInterval: string,
+  earlyMonth: string,
+  earlyInterval: string,
+  lateMonth: string,
+  lateInterval: string,
 ) {
-  if (
-    yearMonths.indexOf(selectedEarlyMonth) >
-    yearMonths.indexOf(selectedLateMonth)
-  ) {
+  if (yearMonths.indexOf(earlyMonth) > yearMonths.indexOf(lateMonth)) {
     // neither has anytime as the option
-    if (![selectedEarlyMonth, selectedLateMonth].includes(yearMonths[0])) {
+    if (![earlyMonth, lateMonth].includes(yearMonths[0])) {
       return false;
     }
   }
   if (
-    yearMonths.indexOf(selectedEarlyMonth) ==
-      yearMonths.indexOf(selectedLateMonth) &&
-    ![selectedEarlyMonth, selectedLateMonth].includes(yearMonths[0])
+    yearMonths.indexOf(earlyMonth) === yearMonths.indexOf(lateMonth) &&
+    ![earlyMonth, lateMonth].includes(yearMonths[0])
   ) {
     // neither has anytime as the option
     if (
-      ![selectedEarlyInterval, selectedLateInterval].includes(
-        intervalOptions[0],
-      ) &&
-      intervalOptions.indexOf(selectedEarlyInterval) >
-        intervalOptions.indexOf(selectedLateInterval)
+      ![earlyInterval, lateInterval].includes(intervalOptions[0]) &&
+      intervalOptions.indexOf(earlyInterval) >
+        intervalOptions.indexOf(lateInterval)
     ) {
       return false;
     }
@@ -74,12 +66,18 @@ function StringWrap(toWrap: string | null) {
   return toWrap;
 }
 
+const Separator: React.FC<React.HTMLAttributes<HTMLDivElement>> = () => (
+  <div className="d-flex justify-content-center my-5">
+    <div className="separator" />
+  </div>
+);
+
 const Filter: React.FC<{}> = () => {
   const [show, setShow] = useState<boolean>(false);
-  const [selectedEarlyInterval, setEarlyInterval] = useState<string>('Anytime');
-  const [selectedEarlyMonth, setEarlyMonth] = useState<string>('Anytime');
-  const [selectedLateInterval, setLateInterval] = useState<string>('Anytime');
-  const [selectedLateMonth, setLateMonth] = useState<string>('Anytime');
+  const [earlyInterval, setEarlyInterval] = useState<string>('Anytime');
+  const [earlyMonth, setEarlyMonth] = useState<string>('Anytime');
+  const [lateInterval, setLateInterval] = useState<string>('Anytime');
+  const [lateMonth, setLateMonth] = useState<string>('Anytime');
   const [monthCount, setMonthCount] = useState<number>(1);
   const [minute, setMinute] = useState<number>(20);
   const [roomType, setRoomType] = useState<RoomType>({
@@ -90,14 +88,14 @@ const Filter: React.FC<{}> = () => {
     suite: false,
     studio: false,
   });
-  const [OtherReq, setOtherReq] = useState<OtherReq>({
+  const [preferences, setPreferences] = useState<Preferences>({
     female: false,
     male: false,
     lgbtq: false,
     parking: false,
     pets: false,
     privateBath: false,
-    fourTwoZero: false,
+    _420: false,
   });
 
   const [price, setPrice] = useState<Price>({
@@ -106,158 +104,115 @@ const Filter: React.FC<{}> = () => {
   });
   return (
     <>
-      <Button onClick={() => setShow(true)}>Filter & Match</Button>
+      {/* Header in the home page */}
+      <Container>
+        <Row style={{ marginBottom: '50px' }} className="main-filter">
+          <Col md={4}>
+            <Row className="h-100 justify-content-around">
+              <filterIcons.hello />
+              <filterIcons.arrow />
+            </Row>
+          </Col>
+          <Col md={4}>
+            <Button
+              className="main-filter-button"
+              onClick={() => setShow(true)}
+            >
+              Filter & Match
+            </Button>
+          </Col>
+          <Col md={4}>
+            <Row className="h-100 justify-content-around">
+              <filterIcons.arrow />
+              <filterIcons.loveHouse />
+            </Row>
+          </Col>
+        </Row>
+      </Container>
+
+      {/* The filter itself */}
       <Modal show={show} onHide={() => setShow(false)} size="xl" centered>
         <Container>
           <Form>
-            <br />
-            <Row className="justify-content-md-center">
-              <span className="title">Distance</span>
+            <Row className="justify-content-center my-4">
+              <div className="title">Distance</div>
             </Row>
-            <br />
-            <Row>
-              <Col md={{ span: 9, offset: 1 }}>
-                <Row>
-                  <Col md={2}>
-                    {' '}
-                    <span className="word"> Less than </span>
-                  </Col>
-                  <Col md={3}>
-                    <Form.Group controlId="distanceToSchool">
-                      <Form.Control
-                        className="form-input"
-                        type="number"
-                        min="0"
-                        max="120"
-                        value={minute}
-                        onChange={event =>
-                          setMinute(parseInt(event.target.value))
-                        }
-                        isValid={minute > 0 && monthCount <= 120}
-                        isInvalid={monthCount <= 0 || monthCount > 120}
-                        placeholder="minutes to school"
-                      />
-                    </Form.Group>
-                  </Col>
-                  <span className="word">
-                    min public transportation to Price Center
-                  </span>
+            <Row className="justify-content-center">
+              <span className="word">Less than </span>
+              <Form.Control
+                className="form-input w-10rem mx-3"
+                type="number"
+                min={0}
+                max={120}
+                value={minute}
+                onChange={(event) => setMinute(parseInt(event.target.value))}
+                isValid={minute > 0 && minute <= 120}
+                isInvalid={minute <= 0 || minute > 120}
+                placeholder="minutes to school"
+              />
+              <span className="word">
+                min public transportation to Price Center
+              </span>
+            </Row>
+
+            <Separator />
+
+            <Row className="justify-content-center">
+              {/* Room Type */}
+              <Col md={12} lg={6} className="justify-content-center">
+                <Row className="justify-content-center">
+                  <div className="title">Room Type</div>
+                </Row>
+                <Row className="justify-content-center">
+                  {(Object.keys(roomType) as Array<keyof typeof roomType>).map(
+                    (key) => {
+                      const RoomTypeUnchosen = roomTypeIcons[key];
+                      const RoomTypeChosen =
+                        roomTypeIcons[
+                          `${key}Chosen` as keyof typeof roomTypeIcons
+                        ];
+                      return (
+                        <Col>
+                          <Button
+                            className="btn-filter"
+                            onClick={() => {
+                              const changed = { ...roomType };
+                              changed[key] = !roomType[key];
+                              setRoomType({
+                                ...changed,
+                              });
+                            }}
+                          >
+                            {roomType[key] ? (
+                              <RoomTypeChosen />
+                            ) : (
+                              <RoomTypeUnchosen />
+                            )}
+                          </Button>
+                        </Col>
+                      );
+                    },
+                  )}
                 </Row>
               </Col>
-            </Row>
-            <br />
-            <hr />
-            <br />
-            <br />
-            <Row>
-              <Col md={1} />
-              <span className="title">Room Type</span>
-              <Col md={3} />
-              <span className="title">Price Range</span>
-            </Row>
-            <Row>
-              <Col md={{ span: 6, offset: 1 }}>
-                <Row>
-                  <Button
-                    className="btn-filter"
-                    onClick={() => {
-                      setRoomType({
-                        ...roomType,
-                        single: !roomType.single,
-                      });
-                    }}
-                  >
-                    {roomType.single ? (
-                      <roomTypeIcons.singleChosen className="d-block" />
-                    ) : (
-                      <roomTypeIcons.single className="d-block" />
-                    )}
-                  </Button>
-                  <Button
-                    className="btn-filter"
-                    onClick={() => {
-                      setRoomType({
-                        ...roomType,
-                        double: !roomType.double,
-                      });
-                    }}
-                  >
-                    {roomType.double ? (
-                      <roomTypeIcons.doubleChosen className="d-block" />
-                    ) : (
-                      <roomTypeIcons.double className="d-block" />
-                    )}
-                  </Button>
-                  <Button
-                    className="btn-filter"
-                    onClick={() => {
-                      setRoomType({
-                        ...roomType,
-                        triple: !roomType.triple,
-                      });
-                    }}
-                  >
-                    {roomType.triple ? (
-                      <roomTypeIcons.tripleChosen className="d-block" />
-                    ) : (
-                      <roomTypeIcons.triple className="d-block" />
-                    )}
-                  </Button>
+
+              {/* Price Range */}
+              <Col
+                md={12}
+                lg={{ span: 5, offset: 1 }}
+                className="justify-content-center"
+              >
+                <Row className="justify-content-center">
+                  <div className="title">Price Range</div>
                 </Row>
-                <Row>
-                  <Button
-                    className="btn-filter"
-                    onClick={() => {
-                      setRoomType({
-                        ...roomType,
-                        livingRoom: !roomType.livingRoom,
-                      });
-                    }}
-                  >
-                    {roomType.livingRoom ? (
-                      <roomTypeIcons.livingRoomChosen className="d-block" />
-                    ) : (
-                      <roomTypeIcons.livingRoom className="d-block" />
-                    )}
-                  </Button>
-                  <Button
-                    className="btn-filter"
-                    onClick={() => {
-                      setRoomType({ ...roomType, suite: !roomType.suite });
-                    }}
-                  >
-                    {roomType.suite ? (
-                      <roomTypeIcons.suiteChosen className="d-block" />
-                    ) : (
-                      <roomTypeIcons.suite className="d-block" />
-                    )}
-                  </Button>
-                  <Button
-                    className="btn-filter"
-                    onClick={() => {
-                      setRoomType({
-                        ...roomType,
-                        studio: !roomType.studio,
-                      });
-                    }}
-                  >
-                    {roomType.studio ? (
-                      <roomTypeIcons.studioChosen className="d-block" />
-                    ) : (
-                      <roomTypeIcons.studio className="d-block" />
-                    )}
-                  </Button>
-                </Row>
-              </Col>
-              <Col>
-                <br />
-                <Row>
-                  <span className="word notes"> Min</span>
-                  <Form.Group controlId="minPrice">
+
+                <Form.Row className="justify-content-center m-2">
+                  <Form.Label className="word mr-3">Min</Form.Label>
+                  <Col>
                     <Form.Control
                       className="form-input"
                       type="number"
-                      min="0"
+                      min={0}
                       value={price.minimum}
                       onChange={event => {
                         setPrice({
@@ -267,13 +222,14 @@ const Filter: React.FC<{}> = () => {
                       }}
                       isValid={price.minimum > 0}
                       isInvalid={price.minimum <= 0}
-                      placeholder="min Price"
+                      placeholder="min price"
                     />
-                  </Form.Group>
-                </Row>
-                <Row>
-                  <span className="word notes"> Max</span>
-                  <Form.Group controlId="maxPrice">
+                  </Col>
+                </Form.Row>
+
+                <Form.Row className="justify-content-center m-2">
+                  <Form.Label className="word mr-3">Max</Form.Label>
+                  <Col>
                     <Form.Control
                       className="form-input"
                       type="number"
@@ -289,184 +245,182 @@ const Filter: React.FC<{}> = () => {
                         price.maximum > 0 && price.maximum >= price.minimum
                       }
                       isInvalid={price.maximum <= 0}
-                      placeholder="max Price"
+                      placeholder="max price"
                     />
+                  </Col>
+                </Form.Row>
+              </Col>
+            </Row>
+
+            <Separator />
+
+            <Row className="justify-content-center">
+              {/* Move in time */}
+              <Col md={12} lg={6} className="justify-content-center">
+                <Row className="justify-content-center">
+                  <div className="title">Move in time</div>
+                </Row>
+
+                <Row className="justify-content-center">
+                  <span className="word mr-3">As early as</span>
+                  <Dropdown>
+                    <Dropdown.Toggle id="dropdown-basic">
+                      {earlyInterval}
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      {intervalOptions.map((interval) => (
+                        <Dropdown.Item
+                          eventKey={interval}
+                          onSelect={(event) =>
+                            setEarlyInterval(StringWrap(event))
+                          }
+                        >
+                          {interval}
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  </Dropdown>
+                  <Form.Group>
+                    <Form.Control
+                      className="clear-border"
+                      as={Dropdown}
+                      isValid={MoveInSelect(
+                        earlyMonth,
+                        earlyInterval,
+                        lateMonth,
+                        lateInterval,
+                      )}
+                      isInvalid={
+                        !MoveInSelect(
+                          earlyMonth,
+                          earlyInterval,
+                          lateMonth,
+                          lateInterval,
+                        )
+                      }
+                    >
+                      <Dropdown.Toggle
+                        className="form-dropdown ml-0"
+                        id="dropdown-basic"
+                      >
+                        {earlyMonth}
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu className="menu">
+                        {yearMonths.map((month) => (
+                          <Dropdown.Item
+                            eventKey={month}
+                            onSelect={(eventKey) =>
+                              setEarlyMonth(StringWrap(eventKey))
+                            }
+                          >
+                            {month}
+                          </Dropdown.Item>
+                        ))}
+                      </Dropdown.Menu>
+                    </Form.Control>
+                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">
+                      Invalid value!
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                </Row>
+
+                <Row className="justify-content-center">
+                  <span className="word notes">As late as </span>
+                  <Dropdown>
+                    <Dropdown.Toggle id="dropdown-basic">
+                      {lateInterval}
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      {intervalOptions.map((interval) => (
+                        <Dropdown.Item
+                          eventKey={interval}
+                          onSelect={(eventKey) =>
+                            setLateInterval(StringWrap(eventKey))
+                          }
+                        >
+                          {interval}
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  </Dropdown>
+                  <Form.Group>
+                    <Form.Control className="clear-border" as={Dropdown}>
+                      <Dropdown.Toggle
+                        className="form-dropdown ml-0"
+                        id="dropdown-basic"
+                      >
+                        {lateMonth}
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu className="menu">
+                        {yearMonths.map((month) => (
+                          <Dropdown.Item
+                            eventKey={month}
+                            onSelect={(eventKey) =>
+                              setLateMonth(StringWrap(eventKey))
+                            }
+                          >
+                            {month}
+                          </Dropdown.Item>
+                        ))}
+                      </Dropdown.Menu>
+                    </Form.Control>
+                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">
+                      Invalid Value!
+                    </Form.Control.Feedback>
                   </Form.Group>
                 </Row>
               </Col>
-            </Row>
-            <br />
-            <hr />
-            <br />
-            <br />
-            <Row>
-              <Col md={1} />
-              <span className="title">Move in time</span>
-              <Col md={3} />
-              <span className="title">Stay period</span>
-            </Row>
-            <br />
-            <Row>
-              <Col md={1} />
-              <Row>
-                <span className="word notes">As early as </span>
-                <Dropdown>
-                  <Dropdown.Toggle
-                    className="drop-width"
-                    variant="success"
-                    id="dropdown-basic"
-                  >
-                    {selectedEarlyInterval}
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    {intervalOptions.map(interval => (
-                      <Dropdown.Item
-                        eventKey={interval}
-                        onSelect={eventKey =>
-                          setEarlyInterval(StringWrap(eventKey))
-                        }
-                      >
-                        {interval}
-                      </Dropdown.Item>
-                    ))}
-                  </Dropdown.Menu>
-                </Dropdown>
-                <Form.Group>
-                  <Form.Control
-                    className="clear-border"
-                    as={Dropdown}
-                    isValid={MoveInSelect(
-                      selectedEarlyMonth,
-                      selectedEarlyInterval,
-                      selectedLateMonth,
-                      selectedLateInterval,
-                    )}
-                    isInvalid={
-                      !MoveInSelect(
-                        selectedEarlyMonth,
-                        selectedEarlyInterval,
-                        selectedLateMonth,
-                        selectedLateInterval,
-                      )
-                    }
-                  >
-                    <Dropdown.Toggle
-                      className="form-dropdown right-button drop-width"
-                      variant="success"
-                      id="dropdown-basic"
-                    >
-                      {selectedEarlyMonth}
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu className="menu">
-                      {yearMonths.map(month => (
-                        <Dropdown.Item
-                          eventKey={month}
-                          onSelect={eventKey =>
-                            setEarlyMonth(StringWrap(eventKey))
+
+              <Col
+                md={12}
+                lg={{ span: 5, offset: 1 }}
+                className="justify-content-center"
+              >
+                <Row className="justify-content-center">
+                  <div className="title">Stay period</div>
+                </Row>
+                <Row className="justify-content-center">
+                  <Col>
+                    <Form.Group as={Row} controlId="formNumberOfMonths">
+                      <Col sm={8} md={8}>
+                        <Form.Control
+                          value={monthCount}
+                          onChange={(event) =>
+                            setMonthCount(parseInt(event.target.value))
                           }
-                        >
-                          {month}
-                        </Dropdown.Item>
-                      ))}
-                    </Dropdown.Menu>
-                  </Form.Control>
-                  <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                  <Form.Control.Feedback type="invalid">
-                    Invalid Value!
-                  </Form.Control.Feedback>
-                </Form.Group>
-              </Row>
-              <Col md={1} />
-              <Row>
-                <Col md={2} />
-                <Col>
-                  <Form.Group as={Row} controlId="formNumberOfMonths">
-                    <Col sm={8} md={8}>
-                      <Form.Control
-                        value={monthCount}
-                        onChange={event =>
-                          setMonthCount(parseInt(event.target.value))
-                        }
-                        type="number"
-                        placeholder="# of Months"
-                        isValid={monthCount > 0 && monthCount <= 12}
-                        isInvalid={monthCount <= 0 || monthCount > 12}
-                      />
-                    </Col>
-                    <span className="word">Month(s)</span>
-                  </Form.Group>
-                </Col>
-              </Row>
+                          type="number"
+                          placeholder="# of Months"
+                          isValid={monthCount > 0 && monthCount <= 12}
+                          isInvalid={monthCount <= 0 || monthCount > 12}
+                        />
+                      </Col>
+                      <span className="word">Month(s)</span>
+                    </Form.Group>
+                  </Col>
+                </Row>
+              </Col>
             </Row>
-            <Row>
-              <Col md={1} />
-              <Row>
-                <span className="word notes">As late as </span>
-                <Dropdown>
-                  <Dropdown.Toggle
-                    className="drop-width"
-                    variant="success"
-                    id="dropdown-basic"
-                  >
-                    {selectedLateInterval}
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    {intervalOptions.map(interval => (
-                      <Dropdown.Item
-                        eventKey={interval}
-                        onSelect={eventKey =>
-                          setLateInterval(StringWrap(eventKey))
-                        }
-                      >
-                        {interval}
-                      </Dropdown.Item>
-                    ))}
-                  </Dropdown.Menu>
-                </Dropdown>
-                <Form.Group>
-                  <Form.Control className="clear-border" as={Dropdown}>
-                    <Dropdown.Toggle
-                      className="form-dropdown right-button drop-width"
-                      variant="success"
-                      id="dropdown-basic"
-                    >
-                      {selectedLateMonth}
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu className="menu">
-                      {yearMonths.map(month => (
-                        <Dropdown.Item
-                          eventKey={month}
-                          onSelect={eventKey =>
-                            setLateMonth(StringWrap(eventKey))
-                          }
-                        >
-                          {month}
-                        </Dropdown.Item>
-                      ))}
-                    </Dropdown.Menu>
-                  </Form.Control>
-                  <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                  <Form.Control.Feedback type="invalid">
-                    Invalid Value!
-                  </Form.Control.Feedback>
-                </Form.Group>
-              </Row>
-            </Row>
-            <br />
-            <hr />
-            <br />
+
+            <Separator className="my-4" />
+
             <Row className="justify-content-md-center">
               <span className="title">Others</span>
             </Row>
-            <br />
-            <Row>
+
+            {/* TODO */}
+            <Row className="justify-content-center">
               <Button
                 className="btn-filter"
                 onClick={() => {
-                  setOtherReq({ ...OtherReq, female: !OtherReq.female });
+                  setPreferences({
+                    ...preferences,
+                    female: !preferences.female,
+                  });
                 }}
               >
-                {OtherReq.female ? (
+                {preferences.female ? (
                   <preferencesIcons.femaleChosen className="d-block" />
                 ) : (
                   <preferencesIcons.female className="d-block" />
@@ -475,10 +429,10 @@ const Filter: React.FC<{}> = () => {
               <Button
                 className="btn-filter"
                 onClick={() => {
-                  setOtherReq({ ...OtherReq, male: !OtherReq.male });
+                  setPreferences({ ...preferences, male: !preferences.male });
                 }}
               >
-                {OtherReq.male ? (
+                {preferences.male ? (
                   <preferencesIcons.maleChosen className="d-block" />
                 ) : (
                   <preferencesIcons.male className="d-block" />
@@ -487,24 +441,25 @@ const Filter: React.FC<{}> = () => {
               <Button
                 className="btn-filter"
                 onClick={() => {
-                  setOtherReq({ ...OtherReq, parking: !OtherReq.parking });
+                  setPreferences({
+                    ...preferences,
+                    parking: !preferences.parking,
+                  });
                 }}
               >
-                {OtherReq.parking ? (
+                {preferences.parking ? (
                   <preferencesIcons.parkingChosen className="d-block" />
                 ) : (
                   <preferencesIcons.parking className="d-block" />
                 )}
               </Button>
-            </Row>
-            <Row>
               <Button
                 className="btn-filter"
                 onClick={() => {
-                  setOtherReq({ ...OtherReq, pets: !OtherReq.pets });
+                  setPreferences({ ...preferences, pets: !preferences.pets });
                 }}
               >
-                {OtherReq.pets ? (
+                {preferences.pets ? (
                   <preferencesIcons.petsChosen className="d-block" />
                 ) : (
                   <preferencesIcons.pets className="d-block" />
@@ -513,10 +468,10 @@ const Filter: React.FC<{}> = () => {
               <Button
                 className="btn-filter"
                 onClick={() => {
-                  setOtherReq({ ...OtherReq, lgbtq: !OtherReq.lgbtq });
+                  setPreferences({ ...preferences, lgbtq: !preferences.lgbtq });
                 }}
               >
-                {OtherReq.lgbtq ? (
+                {preferences.lgbtq ? (
                   <preferencesIcons.LGBTQChosen className="d-block" />
                 ) : (
                   <preferencesIcons.LGBTQ className="d-block" />
@@ -525,13 +480,13 @@ const Filter: React.FC<{}> = () => {
               <Button
                 className="btn-filter"
                 onClick={() => {
-                  setOtherReq({
-                    ...OtherReq,
-                    privateBath: !OtherReq.privateBath,
+                  setPreferences({
+                    ...preferences,
+                    privateBath: !preferences.privateBath,
                   });
                 }}
               >
-                {OtherReq.privateBath ? (
+                {preferences.privateBath ? (
                   <preferencesIcons.privateBathChosen className="d-block" />
                 ) : (
                   <preferencesIcons.privateBath className="d-block" />
@@ -540,13 +495,13 @@ const Filter: React.FC<{}> = () => {
               <Button
                 className="btn-filter"
                 onClick={() => {
-                  setOtherReq({
-                    ...OtherReq,
-                    fourTwoZero: !OtherReq.fourTwoZero,
+                  setPreferences({
+                    ...preferences,
+                    _420: !preferences._420,
                   });
                 }}
               >
-                {OtherReq.fourTwoZero ? (
+                {preferences._420 ? (
                   <preferencesIcons._420Chosen className="d-block" />
                 ) : (
                   <preferencesIcons._420 className="d-block" />
