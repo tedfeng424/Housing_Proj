@@ -24,8 +24,8 @@ const facilityToIcon = {
   Elevator: <facilityIcons.elevator />,
   'Gym room': <facilityIcons.gym />,
   'Swimming pool': <facilityIcons.swimmingPool />,
-  'Pets friendly': <facilityIcons.swimmingPool />, // TODO update to the correct icon
-  'Indoor washer': <facilityIcons.swimmingPool />, // TODO update to the correct icon
+  'Pets friendly': <facilityIcons.petsFriendly />,
+  'Indoor washer': <facilityIcons.indoorWasher />,
 };
 
 const GetIcon: React.FC<{ str: keyof typeof facilityToIcon }> = ({ str }) => (

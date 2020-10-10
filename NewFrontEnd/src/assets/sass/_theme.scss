@@ -5,3 +5,10 @@ body {
   color: theme-color('secondary');
   font-family: Montserrat;
 }
+
+.no-show {
+  border: 0;
+  background-color: #ffff !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}

@@ -5,7 +5,7 @@
 $theme-colors: (
   'primary': $primary-color,
   'secondary': $secondary-color,
-  'secondary-light': #E6F0D8,
+  'secondary-light': #e6f0d8,
 );
 
 $sizes: (
@@ -46,10 +46,15 @@ $sizes: (
   height: 100%;
 }
 
-.card-body{
+.card-body {
   padding: 0.5rem;
 }
 
-.valid-feedback, .invalid-feedback{
-  text-align: right
+.valid-feedback,
+.invalid-feedback {
+  text-align: right;
+}
+
+body {
+  font-family: 'Montserrat', 'Courier New', Courier, monospace;
 }
