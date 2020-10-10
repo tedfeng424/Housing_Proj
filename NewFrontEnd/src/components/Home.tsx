@@ -7,6 +7,7 @@ import WizardForm, {
   FakeStepTest1,
   FakeStepTest2,
   FakeStepTest3,
+  FakeStepTest4,
 } from './WizardForm';
 
 const Home: React.FC<{}> = () => {
@@ -128,7 +129,12 @@ const Home: React.FC<{}> = () => {
   return (
     <>
       <WizardForm
-        steps={[<FakeStepTest1 />, <FakeStepTest2 />, <FakeStepTest3 />]}
+        steps={[
+          <FakeStepTest1 />,
+          <FakeStepTest2 />,
+          <FakeStepTest3 />,
+          <FakeStepTest4 />,
+        ]}
         show={sh}
         setShow={setSh}
       />

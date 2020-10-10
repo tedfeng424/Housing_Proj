@@ -36,8 +36,12 @@ export const FakeStepTest3: React.FC = () => (
       <Col>HELLO</Col>
       <Col>HELLO</Col>
       <Col>HELLO</Col>
-    </Row>
-    <Row>
+      <Col>HELLO</Col>
+      <Col>HELLO</Col>
+      <Col>HELLO</Col>
+      <Col>HELLO</Col>
+      <Col>HELLO</Col>
+      <Col>HELLO</Col>
       <Col>HELLO</Col>
       <Col>HELLO</Col>
       <Col>HELLO</Col>
@@ -54,6 +58,20 @@ export const FakeStepTest3: React.FC = () => (
     </Row>
     <Row>
       <Col>HELLO</Col>
+      <Col>HELLO</Col>
+      <Col>HELLO</Col>
+    </Row>
+    <Row>
+      <Col>HELLO</Col>
+      <Col>HELLO</Col>
+      <Col>HELLO</Col>
+    </Row>
+  </Container>
+);
+
+export const FakeStepTest4: React.FC = () => (
+  <Container>
+    <Row>
       <Col>HELLO</Col>
       <Col>HELLO</Col>
     </Row>
@@ -100,16 +118,18 @@ const WizardForm: React.FC<PathProps> = ({
   return (
     <Modal show={show} onHide={() => setShow(false)} size="xl" centered>
       <Container>
-        <Row>
-          <Col md={1} className="d-flex">
+        <div className="d-flex align-items-center justify-content-around">
+          <Col xs={1} className="d-flex arrow-icon justify-content-center">
             {!isFirst && !hideButtons && (
-              <Button onClick={prevStep} className="no-show">
-                <miscIcons.leftArrow />
-              </Button>
+              <div>
+                <Button onClick={prevStep} className="no-show">
+                  <miscIcons.leftArrow />
+                </Button>
+              </div>
             )}
           </Col>
 
-          <Col md={10}>
+          <Col xs={10} className="d-flex">
             {React.cloneElement(CurStep, {
               nextStep,
               prevStep,
@@ -117,14 +137,16 @@ const WizardForm: React.FC<PathProps> = ({
             })}
           </Col>
 
-          <Col md={1} className="d-flex">
+          <Col xs={1} className="d-flex arrow-icon justify-content-center">
             {!isLast && !hideButtons && (
-              <Button onClick={nextStep} className="no-show">
-                <miscIcons.rightArrow />
-              </Button>
+              <div>
+                <Button onClick={nextStep} className="no-show">
+                  <miscIcons.rightArrow />
+                </Button>
+              </div>
             )}
           </Col>
-        </Row>
+        </div>
       </Container>
     </Modal>
   );
