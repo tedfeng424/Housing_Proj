@@ -128,16 +128,28 @@ const Home: React.FC<{}> = () => {
   const [sh, setSh] = useState<boolean>(true);
   return (
     <>
-      <WizardForm
-        steps={[
-          <FakeStepTest1 />,
-          <FakeStepTest2 />,
-          <FakeStepTest3 />,
-          <FakeStepTest4 />,
-        ]}
-        show={sh}
-        setShow={setSh}
-      />
+      <WizardForm show={sh} setShow={setSh}>
+        <Container>
+          <Row>
+            <Col>HELLO</Col>
+          </Row>
+        </Container>
+        <Container>
+          <Row>
+            <Col>HELLO</Col>
+          </Row>
+        </Container>
+        <Container>
+          <Row>
+            <Col>HELLO</Col>
+          </Row>
+        </Container>
+        <Container>
+          <Row>
+            <Col>HELLO</Col>
+          </Row>
+        </Container>
+      </WizardForm>
 
       <Container fluid>
         <Row>
