@@ -1,9 +1,10 @@
-input {
-  border: 0;
-  outline: 0;
-  background: transparent;
-  border-bottom: 3px solid #e7936d;
-  line-height: 10px;
+.filter-input {
+  font-weight: $default-text-weight;
+  color: theme-color('primary') !important;
+  border: 0 !important;
+  border-bottom: 3px solid theme-color('primary') !important;
+  border-radius: 0;
+  box-shadow: none !important;
 }
 
 .small-input {
@@ -15,7 +16,7 @@ input {
 }
 
 .word {
-  color: #d3ab98;
+  color: theme-color('unfocused');
   font-style: normal;
   font-weight: bold;
   font-size: 24px;
@@ -31,7 +32,7 @@ input {
   line-height: 57px;
   width: 229px;
   height: 57px;
-  color: #a6623f;
+  color: theme-color('focused');
   background-image: url('../../icons/misc/wordBubble.svg');
 }
 
@@ -58,25 +59,17 @@ input {
   width: 10rem;
 }
 
-.form-input {
-  border: 0;
-  outline: 0;
-  background: transparent;
-  border-bottom: 3px solid #e7936d;
-  line-height: 10px;
-}
-
 .btn-filter {
   margin: 0rem !important;
   padding: 0 !important;
-  background-color: #fff !important;
-  border-color: #fff !important;
+  background-color: white !important;
+  border-color: white !important;
 }
 
 .separator {
   width: 50%;
   border: 0;
-  border-top: 3px dashed #d3ab98;
+  border-top: 3px dashed theme-color('unfocused');
 }
 
 .main-filter {

@@ -2,7 +2,17 @@
 // bootstrap's variables whenever possible).
 @import url(https://fonts.googleapis.com/css?family=Montserrat:400,500,80);
 
-$primary-color: #e7936d;
+$responsive-to-user-color: #e7936d; // i.e. buttons
+$focused-color: #a6623f; // i.e. 'Your name'
+$unfocused-color: #d3ab98; // i.e. 'min', 'to school'
+$primary-color: $responsive-to-user-color;
 $secondary-color: #4d5e3b;
+
+$default-text-weight: 700;
+
+// $text-tertiary-color
+
+// focused color, unfocused color, user-responsive color, paragraph color
+// primary-focused, primary-unfocused, primary-user-responsive, secondary
 
 $rounded-lg: 40px;

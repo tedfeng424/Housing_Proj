@@ -3,9 +3,11 @@
 
 /* CHANGE BOOTSTRAP VARIABLES HERE */
 $theme-colors: (
+  'responsive-to-user': $responsive-to-user-color,
+  'focused': $focused-color,
+  'unfocused': $unfocused-color,
   'primary': $primary-color,
   'secondary': $secondary-color,
-  'secondary-light': #e6f0d8,
 );
 
 $sizes: (
@@ -21,10 +23,8 @@ $sizes: (
   @extend .px-4;
   @extend .mx-4;
   @extend .my-2;
-  // padding: $size1 $size4;
-  // margin: $size2 $size4;
   color: white;
-  font-weight: 600;
+  font-weight: $default-text-weight;
   border-radius: 20px;
   box-shadow: none !important;
 }
