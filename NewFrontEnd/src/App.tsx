@@ -5,6 +5,7 @@ import { Counter } from './redux-example/counter/Counter';
 import Home from './components/Home';
 import PostForm from './components/PostForm';
 import PostForm2 from './components/PostForm2';
+import PostForm5 from './components/PostForm5';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Home />
       <PostForm />
       <PostForm2 />
+      <PostForm5 />
     </div>
   );
 }
