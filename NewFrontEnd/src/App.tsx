@@ -1,5 +1,5 @@
 import React from 'react';
-import NavBar from './components/NavigationBar';
+import NavBar from './components/NavBar';
 import Filter from './components/Filter';
 import { Counter } from './redux-example/counter/Counter';
 import Home from './components/Home';

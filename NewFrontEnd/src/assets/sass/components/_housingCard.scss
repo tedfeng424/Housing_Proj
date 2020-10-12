@@ -1,5 +1,5 @@
 .house-card {
-  background-color: #e6f0d8;
+  background-color: theme-color('secondary-light');
 }
 
 .house-pic {
@@ -7,7 +7,7 @@
 }
 
 .house-card-right {
-  color: theme-color('secondary-color');
+  color: theme-color('secondary');
   font-weight: normal;
   font-style: normal;
   font-weight: normal;

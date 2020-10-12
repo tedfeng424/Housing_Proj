@@ -86,11 +86,11 @@ const HouseProfile: React.FC<PathProps> = ({
           <Col sm={12} md={6} lg={4}>
             <Container>
               <Row className="justify-content-center">
-                <span className="house-type">{houseType}</span>
+                <span className="housing-profile-house-type">{houseType}</span>
               </Row>
 
               <Row>
-                <Col className="price" md={5}>
+                <Col className="housing-profile-price" md={5}>
                   <Row>${pricePerMonth}</Row>
                 </Col>
                 <Col md={{ span: 5, offset: 2 }}>
@@ -158,7 +158,7 @@ const HouseProfile: React.FC<PathProps> = ({
               <GoogleMap />
             </div>
 
-            <Container className="bio">
+            <Container className="housing-profile-bio">
               <Row>
                 <Col md={8} className="text-center">
                   <div>
@@ -203,7 +203,9 @@ const HouseProfile: React.FC<PathProps> = ({
                 </Col>
               </Row>
 
-              <div className="speech-bubble">{bioDescription}</div>
+              <div className="housing-profile-speech-bubble">
+                {bioDescription}
+              </div>
             </Container>
           </Col>
         </Row>

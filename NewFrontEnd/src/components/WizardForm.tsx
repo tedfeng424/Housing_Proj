@@ -98,7 +98,7 @@ export default WizardForm;
  */
 
 /* Basic example (each form step as a component):
-<WizardForm show={sh} setShow={setSh}>
+<WizardForm show={show} setShow={setShow}>
   <FakeStepTest1 />
   <FakeStepTest2 />
   <FakeStepTest3 />
@@ -107,7 +107,7 @@ export default WizardForm;
 */
 
 /* Basic example with hidden buttons:
-<WizardForm show={sh} setShow={setSh} hideButtons>
+<WizardForm show={show} setShow={setShow} hideButtons>
   <FakeStepTest1 />
   <FakeStepTest2 />
   <FakeStepTest3 />
@@ -117,7 +117,7 @@ export default WizardForm;
 
 /* Basic example (each form step as a container)
     (NOTE: if you need to use nextStep(), prevStep(), or exit(), then you should NOT use this):
-<WizardForm show={sh} setShow={setSh}>
+<WizardForm show={show} setShow={setShow}>
   <Container>
     <Row>
       <Col>HELLO</Col>

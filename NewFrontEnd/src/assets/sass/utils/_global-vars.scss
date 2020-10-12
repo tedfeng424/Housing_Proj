@@ -3,15 +3,18 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat:400,500,80);
 
 /**
- * There are 4 main colors: 3 orange variations, one green. The three orange variations seem to have 3 purposes:
+ * There are 5 main colors: 3 orange variations, two green. The three orange variations seem to have 3 purposes:
  * 1) a color to represent user-responsive (user can affect it) 2) a 'background/unfocused' color 3) a 'focused'
- * color.
+ * color. The two green variations seem to have similar purposes, a 'focused' and 'unfocused/background' color
+ * (these will just be secondary-color and secondary-light-color since there are only 2).
  */
 $responsive-to-user-color: #e7936d; // i.e. buttons
 $focused-color: #a6623f; // i.e. 'Your name'
 $unfocused-color: #d3ab98; // i.e. 'min', 'to school'
 $primary-color: $responsive-to-user-color;
 $secondary-color: #4d5e3b;
+$secondary-light-color: #e6f0d8;
+$main-background-color: #fffcfb;
 
 $default-text-weight: 700;
 

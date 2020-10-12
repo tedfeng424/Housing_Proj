@@ -1,0 +1,13 @@
+.navbar-sign-in-button {
+  @extend .no-show;
+  font-family: Roboto Slab;
+  font-weight: $default-text-weight;
+  font-size: 18px;
+  letter-spacing: 0.2em;
+  color: theme-color('secondary') !important;
+}
+
+.g-auth {
+  box-shadow: none !important;
+  margin: 0 auto;
+}
