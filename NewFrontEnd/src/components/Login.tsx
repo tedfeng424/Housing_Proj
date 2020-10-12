@@ -32,6 +32,9 @@ const Login: React.FC<PathProps> = ({ handleClose, show }) => {
         cookiePolicy="single_host_origin"
         icon={false}
       >
+        {/* 
+        isSignedIn={true} attribute will call onSuccess callback on load to keep the user signed in
+         */}
         <img className="d-block" src="/loginButton.svg" alt="LogInButton" />
       </GoogleLogin>
     </Modal>

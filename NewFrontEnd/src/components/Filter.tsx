@@ -214,7 +214,7 @@ const Filter: React.FC<{}> = () => {
                       type="number"
                       min={0}
                       value={price.minimum}
-                      onChange={event => {
+                      onChange={(event) => {
                         setPrice({
                           ...price,
                           minimum: parseInt(event.target.value),
@@ -235,7 +235,7 @@ const Filter: React.FC<{}> = () => {
                       type="number"
                       min="0"
                       value={price.maximum}
-                      onChange={event => {
+                      onChange={(event) => {
                         setPrice({
                           ...price,
                           maximum: parseInt(event.target.value),

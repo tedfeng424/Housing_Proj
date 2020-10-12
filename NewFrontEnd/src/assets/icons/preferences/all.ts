@@ -14,6 +14,30 @@ import { ReactComponent as pets } from './pets.svg';
 import { ReactComponent as petsChosen } from './petsChosen.svg';
 import { ReactComponent as privateBath } from './privateBath.svg';
 import { ReactComponent as privateBathChosen } from './privateBathChosen.svg';
+import { ReactComponent as earlyBird } from './earlyBird.svg';
+import { ReactComponent as earlyBirdChosen } from './earlyBirdChosen.svg';
+import { ReactComponent as elevator } from './elevator.svg';
+import { ReactComponent as elevatorChosen } from './elevatorChosen.svg';
+import { ReactComponent as furnished } from './furnished.svg';
+import { ReactComponent as furnishedChosen } from './furnishedChosen.svg';
+import { ReactComponent as grocery } from './grocery.svg';
+import { ReactComponent as groceryChosen } from './groceryChosen.svg';
+import { ReactComponent as gym } from './gym.svg';
+import { ReactComponent as gymChosen } from './gymChosen.svg';
+import { ReactComponent as hardwood } from './hardwood.svg';
+import { ReactComponent as hardwoodChosen } from './hardwoodChosen.svg';
+import { ReactComponent as livingRoomPeople } from './livingRoomPeople.svg';
+import { ReactComponent as livingRoomPeopleChosen } from './livingRoomPeopleChosen.svg';
+import { ReactComponent as nightOwl } from './nightOwl.svg';
+import { ReactComponent as nightOwlChosen } from './nightOwlChosen.svg';
+import { ReactComponent as noSmoke } from './noSmoke.svg';
+import { ReactComponent as noSmokeChosen } from './noSmokeChosen.svg';
+import { ReactComponent as patio } from './patio.svg';
+import { ReactComponent as patioChosen } from './patioChosen.svg';
+import { ReactComponent as pool } from './pool.svg';
+import { ReactComponent as poolChosen } from './poolChosen.svg';
+import { ReactComponent as washerDryer } from './washerDryer.svg';
+import { ReactComponent as washerDryerChosen } from './washerDryerChosen.svg';
 
 export const preferencesChosen = {
   _420Chosen,
@@ -23,6 +47,18 @@ export const preferencesChosen = {
   parkingChosen,
   petsChosen,
   privateBathChosen,
+  earlyBirdChosen,
+  elevatorChosen,
+  furnishedChosen,
+  groceryChosen,
+  gymChosen,
+  hardwoodChosen,
+  livingRoomPeopleChosen,
+  nightOwlChosen,
+  noSmokeChosen,
+  patioChosen,
+  poolChosen,
+  washerDryerChosen,
 };
 
 export const preferencesUnchosen = {
@@ -33,6 +69,18 @@ export const preferencesUnchosen = {
   parking,
   pets,
   privateBath,
+  earlyBird,
+  elevator,
+  furnished,
+  grocery,
+  gym,
+  hardwood,
+  livingRoomPeople,
+  nightOwl,
+  noSmoke,
+  patio,
+  pool,
+  washerDryer,
 };
 
 export default {
@@ -50,4 +98,28 @@ export default {
   petsChosen,
   privateBath,
   privateBathChosen,
+  earlyBird,
+  elevator,
+  furnished,
+  grocery,
+  gym,
+  hardwood,
+  livingRoomPeople,
+  nightOwl,
+  noSmoke,
+  patio,
+  pool,
+  washerDryer,
+  earlyBirdChosen,
+  elevatorChosen,
+  furnishedChosen,
+  groceryChosen,
+  gymChosen,
+  hardwoodChosen,
+  livingRoomPeopleChosen,
+  nightOwlChosen,
+  noSmokeChosen,
+  patioChosen,
+  poolChosen,
+  washerDryerChosen,
 };
