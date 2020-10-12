@@ -220,8 +220,12 @@ const Filter: React.FC<{}> = () => {
                           minimum: parseInt(event.target.value),
                         });
                       }}
-                      isValid={price.minimum > 0}
-                      isInvalid={price.minimum <= 0}
+                      isValid={
+                        price.minimum > 0 && price.maximum >= price.minimum
+                      }
+                      isInvalid={
+                        price.minimum <= 0 || price.maximum < price.minimum
+                      }
                       placeholder="min price"
                     />
                   </Col>
@@ -244,7 +248,9 @@ const Filter: React.FC<{}> = () => {
                       isValid={
                         price.maximum > 0 && price.maximum >= price.minimum
                       }
-                      isInvalid={price.maximum <= 0}
+                      isInvalid={
+                        price.maximum <= 0 || price.maximum < price.minimum
+                      }
                       placeholder="max price"
                     />
                   </Col>
