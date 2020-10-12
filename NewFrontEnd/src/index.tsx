@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './assets/sass/main.scss';
-import App from './App';
 import { CookiesProvider } from 'react-cookie';
-import { store } from './redux/store';
 import { Provider } from 'react-redux';
+import App from './App';
+import { store } from './redux/store';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
@@ -15,7 +15,7 @@ ReactDOM.render(
       </Provider>
     </CookiesProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 serviceWorker.unregister();

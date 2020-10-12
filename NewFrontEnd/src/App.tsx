@@ -8,11 +8,12 @@ import PostForm2 from './components/PostForm2';
 import PostForm5 from './components/PostForm5';
 // import ImagesUploader from './components/ImagesUploaderModule';
 import OtherOptions from './components/OtherOptionsModule';
+import AutoComplete from './components/PlacesAutoComplete';
 
 function App() {
   return (
     <div className="App">
-      <OtherOptions />
+      <AutoComplete />
       <NavBar />
       <Filter />
       <Home />
