@@ -2,6 +2,11 @@
 // bootstrap's variables whenever possible).
 @import url(https://fonts.googleapis.com/css?family=Montserrat:400,500,80);
 
+/**
+ * There are 4 main colors: 3 orange variations, one green. The three orange variations seem to have 3 purposes:
+ * 1) a color to represent user-responsive (user can affect it) 2) a 'background/unfocused' color 3) a 'focused'
+ * color.
+ */
 $responsive-to-user-color: #e7936d; // i.e. buttons
 $focused-color: #a6623f; // i.e. 'Your name'
 $unfocused-color: #d3ab98; // i.e. 'min', 'to school'
@@ -9,10 +14,5 @@ $primary-color: $responsive-to-user-color;
 $secondary-color: #4d5e3b;
 
 $default-text-weight: 700;
-
-// $text-tertiary-color
-
-// focused color, unfocused color, user-responsive color, paragraph color
-// primary-focused, primary-unfocused, primary-user-responsive, secondary
 
 $rounded-lg: 40px;

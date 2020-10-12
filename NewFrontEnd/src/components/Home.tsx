@@ -118,13 +118,11 @@ const Home: React.FC<{}> = () => {
     ]);
   }, []);
 
-  // TODO remove the wizard form test
-  const [sh, setSh] = useState<boolean>(true);
   return (
     <Container fluid>
       <Row>
         {cards.map(({ pricePerMonth, roomType, moveIn, distance, address }) => (
-          <Col xs={12} md={6} lg={4} style={{ marginBottom: '50px' }}>
+          <Col xs={12} md={6} className="mb-5">
             <HouseCard
               pricePerMonth={pricePerMonth}
               roomType={roomType}

@@ -105,30 +105,15 @@ const Filter: React.FC<{}> = () => {
   return (
     <>
       {/* Header in the home page */}
-      <Container className="mb-5">
-        <Row className="main-filter">
-          <Col md={4}>
-            <Row className="h-100 justify-content-around">
-              <filterIcons.hello />
-              <filterIcons.arrow />
-            </Row>
-          </Col>
-          <Col md={4}>
-            <Button
-              className="main-filter-button"
-              onClick={() => setShow(true)}
-            >
-              Filter & Match
-            </Button>
-          </Col>
-          <Col md={4}>
-            <Row className="h-100 justify-content-around">
-              <filterIcons.arrow />
-              <filterIcons.loveHouse />
-            </Row>
-          </Col>
-        </Row>
-      </Container>
+      <div className="filter-launch-pad">
+        <filterIcons.hello />
+        <filterIcons.arrow />
+        <Button onClick={() => setShow(true)} className="filter-launch-button">
+          Filter & Match
+        </Button>
+        <filterIcons.arrow />
+        <filterIcons.loveHouse />
+      </div>
 
       {/* The filter itself */}
       <Modal show={show} onHide={() => setShow(false)} size="xl" centered>
@@ -140,7 +125,7 @@ const Filter: React.FC<{}> = () => {
             <Row className="justify-content-center">
               <span className="word">Less than </span>
               <Form.Control
-                className="filter-input w-10rem mx-3"
+                className="w-10rem mx-3"
                 type="number"
                 min={0}
                 max={120}
@@ -210,7 +195,6 @@ const Filter: React.FC<{}> = () => {
                   <Form.Label className="word mr-3">Min</Form.Label>
                   <Col>
                     <Form.Control
-                      className="filter-input"
                       type="number"
                       min={0}
                       value={price.minimum}
@@ -231,7 +215,6 @@ const Filter: React.FC<{}> = () => {
                   <Form.Label className="word mr-3">Max</Form.Label>
                   <Col>
                     <Form.Control
-                      className="filter-input"
                       type="number"
                       min="0"
                       value={price.maximum}
@@ -386,7 +369,6 @@ const Filter: React.FC<{}> = () => {
                     <Form.Group as={Row} controlId="formNumberOfMonths">
                       <Col sm={8} md={8}>
                         <Form.Control
-                          className="filter-input"
                           value={monthCount}
                           onChange={(event) =>
                             setMonthCount(parseInt(event.target.value))

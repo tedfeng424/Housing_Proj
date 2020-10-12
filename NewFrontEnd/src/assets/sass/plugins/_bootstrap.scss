@@ -29,6 +29,15 @@ $sizes: (
   box-shadow: none !important;
 }
 
+input {
+  font-weight: $default-text-weight;
+  color: theme-color('primary') !important;
+  border: 0 !important;
+  border-bottom: 3px solid theme-color('primary') !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
 .modal-content {
   @extend .p-3;
   border-radius: $rounded-lg;

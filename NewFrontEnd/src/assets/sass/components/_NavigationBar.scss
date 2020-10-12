@@ -10,11 +10,11 @@
   letter-spacing: 0.2em;
   border: 0;
   outline: 0;
-  color: #4D5E3B;
+  color: theme-color('secondary-color');
   background-color: transparent;
 }
 
-.g-auth{
-  box-shadow:none !important;
+.g-auth {
+  box-shadow: none !important;
   margin: 0 auto;
 }
