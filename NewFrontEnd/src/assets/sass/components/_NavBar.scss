@@ -1,10 +1,32 @@
-.navbar-sign-in-button {
-  @extend .no-show;
+// .navbar-sign-in-button {
+//   @extend .no-show;
+//   font-family: Roboto Slab;
+//   font-weight: $default-text-weight;
+//   font-size: 18px;
+//   letter-spacing: 0.2em;
+//   color: theme-color('secondary') !important;
+// }
+
+.g-auth {
+  box-shadow: none !important;
+  margin: 0 auto;
+}
+
+.sign-in,
+.sign-out {
   font-family: Roboto Slab;
-  font-weight: $default-text-weight;
+  font-style: normal;
+  font-weight: bold;
   font-size: 18px;
+  line-height: 30px;
+  /* or 167% */
+  display: flex;
+  align-items: flex-end;
   letter-spacing: 0.2em;
-  color: theme-color('secondary') !important;
+  border: 0;
+  outline: 0;
+  color: #4d5e3b;
+  background-color: transparent;
 }
 
 .g-auth {

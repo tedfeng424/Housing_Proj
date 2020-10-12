@@ -15,3 +15,5 @@ FrontEnd/node_modules
 # new frontend
 NewFrontEnd/node_modules
 NewFrontEnd/coverage
+NewFrontEnd/package-lock.json
+

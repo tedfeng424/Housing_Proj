@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Container } from 'reactstrap';
+
 interface PathProps {}
 
 const nonSelectStyle = 'post-word-sub';
@@ -67,7 +68,7 @@ const PostForm: React.FC<PathProps> = () => {
             <Row className="post-word"> School year </Row>
             <br />
             <Row>
-              <div className={selected == 'First' ? SelectBg : nonSelectBg}>
+              <div className={selected === 'First' ? SelectBg : nonSelectBg}>
                 <span
                   className={selected == 'First' ? selectStyle : nonSelectStyle}
                   onClick={() => setselected('First')}
@@ -76,7 +77,9 @@ const PostForm: React.FC<PathProps> = () => {
                   First
                 </span>
               </div>
-              <div className={selected == 'Sophomore' ? SelectBg : nonSelectBg}>
+              <div
+                className={selected === 'Sophomore' ? SelectBg : nonSelectBg}
+              >
                 <span
                   className={
                     selected == 'Sophomore' ? selectStyle : nonSelectStyle
@@ -87,7 +90,7 @@ const PostForm: React.FC<PathProps> = () => {
                   Sophomore
                 </span>
               </div>
-              <div className={selected == 'Junior' ? SelectBg : nonSelectBg}>
+              <div className={selected === 'Junior' ? SelectBg : nonSelectBg}>
                 <span
                   className={
                     selected == 'Junior' ? selectStyle : nonSelectStyle
@@ -98,7 +101,7 @@ const PostForm: React.FC<PathProps> = () => {
                   Junior
                 </span>
               </div>
-              <div className={selected == 'Senior' ? SelectBg : nonSelectBg}>
+              <div className={selected === 'Senior' ? SelectBg : nonSelectBg}>
                 <span
                   className={
                     selected == 'Senior' ? selectStyle : nonSelectStyle
@@ -109,7 +112,7 @@ const PostForm: React.FC<PathProps> = () => {
                   Senior
                 </span>
               </div>
-              <div className={selected == 'Fifth' ? SelectBg : nonSelectBg}>
+              <div className={selected === 'Fifth' ? SelectBg : nonSelectBg}>
                 <span
                   className={selected == 'Fifth' ? selectStyle : nonSelectStyle}
                   onClick={() => setselected('Fifth')}
@@ -118,7 +121,7 @@ const PostForm: React.FC<PathProps> = () => {
                   Fifth
                 </span>
               </div>
-              <div className={selected == 'Grad' ? SelectBg : nonSelectBg}>
+              <div className={selected === 'Grad' ? SelectBg : nonSelectBg}>
                 <span
                   className={selected == 'Grad' ? selectStyle : nonSelectStyle}
                   onClick={() => setselected('Grad')}
