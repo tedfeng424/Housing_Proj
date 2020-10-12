@@ -127,7 +127,7 @@ const HouseProfile: React.FC<PathProps> = ({
 
               <Row>Facilities</Row>
               <Row>
-                {facilities.map((facility) => (
+                {facilities.map(facility => (
                   <Col xs={{ span: 3, offset: 1 }} className="text-center">
                     <GetIcon str={facility} />
                     {facility}
@@ -139,7 +139,7 @@ const HouseProfile: React.FC<PathProps> = ({
 
               <Row>Looking for</Row>
               <ul>
-                {lookingFor.map((description) => (
+                {lookingFor.map(description => (
                   <li>{description}</li>
                 ))}
               </ul>
