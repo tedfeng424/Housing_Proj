@@ -10,6 +10,7 @@ const priceCenterCoordinates = '32.8797,-117.2362';
 /**
  * Gets the duration of a trip on an average day from address to Price Center
  * @param address - the address to get duration (from address to Price Center)
+ * @return - the string "[min] min" (i.e. "12 min") OR undefined if an error occured
  */
 const getDuration = async (address: string): Promise<string | undefined> => {
   try {
