@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import PlacesAutocomplete from 'react-places-autocomplete';
-/* import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng
-} from 'react-places-autocomplete' */
 
 const AutoComplete: React.FC<{}> = () => {
-  const [address, setAddress] = useState('9500 Gilman Drive, San Diego');
+  const [address, setAddress] = useState('');
 
   return (
     <PlacesAutocomplete
@@ -15,12 +11,11 @@ const AutoComplete: React.FC<{}> = () => {
       onSelect={setAddress}
     >
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-        <div>
+        <div className="w-75">
           <input
             {...getInputProps({
               placeholder: 'Search Places ...',
-              className: 'location-search-input',
-              style: { width: '200px', marginLeft: '20px', height: '25px' },
+              className: 'location-search-input post-input w-100',
             })}
           />
           <div className="autocomplete-dropdown-container">

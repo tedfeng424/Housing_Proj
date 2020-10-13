@@ -3,9 +3,7 @@ import NavBar from './components/NavBar';
 import Filter from './components/Filter';
 // import { Counter } from './redux-example/counter/Counter';
 import Home from './components/Home';
-import PostForm from './components/PostForm';
-import PostForm2 from './components/PostForm2';
-import PostForm5 from './components/PostForm5';
+import PostHousing from './components/PostHousing';
 // import ImagesUploader from './components/ImagesUploaderModule';
 import OtherOptions from './components/OtherOptionsModule';
 import AutoComplete from './components/PlacesAutoComplete';
@@ -13,13 +11,10 @@ import AutoComplete from './components/PlacesAutoComplete';
 function App() {
   return (
     <div className="App">
-      <AutoComplete />
       <NavBar />
       <Filter />
       <Home />
-      <PostForm />
-      <PostForm2 />
-      <PostForm5 />
+      <PostHousing />
     </div>
   );
 }

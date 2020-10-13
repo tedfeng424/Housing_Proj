@@ -105,15 +105,20 @@ const Filter: React.FC<{}> = () => {
   return (
     <>
       {/* Header in the home page */}
-      <div className="filter-launch-pad">
-        <filterIcons.hello />
-        <filterIcons.arrow />
-        <Button onClick={() => setShow(true)} className="filter-launch-button">
-          Filter & Match
-        </Button>
-        <filterIcons.arrow />
-        <filterIcons.loveHouse />
-      </div>
+      <Col md={{ span: 10, offset: 1 }}>
+        <div className="filter-launch-pad">
+          <filterIcons.hello />
+          <filterIcons.arrow />
+          <Button
+            onClick={() => setShow(true)}
+            className="filter-launch-button"
+          >
+            Filter & Match
+          </Button>
+          <filterIcons.arrow />
+          <filterIcons.loveHouse />
+        </div>
+      </Col>
 
       {/* The filter itself */}
       <Modal show={show} onHide={() => setShow(false)} size="xl" centered>

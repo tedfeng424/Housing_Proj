@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import Container from 'react-bootstrap/Container';
-import { Button } from 'reactstrap';
+import { Button } from 'react-bootstrap';
 import { GoogleLogout } from 'react-google-login';
 import Login from './Login';
 import { navIcons } from '../assets/icons/all';
@@ -28,7 +25,7 @@ const NavBar: React.FC<NavBarProps> = ({}) => {
         </a>
       </nav>
       {isSignedOut ? (
-        <Button className="sign-in" onClick={handleShow}>
+        <Button className="g-sign-in" onClick={handleShow}>
           {/* need to handle isSignedOut case */}
           Sign In
         </Button>

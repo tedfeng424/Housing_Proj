@@ -12,8 +12,8 @@
   margin: 0 auto;
 }
 
-.sign-in,
-.sign-out {
+.g-sign-in,
+.g-sign-out {
   font-family: Roboto Slab;
   font-style: normal;
   font-weight: bold;
@@ -25,8 +25,13 @@
   letter-spacing: 0.2em;
   border: 0;
   outline: 0;
-  color: #4d5e3b;
-  background-color: transparent;
+  color: $secondary-color !important;
+  background-color: #fff !important;
+}
+
+.g-sign-in:hover,
+.g-sign-out:hover {
+  color: $secondary-light-color !important;
 }
 
 .g-auth {

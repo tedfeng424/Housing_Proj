@@ -55,9 +55,15 @@ const WizardForm: React.FC<PathProps> = ({
 
   // TODO need to figure out how to have loading thing on top
   return (
-    <Modal show={show} onHide={() => setShow(false)} size="xl" centered>
-      <Container>
-        <div className="d-flex align-items-center justify-content-around">
+    <Modal
+      dialogClassName="post-modal"
+      show={show}
+      onHide={() => setShow(false)}
+      size="xl"
+      centered
+    >
+      <Container className="h-100">
+        <div className="d-flex align-items-center justify-content-around h-100">
           <Col xs={1} className="d-flex arrow-icon justify-content-center">
             {!isFirst && !hideButtons && (
               <div>

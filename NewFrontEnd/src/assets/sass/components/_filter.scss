@@ -82,9 +82,10 @@
 
 .filter-launch-button {
   @extend .m-0;
-  @extend .p-lg-5;
+  @extend .pr-lg-5;
+  @extend .pl-lg-5;
   @extend .p-sm-3;
   @extend .rounded-pill;
-  min-width: 25%;
-  font-size: add(1vh, 2vw);
+  letter-spacing: 0.1rem;
+  font-size: add(1.2vh, 1.2vw);
 }

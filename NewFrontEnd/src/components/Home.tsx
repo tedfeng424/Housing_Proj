@@ -120,19 +120,23 @@ const Home: React.FC<{}> = () => {
 
   return (
     <Container fluid>
-      <Row>
-        {cards.map(({ pricePerMonth, roomType, moveIn, distance, address }) => (
-          <Col xs={12} md={6} className="mb-5">
-            <HouseCard
-              pricePerMonth={pricePerMonth}
-              roomType={roomType}
-              moveIn={moveIn}
-              distance={distance}
-              address={address}
-            />
-          </Col>
-        ))}
-      </Row>
+      <Col md={{ span: 8, offset: 1 }}>
+        <Row>
+          {cards.map(
+            ({ pricePerMonth, roomType, moveIn, distance, address }) => (
+              <Col xs={12} md={6} className="mb-5">
+                <HouseCard
+                  pricePerMonth={pricePerMonth}
+                  roomType={roomType}
+                  moveIn={moveIn}
+                  distance={distance}
+                  address={address}
+                />
+              </Col>
+            ),
+          )}
+        </Row>
+      </Col>
     </Container>
   );
 };
