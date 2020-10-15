@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 import { Row, Col, Container } from 'react-bootstrap';
 import AutoComplete from '../PlacesAutoComplete';
 
-interface PathProps {}
-
 const nonSelectStyle = 'post-word-sub';
 const selectStyle = 'post-word-sub post-word-sub-selected';
 const nonSelectBg = 'post-word-sub-bg';
 const SelectBg = 'post-word-sub-bg post-word-sub-bg-selected';
 
-const PostPage1: React.FC<PathProps> = () => {
+const PostPage1: React.FC = () => {
   const [selected, setselected] = useState<string>('First');
   return (
     <Container>

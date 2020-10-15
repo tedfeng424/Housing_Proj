@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PlacesAutocomplete from 'react-places-autocomplete';
 
-const AutoComplete: React.FC<{}> = () => {
-  const [address, setAddress] = useState('');
+const AutoComplete: React.FC = () => {
+  const [address, setAddress] = useState<string>('');
 
   return (
     <PlacesAutocomplete
@@ -13,6 +13,7 @@ const AutoComplete: React.FC<{}> = () => {
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
         <div className="w-75">
           <input
+            // TODO fix 'Prop spreading is forbidden'
             {...getInputProps({
               placeholder: 'Search Places ...',
               className: 'location-search-input post-input w-100',
@@ -32,10 +33,13 @@ const AutoComplete: React.FC<{}> = () => {
                 // TODO: Missing "key" prop for element in iterator
                 <div
                   key={index}
-                  {...getSuggestionItemProps(suggestion, {
-                    className,
-                    style,
-                  })}
+                  {
+                    /* TODO fix 'Prop spreading is forbidden' */
+                    ...getSuggestionItemProps(suggestion, {
+                      className,
+                      style,
+                    })
+                  }
                 >
                   <span>{suggestion.description}</span>
                 </div>

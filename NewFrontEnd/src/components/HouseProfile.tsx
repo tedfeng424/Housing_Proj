@@ -8,7 +8,7 @@ import Image from 'react-bootstrap/Image';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import GoogleMap from './GoogleMap';
-import Example from './NewSlideShow';
+import PreviewSlideShow, { testSlideShow } from './PreviewSlideShow';
 import { contactIcons, miscIcons, facilityIcons } from '../assets/icons/all';
 
 const Ellipse: React.FC<{}> = () => (
@@ -78,8 +78,8 @@ const HouseProfile: React.FC<PathProps> = ({
       <Container>
         <Row>
           {/* first column */}
-          <Col sm={12} md={12} lg={5} className="text-center mb-3">
-            <Example />
+          <Col sm={12} lg={5} className="house-profile-preview-slideshow">
+            <PreviewSlideShow items={testSlideShow} />
           </Col>
 
           {/* second column */}

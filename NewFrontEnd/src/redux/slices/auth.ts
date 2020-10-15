@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk, RootState } from '../store';
 
-interface User {};
+interface User {}
 
 interface AuthState {
   user?: User;
@@ -17,10 +17,11 @@ export const authSlice = createSlice({
   reducers: {
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
-    }
+    },
   },
 });
 
+// Export actions that were defined with createSlice
 export const { setUser } = authSlice.actions;
 
 export const selectUser = (state: RootState) => state.auth.user;
