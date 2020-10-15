@@ -61,7 +61,10 @@ const Login: React.FC<PathProps> = ({ handleClose, show }) => {
       <GoogleLogin
         className="g-auth"
         clientId="778916194800-977823s60p7mtu1sj72ru0922p2pqh6m.apps.googleusercontent.com"
-        onSuccess={responseGoogleSuccess}
+        onSuccess={(response) => {
+          responseGoogleSuccess(response);
+          handleClose();
+        }}
         onFailure={responseGoogleFail}
         // TODO: add login cookie to onSuccess using react-cookie
         cookiePolicy="single_host_origin"

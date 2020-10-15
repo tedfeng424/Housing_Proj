@@ -6,6 +6,10 @@
 //   letter-spacing: 0.2em;
 //   color: theme-color('secondary') !important;
 // }
+.navbar-whole {
+  background-color: var(--white);
+  box-shadow: 0 4px 10px 0 rgba(199, 131, 95, 0.1);
+}
 
 .g-auth {
   box-shadow: none !important;
@@ -14,10 +18,11 @@
 
 .g-sign-in,
 .g-sign-out {
+  margin: 0 !important;
   font-family: Roboto Slab;
   font-style: normal;
   font-weight: bold;
-  font-size: 18px;
+  font-size: calc(50% + 0.5vw + 1vh);
   line-height: 30px;
   /* or 167% */
   display: flex;

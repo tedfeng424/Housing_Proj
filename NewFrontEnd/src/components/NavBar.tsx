@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Container, Col, Row } from 'react-bootstrap';
 import { GoogleLogout } from 'react-google-login';
 import Login from './Login';
 import { navIcons } from '../assets/icons/all';
+import { useCookies } from 'react-cookie';
 
 interface NavBarProps {}
 
@@ -15,29 +16,47 @@ const NavBar: React.FC<NavBarProps> = ({}) => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [isSignedOut, setIsSignedOut] = useState<boolean>(true); // TODO change this to be handled by redux
+
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+  console.log(cookies);
 
   return (
-    <div className="d-flex mx-5 justify-content-between">
-      <nav className="navbar navbar-light">
-        <a className="navbar-brand" href="/">
-          <navIcons.logo />
-        </a>
-      </nav>
-      {isSignedOut ? (
-        <Button className="g-sign-in" onClick={handleShow}>
-          {/* need to handle isSignedOut case */}
-          Sign In
-        </Button>
-      ) : (
-        <GoogleLogout
-          clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
-          buttonText="Logout"
-          onLogoutSuccess={logout}
-        />
-      )}
+    <Container fluid className="d-flex navbar-whole">
+      <Col md={{ offset: 1, span: 8 }}>
+        <nav className="navbar navbar-light">
+          <a className="navbar-brand" href="/">
+            <navIcons.logo />
+          </a>
+        </nav>
+      </Col>
+      <Col md={2}>
+        <Row className="h-25"></Row>
+        {cookies.user === undefined ? (
+          <Button className="g-sign-in" onClick={handleShow}>
+            {/* need to handle isSignedOut case */}
+            Sign In
+          </Button>
+        ) : (
+          <GoogleLogout
+            clientId="778916194800-977823s60p7mtu1sj72ru0922p2pqh6m.apps.googleusercontent.com"
+            onLogoutSuccess={() => {
+              removeCookie('user');
+            }}
+            render={(renderProps) => (
+              <Button
+                className="g-sign-in"
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
+              >
+                {/* need to handle isSignedOut case */}
+                Log Out
+              </Button>
+            )}
+          ></GoogleLogout>
+        )}
+      </Col>
       <Login show={show} handleClose={handleClose} />
-    </div>
+    </Container>
   );
 };
 
