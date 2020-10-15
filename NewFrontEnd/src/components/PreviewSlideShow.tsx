@@ -10,7 +10,17 @@ import {
 import Col from 'react-bootstrap/esm/Col';
 import Row from 'react-bootstrap/esm/Row';
 
-const items = [
+interface PreviewSlideShowItem {
+  src: string;
+  altText: string;
+  caption: string;
+}
+
+type AtLeastOnePreviewSlideShowItem = {
+  0: PreviewSlideShowItem;
+} & PreviewSlideShowItem[];
+
+export const testSlideShow: AtLeastOnePreviewSlideShowItem = [
   {
     src:
       'https://www.fosi.org/media/images/funny-game-of-thrones-memes-coverimage.width-800.jpg',
@@ -31,7 +41,11 @@ const items = [
   },
 ];
 
-const Example = () => {
+interface PathProps {
+  items: AtLeastOnePreviewSlideShowItem;
+}
+
+const PreviewSlideShow: React.FC<PathProps> = ({ items }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
 
@@ -72,43 +86,45 @@ const Example = () => {
     );
   });
 
-  const thumbs = items.map((item, idx) => {
-    return (
-      <Col md={4} style={{ paddingLeft: 0, paddingRight: 0 }}>
-        <img
-          className={
-            activeIndex == idx
-              ? 'd-block w-100 h-100'
-              : 'd-block w-100 h-100 selected-img'
-          }
-          src={item.src}
-          alt={item.altText}
-          onClick={() => goToIndex(idx)}
-        />
-      </Col>
-    );
-  });
+  // TODO eventually change to flexbox
+  const thumbs = items.map((item, idx) => (
+    <Col sm={Math.ceil(12 / items.length)} className="p-0 m-0 ">
+      <img
+        className={
+          activeIndex == idx
+            ? 'd-block w-100 h-100'
+            : 'd-block w-100 h-100 selected-img'
+        }
+        src={item.src}
+        alt={item.altText}
+        onClick={() => goToIndex(idx)}
+      />
+    </Col>
+  ));
 
   return (
-    <Col className="h-100">
-      <Row style={{ height: '80%' }}>
-        <Carousel activeIndex={activeIndex} next={next} previous={previous}>
-          {slides}
-          <CarouselControl
-            direction="prev"
-            directionText="Previous"
-            onClickHandler={previous}
-          />
-          <CarouselControl
-            direction="next"
-            directionText="Next"
-            onClickHandler={next}
-          />
-        </Carousel>
-      </Row>
-      <Row>{thumbs}</Row>
+    <Col className="h-100 d-flex flex-column align-items-stretch align-content-stretch">
+      <Carousel
+        activeIndex={activeIndex}
+        next={next}
+        previous={previous}
+        className="align-flex-stretch"
+      >
+        {slides}
+        <CarouselControl
+          direction="prev"
+          directionText="Previous"
+          onClickHandler={previous}
+        />
+        <CarouselControl
+          direction="next"
+          directionText="Next"
+          onClickHandler={next}
+        />
+      </Carousel>
+      <div className="preview-slideshow-thumbnail">{thumbs}</div>
     </Col>
   );
 };
 
-export default Example;
+export default PreviewSlideShow;

@@ -12,3 +12,13 @@ body {
   padding: 0 !important;
   margin: 0 !important;
 }
+
+.disappear-on-xs {
+  @extend .d-none;
+  @extend .d-sm-flex;
+}
+
+.ex {
+  @extend .no-show;
+  display: flex;
+}

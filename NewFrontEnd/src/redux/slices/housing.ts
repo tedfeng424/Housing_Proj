@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk, RootState } from '../store';
 
 interface HousingPost {
-  title: String;
+  title: string;
   // add more...
 }
 
@@ -28,7 +28,7 @@ export const housingSlice = createSlice({
 export const { setHousingPosts } = housingSlice.actions;
 
 // thunks below
-export const updateHousingPosts = (): AppThunk => dispatch => {
+export const updateHousingPosts = (): AppThunk => (dispatch) => {
   // await simulation
   setTimeout(() => {
     dispatch(setHousingPosts([]));

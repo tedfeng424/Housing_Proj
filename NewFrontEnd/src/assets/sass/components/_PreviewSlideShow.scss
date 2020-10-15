@@ -1,0 +1,5 @@
+.preview-slideshow-thumbnail {
+  @extend .disappear-on-xs;
+  min-height: 15%;
+  display: flex;
+}

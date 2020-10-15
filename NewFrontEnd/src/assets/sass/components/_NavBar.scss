@@ -31,7 +31,7 @@
 
 .g-sign-in:hover,
 .g-sign-out:hover {
-  color: $secondary-light-color !important;
+  color: theme-color('secondary-light-color') !important;
 }
 
 .g-auth {
