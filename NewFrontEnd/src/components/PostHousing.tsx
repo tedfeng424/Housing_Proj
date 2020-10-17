@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
+import { Row, Container, Button } from 'react-bootstrap';
 import PostPage1 from './pages/PostPage1';
 import PostPage2 from './pages/PostPage2';
 import PostPage3 from './pages/PostPage3';
 import PostPage4 from './pages/PostPage4';
 import PostPage5 from './pages/PostPage5';
 import WizardForm from './WizardForm';
-import { Row, Container, Button } from 'react-bootstrap';
 
 const PostHousing: React.FC<{}> = () => {
   const [show, setShow] = useState<boolean>(false);
