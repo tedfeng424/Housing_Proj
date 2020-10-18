@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
-import SlideShow from './SlideShow';
+import SlideShow, { testSlideShow } from './SlideShow';
 import HouseProfile from './HouseProfile';
 
 export interface PathProps {
@@ -56,7 +56,10 @@ const HouseCard: React.FC<PathProps> = ({
         <Card.Body>
           <Container>
             <Row className="house-pic">
-              <SlideShow setShow={setShow} />
+              <SlideShow
+                images={testSlideShow}
+                onImageClick={() => setShow(true)}
+              />
             </Row>
             <Row>
               <Col md={5} className="house-card-left house-card-price">

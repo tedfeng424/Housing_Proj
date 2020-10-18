@@ -12,7 +12,7 @@ import {
   filterIcons,
   preferencesIcons,
 } from '../assets/icons/all';
-import { intervalOptions, yearMonths } from '../assets/constants/constants';
+import { intervalOptions, yearMonths } from '../assets/constants';
 
 interface Preferences {
   female: boolean;

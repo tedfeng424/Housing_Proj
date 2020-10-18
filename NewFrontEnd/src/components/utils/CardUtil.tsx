@@ -1,5 +1,5 @@
 // TODO probably move this back to the other component (forgot where it was)
-import { intervalOptions, yearMonths } from '../../assets/constants/constants';
+import { intervalOptions, yearMonths } from '../../assets/constants';
 
 export function MoveInSelect(
   earlyMonth: string,

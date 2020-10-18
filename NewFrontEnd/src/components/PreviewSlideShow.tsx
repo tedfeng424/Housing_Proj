@@ -9,6 +9,7 @@ import {
 } from 'reactstrap';
 import Col from 'react-bootstrap/esm/Col';
 import Row from 'react-bootstrap/esm/Row';
+import { AtLeastOne } from '../assets/utils';
 
 interface PreviewSlideShowItem {
   src: string;
@@ -16,11 +17,7 @@ interface PreviewSlideShowItem {
   caption: string;
 }
 
-type AtLeastOnePreviewSlideShowItem = {
-  0: PreviewSlideShowItem;
-} & PreviewSlideShowItem[];
-
-export const testSlideShow: AtLeastOnePreviewSlideShowItem = [
+export const testSlideShow: AtLeastOne<PreviewSlideShowItem> = [
   {
     src:
       'https://www.fosi.org/media/images/funny-game-of-thrones-memes-coverimage.width-800.jpg',
@@ -42,7 +39,7 @@ export const testSlideShow: AtLeastOnePreviewSlideShowItem = [
 ];
 
 interface PathProps {
-  items: AtLeastOnePreviewSlideShowItem;
+  items: AtLeastOne<PreviewSlideShowItem>;
 }
 
 const PreviewSlideShow: React.FC<PathProps> = ({ items }) => {

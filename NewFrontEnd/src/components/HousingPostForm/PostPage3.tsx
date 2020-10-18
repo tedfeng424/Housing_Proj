@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Dropdown, Form } from 'react-bootstrap';
-import { intervalOptions, yearMonths } from '../../assets/constants/constants';
+import { intervalOptions, yearMonths } from '../../assets/constants';
 import { MoveInSelect, StringWrap } from '../utils/CardUtil';
 
 const PostPage3: React.FC<{}> = () => {
