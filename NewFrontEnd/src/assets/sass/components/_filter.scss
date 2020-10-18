@@ -84,8 +84,13 @@
   @extend .m-0;
   @extend .pr-lg-5;
   @extend .pl-lg-5;
-  @extend .p-sm-3;
+  @extend .p-md-3;
+  @extend .p-4;
   @extend .rounded-pill;
   letter-spacing: 0.1rem;
   font-size: add(1.2vh, 1.2vw);
+
+  @include mobile-and-smaller {
+    font-size: 4vh;
+  }
 }

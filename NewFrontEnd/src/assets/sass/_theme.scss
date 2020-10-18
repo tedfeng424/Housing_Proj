@@ -18,7 +18,24 @@ body {
   @extend .d-sm-flex;
 }
 
+.disappear-on-sm {
+  @extend .d-none;
+  @extend .d-md-flex;
+}
+
 .ex {
   @extend .no-show;
   display: flex;
+}
+
+.roboto-slab-font,
+.secondary-title-font {
+  font-family: $roboto-slab-font, 'Courier New', Courier, monospace;
+}
+
+.secondary-title {
+  @extend .secondary-title-font;
+  color: $focused-color;
+  font-weight: $default-text-weight;
+  font-size: 20px;
 }

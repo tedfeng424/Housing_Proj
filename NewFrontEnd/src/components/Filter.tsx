@@ -13,7 +13,6 @@ import {
   preferencesIcons,
 } from '../assets/icons/all';
 import { intervalOptions, yearMonths } from '../assets/constants/constants';
-import TV from './TV';
 
 interface Preferences {
   female: boolean;
@@ -107,23 +106,19 @@ const Filter: React.FC<{}> = () => {
     <>
       <Row>
         {/* Header in the home page */}
-        <Col md={{ span: 8, offset: 1 }}>
+        <Col>
           <div className="filter-launch-pad">
-            <filterIcons.hello />
-            <filterIcons.arrow />
+            <filterIcons.hello className="disappear-on-sm" />
+            <filterIcons.arrow className="disappear-on-sm" />
             <Button
               onClick={() => setShow(true)}
               className="filter-launch-button"
             >
               Filter & Match
             </Button>
-            <filterIcons.arrow />
-            <filterIcons.loveHouse />
+            <filterIcons.arrow className="disappear-on-sm" />
+            <filterIcons.loveHouse className="disappear-on-sm" />
           </div>
-        </Col>
-        {/* TV */}
-        <Col md={{ span: 1 }}>
-          <TV />
         </Col>
       </Row>
       {/* The filter itself */}

@@ -1,0 +1,5 @@
+@mixin mobile-and-smaller {
+  @include media-breakpoint-down(sm) {
+    @content;
+  }
+}

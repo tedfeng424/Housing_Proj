@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Button, Container, Col, Row } from 'react-bootstrap';
 import { GoogleLogout } from 'react-google-login';
+import { useCookies } from 'react-cookie';
 import Login from './Login';
 import { navIcons } from '../assets/icons/all';
-import { useCookies } from 'react-cookie';
 
 interface NavBarProps {}
 
@@ -29,8 +29,8 @@ const NavBar: React.FC<NavBarProps> = ({}) => {
           </a>
         </nav>
       </Col>
-      <Col md={2}>
-        <Row className="h-25"></Row>
+      <Col md={3}>
+        <Row className="h-25" />
         {cookies.user === undefined ? (
           <Button className="g-sign-in" onClick={handleShow}>
             {/* need to handle isSignedOut case */}
@@ -52,7 +52,7 @@ const NavBar: React.FC<NavBarProps> = ({}) => {
                 Log Out
               </Button>
             )}
-          ></GoogleLogout>
+          />
         )}
       </Col>
       <Login show={show} handleClose={handleClose} />

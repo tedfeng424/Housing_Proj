@@ -1,142 +1,59 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import HouseCard, { PathProps } from './HouseCard';
+import Button from 'react-bootstrap/Button';
+import { useCookies } from 'react-cookie';
+import HousingList from './HousingList';
+import Filter from './Filter';
+import TV from './TV';
+import Login from './Login';
+import HousingPost from './HousingPostForm';
 
-const Home: React.FC<{}> = () => {
-  const [cards, setCards] = useState<PathProps[]>([]);
+const Home: React.FC = () => {
+  const [showLogin, setShowLogin] = useState<boolean>(false);
+  const handleCloseLogin = () => setShowLogin(false);
+  const handleShowLogin = () => setShowLogin(true);
 
-  useEffect(() => {
-    // fake the api call to get the housing card info
-    setCards([
-      {
-        pricePerMonth: 1200,
-        roomType: 'Single',
-        moveIn: 'Anytime',
-        distance: 20,
-        address: '8550 Julian Street, 93660',
-      },
-      {
-        pricePerMonth: 1200,
-        roomType: 'Single',
-        moveIn: 'Anytime',
-        distance: 20,
-        address: '8550 Julian Street, 93660',
-      },
-      {
-        pricePerMonth: 1200,
-        roomType: 'Single',
-        moveIn: 'Anytime',
-        distance: 20,
-        address: '8550 Julian Street, 93660',
-      },
-      {
-        pricePerMonth: 1200,
-        roomType: 'Single',
-        moveIn: 'Anytime',
-        distance: 20,
-        address: '8550 Julian Street, 93660',
-      },
-      {
-        pricePerMonth: 1200,
-        roomType: 'Single',
-        moveIn: 'Anytime',
-        distance: 20,
-        address: '8550 Julian Street, 93660',
-      },
-      {
-        pricePerMonth: 1200,
-        roomType: 'Single',
-        moveIn: 'Anytime',
-        distance: 20,
-        address: '8550 Julian Street, 93660',
-      },
-      {
-        pricePerMonth: 1200,
-        roomType: 'Single',
-        moveIn: 'Anytime',
-        distance: 20,
-        address: '8550 Julian Street, 93660',
-      },
-      {
-        pricePerMonth: 1200,
-        roomType: 'Single',
-        moveIn: 'Anytime',
-        distance: 20,
-        address: '8550 Julian Street, 93660',
-      },
-      {
-        pricePerMonth: 1200,
-        roomType: 'Single',
-        moveIn: 'Anytime',
-        distance: 20,
-        address: '8550 Julian Street, 93660',
-      },
-      {
-        pricePerMonth: 1200,
-        roomType: 'Single',
-        moveIn: 'Anytime',
-        distance: 20,
-        address: '8550 Julian Street, 93660',
-      },
-      {
-        pricePerMonth: 1200,
-        roomType: 'Single',
-        moveIn: 'Anytime',
-        distance: 20,
-        address: '8550 Julian Street, 93660',
-      },
-      {
-        pricePerMonth: 1200,
-        roomType: 'Single',
-        moveIn: 'Anytime',
-        distance: 20,
-        address: '8550 Julian Street, 93660',
-      },
-      {
-        pricePerMonth: 1200,
-        roomType: 'Single',
-        moveIn: 'Anytime',
-        distance: 20,
-        address: '8550 Julian Street, 93660',
-      },
-      {
-        pricePerMonth: 1200,
-        roomType: 'Single',
-        moveIn: 'Anytime',
-        distance: 20,
-        address: '8550 Julian Street, 93660',
-      },
-      {
-        pricePerMonth: 1200,
-        roomType: 'Single',
-        moveIn: 'Anytime',
-        distance: 20,
-        address: '8550 Julian Street, 93660',
-      },
-    ]);
-  }, []);
+  const [showHousingPost, setShowHousingPost] = useState<boolean>(false);
+  const handleCloseHousingPost = () => setShowHousingPost(false);
+  const handleShowHousingPost = () => setShowHousingPost(true);
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
   return (
-    <Container fluid>
-      <Col md={{ span: 8, offset: 1 }}>
-        <Row>
-          {cards.map(
-            ({ pricePerMonth, roomType, moveIn, distance, address }) => (
-              <Col xs={12} md={6} className="mb-5">
-                <HouseCard
-                  pricePerMonth={pricePerMonth}
-                  roomType={roomType}
-                  moveIn={moveIn}
-                  distance={distance}
-                  address={address}
-                />
-              </Col>
-            ),
-          )}
-        </Row>
-      </Col>
+    <Container>
+      <Login show={showLogin} handleClose={handleCloseLogin} />
+      <HousingPost show={showHousingPost} setShow={setShowHousingPost} />
+
+      <Row>
+        <Col md={{ span: 8, offset: 1 }}>
+          <Filter />
+        </Col>
+
+        <Col md={3}>
+          <TV>
+            {cookies.user === undefined ? (
+              <>
+                <div className="secondary-title mt-3">Hello</div>
+                <div className="tv-separator" />
+                <Button onClick={handleShowLogin}>Sign in to post</Button>
+              </>
+            ) : (
+              <>
+                <Button onClick={handleShowHousingPost}>Post house info</Button>
+                <Button>Post a request</Button>
+              </>
+            )}
+          </TV>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={{ span: 8, offset: 1 }}>
+          <HousingList />
+        </Col>
+
+        <Col md={3}>Favorites go here let's go</Col>
+      </Row>
     </Container>
   );
 };

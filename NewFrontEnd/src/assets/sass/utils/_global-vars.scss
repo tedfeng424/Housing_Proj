@@ -1,6 +1,7 @@
 // Variables that will be used across the site should go here (try to use
 // bootstrap's variables whenever possible).
 @import url(https://fonts.googleapis.com/css?family=Montserrat:400,500,80);
+@import url(http://fonts.googleapis.com/css?family=Roboto+Slab|Open+Sans:400italic,700italic,400,700);
 
 /**
  * There are 5 main colors: 3 orange variations, two green. The three orange variations seem to have 3 purposes:
@@ -8,6 +9,7 @@
  * color. The two green variations seem to have similar purposes, a 'focused' and 'unfocused/background' color
  * (these will just be secondary-color and secondary-light-color since there are only 2).
  */
+// TODO fix up the color naming scheme (like my god bruh this shit sucks lmao)
 $responsive-to-user-color: #e7936d; // i.e. buttons
 $focused-color: #a6623f; // i.e. 'Your name'
 $unfocused-color: #d3ab98; // i.e. 'min', 'to school'
@@ -16,7 +18,13 @@ $primary-color-light: #fdf4f0;
 $secondary-color: #4d5e3b;
 $secondary-light-color: #e6f0d8;
 $main-background-color: #fffcfb;
+$darker-background-color: #f8e6d8;
 
 $default-text-weight: 700;
 
 $rounded-lg: 40px;
+
+$default-border-width: 3px;
+
+$roboto-slab-font: 'Roboto Slab';
+$secondary-title-font: $roboto-slab-font;
