@@ -131,7 +131,7 @@ const Filter: React.FC<{}> = () => {
             <Row className="justify-content-center">
               <span className="word">Less than </span>
               <Form.Control
-                className="w-10rem mx-3"
+                className="w-10rem mx-3 single-line-input"
                 type="number"
                 min={0}
                 max={120}
@@ -201,6 +201,7 @@ const Filter: React.FC<{}> = () => {
                   <Form.Label className="word mr-3">Min</Form.Label>
                   <Col>
                     <Form.Control
+                      className="single-line-input"
                       type="number"
                       min={0}
                       value={price.minimum}
@@ -225,6 +226,7 @@ const Filter: React.FC<{}> = () => {
                   <Form.Label className="word mr-3">Max</Form.Label>
                   <Col>
                     <Form.Control
+                      className="single-line-input"
                       type="number"
                       min="0"
                       value={price.maximum}
@@ -381,6 +383,7 @@ const Filter: React.FC<{}> = () => {
                     <Form.Group as={Row} controlId="formNumberOfMonths">
                       <Col sm={8} md={8}>
                         <Form.Control
+                          className="single-line-input"
                           value={monthCount}
                           onChange={(event) =>
                             setMonthCount(parseInt(event.target.value))

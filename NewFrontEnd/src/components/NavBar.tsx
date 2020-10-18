@@ -5,23 +5,22 @@ import { useCookies } from 'react-cookie';
 import Login from './Login';
 import { navIcons } from '../assets/icons/all';
 
-interface NavBarProps {}
-
 const logout = () => {
   console.log('Successful Logout');
 };
 
-const NavBar: React.FC<NavBarProps> = ({}) => {
-  const [show, setShow] = useState(false);
+const NavBar: React.FC = () => {
+  const [showLogin, setShowLogin] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleCloseLogin = () => setShowLogin(false);
+  const handleShowLogin = () => setShowLogin(true);
 
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
-  console.log(cookies);
 
   return (
     <Container fluid className="d-flex navbar-whole">
+      <Login show={showLogin} handleClose={handleCloseLogin} />
+
       <Col md={{ offset: 1, span: 8 }}>
         <nav className="navbar navbar-light">
           <a className="navbar-brand" href="/">
@@ -32,7 +31,7 @@ const NavBar: React.FC<NavBarProps> = ({}) => {
       <Col md={3}>
         <Row className="h-25" />
         {cookies.user === undefined ? (
-          <Button className="g-sign-in" onClick={handleShow}>
+          <Button className="g-sign-in" onClick={handleShowLogin}>
             {/* need to handle isSignedOut case */}
             Sign In
           </Button>
@@ -55,7 +54,6 @@ const NavBar: React.FC<NavBarProps> = ({}) => {
           />
         )}
       </Col>
-      <Login show={show} handleClose={handleClose} />
     </Container>
   );
 };

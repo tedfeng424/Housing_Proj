@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { Row, Col, Container } from 'react-bootstrap';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
 import AutoComplete from '../PlacesAutoComplete';
 
 const nonSelectStyle = 'post-word-sub';
@@ -8,22 +11,39 @@ const nonSelectBg = 'post-word-sub-bg';
 const SelectBg = 'post-word-sub-bg post-word-sub-bg-selected';
 
 const PostPage1: React.FC = () => {
+  const [firstName, setFirstName] = useState<string>('');
+  const [lastName, setLastName] = useState<string>('');
   const [selected, setselected] = useState<string>('First');
+
   return (
     <Container>
       <Row>
         <Col>
           <span className="post-title">
-            ~Something personal will make your post more trustworthy~{' '}
+            ~Something personal will make your post more trustworthy~
           </span>
         </Col>
       </Row>
+
+      {/* TODO this is what the inputs should look like */}
+      {/* <Form.Row className="justify-content-center m-2">
+        <Form.Label className="post-word">Your name</Form.Label>
+        <Form.Control
+          className="single-line-input"
+          type="text"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          isValid={firstName.length > 0}
+          isInvalid={firstName.length === 0}
+          placeholder="Name"
+        />
+      </Form.Row> */}
+
       <Row>
         <Col md={{ span: 7, offset: 2 }}>
           <Row className="post-word"> Your name </Row>
           <Row>
-            {' '}
-            <input className="post-input w-100" />{' '}
+            <input className="post-input w-100" />
           </Row>
         </Col>
       </Row>
@@ -32,15 +52,13 @@ const PostPage1: React.FC = () => {
         <Col md={{ span: 4, offset: 2 }}>
           <Row className="post-word"> Phone </Row>
           <Row>
-            {' '}
-            <input className="post-input w-75" />{' '}
+            <input className="post-input w-75" />
           </Row>
         </Col>
         <Col md={4}>
           <Row className="post-word"> School email </Row>
           <Row>
-            {' '}
-            <input className="post-input w-75" />{' '}
+            <input className="post-input w-75" />
           </Row>
         </Col>
       </Row>
@@ -55,7 +73,6 @@ const PostPage1: React.FC = () => {
                 className={selected == 'First' ? selectStyle : nonSelectStyle}
                 onClick={() => setselected('First')}
               >
-                {' '}
                 First
               </span>
             </div>
@@ -66,7 +83,6 @@ const PostPage1: React.FC = () => {
                 }
                 onClick={() => setselected('Sophomore')}
               >
-                {' '}
                 Sophomore
               </span>
             </div>
@@ -75,7 +91,6 @@ const PostPage1: React.FC = () => {
                 className={selected == 'Junior' ? selectStyle : nonSelectStyle}
                 onClick={() => setselected('Junior')}
               >
-                {' '}
                 Junior
               </span>
             </div>
@@ -84,7 +99,6 @@ const PostPage1: React.FC = () => {
                 className={selected == 'Senior' ? selectStyle : nonSelectStyle}
                 onClick={() => setselected('Senior')}
               >
-                {' '}
                 Senior
               </span>
             </div>
@@ -93,7 +107,6 @@ const PostPage1: React.FC = () => {
                 className={selected == 'Fifth' ? selectStyle : nonSelectStyle}
                 onClick={() => setselected('Fifth')}
               >
-                {' '}
                 Fifth
               </span>
             </div>
@@ -102,7 +115,6 @@ const PostPage1: React.FC = () => {
                 className={selected == 'Grad' ? selectStyle : nonSelectStyle}
                 onClick={() => setselected('Grad')}
               >
-                {' '}
                 Grad
               </span>
             </div>
@@ -114,8 +126,7 @@ const PostPage1: React.FC = () => {
         <Col md={{ span: 4, offset: 2 }}>
           <Row className="post-word"> Major </Row>
           <Row>
-            {' '}
-            <input className="post-input w-75" />{' '}
+            <input className="post-input w-75" />
           </Row>
         </Col>
         <Col md={4}>

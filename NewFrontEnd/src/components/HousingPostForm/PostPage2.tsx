@@ -25,7 +25,7 @@ const PostPage2: React.FC<{}> = () => {
       <Row>
         <Col>
           <span className="post-title">
-            ...about the room, time & stay period{' '}
+            ...about the room, time & stay period
           </span>
         </Col>
       </Row>

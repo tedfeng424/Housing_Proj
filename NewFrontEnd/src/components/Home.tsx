@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import { useCookies } from 'react-cookie';
-import HousingList from './HousingList';
+import HousingList from './HouseCardList';
 import Filter from './Filter';
 import TV from './TV';
 import Login from './Login';
@@ -32,7 +32,7 @@ const Home: React.FC = () => {
 
         <Col md={3}>
           <TV>
-            {cookies.user === undefined ? (
+            {cookies.user !== undefined ? ( // TODO is supposed to be this: cookies.user === undefined    but i changed it for testing purposes temporarily
               <>
                 <div className="secondary-title mt-3">Hello</div>
                 <div className="tv-separator" />

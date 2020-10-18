@@ -39,3 +39,22 @@ body {
   font-weight: $default-text-weight;
   font-size: 20px;
 }
+
+.single-line-input {
+  font-weight: $default-text-weight;
+  color: theme-color('primary');
+  border: 0;
+  border-bottom: 3px solid theme-color('primary');
+  border-radius: 0;
+  box-shadow: none;
+
+  &.was-validated,
+  &.form-control:valid,
+  &.form-control.is-valid {
+    color: theme-color('primary');
+    border: 0;
+    border-bottom: 3px solid theme-color('primary');
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
