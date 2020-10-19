@@ -43,7 +43,7 @@ const PostPage1: React.FC = () => {
         <Col md={{ span: 7, offset: 2 }}>
           <Row className="post-word"> Your name </Row>
           <Row>
-            <input className="post-input w-100" />
+            <input className="w-100 single-line-input" />
           </Row>
         </Col>
       </Row>

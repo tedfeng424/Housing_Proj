@@ -47,7 +47,10 @@ body {
   border-bottom: 3px solid theme-color('primary');
   border-radius: 0;
   box-shadow: none;
+  outline: none;
 
+  :focus,
+  :active,
   &.was-validated,
   &.form-control:valid,
   &.form-control.is-valid {

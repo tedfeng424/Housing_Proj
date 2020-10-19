@@ -40,8 +40,11 @@ const Home: React.FC = () => {
               </>
             ) : (
               <>
+                {/* TODO this is temporary for while the 'Post ur request' is disabled */}
+                <div className="secondary-title mt-3">Hello</div>
+                <div className="tv-separator" />
                 <Button onClick={handleShowHousingPost}>Post house info</Button>
-                <Button>Post a request</Button>
+                {/* <Button>Post ur request</Button> */}
               </>
             )}
           </TV>

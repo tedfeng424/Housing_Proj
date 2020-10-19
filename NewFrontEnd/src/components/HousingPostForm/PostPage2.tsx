@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 import { roomTypeIcons, roomTypeUnchosen } from '../../assets/icons/all';
+import AutoComplete from '../PlacesAutoComplete';
 
 type RoomType = { [P in keyof typeof roomTypeUnchosen]: boolean };
 interface Price {
@@ -8,6 +9,7 @@ interface Price {
   maximum: number;
 }
 const PostPage2: React.FC<{}> = () => {
+  const [address, setAddress] = useState<string>('');
   const [roomType, setRoomType] = useState<RoomType>({
     single: false,
     double: false,
@@ -20,6 +22,7 @@ const PostPage2: React.FC<{}> = () => {
     minimum: 100,
     maximum: 1000,
   });
+
   return (
     <Container>
       <Row>
@@ -29,6 +32,12 @@ const PostPage2: React.FC<{}> = () => {
           </span>
         </Col>
       </Row>
+
+      <Form.Row className="justify-content-center m-2 my-4">
+        <Form.Label className="title">Location</Form.Label>
+        <AutoComplete className="single-line-input w-100" />
+      </Form.Row>
+
       <Row className="justify-content-center">
         {/* Room Type */}
         <Col
@@ -78,7 +87,7 @@ const PostPage2: React.FC<{}> = () => {
             <Form.Label className="word mr-3">Min</Form.Label>
             <Col>
               <Form.Control
-                className="form-input"
+                className="single-line-input"
                 type="number"
                 min={0}
                 value={price.minimum}
@@ -99,7 +108,7 @@ const PostPage2: React.FC<{}> = () => {
             <Form.Label className="word mr-3">Max</Form.Label>
             <Col>
               <Form.Control
-                className="form-input"
+                className="single-line-input"
                 type="number"
                 min="0"
                 value={price.maximum}

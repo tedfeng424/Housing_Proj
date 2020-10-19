@@ -145,6 +145,7 @@ const PostPage3: React.FC<{}> = () => {
               <Form.Group as={Row} controlId="formNumberOfMonths">
                 <Col sm={8} md={8}>
                   <Form.Control
+                    className="single-line-input"
                     value={monthCount}
                     onChange={(event) =>
                       setMonthCount(parseInt(event.target.value))

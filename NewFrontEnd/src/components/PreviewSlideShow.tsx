@@ -43,7 +43,7 @@ interface PathProps {
   className?: string;
 }
 
-const PreviewSlideShow: React.FC<PathProps> = ({ items, className }) => {
+const PreviewSlideShow: React.FC<PathProps> = ({ items, className = '' }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
 
