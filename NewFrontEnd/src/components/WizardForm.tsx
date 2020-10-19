@@ -56,10 +56,9 @@ const WizardForm: React.FC<PathProps> = ({
   // TODO need to figure out how to have loading thing on top
   return (
     <Modal
-      dialogClassName="post-modal"
+      dialogClassName="wizard-form-modal-dialog"
       show={show}
       onHide={() => setShow(false)}
-      size="xl"
       centered
     >
       <Container className="h-100">
