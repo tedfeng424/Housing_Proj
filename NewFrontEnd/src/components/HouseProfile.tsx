@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import { useCookies } from 'react-cookie';
 import GoogleMap from './GoogleMap';
 import PreviewSlideShow, { testSlideShow } from './PreviewSlideShow';
 import { contactIcons, miscIcons, facilityIcons } from '../assets/icons/all';
@@ -73,6 +74,41 @@ const HouseProfile: React.FC<PathProps> = ({
   show,
   setShow,
 }) => {
+  const [cookies, setCookie] = useCookies(['liked']);
+
+  const onClick = () => {
+    // note this should be going through backend. I've done it through cookies right now,
+    // but trying to serialise even one houseProfileObj makes the cookie too big... -Keenan
+    const houseProfileObj = {
+      // houseType: houseType,
+      // pricePerMonth: pricePerMonth,
+      // roomType: roomType,
+      // moveIn: moveIn,
+      // stayPeriod: stayPeriod,
+      // facilities: facilities,
+      // lookingFor: lookingFor,
+      // distance: distance,
+      // address: address,
+      bioName: bioName,
+      // bioYear: bioYear,
+      // bioMajor: bioMajor,
+      email: email,
+      phone: phone,
+      // bioProfilePic: bioProfilePic,
+      // bioDescription: bioDescription,
+    };
+
+    if (cookies.liked === undefined) {
+      var payload = JSON.stringify([houseProfileObj]);
+      setCookie('liked', payload, { path: '/', httpOnly: false, maxAge: 120 });
+      // console.log(cookies.liked);
+    } else {
+      var payload = JSON.stringify([...cookies.liked, houseProfileObj]);
+      setCookie('liked', payload, { path: '/', httpOnly: false, maxAge: 120 });
+      // console.log(cookies.liked);
+    }
+  };
+
   return (
     <Modal show={show} onHide={() => setShow(false)} size="xl" centered>
       <Container>
@@ -148,7 +184,9 @@ const HouseProfile: React.FC<PathProps> = ({
 
           {/* third column */}
           <Col sm={12} md={6} lg={3} className="d-flex flex-column">
-            <Button className="w-90">Add to my list!</Button>
+            <Button className="w-90" onClick={onClick}>
+              Add to my list!
+            </Button>
 
             <div className="text-primary">
               <b>{distance} miles from school</b>

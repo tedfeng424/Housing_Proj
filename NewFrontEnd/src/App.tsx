@@ -6,6 +6,7 @@ import Home from './components/Home';
 // import ImagesUploader from './components/ImagesUploaderModule';
 import OtherOptions from './components/OtherOptionsModule';
 import AutoComplete from './components/PlacesAutoComplete';
+import { Autocomplete } from '@react-google-maps/api';
 
 function App() {
   return (
