@@ -15,8 +15,8 @@ export const testSlideShow: AtLeastOne<SlideShowItem> = [
   },
   {
     src:
-      'https://www.fosi.org/media/images/funny-game-of-thrones-memes-coverimage.width-800.jpg',
-    alt: 'Third slide',
+      'https://i.pinimg.com/474x/98/d2/90/98d2901d829bb21263e099e3fe4701e7.jpg',
+    alt: 'Second slide',
   },
   {
     src:
@@ -36,7 +36,7 @@ const SlideShow: React.FC<PathProps> = ({ images, onImageClick }) => {
       {images.map((image) => (
         <Carousel.Item>
           <button
-            className="no-show"
+            className="no-show w-100 h-100"
             type="button"
             onClick={onImageClick}
             onKeyDown={(e) => {

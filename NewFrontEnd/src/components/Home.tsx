@@ -32,7 +32,7 @@ const Home: React.FC = () => {
 
         <Col md={3}>
           <TV>
-            {cookies.user !== undefined ? ( // TODO is supposed to be this: cookies.user === undefined    but i changed it for testing purposes temporarily
+            {cookies.user === undefined ? (
               <>
                 <div className="secondary-title mt-3">Hello</div>
                 <div className="tv-separator" />

@@ -20,19 +20,19 @@ interface PreviewSlideShowItem {
 export const testSlideShow: AtLeastOne<PreviewSlideShowItem> = [
   {
     src:
-      'https://www.fosi.org/media/images/funny-game-of-thrones-memes-coverimage.width-800.jpg',
+      'https://i.pinimg.com/474x/98/d2/90/98d2901d829bb21263e099e3fe4701e7.jpg',
     altText: 'Slide 1',
     caption: 'Slide 1',
   },
   {
     src:
-      'https://www.fosi.org/media/images/funny-game-of-thrones-memes-coverimage.width-800.jpg',
+      'https://i.pinimg.com/474x/98/d2/90/98d2901d829bb21263e099e3fe4701e7.jpg',
     altText: 'Slide 2',
     caption: 'Slide 2',
   },
   {
     src:
-      'https://www.fosi.org/media/images/funny-game-of-thrones-memes-coverimage.width-800.jpg',
+      'https://i.pinimg.com/474x/98/d2/90/98d2901d829bb21263e099e3fe4701e7.jpg',
     altText: 'Slide 3',
     caption: 'Slide 3',
   },
@@ -40,9 +40,10 @@ export const testSlideShow: AtLeastOne<PreviewSlideShowItem> = [
 
 interface PathProps {
   items: AtLeastOne<PreviewSlideShowItem>;
+  className?: string;
 }
 
-const PreviewSlideShow: React.FC<PathProps> = ({ items }) => {
+const PreviewSlideShow: React.FC<PathProps> = ({ items, className }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
 
@@ -100,7 +101,9 @@ const PreviewSlideShow: React.FC<PathProps> = ({ items }) => {
   ));
 
   return (
-    <Col className="h-100 d-flex flex-column align-items-stretch align-content-stretch">
+    <div
+      className={`h-100 d-flex flex-column align-items-stretch align-content-stretch ${className}`}
+    >
       <Carousel
         activeIndex={activeIndex}
         next={next}
@@ -120,7 +123,7 @@ const PreviewSlideShow: React.FC<PathProps> = ({ items }) => {
         />
       </Carousel>
       <div className="preview-slideshow-thumbnail">{thumbs}</div>
-    </Col>
+    </div>
   );
 };
 

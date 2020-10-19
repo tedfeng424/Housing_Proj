@@ -2,4 +2,5 @@
   @extend .disappear-on-xs;
   min-height: 15%;
   display: flex;
+  overflow-x: auto;
 }

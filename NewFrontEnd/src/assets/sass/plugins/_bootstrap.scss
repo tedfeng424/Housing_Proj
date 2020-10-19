@@ -28,7 +28,7 @@ $sizes: (
   @extend .my-2;
   color: white;
   font-weight: $default-text-weight;
-  border-radius: 20px;
+  @extend .rounded-pill;
   box-shadow: none !important;
 }
 

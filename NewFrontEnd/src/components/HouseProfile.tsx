@@ -74,17 +74,26 @@ const HouseProfile: React.FC<PathProps> = ({
   setShow,
 }) => {
   return (
-    <Modal show={show} onHide={() => setShow(false)} size="xl" centered>
-      <Container>
+    <Modal
+      show={show}
+      onHide={() => setShow(false)}
+      size="xl"
+      centered
+      className="house-profile-modal"
+    >
+      <Container className="p-0">
         <Row>
           {/* first column */}
-          <Col sm={12} lg={5} className="house-profile-preview-slideshow">
-            <PreviewSlideShow items={testSlideShow} />
+          <Col sm={12} lg={5}>
+            <PreviewSlideShow
+              items={testSlideShow}
+              className="house-profile-preview-slideshow"
+            />
           </Col>
 
           {/* second column */}
           <Col sm={12} md={6} lg={4}>
-            <Container>
+            <Container className="mt-3 mt-lg-5 mt-md-4 mx-3 mx-lg-0">
               <Row className="justify-content-center">
                 <span className="housing-profile-house-type">{houseType}</span>
               </Row>
@@ -147,14 +156,19 @@ const HouseProfile: React.FC<PathProps> = ({
           </Col>
 
           {/* third column */}
-          <Col sm={12} md={6} lg={3} className="d-flex flex-column">
-            <Button className="w-90">Add to my list!</Button>
+          <Col
+            sm={12}
+            md={6}
+            lg={3}
+            className="d-flex flex-column mt-lg-5 mt-md-4"
+          >
+            <div className="px-3 pl-lg-1">
+              <Button className="w-90">Add to my list!</Button>
 
-            <div className="text-primary">
-              <b>{distance} miles from school</b>
-            </div>
-            <div>{address}</div>
-            <div>
+              <div className="text-primary">
+                <b>{distance} miles from school</b>
+              </div>
+              <div>{address}</div>
               <GoogleMap />
             </div>
 

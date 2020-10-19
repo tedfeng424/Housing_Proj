@@ -1,5 +1,11 @@
 @mixin mobile-and-smaller {
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down('sm') {
+    @content;
+  }
+}
+
+@mixin md-and-smaller {
+  @include media-breakpoint-down('md') {
     @content;
   }
 }
