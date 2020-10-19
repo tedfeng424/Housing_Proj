@@ -27,7 +27,7 @@ const Login: React.FC<PathProps> = ({ handleClose, show }) => {
   ) => {
     if (isOnline(response)) {
       setCookie('user', response.profileObj, {
-        expires: moment().add(30, 'seconds').toDate(), // expires 1 minute after login
+        maxAge: 120, // expires 2 minutes after login
       });
     } else {
       console.log(response);
@@ -40,7 +40,7 @@ const Login: React.FC<PathProps> = ({ handleClose, show }) => {
     return 'profileObj' in response;
   };
 
-  console.log(cookies.user);
+  // console.log(cookies.user);
 
   return (
     <Modal id="LoginModal" show={show} onHide={handleClose} centered>
