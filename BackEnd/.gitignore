@@ -1,0 +1,4 @@
+config/venv
+/img
+/__pycache__
+/.vscode
