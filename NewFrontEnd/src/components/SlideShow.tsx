@@ -14,8 +14,7 @@ export const testSlideShow: AtLeastOne<SlideShowItem> = [
     alt: 'First slide',
   },
   {
-    src:
-      'https://i.pinimg.com/474x/98/d2/90/98d2901d829bb21263e099e3fe4701e7.jpg',
+    src: 'https://houseit.s3.us-east-2.amazonaws.com/test0.png',
     alt: 'Second slide',
   },
   {

@@ -3,10 +3,11 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import HouseCard, { PathProps } from './HouseCard';
+import { getHousing } from '../apis/index';
 
 const HousingList: React.FC = () => {
   const [cards, setCards] = useState<PathProps[]>([]);
-
+  getHousing();
   useEffect(() => {
     // fake the api call to get the housing card info
     setCards([

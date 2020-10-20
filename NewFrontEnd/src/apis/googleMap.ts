@@ -1,9 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import axios from 'axios';
-
-const googleMapsAPI = axios.create({
-  baseURL: 'https://maps.googleapis.com/maps/api',
-});
+import { googleMapsAPI } from './apiBases';
 
 const priceCenterCoordinates = '32.8797,-117.2362';
 
@@ -28,10 +24,10 @@ const getDuration = async (address: string): Promise<string | undefined> => {
 
     // handle errors
     if (result.data?.status !== 'OK') throw Error('Bad request');
-    if (result.data?.rows[0]?.status !== 'OK') throw Error('No existing route');
+    if (result.data?.rows[0]['elements'][0]?.status !== 'OK')
+      throw Error('No existing route');
 
-    console.log(result.data);
-    return result.data?.rows[0]?.duration?.text as string;
+    return result.data?.rows[0]['elements'][0]?.duration?.text as string;
   } catch (err) {
     console.error(err);
     return undefined;
@@ -39,15 +35,20 @@ const getDuration = async (address: string): Promise<string | undefined> => {
 };
 
 // TODO delete these tests
-getDuration('9775 Genesee Ave, San Diego, CA 92121');
-console.log();
-getDuration('4313 Cozzens Ct, San Diego, CA 92122');
-console.log();
-getDuration('4588 Robbins St, San Diego, CA 92122');
-console.log();
-getDuration('11645 Thistle Hill Pl, San Diego, CA 92130');
-console.log();
-getDuration('28466 Foothill Dr, Agoura Hills, CA 91301');
-console.log();
+getDuration('9775 Genesee Ave, San Diego, CA 92121').then((response) => {
+  console.log(response);
+});
+getDuration('4313 Cozzens Ct, San Diego, CA 92122').then((response) => {
+  console.log(response);
+});
+getDuration('4588 Robbins St, San Diego, CA 92122').then((response) => {
+  console.log(response);
+});
+getDuration('11645 Thistle Hill Pl, San Diego, CA 92130').then((response) => {
+  console.log(response);
+});
+getDuration('28466 Foothill Dr, Agoura Hills, CA 91301').then((response) => {
+  console.log(response);
+});
 
 export default getDuration;
