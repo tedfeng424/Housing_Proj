@@ -12,3 +12,7 @@ export const getHousing = async (): Promise<string | undefined> => {
     return undefined;
   }
 };
+
+getHousing().then((response) => {
+  console.log(response);
+});

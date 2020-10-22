@@ -2,7 +2,7 @@ import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 import { AtLeastOne } from '../assets/utils';
 
-interface SlideShowItem {
+export interface SlideShowItem {
   src: string;
   alt: string;
 }
@@ -25,7 +25,8 @@ export const testSlideShow: AtLeastOne<SlideShowItem> = [
 ];
 
 interface PathProps {
-  images: AtLeastOne<SlideShowItem>;
+  // TODO: add loading type
+  images: SlideShowItem[];
   onImageClick: () => void;
 }
 

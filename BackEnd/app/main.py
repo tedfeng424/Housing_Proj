@@ -1,5 +1,6 @@
-from util import intro_processing, header_processing, other_processing,
-from authetification import authetification, getUserID, getUserInfo
+from util.util import intro_processing, header_processing, other_processing, \
+    img_processing, rtype_processing
+from bluePrints.authetification import authetification, getUserID, getUserInfo
 import os.path
 import os
 from flask import Flask, render_template, request, redirect,\
@@ -18,9 +19,8 @@ import requests
 import httplib2
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
-from database_setup import PicturePerson, Tenant, OthersT, Others, PictureRoom,
-User, Room, Base
-img_processing, rtype_processing
+from app.db.database_setup import PicturePerson, Tenant, OthersT, Others, PictureRoom,\
+    User, Room, Base
 
 
 app = Flask(__name__)
@@ -28,7 +28,7 @@ CORS(app)
 socketio = SocketIO(app, cors_allowed_origins="*")
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.register_blueprint(authetification)
-engine = create_engine('sqlite:///housing.db?check_same_thread=False')
+engine = create_engine('sqlite:///db/housing.db?check_same_thread=False')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()

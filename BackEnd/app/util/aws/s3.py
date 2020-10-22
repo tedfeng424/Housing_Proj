@@ -2,6 +2,8 @@ import boto3
 import logging
 from botocore.exceptions import ClientError
 
+s3_client = boto3.client('s3')
+
 
 def upload_file(file_name, bucket, object_name=None):
     """Upload a file to an S3 bucket
@@ -19,7 +21,6 @@ def upload_file(file_name, bucket, object_name=None):
         object_name = file_name
 
     # Upload the file
-    s3_client = boto3.client('s3')
     result = s3_client.get_bucket_acl(Bucket='houseit')
     try:
         response = s3_client.upload_file(
@@ -30,6 +31,19 @@ def upload_file(file_name, bucket, object_name=None):
     return True
 
 
+def get_images(user_name, category="housing", extra_path=""):
+    prefix = "{path1}/{path2}/{path3}/".format(
+        path1=user_name, path2=category, path3=extra_path)
+    contents = s3_client.list_objects(
+        Bucket='houseit', Prefix=prefix)['Contents']
+    links = []
+    for key in contents:
+        if "." in key['Key']:
+            links.append(key['Key'])
+    return links
+
+
+print(get_images("amit", extra_path="Solazzo Apartment Homes"))
 # example:
 # upload_file("../../img/1.png", "houseit",
 # "ali/housing/costa_verde/test2.png")

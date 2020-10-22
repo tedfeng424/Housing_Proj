@@ -7,3 +7,7 @@ export const googleMapsAPI = axios.create({
 export const backEndAPI = axios.create({
   baseURL: 'http://localhost:3001/',
 });
+
+export const backEndAPIFake = axios.create({
+  baseURL: 'http://localhost:4001/',
+});
