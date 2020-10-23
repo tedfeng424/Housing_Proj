@@ -7,7 +7,7 @@
 6. (In <b> BackEnd </b> terminal) download libraries through `pip install -r requirements.txt`
 7. (In <b> BackEnd </b> terminal) run `python setup.py install`, followed by `pip3 install -e .`. This will allow the use of the app folder itself as a package, simplifying imports.
 8. (In <b> BackEnd </b> terminal) run `aws configure`, and enter the appropriate access keys.
-9. (In <b> BackEnd </b> terminal) navigate to app/mocks folder, and run backend by `python main.py`
+9. (In <b> BackEnd </b> terminal) navigate to app/mocks folder and run `python main.py` to run backend with mock data, or navigate to app folder and run `python main.py` to run backend with real data.
 10. (In <b> FrontEnd </b> terminal) download webpack server `npm i webpack-dev-server`
 11. (In <b> FrontEnd </b> terminal) download other packages by `npm install`
 12. (In <b> FrontEnd </b> terminal) run the server by `npm run start`
