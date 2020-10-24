@@ -1,12 +1,12 @@
 import { backEndAPI } from './apiBases';
 
-export const getHousing = async (): Promise<string | undefined> => {
+export const getHousing = async (): Promise<any[] | undefined> => {
   try {
     const result = await backEndAPI.get('/getRoom');
     console.log(result);
     // handle errors
     if (result.request?.status !== 200) throw Error('Bad request');
-    return result.data as string;
+    return result.data;
   } catch (err) {
     console.error(err);
     return undefined;

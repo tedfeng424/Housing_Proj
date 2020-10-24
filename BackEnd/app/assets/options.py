@@ -23,7 +23,6 @@ others = [
     'Female',
     'Male',
     'Pets',
-    'Parking',
     'LGBTQ',
     'Private',
     '420',

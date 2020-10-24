@@ -35,7 +35,7 @@ fakeRooms = [
         'leaserPhone': "911",
         'leaserSchoolYear': 3,
         'leaserMajor': "Computer Science and Engineering",
-        'leaserIntro': "Live with me. YOLO",
+        'leaserIntro': "Live with me. YOLO huiwhfuwiehrviwhteuvtherluvtherlvtherlvthweluvthewlvhtwlevrhtelvuthelvtheuvlterhuvtewhewrlvherwlvherlvtheruvtlewruvw",
         'photo': get_images(user_name="cris", extra_path="Costa Verde Village"),
         'profilePhoto': "https://cdn130.picsart.com/283184513034211.png"
     },
@@ -56,7 +56,7 @@ fakeRooms = [
         'leaserPhone': "911",
         'leaserSchoolYear': 3,
         'leaserMajor': "Computer Science and Engineering",
-        'leaserIntro': "Live with me. YOLO",
+        'leaserIntro': "Wassupppp, Amit here! I'm looking for a dope-ass subleaser to rent my place cause covid screwed me over! yayyyy, alright so who's in? hit me up!",
         'photo': get_images(user_name="amit", extra_path="Solazzo Apartment Homes"),
         'profilePhoto': "https://cdn130.picsart.com/283184513034211.png"
     },

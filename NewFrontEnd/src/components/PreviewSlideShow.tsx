@@ -9,37 +9,10 @@ import {
 } from 'reactstrap';
 import Col from 'react-bootstrap/esm/Col';
 import Row from 'react-bootstrap/esm/Row';
-import { AtLeastOne } from '../assets/utils';
-
-interface PreviewSlideShowItem {
-  src: string;
-  altText: string;
-  caption: string;
-}
-
-export const testSlideShow: AtLeastOne<PreviewSlideShowItem> = [
-  {
-    src:
-      'https://i.pinimg.com/474x/98/d2/90/98d2901d829bb21263e099e3fe4701e7.jpg',
-    altText: 'Slide 1',
-    caption: 'Slide 1',
-  },
-  {
-    src:
-      'https://i.pinimg.com/474x/98/d2/90/98d2901d829bb21263e099e3fe4701e7.jpg',
-    altText: 'Slide 2',
-    caption: 'Slide 2',
-  },
-  {
-    src:
-      'https://i.pinimg.com/474x/98/d2/90/98d2901d829bb21263e099e3fe4701e7.jpg',
-    altText: 'Slide 3',
-    caption: 'Slide 3',
-  },
-];
+import { SlideShowItem } from './SlideShow';
 
 interface PathProps {
-  items: AtLeastOne<PreviewSlideShowItem>;
+  items: SlideShowItem[];
   className?: string;
 }
 
@@ -71,15 +44,7 @@ const PreviewSlideShow: React.FC<PathProps> = ({ items, className = '' }) => {
         onExited={() => setAnimating(false)}
         key={item.src}
       >
-        <img
-          src={item.src}
-          alt={item.altText}
-          className="d-block w-100 h-100"
-        />
-        <CarouselCaption
-          captionText={item.caption}
-          captionHeader={item.caption}
-        />
+        <img src={item.src} alt={item.alt} className="d-block w-100 h-100" />
       </CarouselItem>
     );
   });
@@ -94,7 +59,7 @@ const PreviewSlideShow: React.FC<PathProps> = ({ items, className = '' }) => {
             : 'd-block w-100 h-100 selected-img'
         }
         src={item.src}
-        alt={item.altText}
+        alt={item.alt}
         onClick={() => goToIndex(idx)}
       />
     </Col>

@@ -3,13 +3,13 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import HouseCard, { PathProps } from './HouseCard';
-import { getHousingFake } from '../apis/mocks/housing';
+import { getHousing } from '../apis/index';
 
 const HousingList: React.FC = () => {
   const [cards, setCards] = useState<PathProps[]>([]);
   useEffect(() => {
-    // fake the api call to get the housing card info
-    getHousingFake().then((response) => {
+    // api call to get the housing card info
+    getHousing().then((response) => {
       setCards(
         response
           ? response.map((room) => ({

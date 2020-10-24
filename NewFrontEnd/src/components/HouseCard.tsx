@@ -58,6 +58,7 @@ const HouseCard: React.FC<PathProps> = ({
   return (
     <>
       <HouseProfile
+        slideShowItems={SlideShowContent}
         pricePerMonth={pricePerMonth}
         roomType={roomType}
         moveIn={moveIn}

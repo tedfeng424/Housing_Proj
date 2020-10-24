@@ -1,6 +1,8 @@
 import boto3
 import logging
 from botocore.exceptions import ClientError
+import sys
+import getopt
 
 s3_client = boto3.client('s3')
 
@@ -32,8 +34,7 @@ def upload_file(file_name, bucket, object_name=None):
 
 
 def get_images(user_name, category="housing", extra_path=""):
-    prefix = "{path1}/{path2}/{path3}/".format(
-        path1=user_name, path2=category, path3=extra_path)
+    prefix = "/".join([user_name, category, extra_path])
     contents = s3_client.list_objects(
         Bucket='houseit', Prefix=prefix)['Contents']
     links = []
@@ -43,7 +44,24 @@ def get_images(user_name, category="housing", extra_path=""):
     return links
 
 
-print(get_images("amit", extra_path="Solazzo Apartment Homes"))
+def main(argv):
+    try:
+        opts, args = getopt.getopt(argv, "n:h:")
+    except getopt.GetoptError:
+        print('you need to specify a value for the given command!')
+        sys.exit(2)
+    name = home = None
+    for opt, arg in opts:
+        if opt == '-n':
+            name = arg
+        elif opt == '-h':
+            home = arg
+    print(name, home)
+    print(get_images(name, extra_path=home))
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
 # example:
 # upload_file("../../img/1.png", "houseit",
 # "ali/housing/costa_verde/test2.png")

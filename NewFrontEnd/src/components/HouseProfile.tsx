@@ -9,7 +9,8 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { useCookies } from 'react-cookie';
 import GoogleMap from './GoogleMap';
-import PreviewSlideShow, { testSlideShow } from './PreviewSlideShow';
+import PreviewSlideShow from './PreviewSlideShow';
+import { SlideShowItem } from './SlideShow';
 import { contactIcons, miscIcons, facilityIcons } from '../assets/icons/all';
 
 const Ellipse: React.FC<{}> = () => (
@@ -34,6 +35,7 @@ const GetIcon: React.FC<{ str: keyof typeof facilityToIcon }> = ({ str }) => (
 );
 
 interface PathProps {
+  slideShowItems: SlideShowItem[];
   houseName: string;
   pricePerMonth: number;
   roomType: string;
@@ -55,6 +57,7 @@ interface PathProps {
 }
 
 const HouseProfile: React.FC<PathProps> = ({
+  slideShowItems,
   houseName,
   pricePerMonth,
   roomType,
@@ -122,7 +125,7 @@ const HouseProfile: React.FC<PathProps> = ({
           {/* first column */}
           <Col sm={12} lg={5}>
             <PreviewSlideShow
-              items={testSlideShow}
+              items={slideShowItems}
               className="house-profile-preview-slideshow"
             />
           </Col>
@@ -202,10 +205,10 @@ const HouseProfile: React.FC<PathProps> = ({
               <Button className="w-90">Add to my list!</Button>
 
               <div className="text-primary">
-                <b>{distance} miles from school</b>
+                <b>{distance} public transit to school</b>
               </div>
               <div>{address}</div>
-              <GoogleMap />
+              <GoogleMap address={address} />
             </div>
 
             <Container className="housing-profile-bio">
