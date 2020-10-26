@@ -136,7 +136,7 @@ class Attribute(Base):
         }
 
 
-engine = create_engine('sqlite:///housing.db')
+if __name__ == '__main__':
+    engine = create_engine('sqlite:///housing.db')
 
-
-Base.metadata.create_all(engine)
+    Base.metadata.create_all(engine)
