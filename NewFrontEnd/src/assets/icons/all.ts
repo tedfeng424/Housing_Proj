@@ -11,6 +11,7 @@ import contactIcons from './contact/all';
 import miscIcons from './misc/all';
 import facilityIcons from './facilities/all';
 import filterIcons from './filter/all';
+import carouselIcons from './carousel/all';
 
 export {
   navIcons,
@@ -24,4 +25,5 @@ export {
   miscIcons,
   facilityIcons,
   filterIcons,
+  carouselIcons,
 };

@@ -4,6 +4,48 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto+Slab|Open+Sans:400italic,700italic,400,700);
 
 /**
+ * STYLE GUIDE COLORS.
+ */
+// Primary colors: primary light, primary dark, and you can use
+// primary-#-color (where # is 1-6, 1 = lightest, 6 = darkest).
+$primary-light-color: #e7936d;
+$primary-dark-color: #a6623f;
+$primary-1-color: #fffaf8;
+$primary-2-color: #fdf4f0;
+$primary-3-color: #f8e6d8;
+$primary-4-color: #e7cbb6;
+$primary-5-color: #d5b09a;
+$primary-6-color: $primary-dark-color;
+
+// Secondary colors: secondary light, secondary dark, and you can
+// use secondary-#-color (where # is 1-3, 1 = lightest, 3 = darkest).
+$secondary-light-color: #a5bf84;
+$secondary-dark-color: #4d5e3b;
+$secondary-1-color: #e6f0d8;
+$secondary-2-color: #a5bf84;
+$secondary-3-color: $secondary-dark-color;
+
+// Tertiary colors: There's only 1 tertiary color for now.
+$tertiary-color: #f3d990;
+
+/**
+ * STYLE GUIDE TYPOGRAPHY.
+ */
+// Font stack
+$primary-font-stack: 'Montserrat', 'Courier New', Courier, monospace;
+
+// Font Weights
+$bold-font-weight: 700;
+$regular-font-weight: 400;
+
+// Font sizes
+$xl-font-size: 26px;
+$l-font-size: 24px;
+$m-font-size: 18px;
+$sm-font-size: 16px;
+$xs-font-size: 12px;
+
+/**
  * There are 5 main colors: 3 orange variations, two green. The three orange variations seem to have 3 purposes:
  * 1) a color to represent user-responsive (user can affect it) 2) a 'background/unfocused' color 3) a 'focused'
  * color. The two green variations seem to have similar purposes, a 'focused' and 'unfocused/background' color

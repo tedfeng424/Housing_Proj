@@ -1,14 +1,11 @@
-// .navbar-sign-in-button {
-//   @extend .no-show;
-//   font-family: Roboto Slab;
-//   font-weight: $default-text-weight;
-//   font-size: 18px;
-//   letter-spacing: 0.2em;
-//   color: theme-color('secondary') !important;
-// }
-.navbar-whole {
-  background-color: var(--white);
+.navbar-wrapper {
+  background-color: white;
   box-shadow: 0 4px 10px 0 rgba(199, 131, 95, 0.1);
+  width: 100%;
+}
+
+.navbar-logo-svg {
+  height: 60px;
 }
 
 .g-auth {

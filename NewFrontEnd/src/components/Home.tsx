@@ -25,15 +25,17 @@ const Home: React.FC = () => {
 
   return (
     <Container>
+      {/* Modals */}
       <Login show={showLogin} handleClose={handleCloseLogin} />
       <HousingPost show={showHousingPost} setShow={setShowHousingPost} />
 
-      <Row>
-        <Col md={{ span: 8, offset: 1 }}>
+      {/* The actual home page */}
+      <Row className="mb-5">
+        <Col md={9} className="my-auto">
           <Filter />
         </Col>
 
-        <Col md={3}>
+        <Col md={3} className="my-auto">
           <TV>
             {cookies.user === undefined ? (
               <>
@@ -53,8 +55,9 @@ const Home: React.FC = () => {
           </TV>
         </Col>
       </Row>
+
       <Row>
-        <Col md={{ span: 8, offset: 1 }}>
+        <Col md={9}>
           <HousingList />
         </Col>
 

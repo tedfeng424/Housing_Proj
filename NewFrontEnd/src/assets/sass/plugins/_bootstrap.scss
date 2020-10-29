@@ -26,9 +26,9 @@ $sizes: (
   @extend .px-4;
   @extend .mx-4;
   @extend .my-2;
+  @extend .rounded-pill;
   color: white;
   font-weight: $default-text-weight;
-  @extend .rounded-pill;
   box-shadow: none !important;
 }
 
@@ -60,6 +60,6 @@ $modal-default-margin: map-get($spacers, 3);
 }
 
 body {
-  font-family: 'Montserrat', 'Courier New', Courier, monospace;
+  font-family: $primary-font-stack;
   background: #fffcfb;
 }

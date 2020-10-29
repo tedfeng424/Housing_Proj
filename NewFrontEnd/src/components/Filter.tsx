@@ -13,6 +13,7 @@ import {
   preferencesIcons,
 } from '../assets/icons/all';
 import { intervalOptions, yearMonths } from '../assets/constants';
+import { moveInSelect } from '../assets/utils/index';
 
 interface Preferences {
   female: boolean;
@@ -29,41 +30,6 @@ type RoomType = { [P in keyof typeof roomTypeUnchosen]: boolean };
 interface Price {
   minimum: number;
   maximum: number;
-}
-
-function MoveInSelect(
-  earlyMonth: string,
-  earlyInterval: string,
-  lateMonth: string,
-  lateInterval: string,
-) {
-  if (yearMonths.indexOf(earlyMonth) > yearMonths.indexOf(lateMonth)) {
-    // neither has anytime as the option
-    if (![earlyMonth, lateMonth].includes(yearMonths[0])) {
-      return false;
-    }
-  }
-  if (
-    yearMonths.indexOf(earlyMonth) === yearMonths.indexOf(lateMonth) &&
-    ![earlyMonth, lateMonth].includes(yearMonths[0])
-  ) {
-    // neither has anytime as the option
-    if (
-      ![earlyInterval, lateInterval].includes(intervalOptions[0]) &&
-      intervalOptions.indexOf(earlyInterval) >
-        intervalOptions.indexOf(lateInterval)
-    ) {
-      return false;
-    }
-  }
-  return true;
-}
-
-function StringWrap(toWrap: string | null) {
-  if (toWrap == null) {
-    return 'placeHolder';
-  }
-  return toWrap;
 }
 
 const Separator: React.FC<React.HTMLAttributes<JSX.Element>> = () => (
@@ -104,23 +70,17 @@ const Filter: React.FC<{}> = () => {
   });
   return (
     <>
-      <Row>
-        {/* Header in the home page */}
-        <Col>
-          <div className="filter-launch-pad">
-            <filterIcons.hello className="disappear-on-sm" />
-            <filterIcons.arrow className="disappear-on-sm" />
-            <Button
-              onClick={() => setShow(true)}
-              className="filter-launch-button"
-            >
-              Filter & Match
-            </Button>
-            <filterIcons.arrow className="disappear-on-sm" />
-            <filterIcons.loveHouse className="disappear-on-sm" />
-          </div>
-        </Col>
-      </Row>
+      {/* Header in the home page */}
+      <div className="filter-launch-pad">
+        <filterIcons.hello className="disappear-on-sm" />
+        <filterIcons.arrow className="disappear-on-sm" />
+        <Button onClick={() => setShow(true)} className="filter-launch-button">
+          Filter & Match
+        </Button>
+        <filterIcons.arrow className="disappear-on-sm" />
+        <filterIcons.loveHouse className="disappear-on-sm" />
+      </div>
+
       {/* The filter itself */}
       <Modal show={show} onHide={() => setShow(false)} size="xl" centered>
         <Container>
@@ -268,9 +228,7 @@ const Filter: React.FC<{}> = () => {
                       {intervalOptions.map((interval) => (
                         <Dropdown.Item
                           eventKey={interval}
-                          onSelect={(event) =>
-                            setEarlyInterval(StringWrap(event))
-                          }
+                          onSelect={(event) => setEarlyInterval(event || '')}
                         >
                           {interval}
                         </Dropdown.Item>
@@ -281,14 +239,14 @@ const Filter: React.FC<{}> = () => {
                     <Form.Control
                       className="clear-border"
                       as={Dropdown}
-                      isValid={MoveInSelect(
+                      isValid={moveInSelect(
                         earlyMonth,
                         earlyInterval,
                         lateMonth,
                         lateInterval,
                       )}
                       isInvalid={
-                        !MoveInSelect(
+                        !moveInSelect(
                           earlyMonth,
                           earlyInterval,
                           lateMonth,
@@ -306,9 +264,7 @@ const Filter: React.FC<{}> = () => {
                         {yearMonths.map((month) => (
                           <Dropdown.Item
                             eventKey={month}
-                            onSelect={(eventKey) =>
-                              setEarlyMonth(StringWrap(eventKey))
-                            }
+                            onSelect={(event) => setEarlyMonth(event || '')}
                           >
                             {month}
                           </Dropdown.Item>
@@ -332,9 +288,7 @@ const Filter: React.FC<{}> = () => {
                       {intervalOptions.map((interval) => (
                         <Dropdown.Item
                           eventKey={interval}
-                          onSelect={(eventKey) =>
-                            setLateInterval(StringWrap(eventKey))
-                          }
+                          onSelect={(event) => setLateInterval(event || '')}
                         >
                           {interval}
                         </Dropdown.Item>
@@ -353,9 +307,7 @@ const Filter: React.FC<{}> = () => {
                         {yearMonths.map((month) => (
                           <Dropdown.Item
                             eventKey={month}
-                            onSelect={(eventKey) =>
-                              setLateMonth(StringWrap(eventKey))
-                            }
+                            onSelect={(event) => setLateMonth(event || '')}
                           >
                             {month}
                           </Dropdown.Item>

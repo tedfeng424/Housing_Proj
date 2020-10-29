@@ -132,8 +132,9 @@ const HouseProfile: React.FC<PathProps> = ({
 
           {/* second column */}
           <Col sm={12} md={6} lg={4}>
-            <Container className="mt-3 mt-lg-5 mt-md-4 mx-3 mx-lg-0">
-              <Row className="justify-content-center">
+            {/* mt-3 mt-lg-5 mt-md-4 */}
+            <Container className="d-flex flex-column justify-content-around mx-3 mx-lg-0 h-100">
+              <Row className="justify-content-center flex-grow-0">
                 <span className="housing-profile-house-type">{houseName}</span>
               </Row>
 

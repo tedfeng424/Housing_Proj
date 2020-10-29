@@ -2,16 +2,16 @@ $tv-bottom-items-color: #d5b09a;
 
 .tv-container {
   display: inline-block;
-  border: $default-border-width solid $focused-color;
+  border: none;
   background-color: $darker-background-color;
-  padding: 8px;
+  padding: 12px;
   border-radius: 22px;
 }
 
 .tv-buttons-div {
-  border: $default-border-width solid $focused-color;
+  border: none;
   background-color: white;
-  padding: 2px;
+  padding: 6px;
   border-radius: 17px 17px 10px 10px;
   text-align: center;
 
@@ -43,7 +43,7 @@ $tv-bottom-items-color: #d5b09a;
 
 .tv-bottom-bar {
   @extend .tv-bottom-item;
-  min-width: 60%;
+  min-width: 70%;
   border-radius: 20px;
 }
 

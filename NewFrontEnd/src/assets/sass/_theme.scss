@@ -61,3 +61,48 @@ body {
     box-shadow: none;
   }
 }
+
+.secondary-border-thin {
+  border: 5px solid $secondary-light-color;
+}
+
+.hover-shadow {
+  &:hover {
+    box-shadow: 2px 4px 8px 0px #a4613e 30% !important;
+  }
+}
+
+/**
+ * STYLE GUIDE BUTTONS
+ */
+
+// btn = primary btn
+// TODO
+// .btn,
+// .primary-btn {
+//   @extend .hover-shadow;
+//   @include mousedown {
+//     background-color: $primary-dark-color;
+//   }
+
+//   font-weight: $bold-font-weight;
+//   font-size: $xl-font-size;
+//   background-color: $primary-light-color;
+//   color: white;
+//   box-shadow: none;
+// TODO add padding too
+
+//   &:hover {
+//     box-shadow: 2px 4px 8px 0px #a4613e 30%;
+//     background-color: $primary-light-color;
+//   }
+// }
+
+// .secondary-btn {
+// }
+
+// .tertiary-btn {
+// }
+
+// .toggle-btn {
+// }

@@ -61,7 +61,7 @@ const WizardForm: React.FC<PathProps> = ({
       onHide={() => setShow(false)}
       centered
     >
-      <Container className="h-100">
+      <Container className="h-100 py-4">
         <div className="d-flex align-items-center justify-content-around h-100">
           <Col xs={1} className="d-flex arrow-icon justify-content-center">
             {!isFirst && !hideButtons && (

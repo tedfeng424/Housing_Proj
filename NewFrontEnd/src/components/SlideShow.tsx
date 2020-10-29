@@ -1,6 +1,7 @@
 import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 import { AtLeastOne } from '../assets/utils';
+import { carouselIcons } from '../assets/icons/all';
 
 export interface SlideShowItem {
   src: string;
@@ -32,7 +33,12 @@ interface PathProps {
 
 const SlideShow: React.FC<PathProps> = ({ images, onImageClick }) => {
   return (
-    <Carousel interval={null}>
+    <Carousel
+      nextIcon={<carouselIcons.rightArrow />}
+      prevIcon={<carouselIcons.leftArrow />}
+      interval={null}
+      className="w-100"
+    >
       {images.map((image) => (
         <Carousel.Item>
           <button

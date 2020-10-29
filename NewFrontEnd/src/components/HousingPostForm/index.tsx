@@ -4,6 +4,7 @@ import PostPage2 from './PostPage2';
 import PostPage3 from './PostPage3';
 import PostPage4 from './PostPage4';
 import PostPage5 from './PostPage5';
+import PostPage6 from './PostPage6';
 import WizardForm from '../WizardForm';
 
 interface PathProps {
@@ -18,6 +19,7 @@ const HousingPost: React.FC<PathProps> = ({ show, setShow }) => (
     <PostPage3 />
     <PostPage4 />
     <PostPage5 />
+    <PostPage6 />
   </WizardForm>
 );
 

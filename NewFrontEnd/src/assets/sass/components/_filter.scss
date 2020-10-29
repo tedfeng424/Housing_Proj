@@ -70,14 +70,15 @@
 }
 
 .filter-launch-pad {
-  @extend .mx-4;
-  @extend .mb-5;
+  @extend .px-lg-5;
+  @extend .px-md-4;
   display: flex;
   align-items: center;
   justify-content: space-around;
-  border-width: 50px;
-  border-style: solid;
-  border-image: url('../../icons/filter/filter.svg') 30 round;
+  border: $darker-background-color solid 3px;
+  // box-shadow: 2px 4px 8px 30%;
+  box-shadow: 2px 4px 8px rgba(164, 97, 62, 0.3);
+  border-radius: 22px;
 }
 
 .filter-launch-button {

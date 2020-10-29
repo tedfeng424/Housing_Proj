@@ -9,7 +9,7 @@
 
 .housing-profile-price {
   @extend .h2;
-  color: theme-color('primary');
+  color: $primary-dark-color;
   font-weight: 600;
 }
 
@@ -42,6 +42,7 @@
   border-top-right-radius: 0;
   box-shadow: 3px 3px 4px -2px $gray-400;
   background-color: white;
+  word-break: break-word;
 
   &:before {
     $triangle-size: 1rem;
@@ -75,6 +76,7 @@
 
 .house-profile-modal {
   .modal-content {
+    @extend .secondary-border-thin;
     padding: 0;
   }
 }

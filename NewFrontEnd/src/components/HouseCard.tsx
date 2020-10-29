@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import SlideShow from './SlideShow';
 import HouseProfile, { facilityToIcon } from './HouseProfile';
+import { abbreviateAddress, abbreviateMonth } from '../assets/utils';
+import { months } from '../assets/constants';
 
 // Path Props need to be exactly the same from backend response
 // TODO: extract common interface between HouseCard and HouseProfile
@@ -50,11 +52,23 @@ const HouseCard: React.FC<PathProps> = ({
   facilities,
 }) => {
   const [show, setShow] = useState<boolean>(false);
-  const moveIn = early + '-' + late;
   const SlideShowContent = photo.map((link) => ({
-    src: 'https://houseit.s3.us-east-2.amazonaws.com/' + link,
-    alt: leaserName + ' , ' + location,
+    src: `https://houseit.s3.us-east-2.amazonaws.com/${link}`,
+    alt: `${leaserName} , ${location}}`,
   }));
+  const [moveIn, setMoveIn] = useState<string>('');
+
+  // abbreviate the move in date
+  useEffect(() => {
+    const [earlyInt, earlyMonth] = early.split(' ') as [string, months];
+    const [lateInt, lateMonth] = late.split(' ') as [string, months];
+    setMoveIn(
+      `${earlyInt} ${abbreviateMonth(
+        earlyMonth,
+      )} - ${lateInt} ${abbreviateMonth(lateMonth)}`,
+    );
+  }, [early, late]);
+
   return (
     <>
       <HouseProfile
@@ -78,37 +92,39 @@ const HouseCard: React.FC<PathProps> = ({
         show={show}
         setShow={setShow}
       />
-      {/* first column */}
-      <Card border="secondary" className="house-card">
-        <Card.Body>
+
+      <Card className="house-card">
+        <Card.Body className="p-0">
           <Container>
             <Row className="house-pic">
               <SlideShow
                 images={SlideShowContent}
                 onImageClick={() => setShow(true)}
-              ></SlideShow>
+              />
             </Row>
-            <Row>
-              <Col md={5} className="house-card-left house-card-price">
+            <Row className="px-2">
+              <Col md={4} className="house-card-left house-card-price">
                 <Row>${pricePerMonth}</Row>
               </Col>
-              <Col md={7} className="house-card-right house-card-right-top">
+              <Col md={8} className="house-card-right house-card-right-top">
                 <Row>
                   <div className="w-100 text-right">
-                    {roomType} <span className="divider">|</span> Move In{' '}
-                    {moveIn}
+                    {roomType}
+                    <span className="divider"> | </span>Move In {moveIn}
                   </div>
                 </Row>
               </Col>
             </Row>
-            <Row>
-              <Col md={5} className="house-card-left house-card-left-bottom">
+            <Row className="px-2">
+              <Col md={4} className="house-card-left house-card-left-bottom">
                 <Row>{distance}</Row>
               </Col>
 
-              <Col md={7} className="house-card-right">
+              <Col md={8} className="house-card-right">
                 <Row>
-                  <div className="w-100 text-right">{location}</div>
+                  <div className="w-100 text-right">
+                    {abbreviateAddress(location)}
+                  </div>
                 </Row>
               </Col>
             </Row>

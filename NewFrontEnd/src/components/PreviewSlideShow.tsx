@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import {
-  Carousel,
+  // Carousel,
   CarouselItem,
   CarouselControl,
   CarouselIndicators,
@@ -9,7 +9,9 @@ import {
 } from 'reactstrap';
 import Col from 'react-bootstrap/esm/Col';
 import Row from 'react-bootstrap/esm/Row';
+import Carousel from 'react-bootstrap/Carousel';
 import { SlideShowItem } from './SlideShow';
+import { carouselIcons } from '../assets/icons/all';
 
 interface PathProps {
   items: SlideShowItem[];
@@ -19,18 +21,6 @@ interface PathProps {
 const PreviewSlideShow: React.FC<PathProps> = ({ items, className = '' }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
-
-  const next = () => {
-    if (animating) return;
-    const nextIndex = activeIndex === items.length - 1 ? 0 : activeIndex + 1;
-    setActiveIndex(nextIndex);
-  };
-
-  const previous = () => {
-    if (animating) return;
-    const nextIndex = activeIndex === 0 ? items.length - 1 : activeIndex - 1;
-    setActiveIndex(nextIndex);
-  };
 
   const goToIndex = (newIndex: number) => {
     if (animating) return;
@@ -71,21 +61,14 @@ const PreviewSlideShow: React.FC<PathProps> = ({ items, className = '' }) => {
     >
       <Carousel
         activeIndex={activeIndex}
-        next={next}
-        previous={previous}
+        onSelect={(index) => setActiveIndex(index)}
+        nextIcon={<carouselIcons.rightArrow />}
+        prevIcon={<carouselIcons.leftArrow />}
+        interval={null}
+        indicators={false}
         className="align-flex-stretch"
       >
         {slides}
-        <CarouselControl
-          direction="prev"
-          directionText="Previous"
-          onClickHandler={previous}
-        />
-        <CarouselControl
-          direction="next"
-          directionText="Next"
-          onClickHandler={next}
-        />
       </Carousel>
       <div className="preview-slideshow-thumbnail">{thumbs}</div>
     </div>

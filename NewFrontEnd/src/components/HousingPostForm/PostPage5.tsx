@@ -20,7 +20,7 @@ const PostPage5: React.FC<{}> = () => {
             as="textarea"
             placeholder="hello"
             rows={5}
-          ></Form.Control>
+          />
         </Form.Group>
       </Row>
 
@@ -34,7 +34,7 @@ const PostPage5: React.FC<{}> = () => {
             as="textarea"
             placeholder="aloha"
             rows={5}
-          ></Form.Control>
+          />
         </Form.Group>
       </Row>
 

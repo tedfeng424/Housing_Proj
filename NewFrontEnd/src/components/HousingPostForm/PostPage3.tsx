@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Dropdown, Form } from 'react-bootstrap';
 import { intervalOptions, yearMonths } from '../../assets/constants';
-import { MoveInSelect, StringWrap } from '../utils/CardUtil';
+import { moveInSelect } from '../../assets/utils/index';
 
 const PostPage3: React.FC<{}> = () => {
   const [monthCount, setMonthCount] = useState<number>(1);
@@ -30,7 +30,7 @@ const PostPage3: React.FC<{}> = () => {
                 {intervalOptions.map((interval) => (
                   <Dropdown.Item
                     eventKey={interval}
-                    onSelect={(event) => setEarlyInterval(StringWrap(event))}
+                    onSelect={(event) => setEarlyInterval(event || '')}
                   >
                     {interval}
                   </Dropdown.Item>
@@ -41,14 +41,14 @@ const PostPage3: React.FC<{}> = () => {
               <Form.Control
                 className="clear-border"
                 as={Dropdown}
-                isValid={MoveInSelect(
+                isValid={moveInSelect(
                   earlyMonth,
                   earlyInterval,
                   lateMonth,
                   lateInterval,
                 )}
                 isInvalid={
-                  !MoveInSelect(
+                  !moveInSelect(
                     earlyMonth,
                     earlyInterval,
                     lateMonth,
@@ -66,9 +66,7 @@ const PostPage3: React.FC<{}> = () => {
                   {yearMonths.map((month) => (
                     <Dropdown.Item
                       eventKey={month}
-                      onSelect={(eventKey) =>
-                        setEarlyMonth(StringWrap(eventKey))
-                      }
+                      onSelect={(eventKey) => setEarlyMonth(eventKey || '')}
                     >
                       {month}
                     </Dropdown.Item>
@@ -94,9 +92,7 @@ const PostPage3: React.FC<{}> = () => {
                 {intervalOptions.map((interval) => (
                   <Dropdown.Item
                     eventKey={interval}
-                    onSelect={(eventKey) =>
-                      setLateInterval(StringWrap(eventKey))
-                    }
+                    onSelect={(eventKey) => setLateInterval(eventKey || '')}
                   >
                     {interval}
                   </Dropdown.Item>
@@ -115,9 +111,7 @@ const PostPage3: React.FC<{}> = () => {
                   {yearMonths.map((month) => (
                     <Dropdown.Item
                       eventKey={month}
-                      onSelect={(eventKey) =>
-                        setLateMonth(StringWrap(eventKey))
-                      }
+                      onSelect={(eventKey) => setLateMonth(eventKey || '')}
                     >
                       {month}
                     </Dropdown.Item>
