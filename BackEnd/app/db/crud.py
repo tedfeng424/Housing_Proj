@@ -1,6 +1,7 @@
-from app.db.database_setup import User, Room, Photo, Move_In,\
+from app.db.database_setup import User, Room, Move_In,\
     House_Attribute, Attribute
-from app.util.aws.s3 import get_images
+from app.util.aws.s3 import get_images, upload_file_wobject
+from datetime import datetime
 
 # Create
 
@@ -31,12 +32,6 @@ def add_room(date_created, room_type, price, description, stay_period,
     return Room_to_add
 
 
-def add_photo(url, user, session):
-    Photo_to_add = Photo(url=url, user=user)
-    add_and_commit(Photo_to_add, session)
-    return Photo_to_add
-
-
 def add_move_in(early_interval, early_month, late_interval,
                 late_month, session):
     Move_In_to_add = Move_In(early_interval=early_interval,
@@ -62,6 +57,17 @@ def add_attribute(name, category, session):
 # Read
 
 
+def check_exist(db_obj, session, condition):
+    """Check if a row that satisfies a certain condition exists
+    :param db_obj: Database Object like User
+    :param session: a db connection session
+    :param condition: kwargs like dict like {'name':'Cris'}
+    :return: the row if a row exists, else None
+    """
+    row = session.query(db_obj).filter_by(**condition).first()
+    return row
+
+
 def read_user(email, session):
     return session.query(User).filter_by(email=email).one()
 
@@ -75,8 +81,9 @@ def room_json(room, session):
     for ha in room.house_attribute:
         other_map[ha.house_attribute.category].append(ha.house_attribute.name)
     r_json = room.serialize
+    room_name = r_json['address'].split(",")[0]
     return_json = {
-        'name': r_json['address'].split(",")[0],
+        'name': room_name,
         'location': r_json['address'],
         'distance': r_json['distance'],
         'pricePerMonth': r_json['price'],
@@ -92,8 +99,56 @@ def room_json(room, session):
         'leaserSchoolYear': room.user.school_year,
         'leaserMajor': room.user.major,
         'leaserIntro': room.user.description,
-        'photo': [p.url for p in room.user.photo],
+        'photo': get_images(room.user.name, extra_path=room_name),
         'profilePhoto': 'https://houseit.s3.us-east-2.amazonaws.com/' +
         get_images(room.user.name, category="profile")[0]
     }
     return return_json
+
+# write an attribute to database
+
+
+def write_attr(names, category, room, session):
+    for attribute in names:
+        # check if an attribute exists
+        new_attribute = check_exist(Attribute, **{'name': attribute})
+        if not new_attribute:
+            new_attribute = add_attribute(attribute, category, session)
+        # finally add the house attribute
+        add_house_attribute(room, new_attribute, session)
+
+# write a single room to database
+
+
+def write_room(room_json, session):
+    # TODO: might need to add error handling upon database fail
+    # check if user exists
+    room_owner = check_exist(
+        User, session, **{'email': room_json['leaserEmail']})
+    room_name = room_json['address'].split(",")[0]
+    if not room_owner:
+        room_owner = add_user(room_json['name'], room_json['leaserEmail'],
+                              datetime.now(), room_json['leaserPhone'],
+                              room_json['leaserIntro'],
+                              room_json['leaserSchoolYear'],
+                              room_json['leaserMajor'],
+                              session)
+    new_move_in = add_move_in(room_json['early_interval'],
+                              room_json['early_month'],
+                              room_json['late_interval'],
+                              room_json['late_month'], session)
+    new_room = add_room(datetime.now(),
+                        room_json['room_type'],
+                        room_json['price'],
+                        room_json['description'],
+                        room_json['stay_period'],
+                        room_json['distance'],
+                        room_json['address'],
+                        room_owner, new_move_in, session)
+    write_attr(room_json['other'], 'other', new_room, session)
+    write_attr(room_json['facilities'], 'facilities', new_room, session)
+    # add photo
+    for photo in room_json['photo']:
+        prefix = "/".join([room_owner.name, 'housing', room_name])
+        upload_file_wobject(photo, 'houseit', prefix+photo.filename)
+    return True

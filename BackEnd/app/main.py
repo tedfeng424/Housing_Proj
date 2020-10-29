@@ -25,6 +25,24 @@ def showRooms():
     return jsonify(rooms)
 
 
+@app.route('/postRoom', methods=['POST'])
+@cross_origin()
+def postRooms():
+    photo = request.files.getlist("photo")
+    requested_json = json.loads(request.form["json"])
+    requested_json["photo"] = photo
+    success = write_room(requested_json, session)
+    response = {}
+    if success:
+        response['message'] = 'Successfully created room.'
+        response.status_code = 200
+    else:
+        response['message'] = 'Internal Database Failure.\
+                    We are working our ass off to fix it'
+        response.status_code = 500
+    return jsonify(response)
+
+
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
     app.debug = True

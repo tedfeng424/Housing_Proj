@@ -1,11 +1,11 @@
-from database_setup import User, Room, Photo, Move_In, \
+from database_setup import User, Room, Move_In, \
     House_Attribute, Attribute, Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 from app.util.aws.s3 import get_images
 from crud import add_user, \
-    add_room, add_photo, add_move_in, add_house_attribute, add_attribute
+    add_room, add_move_in, add_house_attribute, add_attribute
 
 
 engine = create_engine('sqlite:///housing.db')
@@ -44,24 +44,6 @@ keenan = add_user(KEENAN, "keenan@ucsd.edu", datetime.now(), "858-4675432",
                   "yo I am Keenan. P dope. DAMNNNNNNNNNNNN. YOOOOOOO",  4,
                   "Computer Science and Engineering",
                   session)
-
-# Add mock Photo
-cris_photos = get_images(CRIS, extra_path="Costa Verde Village")
-for p in cris_photos:
-    add_photo(p, cris, session)
-
-amit_photos = get_images(AMIT, extra_path="Solazzo Apartment Homes")
-for p in amit_photos:
-    add_photo(p, amit, session)
-
-keenan_photos = get_images(KEENAN, extra_path="Regents Court")
-for p in keenan_photos:
-    add_photo(p, keenan, session)
-
-adam_photos = get_images(ADAM, extra_path="Towers At Costa Verde")
-for p in adam_photos:
-    add_photo(p, adam, session)
-
 # Add mock Move-in
 cris_move_in = add_move_in("Anytime", "September",
                            "Late", "September", session)
