@@ -17,7 +17,6 @@ class User(Base):
     school_year = Column(Integer, nullable=False)
     major = Column(String(250))
     description = Column(String(1000), nullable=False)
-    photo = relationship("Photo", backref="user")  # s3 url
     room = relationship("Room", backref="user")
 
     @property
@@ -28,8 +27,7 @@ class User(Base):
             'email': self.email,
             'phone': self.phone,
             'name': self.name,
-            'description': self.description,
-            'avatar_picture': self.avatar_picture
+            'description': self.description
         }
 
 
@@ -61,23 +59,6 @@ class Room(Base):
             'stay_period': self.stay_period,
             'distance': self.distance,
             'address': self.address,
-        }
-
-
-class Photo(Base):
-    __tablename__ = 'photo'
-
-    id = Column(Integer, primary_key=True)
-    url = Column(String(250), nullable=False)
-    user_id = Column(Integer, ForeignKey('user.id'))
-
-    @property
-    def serialize(self):
-        """Return object data in easily serializeable format"""
-        return {
-            'id': self.id,
-            'url': self.url,
-            'user_id': self.user_id
         }
 
 
@@ -136,7 +117,7 @@ class Attribute(Base):
         }
 
 
-engine = create_engine('sqlite:///housing.db')
+if __name__ == '__main__':
+    engine = create_engine('sqlite:///housing.db')
 
-
-Base.metadata.create_all(engine)
+    Base.metadata.create_all(engine)
