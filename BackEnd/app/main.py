@@ -6,7 +6,8 @@ from flask_cors import CORS, cross_origin
 from app.assets.options import others, facilities
 from app.util.aws.s3 import get_images
 from flask_sqlalchemy import SQLAlchemy
-from db.crud import room_json, read_rooms
+import json
+from db.crud import room_json, read_rooms, write_room
 from db.database_setup import Base
 
 app = Flask(__name__)
@@ -41,6 +42,13 @@ def postRooms():
                     We are working our ass off to fix it'
         response.status_code = 500
     return jsonify(response)
+
+
+@app.route('/searchRoom', methods=['POST'])
+@cross_origin()
+def searchRooms():
+    # return jsonify(search(request.form["json"]))
+    return True
 
 
 if __name__ == '__main__':
