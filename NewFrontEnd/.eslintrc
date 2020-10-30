@@ -4,6 +4,7 @@
   "rules": {
     "no-underscore-dangle": ["error", { "allow": ["_420", "_420Chosen"] }],
     "@typescript-eslint/explicit-function-return-type": "off",
-    "radix": "off"
+    "radix": "off",
+    "no-param-reassign": "off"
   }
 }

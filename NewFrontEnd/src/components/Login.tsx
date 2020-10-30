@@ -8,7 +8,7 @@ import {
 } from 'react-google-login';
 import { useCookies } from 'react-cookie';
 import { useSelector, useDispatch } from 'react-redux';
-import { setUser, selectUser } from '../redux/slices/auth';
+import { setUser, selectUser, login } from '../redux/slices/auth';
 
 // https://developers.google.com/identity/sign-in/web/sign-in
 interface PathProps {
@@ -21,32 +21,29 @@ const Login: React.FC<PathProps> = ({ handleClose, show }) => {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
-  const responseGoogleFail = (response: Error) => {
-    console.log(response);
+  const isOnline = (
+    response: GoogleLoginResponse | GoogleLoginResponseOffline,
+  ): response is GoogleLoginResponse => {
+    return 'profileObj' in response;
   };
 
   const responseGoogleSuccess = (
     response: GoogleLoginResponse | GoogleLoginResponseOffline,
   ) => {
     if (isOnline(response)) {
-      const profileObj = response.profileObj;
+      const { profileObj } = response;
 
+      // TODO this is temporary, since the backend will be setting the cookie in the future
       setCookie('user', profileObj, {
         maxAge: 120, // expires 2 minutes after login
       });
 
-      const { name, email, imageUrl, ...rest } = profileObj;
+      const { name, email, imageUrl } = profileObj;
       const newUser = { name, email, imageUrl };
-      dispatch(setUser(newUser));
+      dispatch(login('token-here', newUser));
     } else {
       console.log(response);
     }
-  };
-
-  const isOnline = (
-    response: GoogleLoginResponse | GoogleLoginResponseOffline,
-  ): response is GoogleLoginResponse => {
-    return 'profileObj' in response;
   };
 
   return (
@@ -72,7 +69,7 @@ const Login: React.FC<PathProps> = ({ handleClose, show }) => {
           responseGoogleSuccess(response);
           handleClose();
         }}
-        onFailure={responseGoogleFail}
+        onFailure={(response) => console.log(response)}
         // TODO: add login cookie to onSuccess using react-cookie
         cookiePolicy="single_host_origin"
         icon={false}
