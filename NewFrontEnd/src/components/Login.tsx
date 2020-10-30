@@ -7,7 +7,8 @@ import {
   GoogleLoginResponseOffline,
 } from 'react-google-login';
 import { useCookies } from 'react-cookie';
-import moment from 'moment';
+import { useSelector, useDispatch } from 'react-redux';
+import { setUser, selectUser } from '../redux/slices/auth';
 
 // https://developers.google.com/identity/sign-in/web/sign-in
 interface PathProps {
@@ -17,6 +18,8 @@ interface PathProps {
 
 const Login: React.FC<PathProps> = ({ handleClose, show }) => {
   const [cookies, setCookie] = useCookies(['user']);
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
 
   const responseGoogleFail = (response: Error) => {
     console.log(response);
@@ -26,9 +29,15 @@ const Login: React.FC<PathProps> = ({ handleClose, show }) => {
     response: GoogleLoginResponse | GoogleLoginResponseOffline,
   ) => {
     if (isOnline(response)) {
-      setCookie('user', response.profileObj, {
+      const profileObj = response.profileObj;
+
+      setCookie('user', profileObj, {
         maxAge: 120, // expires 2 minutes after login
       });
+
+      const { name, email, imageUrl, ...rest } = profileObj;
+      const newUser = { name, email, imageUrl };
+      dispatch(setUser(newUser));
     } else {
       console.log(response);
     }
@@ -39,8 +48,6 @@ const Login: React.FC<PathProps> = ({ handleClose, show }) => {
   ): response is GoogleLoginResponse => {
     return 'profileObj' in response;
   };
-
-  // console.log(cookies.user);
 
   return (
     <Modal id="LoginModal" show={show} onHide={handleClose} centered>
@@ -53,8 +60,8 @@ const Login: React.FC<PathProps> = ({ handleClose, show }) => {
         />
       </Button>
       <img className="d-block" src="/login.svg" alt="LogIn" />
-      {cookies.user !== undefined ? (
-        <span className="word"> Logged In as {cookies.user.givenName}! </span>
+      {user !== undefined ? (
+        <span className="word"> Logged In using Redux as {user.name}! </span> // lil' test here
       ) : (
         <></>
       )}
