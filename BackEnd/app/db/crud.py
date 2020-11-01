@@ -57,7 +57,7 @@ def add_attribute(name, category, session):
 # Read
 
 
-def check_exist(db_obj, session, condition):
+def check_exist(db_obj, session, **condition):
     """Check if a row that satisfies a certain condition exists
     :param db_obj: Database Object like User
     :param session: a db connection session

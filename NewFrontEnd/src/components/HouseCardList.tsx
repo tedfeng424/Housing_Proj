@@ -4,37 +4,19 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import HouseCard, { PathProps } from './HouseCard';
 import { getHousing } from '../apis/index';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  selectingHousingPosts,
+  updateHousingPosts,
+} from '../redux/slices/housing';
 
 const HousingList: React.FC = () => {
-  const [cards, setCards] = useState<PathProps[]>([]);
+  //const [cards, setCards] = useState<PathProps[]>([]);
+  const cards = useSelector(selectingHousingPosts);
+  const dispatch = useDispatch();
   useEffect(() => {
     // api call to get the housing card info
-    getHousing().then((response) => {
-      setCards(
-        response
-          ? response.map((room) => ({
-              name: room['name'],
-              pricePerMonth: room['pricePerMonth'],
-              roomType: room['roomType'],
-              early: room['early'],
-              late: room['late'],
-              distance: room['distance'],
-              location: room['location'],
-              photo: room['photo'],
-              profilePhoto: room['profilePhoto'],
-              stayPeriod: room['stayPeriod'],
-              leaserName: room['leaserName'],
-              leaserSchoolYear: room['leaserSchoolYear'],
-              leaserMajor: room['leaserMajor'],
-              leaserIntro: room['leaserIntro'],
-              leaserEmail: room['leaserEmail'],
-              leaserPhone: room['leaserPhone'],
-              other: room['other'],
-              facilities: room['facilities'],
-            }))
-          : [],
-      );
-    });
+    dispatch(updateHousingPosts(getHousing));
   }, []);
 
   return (

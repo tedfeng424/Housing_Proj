@@ -5,6 +5,8 @@ from flask import session as login_session
 from flask_cors import CORS, cross_origin
 from app.assets.options import others, facilities
 from app.util.aws.s3 import get_images
+from app.bluePrints.auth import authetication
+from app.util.search import search
 from flask_sqlalchemy import SQLAlchemy
 import json
 from db.crud import room_json, read_rooms, write_room
@@ -15,6 +17,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///db/housing.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 session = db.create_scoped_session()
+app.register_blueprint(authetication)
 app.config['CORS_HEADERS'] = 'Content-Type'
 CORS(app)
 
@@ -36,7 +39,7 @@ def postRooms():
     response = {}
     if success:
         response['message'] = 'Successfully created room.'
-        response.status_code = 200
+        response.status_code = 201
     else:
         response['message'] = 'Internal Database Failure.\
                     We are working our ass off to fix it'
@@ -47,8 +50,9 @@ def postRooms():
 @app.route('/searchRoom', methods=['POST'])
 @cross_origin()
 def searchRooms():
-    # return jsonify(search(request.form["json"]))
-    return True
+    print(request.json)
+    print(search(request.json, session))
+    return jsonify(search(request.json, session))
 
 
 if __name__ == '__main__':

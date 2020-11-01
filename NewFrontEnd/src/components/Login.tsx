@@ -35,7 +35,7 @@ const Login: React.FC<PathProps> = ({ handleClose, show }) => {
 
       // TODO this is temporary, since the backend will be setting the cookie in the future
       setCookie('user', profileObj, {
-        maxAge: 120, // expires 2 minutes after login
+        maxAge: 4320, // expires  72 hours after login
       });
 
       const { name, email, imageUrl } = profileObj;

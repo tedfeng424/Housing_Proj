@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
+import { searchHousing, getHousing } from '../apis/index';
 import {
   roomTypeIcons,
   roomTypeUnchosen,
@@ -14,6 +15,8 @@ import {
 } from '../assets/icons/all';
 import { intervalOptions, yearMonths } from '../assets/constants';
 import { moveInSelect } from '../assets/utils/index';
+import { useDispatch } from 'react-redux';
+import { updateHousingPosts } from '../redux/slices/housing';
 
 interface Preferences {
   female: boolean;
@@ -23,6 +26,23 @@ interface Preferences {
   pets: boolean;
   privateBath: boolean;
   _420: boolean;
+}
+
+type RoomLiteralType = keyof typeof roomTypeUnchosen;
+type PreferenceLiteralType = keyof Preferences;
+
+interface BackendJson {
+  distance: string;
+  room_type: RoomLiteralType[];
+  price_min: number;
+  price_max: number;
+  early_interval: string;
+  early_month: string;
+  late_interval: string;
+  late_month: string;
+  stay_period: number;
+  other: string[];
+  facilities: string[];
 }
 
 type RoomType = { [P in keyof typeof roomTypeUnchosen]: boolean };
@@ -37,6 +57,66 @@ const Separator: React.FC<React.HTMLAttributes<JSX.Element>> = () => (
     <div className="separator" />
   </div>
 );
+
+const formatRequest = (
+  pref: Preferences,
+  rt: RoomType,
+  earlyInterval: string,
+  earlyMonth: string,
+  lateInterval: string,
+  lateMonth: string,
+  monthCount: number,
+  minute: number,
+  price: Price,
+): BackendJson => {
+  let room_selections: RoomLiteralType[];
+  room_selections = [
+    'single',
+    'double',
+    'triple',
+    'livingRoom',
+    'suite',
+    'studio',
+  ];
+  let other_prefs: PreferenceLiteralType[];
+  other_prefs = ['female', 'male', 'lgbtq', 'pets', '_420'];
+  let facilities: PreferenceLiteralType[];
+  facilities = ['parking', 'privateBath'];
+  const room_result: RoomLiteralType[] = [];
+  var selected_rooms = room_selections.reduce((result, room_selection) => {
+    if (rt[room_selection]) {
+      result.push(room_selection);
+    }
+    return room_result;
+  }, room_result);
+  const other_result: PreferenceLiteralType[] = [];
+  var selected_other = other_prefs.reduce((other_result, other_pref) => {
+    if (pref[other_pref]) {
+      other_result.push(other_pref);
+    }
+    return other_result;
+  }, other_result);
+  const fac_result: PreferenceLiteralType[] = [];
+  var selected_fac = facilities.reduce((fac_result, other_pref) => {
+    if (pref[other_pref]) {
+      fac_result.push(other_pref);
+    }
+    return fac_result;
+  }, fac_result);
+  return {
+    distance: `${minute} mins`,
+    room_type: selected_rooms,
+    early_interval: earlyInterval,
+    early_month: earlyMonth,
+    late_interval: lateInterval,
+    late_month: lateMonth,
+    stay_period: monthCount,
+    price_min: price.minimum,
+    price_max: price.maximum,
+    other: selected_other,
+    facilities: selected_fac,
+  };
+};
 
 const Filter: React.FC<{}> = () => {
   const [show, setShow] = useState<boolean>(false);
@@ -68,6 +148,7 @@ const Filter: React.FC<{}> = () => {
     minimum: 100,
     maximum: 1000,
   });
+  const dispatch = useDispatch();
   return (
     <>
       {/* Header in the home page */}
@@ -461,6 +542,33 @@ const Filter: React.FC<{}> = () => {
             <br />
           </Form>
           <Row />
+          <Row className="justify-content-center">
+            <Button
+              onClick={() =>
+                dispatch(
+                  updateHousingPosts(() =>
+                    searchHousing(
+                      JSON.stringify(
+                        formatRequest(
+                          preferences,
+                          roomType,
+                          earlyInterval,
+                          earlyMonth,
+                          lateInterval,
+                          lateMonth,
+                          monthCount,
+                          minute,
+                          price,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              }
+            >
+              Find Best Fit Now!
+            </Button>
+          </Row>
         </Container>
       </Modal>
     </>

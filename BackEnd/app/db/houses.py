@@ -52,28 +52,28 @@ keenan_move_in = add_move_in("Anytime", "January", "Late", "March", session)
 adam_move_in = add_move_in("Anytime", "January", "Late", "October", session)
 
 # Add mock Attribute
-attr_gym = add_attribute('Gym room', 'facilities', session)
-attr_park = add_attribute('Parking', 'facilities', session)
-attr_ele = add_attribute('Elevator', 'facilities', session)
-attr_male = add_attribute('Male', 'other', session)
-attr_pri = add_attribute('Private', 'other', session)
-attr_female = add_attribute('Female', 'other', session)
+attr_gym = add_attribute('gym room', 'facilities', session)
+attr_park = add_attribute('parking', 'facilities', session)
+attr_ele = add_attribute('elevator', 'facilities', session)
+attr_male = add_attribute('male', 'other', session)
+attr_pri = add_attribute('private', 'other', session)
+attr_female = add_attribute('female', 'other', session)
 
 # Add Room
-cris_room = add_room(datetime.now(), "Single", 1000, "Damn it LOOOOOOL", 2,
+cris_room = add_room(datetime.now(), "single", 1000, "Damn it LOOOOOOL", 2,
                      "16 mins",
                      "Costa Verde Village, Costa Verde Boulevard, San Diego, CA, USA",
                      cris, cris_move_in, session)
-amit_room = add_room(datetime.now(), "Single", 2000, "Damn it LOOOOOOL", 10,
+amit_room = add_room(datetime.now(), "single", 2000, "Damn it LOOOOOOL", 10,
                      "5 mins",
                      "Solazzo Apartment Homes, Villa La Jolla Drive, La Jolla, CA, USA",
                      amit, amit_move_in, session)
-keenan_room = add_room(datetime.now(), "Single", 3000, "Damn it LOOOOOOL", 5,
-                       "1 hour 5 mins",
+keenan_room = add_room(datetime.now(), "single", 3000, "Damn it LOOOOOOL", 5,
+                       "65 mins",
                        "Regents Court, Regents Road, San Diego, CA, USA",
                        keenan, keenan_move_in, session)
-adam_room = add_room(datetime.now(), "Living", 5000, "Damn it LOOOOOOL", 9,
-                     "2 hours 5 mins",
+adam_room = add_room(datetime.now(), "livingRoom", 5000, "Damn it LOOOOOOL", 9,
+                     "60 mins",
                      "Towers At Costa Verde, Costa Verde Boulevard, San Diego, CA, USA",
                      adam, adam_move_in, session)
 
