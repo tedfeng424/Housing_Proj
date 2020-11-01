@@ -6,7 +6,7 @@ import {
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
 } from 'react-google-login';
-import { useCookies } from 'react-cookie';
+import Cookies from 'universal-cookie';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUser, selectUser, login } from '../redux/slices/auth';
 
@@ -17,7 +17,7 @@ interface PathProps {
 }
 
 const Login: React.FC<PathProps> = ({ handleClose, show }) => {
-  const [cookies, setCookie] = useCookies(['user']);
+  const cookies = new Cookies();
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
@@ -33,13 +33,14 @@ const Login: React.FC<PathProps> = ({ handleClose, show }) => {
     if (isOnline(response)) {
       const { profileObj } = response;
 
+      const { name, email, imageUrl } = profileObj;
+      const newUser = { name, email, imageUrl };
+
       // TODO this is temporary, since the backend will be setting the cookie in the future
-      setCookie('user', profileObj, {
+      cookies.set('user', newUser, {
         maxAge: 120, // expires 2 minutes after login
       });
 
-      const { name, email, imageUrl } = profileObj;
-      const newUser = { name, email, imageUrl };
       dispatch(login('token-here', newUser));
     } else {
       console.log(response);
@@ -57,7 +58,7 @@ const Login: React.FC<PathProps> = ({ handleClose, show }) => {
         />
       </Button>
       <img className="d-block" src="/login.svg" alt="LogIn" />
-      {user !== undefined ? (
+      {user ? (
         <span className="word"> Logged In using Redux as {user.name}! </span> // lil' test here
       ) : (
         <></>
@@ -70,7 +71,7 @@ const Login: React.FC<PathProps> = ({ handleClose, show }) => {
           handleClose();
         }}
         onFailure={(response) => console.log(response)}
-        // TODO: add login cookie to onSuccess using react-cookie
+        // TODO: add login cookie to onSuccess using universal-cookie
         cookiePolicy="single_host_origin"
         icon={false}
       >

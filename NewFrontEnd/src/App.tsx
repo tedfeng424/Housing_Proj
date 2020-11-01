@@ -1,16 +1,19 @@
 import React, { useEffect } from 'react';
-import { useCookies } from 'react-cookie';
+import Cookies from 'universal-cookie';
 import { useDispatch } from 'react-redux';
 import NavBar from './components/NavBar';
 import Home from './components/Home';
-import { setUser } from './redux/slices/auth';
+import { setIsLoggedIn, setUser } from './redux/slices/auth';
 
 function App() {
-  const [cookies] = useCookies(['user']);
+  const cookies = new Cookies();
   const dispatch = useDispatch();
   useEffect(() => {
     // dispatch to redux setting the user
-    dispatch(setUser(cookies.user));
+    if (cookies.get('user')) {
+      dispatch(setUser(cookies.get('user')));
+      dispatch(setIsLoggedIn(true));
+    }
   }, [cookies, dispatch]);
 
   return (

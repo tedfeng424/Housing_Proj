@@ -1,1 +1,1 @@
-export const fakeUserAPI = async () => "";
+export const fakeUserAPI = async () => '';
