@@ -25,7 +25,6 @@ CORS(app)
 
 
 @app.route('/getRoom', methods=['GET'])
-@cross_origin()
 def showRooms():
     rooms = [room_json(room, session) for room in read_rooms(session)]
     response = jsonify(rooms)
@@ -34,7 +33,6 @@ def showRooms():
 
 
 @app.route('/postRoom', methods=['POST', 'OPTIONS'])
-@cross_origin()
 def postRooms():
     # TODO check if logged in
     if request.method == 'OPTIONS':
@@ -57,10 +55,10 @@ def postRooms():
 
 
 @app.route('/searchRoom', methods=['POST', 'OPTIONS'])
-@cross_origin()
 def searchRooms():
     if request.method == 'OPTIONS':
         return handleOptions()
+    print("hello")
     response = jsonify(search(request.json, session))
     response.headers['Access-Control-Allow-Credentials'] = 'true'
     return response

@@ -19,12 +19,13 @@ const tempStyle = {
 };
 
 const ImagesUploader: React.FC<{}> = (props) => {
-  const picturesArr: any[] = []; // what is the type of picture?
-  const [pictures, setPictures] = useState(picturesArr);
+  const [pictures, setPictures] = useState<File[]>();
 
   // what is type of image?
-  const onDrop = (picture: any) => {
-    setPictures([...pictures, picture]);
+  const onDrop = (picture: File[]) => {
+    setPictures(picture);
+    console.log(pictures);
+    console.log(picture);
   };
 
   return (
