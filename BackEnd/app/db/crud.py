@@ -111,7 +111,7 @@ def room_json(room, session):
 def write_attr(names, category, room, session):
     for attribute in names:
         # check if an attribute exists
-        new_attribute = check_exist(Attribute, **{'name': attribute})
+        new_attribute = check_exist(Attribute, session, **{'name': attribute})
         if not new_attribute:
             new_attribute = add_attribute(attribute, category, session)
         # finally add the house attribute
@@ -149,6 +149,7 @@ def write_room(room_json, session):
     write_attr(room_json['facilities'], 'facilities', new_room, session)
     # add photo
     for photo in room_json['photo']:
-        prefix = "/".join([room_owner.name, 'housing', room_name])
-        upload_file_wobject(photo, 'houseit', prefix+photo.filename)
+        path_name = "/".join([room_owner.email, 'housing',
+                              room_name, photo.name])
+        upload_file_wobject(photo, 'houseit', path_name)
     return True

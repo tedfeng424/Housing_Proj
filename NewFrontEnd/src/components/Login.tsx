@@ -40,7 +40,7 @@ const Login: React.FC<PathProps> = ({ handleClose, show }) => {
 
       const { name, email, imageUrl } = profileObj;
       const newUser = { name, email, imageUrl };
-      dispatch(login('token-here', newUser));
+      dispatch(login(JSON.stringify(newUser)));
     } else {
       console.log(response);
     }

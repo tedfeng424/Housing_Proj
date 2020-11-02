@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
-import { searchHousing, getHousing } from '../apis/index';
+import { searchHousing } from '../apis/index';
 import {
   roomTypeIcons,
   roomTypeUnchosen,

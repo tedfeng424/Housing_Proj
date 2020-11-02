@@ -52,13 +52,13 @@ const PostPage1: React.FC = () => {
         <Col md={{ span: 4, offset: 2 }}>
           <Row className="post-word"> Phone </Row>
           <Row>
-            <input className="post-input w-75" />
+            <input className="w-75 single-line-input" />
           </Row>
         </Col>
         <Col md={4}>
           <Row className="post-word"> School email </Row>
           <Row>
-            <input className="post-input w-75" />
+            <input className="w-75 single-line-input" />
           </Row>
         </Col>
       </Row>
@@ -126,13 +126,7 @@ const PostPage1: React.FC = () => {
         <Col md={{ span: 4, offset: 2 }}>
           <Row className="post-word"> Major </Row>
           <Row>
-            <input className="post-input w-75" />
-          </Row>
-        </Col>
-        <Col md={4}>
-          <Row className="post-word"> Location </Row>
-          <Row>
-            <AutoComplete />
+            <input className="w-75 single-line-input" />
           </Row>
         </Col>
       </Row>

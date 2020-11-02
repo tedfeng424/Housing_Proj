@@ -2,11 +2,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk, RootState } from '../store';
 import { PathProps } from '../../components/HouseCard';
 
-interface HousingPost {
-  title: string;
-  // add more...
-}
-
 interface HousingState {
   posts: PathProps[];
 }

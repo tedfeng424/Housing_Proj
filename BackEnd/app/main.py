@@ -17,6 +17,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///db/housing.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 session = db.create_scoped_session()
+app.config['DB_CONNECTION'] = session
 app.register_blueprint(authetication)
 app.config['CORS_HEADERS'] = 'Content-Type'
 CORS(app)
@@ -26,14 +27,17 @@ CORS(app)
 @cross_origin()
 def showRooms():
     rooms = [room_json(room, session) for room in read_rooms(session)]
-    return jsonify(rooms)
+    response = jsonify(rooms)
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    return response
 
 
 @app.route('/postRoom', methods=['POST'])
 @cross_origin()
 def postRooms():
+    # TODO check if logged in
     photo = request.files.getlist("photo")
-    requested_json = json.loads(request.form["json"])
+    requested_json = request.json
     requested_json["photo"] = photo
     success = write_room(requested_json, session)
     response = {}
@@ -50,12 +54,12 @@ def postRooms():
 @app.route('/searchRoom', methods=['POST'])
 @cross_origin()
 def searchRooms():
-    print(request.json)
-    print(search(request.json, session))
-    return jsonify(search(request.json, session))
+    response = jsonify(search(request.json, session))
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    return response
 
 
 if __name__ == '__main__':
-    app.secret_key = 'super_secret_key'
+    app.secret_key = b'\xb7\xe2\xd6\xa3\xe2\xe0\x11\xd1\x92\xf1\x92G&>\xa2:'
     app.debug = True
     app.run(host='localhost', port=3001)

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk, RootState } from '../store'; // TODO
+import { userLogIn, userLogOut } from '../../apis/index';
 
 interface User {
   name: string;
@@ -10,11 +11,13 @@ interface User {
 interface AuthState {
   user?: User;
   isLoggedIn: boolean;
+  token: string;
 }
 
 const initialState: AuthState = {
   user: undefined,
   isLoggedIn: false,
+  token: '',
 };
 
 export const authSlice = createSlice({
@@ -27,35 +30,52 @@ export const authSlice = createSlice({
     setIsLoggedIn: (state, action: PayloadAction<boolean>) => {
       state.isLoggedIn = action.payload;
     },
+    setToken: (state, action: PayloadAction<string>) => {
+      state.token = action.payload;
+    },
   },
 });
 
 // Export actions that were defined with createSlice
-export const { setUser, setIsLoggedIn } = authSlice.actions;
+export const { setUser, setIsLoggedIn, setToken } = authSlice.actions;
 
 // Thunks here
-export const login = (
-  token: string,
-  /* TODO temporary, delete when api is built */ user: User,
-): AppThunk => async (dispatch) => {
-  // TODO login api function call here to the backend
-  // const response = await apiToLoginFunction(token)
-  const response = { user };
-  dispatch(setUser(response.user));
-  dispatch(setIsLoggedIn(true));
+export const login = (userInfo: string): AppThunk => async (dispatch) => {
+  // login api function call here to the backend
+  const response: any = await userLogIn(userInfo);
+  dispatch(
+    setUser(
+      response
+        ? {
+            name: response['user'],
+            email: response['email'],
+            imageUrl: response['imageUrl'],
+          }
+        : undefined,
+    ),
+  );
+  if (response !== undefined) {
+    dispatch(setIsLoggedIn(true));
+    dispatch(setToken(response['access_token']));
+  }
 };
 
-export const logout = (): AppThunk => async (dispatch) => {
+export const logout = (userInfo: string): AppThunk => async (dispatch) => {
   // remove cookies here, which will automatically update the user. then set isLoggedIn
-  dispatch(setUser(undefined)); // TODO not sure if this is needed
-  dispatch(setIsLoggedIn(false));
+  console.log(userInfo);
+  const response: any = await userLogOut(userInfo);
+  if (response !== undefined) {
+    dispatch(setUser(undefined)); // TODO not sure if this is needed
+    dispatch(setIsLoggedIn(false));
+  }
 };
 
 // Selects here
 const selectUser = (state: RootState) => state.auth.user;
 const selectIsLoggedIn = (state: RootState) => state.auth.isLoggedIn;
+const selectToken = (state: RootState) => state.auth.token;
 
-export { selectUser, selectIsLoggedIn };
+export { selectUser, selectIsLoggedIn, selectToken };
 
 // Export everything
 export default authSlice.reducer;
