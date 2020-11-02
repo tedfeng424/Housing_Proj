@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../redux/slices/auth';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import { useCookies } from 'react-cookie';
 import HousingList from './HouseCardList';
 import Filter from './Filter';
 import TV from './TV';
@@ -21,7 +22,7 @@ const Home: React.FC = () => {
   const [showHousingPost, setShowHousingPost] = useState<boolean>(false);
   const handleCloseHousingPost = () => setShowHousingPost(false);
   const handleShowHousingPost = () => setShowHousingPost(true);
-  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+  const user = useSelector(selectUser);
 
   return (
     <Container>
@@ -37,7 +38,7 @@ const Home: React.FC = () => {
 
         <Col md={3} className="my-auto">
           <TV>
-            {cookies.user === undefined ? (
+            {!user ? (
               <>
                 <div className="secondary-title mt-3">Hello</div>
                 <div className="tv-separator" />

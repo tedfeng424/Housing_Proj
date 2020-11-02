@@ -15,9 +15,9 @@ months = [
 ]
 intervals = [
     'Anytime',
-    'Early',
-    'Mid',
-    'Late'
+    'Early(1-10)',
+    'Mid(11-20)',
+    'Late(21-31)'
 ]
 others = [
     'Female',

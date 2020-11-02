@@ -57,10 +57,11 @@ def postRooms():
 
 
 @app.route('/searchRoom', methods=['POST', 'OPTIONS'])
-@cross_origin()
+# @cross_origin()
 def searchRooms():
     if request.method == 'OPTIONS':
         return handleOptions()
+    print(request.json)
     response = jsonify(search(request.json, session))
     response.headers['Access-Control-Allow-Credentials'] = 'true'
     return response
