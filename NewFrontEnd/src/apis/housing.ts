@@ -31,9 +31,14 @@ const searchHousing = async (roomJson: string): Promise<any[] | undefined> => {
   }
 };
 
-const postHousing = async (): Promise<any[] | undefined> => {
+const postHousing = async (roomJson: string): Promise<any[] | undefined> => {
   try {
-    const result = await backEndAPI.get('/postRoom', { withCredentials: true });
+    const result = await backEndAPI.post('/postRoom', roomJson, { 
+      headers: {
+        'content-type': 'application/json',
+      },
+      withCredentials: true 
+    });
     console.log(result);
     // handle errors
     if (result.request?.status !== 200) throw Error('Bad request');

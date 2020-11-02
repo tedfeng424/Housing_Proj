@@ -73,7 +73,7 @@ const PostPage2: React.FC<{}> = () => {
           </Row>
         </Col>
 
-        {/* Price Range */}
+        {/* Price Range. TODO: only use one price */}
         <Col
           md={12}
           lg={{ span: 5, offset: 1 }}
