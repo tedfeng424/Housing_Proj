@@ -8,6 +8,7 @@ from app.util.aws.s3 import get_images
 from app.bluePrints.auth import authetication
 from app.util.search import search
 from flask_sqlalchemy import SQLAlchemy
+from app.util.util import handleOptions
 import json
 from db.crud import room_json, read_rooms, write_room
 from db.database_setup import Base
@@ -32,28 +33,34 @@ def showRooms():
     return response
 
 
-@app.route('/postRoom', methods=['POST'])
+@app.route('/postRoom', methods=['POST', 'OPTIONS'])
 @cross_origin()
 def postRooms():
     # TODO check if logged in
+    if request.method == 'OPTIONS':
+        return handleOptions()
     photo = request.files.getlist("photo")
     requested_json = request.json
     requested_json["photo"] = photo
     success = write_room(requested_json, session)
-    response = {}
+    json_response = {}
     if success:
-        response['message'] = 'Successfully created room.'
-        response.status_code = 201
+        json_response['message'] = 'Successfully created room.'
+        json_response.status_code = 201
     else:
-        response['message'] = 'Internal Database Failure.\
+        json_response['message'] = 'Internal Database Failure.\
                     We are working our ass off to fix it'
-        response.status_code = 500
-    return jsonify(response)
+        json_response.status_code = 500
+    response = jsonify(json_response)
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    return response
 
 
-@app.route('/searchRoom', methods=['POST'])
+@app.route('/searchRoom', methods=['POST', 'OPTIONS'])
 @cross_origin()
 def searchRooms():
+    if request.method == 'OPTIONS':
+        return handleOptions()
     response = jsonify(search(request.json, session))
     response.headers['Access-Control-Allow-Credentials'] = 'true'
     return response
