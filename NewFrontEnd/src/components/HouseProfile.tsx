@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
-import { useCookies } from 'react-cookie';
+import Cookies from 'universal-cookie';
 import GoogleMap from './GoogleMap';
 import PreviewSlideShow from './PreviewSlideShow';
 import { SlideShowItem } from './SlideShow';
@@ -77,7 +77,7 @@ const HouseProfile: React.FC<PathProps> = ({
   show,
   setShow,
 }) => {
-  const [cookies, setCookie] = useCookies(['liked']);
+  const cookies = new Cookies();
 
   const onClick = () => {
     // note this should be going through backend. I've done it through cookies right now,
@@ -101,14 +101,22 @@ const HouseProfile: React.FC<PathProps> = ({
       // bioDescription: bioDescription,
     };
 
-    if (cookies.liked === undefined) {
+    if (cookies.get('liked') === undefined) {
       var payload = JSON.stringify([houseProfileObj]);
-      setCookie('liked', payload, { path: '/', httpOnly: false, maxAge: 120 });
-      // console.log(cookies.liked);
+      cookies.set('liked', payload, {
+        path: '/',
+        httpOnly: false,
+        maxAge: 120,
+      });
+      // console.log(cookies.get('liked'));
     } else {
-      var payload = JSON.stringify([...cookies.liked, houseProfileObj]);
-      setCookie('liked', payload, { path: '/', httpOnly: false, maxAge: 120 });
-      // console.log(cookies.liked);
+      var payload = JSON.stringify([...cookies.get('liked'), houseProfileObj]);
+      cookies.set('liked', payload, {
+        path: '/',
+        httpOnly: false,
+        maxAge: 120,
+      });
+      // console.log(cookies.get('liked'));
     }
   };
 

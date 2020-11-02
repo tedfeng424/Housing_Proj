@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Container, Col, Row } from 'react-bootstrap';
 import { GoogleLogout } from 'react-google-login';
-import { useCookies } from 'react-cookie';
+import Cookies from 'universal-cookie';
 import Navbar from 'react-bootstrap/Navbar';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, selectToken, selectUser } from '../redux/slices/auth';
@@ -14,13 +14,14 @@ const NavBar: React.FC = () => {
   const handleCloseLogin = () => setShowLogin(false);
   const handleShowLogin = () => setShowLogin(true);
 
-  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+  const cookies = new Cookies();
+
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
   const user = useSelector(selectUser);
   // useEffect(() => {
-  //   if (cookies.user !== undefined && user === undefined) {
-  //     const { name, email, imageUrl, ...rest } = cookies.user;
+  //   if (cookies.get('user') !== undefined && user === undefined) {
+  //     const { name, email, imageUrl, ...rest } = cookies.get('user');
   //     const userFromCookie = { name, email, imageUrl };
   //     dispatch(setUser(userFromCookie));
   //   }
@@ -47,7 +48,8 @@ const NavBar: React.FC = () => {
               <GoogleLogout
                 clientId="778916194800-977823s60p7mtu1sj72ru0922p2pqh6m.apps.googleusercontent.com"
                 onLogoutSuccess={() => {
-                  removeCookie('user'); // TODO change this to be in auth.ts
+                  // removeCookie('user'); // TODO change this to be in auth.ts
+                  cookies.remove('user');
                   dispatch(logout(JSON.stringify({ access_token: token })));
                 }}
                 render={(renderProps) => (

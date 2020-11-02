@@ -1,7 +1,4 @@
-import auth from './auth'
-import housing from './housing'
+import auth from './auth';
+import housing from './housing';
 
-export {
-  auth,
-  housing,
-}
+export { auth, housing };
