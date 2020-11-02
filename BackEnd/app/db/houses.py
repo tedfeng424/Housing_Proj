@@ -31,25 +31,28 @@ KEENAN = "keenan"
 
 # Add mock users
 cris = add_user(CRIS, "haha@ucsd.edu", datetime.now(), "858-911",
-                "yo I am Cris. P dope. DAMNNNNNNNNNNNN", 3,
+                "yo I am Cris. P dope. DAMNNNNNNNNNNNN", 'Senior',
                 "Data Science", session)
 amit = add_user(AMIT, "amit@ucsd.edu", datetime.now(), "858-911989",
-                "yo I am Amit. P dope. DAMNNNNNNNNNNNN",  3,
+                "yo I am Amit. P dope. DAMNNNNNNNNNNNN",  'Senior',
                 "Data Science", session)
 adam = add_user(ADAM, "adam@ucsd.edu", datetime.now(), "858-65386",
-                "yo I am Adam. P dope. ADAMNNNNNNNNN. YOOOOOOO", 4,
+                "yo I am Adam. P dope. ADAMNNNNNNNNN. YOOOOOOO", 'Senior',
                 "Computer Science and Engineering",
                 session)
 keenan = add_user(KEENAN, "keenan@ucsd.edu", datetime.now(), "858-4675432",
-                  "yo I am Keenan. P dope. DAMNNNNNNNNNNNN. YOOOOOOO",  4,
+                  "yo I am Keenan. P dope. DAMNNNNNNNNNNNN. YOOOOOOO",  'Grad',
                   "Computer Science and Engineering",
                   session)
 # Add mock Move-in
 cris_move_in = add_move_in("Anytime", "September",
                            "Late(21-31)", "September", session)
-amit_move_in = add_move_in("Anytime", "January", "Late(21-31)", "September", session)
-keenan_move_in = add_move_in("Anytime", "January", "Late(21-31)", "March", session)
-adam_move_in = add_move_in("Anytime", "January", "Late(21-31)", "October", session)
+amit_move_in = add_move_in(
+    "Anytime", "January", "Late(21-31)", "September", session)
+keenan_move_in = add_move_in(
+    "Anytime", "January", "Late(21-31)", "March", session)
+adam_move_in = add_move_in(
+    "Anytime", "January", "Late(21-31)", "October", session)
 
 # Add mock Attribute
 attr_gym = add_attribute('gym room', 'facilities', session)

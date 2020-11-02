@@ -80,11 +80,11 @@ const PostPage2: React.FC<{}> = () => {
           className="justify-content-center"
         >
           <Row className="justify-content-center">
-            <div className="title">Price Range</div>
+            <div className="title">Price</div>
           </Row>
 
           <Form.Row className="justify-content-center m-2">
-            <Form.Label className="word mr-3">Min</Form.Label>
+            <Form.Label className="word mr-3">$USD</Form.Label>
             <Col>
               <Form.Control
                 className="single-line-input"
@@ -97,30 +97,9 @@ const PostPage2: React.FC<{}> = () => {
                     minimum: parseInt(event.target.value),
                   });
                 }}
-                isValid={price.minimum > 0 && price.maximum >= price.minimum}
-                isInvalid={price.minimum <= 0 || price.maximum < price.minimum}
-                placeholder="min price"
-              />
-            </Col>
-          </Form.Row>
-
-          <Form.Row className="justify-content-center m-2">
-            <Form.Label className="word mr-3">Max</Form.Label>
-            <Col>
-              <Form.Control
-                className="single-line-input"
-                type="number"
-                min="0"
-                value={price.maximum}
-                onChange={(event) => {
-                  setPrice({
-                    ...price,
-                    maximum: parseInt(event.target.value),
-                  });
-                }}
-                isValid={price.maximum > 0 && price.maximum >= price.minimum}
-                isInvalid={price.maximum <= 0 || price.maximum < price.minimum}
-                placeholder="max price"
+                isValid={price.minimum > 0}
+                isInvalid={price.minimum <= 0}
+                placeholder="price"
               />
             </Col>
           </Form.Row>

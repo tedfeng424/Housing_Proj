@@ -14,7 +14,7 @@ class User(Base):
     date_created = Column(DateTime, nullable=False)
     phone = Column(String(250), nullable=False)
     name = Column(String(250), nullable=False)
-    school_year = Column(Integer, nullable=False)
+    school_year = Column(String, nullable=False)
     major = Column(String(250))
     description = Column(String(1000), nullable=False)
     room = relationship("Room", backref="user")

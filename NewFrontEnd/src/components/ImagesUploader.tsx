@@ -24,8 +24,6 @@ const ImagesUploader: React.FC<{}> = (props) => {
   // what is type of image?
   const onDrop = (picture: File[]) => {
     setPictures(picture);
-    console.log(pictures);
-    console.log(picture);
   };
 
   return (

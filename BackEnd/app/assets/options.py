@@ -35,3 +35,4 @@ facilities = [
     'Pets friendly',
     'Indoor washer'
 ]
+school_years = ['First', 'Sophomore', 'Junior', 'Senior', 'Fifth', 'Grad']
