@@ -46,10 +46,10 @@ keenan = add_user(KEENAN, "keenan@ucsd.edu", datetime.now(), "858-4675432",
                   session)
 # Add mock Move-in
 cris_move_in = add_move_in("Anytime", "September",
-                           "Late", "September", session)
-amit_move_in = add_move_in("Anytime", "January", "Late", "September", session)
-keenan_move_in = add_move_in("Anytime", "January", "Late", "March", session)
-adam_move_in = add_move_in("Anytime", "January", "Late", "October", session)
+                           "Late(21-31)", "September", session)
+amit_move_in = add_move_in("Anytime", "January", "Late(21-31)", "September", session)
+keenan_move_in = add_move_in("Anytime", "January", "Late(21-31)", "March", session)
+adam_move_in = add_move_in("Anytime", "January", "Late(21-31)", "October", session)
 
 # Add mock Attribute
 attr_gym = add_attribute('gym room', 'facilities', session)
