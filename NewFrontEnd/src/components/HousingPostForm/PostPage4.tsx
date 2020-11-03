@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import { preferencesIcons } from '../../assets/icons/all';
 import { Container, Row, Col } from 'react-bootstrap';
+import { setPost, selectPost } from '../../redux/slices/posting';
+import { useSelector, useDispatch } from 'react-redux';
 
 interface Preferences {
   female: boolean;
@@ -25,7 +27,34 @@ interface Preferences {
   washerDryer: boolean;
 }
 
+const facilties: Array<keyof Preferences> = [
+  'parking',
+  'privateBath',
+  'elevator',
+  'gym',
+  'hardwood',
+  'grocery',
+  'patio',
+  'pool',
+  'washerDryer',
+  'furnished',
+];
+
+const other: Array<keyof Preferences> = [
+  'female',
+  'male',
+  'pets',
+  'LGBTQ',
+  '_420',
+  'earlyBird',
+  'livingRoomPeople',
+  'nightOwl',
+  'noSmoke',
+];
+
 const OtherOptions: React.FC<{}> = () => {
+  const currentPost = useSelector(selectPost);
+  const dispatch = useDispatch();
   const [preferences, setPreferences] = useState<Preferences>({
     female: false,
     male: false,
@@ -69,6 +98,14 @@ const OtherOptions: React.FC<{}> = () => {
     'pool',
     'washerDryer',
   ];
+  // dispatch preferences to store
+  useEffect(() => {
+    dispatch(
+      setPost(['facilities', facilties.filter((pref) => preferences[pref])]),
+    );
+    dispatch(setPost(['other', other.filter((pref) => preferences[pref])]));
+  }, [preferences]);
+
   return (
     <Container>
       <Row>

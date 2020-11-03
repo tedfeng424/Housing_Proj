@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import { Container, Row, Col, Dropdown, Form } from 'react-bootstrap';
 import { intervalOptions, yearMonths } from '../../assets/constants';
 import { moveInSelect } from '../../assets/utils/index';
+import { setPost, selectPost } from '../../redux/slices/posting';
+import { useSelector, useDispatch } from 'react-redux';
 
 const PostPage3: React.FC<{}> = () => {
-  const [monthCount, setMonthCount] = useState<number>(1);
-  const [earlyInterval, setEarlyInterval] = useState<string>('Anytime');
-  const [earlyMonth, setEarlyMonth] = useState<string>('Anytime');
-  const [lateInterval, setLateInterval] = useState<string>('Anytime');
-  const [lateMonth, setLateMonth] = useState<string>('Anytime');
+  const stayPeriod = useSelector(selectPost).stayPeriod;
+  const earlyInterval = useSelector(selectPost).earlyInterval;
+  const earlyMonth = useSelector(selectPost).earlyMonth;
+  const lateInterval = useSelector(selectPost).lateInterval;
+  const lateMonth = useSelector(selectPost).lateMonth;
+  const dispatch = useDispatch();
   return (
     <Container>
       <Row className="justify-content-center">
@@ -30,7 +33,9 @@ const PostPage3: React.FC<{}> = () => {
                 {intervalOptions.map((interval) => (
                   <Dropdown.Item
                     eventKey={interval}
-                    onSelect={(event) => setEarlyInterval(event || '')}
+                    onSelect={(event) =>
+                      dispatch(setPost(['earlyInterval', event]))
+                    }
                   >
                     {interval}
                   </Dropdown.Item>
@@ -66,7 +71,9 @@ const PostPage3: React.FC<{}> = () => {
                   {yearMonths.map((month) => (
                     <Dropdown.Item
                       eventKey={month}
-                      onSelect={(eventKey) => setEarlyMonth(eventKey || '')}
+                      onSelect={(event) =>
+                        dispatch(setPost(['earlyMonth', event]))
+                      }
                     >
                       {month}
                     </Dropdown.Item>
@@ -92,7 +99,9 @@ const PostPage3: React.FC<{}> = () => {
                 {intervalOptions.map((interval) => (
                   <Dropdown.Item
                     eventKey={interval}
-                    onSelect={(eventKey) => setLateInterval(eventKey || '')}
+                    onSelect={(event) =>
+                      dispatch(setPost(['lateInterval', event]))
+                    }
                   >
                     {interval}
                   </Dropdown.Item>
@@ -111,7 +120,9 @@ const PostPage3: React.FC<{}> = () => {
                   {yearMonths.map((month) => (
                     <Dropdown.Item
                       eventKey={month}
-                      onSelect={(eventKey) => setLateMonth(eventKey || '')}
+                      onSelect={(event) =>
+                        dispatch(setPost(['lateMonth', event]))
+                      }
                     >
                       {month}
                     </Dropdown.Item>
@@ -140,14 +151,16 @@ const PostPage3: React.FC<{}> = () => {
                 <Col sm={8} md={8}>
                   <Form.Control
                     className="single-line-input"
-                    value={monthCount}
+                    value={stayPeriod}
                     onChange={(event) =>
-                      setMonthCount(parseInt(event.target.value))
+                      dispatch(
+                        setPost(['stayPeriod', parseInt(event.target.value)]),
+                      )
                     }
                     type="number"
                     placeholder="# of Months"
-                    isValid={monthCount > 0 && monthCount <= 12}
-                    isInvalid={monthCount <= 0 || monthCount > 12}
+                    isValid={stayPeriod > 0 && stayPeriod <= 12}
+                    isInvalid={stayPeriod <= 0 || stayPeriod > 12}
                   />
                 </Col>
                 <span className="word">Month(s)</span>

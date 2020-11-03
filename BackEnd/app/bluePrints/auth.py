@@ -4,6 +4,8 @@ from app.db.crud import check_exist, add_user
 from app.db.database_setup import User
 from datetime import datetime
 from app.util.util import handleOptions
+from app.util.aws.s3 import upload_file_wname
+import os
 import random
 import string
 
@@ -26,6 +28,12 @@ def login():
                  datetime.now(),
                  "", "", "", "",
                  session)
+        icon_path = './assets/profile_default_icons/'
+        selected_icon = random.choice(
+            os.listdir(icon_path))
+        path_name = "/".join([requested_json['email'],
+                              'profile', selected_icon])
+        upload_file_wname(icon_path+selected_icon, 'houseit', path_name)
     json_response = {}
     json_response['user'] = requested_json['name']
     json_response['email'] = requested_json['email']
@@ -41,13 +49,13 @@ def logout():
     if request.method == 'OPTIONS':
         return handleOptions()
     client_token = request.json.get('access_token')
-    response = {}
     if client_token and (client_token == login_session["access_token"]):
         response = Response("Successful Logout!", status=200,
                             mimetype='application/json')
         response.headers['Access-Control-Allow-Credentials'] = 'true'
         return response
     else:
+        print(client_token, login_session["access_token"])
         response = Response("Logout is Forbidden due to wrong token",
                             status=403, mimetype='application/json')
         response.headers['Access-Control-Allow-Credentials'] = 'true'

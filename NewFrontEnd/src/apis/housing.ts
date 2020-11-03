@@ -31,17 +31,18 @@ const searchHousing = async (roomJson: string): Promise<any[] | undefined> => {
   }
 };
 
-const postHousing = async (roomJson: string): Promise<any[] | undefined> => {
+const postHousing = async (roomForm: FormData): Promise<any[] | undefined> => {
+  console.log('get called');
   try {
-    const result = await backEndAPI.post('/postRoom', roomJson, { 
+    const result = await backEndAPI.post('/postRoom', roomForm, {
       headers: {
-        'content-type': 'application/json',
+        'content-type': 'multipart/form-data',
       },
-      withCredentials: true 
+      withCredentials: true,
     });
-    console.log(result);
+    console.log(result, 'get result');
     // handle errors
-    if (result.request?.status !== 200) throw Error('Bad request');
+    if (result.request?.status !== 201) throw Error('Bad request');
     return result.data;
   } catch (err) {
     console.error(err);

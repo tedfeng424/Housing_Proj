@@ -1,7 +1,10 @@
 import React from 'react';
 import { Container, Button, Form, Row, Col } from 'react-bootstrap';
+import { setPost, selectPost } from '../../redux/slices/posting';
+import { useSelector, useDispatch } from 'react-redux';
 
 const PostPage5: React.FC<{}> = () => {
+  const dispatch = useDispatch();
   return (
     <Container>
       <Row>
@@ -13,33 +16,18 @@ const PostPage5: React.FC<{}> = () => {
       <Row>
         <Form.Group className="w-100">
           <Form.Label className="post-word">
-            Who are you looking for?
-          </Form.Label>
-          <Form.Control
-            className="post-text"
-            as="textarea"
-            placeholder="hello"
-            rows={5}
-          />
-        </Form.Group>
-      </Row>
-
-      <Row>
-        <Form.Group className="w-100">
-          <Form.Label className="post-word">
             What's your lifestyle like?
           </Form.Label>
           <Form.Control
             className="post-text"
             as="textarea"
-            placeholder="aloha"
+            placeholder="a little self intro would be great for your future roommates"
             rows={5}
+            onChange={(event) =>
+              dispatch(setPost(['leaserIntro', event.target.value]))
+            }
           />
         </Form.Group>
-      </Row>
-
-      <Row className="justify-content-center">
-        <Button className="post-button">Post!</Button>
       </Row>
     </Container>
   );

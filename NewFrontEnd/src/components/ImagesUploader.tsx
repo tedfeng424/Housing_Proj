@@ -2,8 +2,15 @@ import React, { useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
 import ImageUploader from 'react-images-upload';
+import {
+  setPicture,
+  selectPost,
+  UserPost,
+  userPost,
+} from '../redux/slices/posting';
+import { useSelector, useDispatch } from 'react-redux';
+import { postHousing } from '../apis/index';
 // import Dropzone from 'react-dropzone';
 
 // https://upmostly.com/tutorials/react-dropzone-file-uploads-react
@@ -18,9 +25,23 @@ const tempStyle = {
   color: '#A6623F',
 };
 
-const ImagesUploader: React.FC<{}> = (props) => {
-  const [pictures, setPictures] = useState<File[]>();
+interface PathProps {
+  setShow: (show: boolean) => void;
+}
 
+const FormMation = (photos: File[], posts: UserPost) => {
+  const formData = new FormData();
+  formData.append('json', JSON.stringify(posts));
+  for (let i = 0; i < photos.length; i++) {
+    formData.append('photos', photos[i]);
+  }
+  return formData;
+};
+
+const ImagesUploader: React.FC<PathProps> = ({ setShow }) => {
+  const [pictures, setPictures] = useState<File[]>([]);
+  const dispatch = useDispatch();
+  const posts = useSelector(selectPost);
   // what is type of image?
   const onDrop = (picture: File[]) => {
     setPictures(picture);
@@ -40,16 +61,23 @@ const ImagesUploader: React.FC<{}> = (props) => {
       <Form>
         <Form.Group>
           <ImageUploader
-            {...props}
             withIcon
             withPreview
             label="Upload Images of Your Home"
             onChange={onDrop}
-            imgExtension={['.jpg', '.png']}
+            imgExtension={['.jpg', '.png', '.jpeg']}
             maxFileSize={5242880}
           />
           <div className="text-center">
-            <Button variant="primary" type="submit">
+            <Button
+              variant="primary"
+              onClick={() => {
+                dispatch(
+                  userPost(() => postHousing(FormMation(pictures, posts))),
+                );
+                setShow(false);
+              }}
+            >
               Submit
             </Button>
           </div>

@@ -54,7 +54,7 @@ const HouseCard: React.FC<PathProps> = ({
   const [show, setShow] = useState<boolean>(false);
   const SlideShowContent = photo.map((link) => ({
     src: `https://houseit.s3.us-east-2.amazonaws.com/${link}`,
-    alt: `${leaserName} , ${location}}`,
+    alt: `${leaserEmail} , ${location}}`,
   }));
   const [moveIn, setMoveIn] = useState<string>('');
 

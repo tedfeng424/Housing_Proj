@@ -1,6 +1,6 @@
 import random
 from flask import Flask, render_template, request, redirect,\
-    jsonify, url_for, flash, make_response
+    jsonify, url_for, flash, make_response, Response
 from flask import session as login_session
 from flask_cors import CORS, cross_origin
 from app.assets.options import others, facilities
@@ -12,6 +12,7 @@ from app.util.util import handleOptions
 import json
 from db.crud import room_json, read_rooms, write_room
 from db.database_setup import Base
+from datetime import datetime
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///db/housing.db'
@@ -26,6 +27,7 @@ CORS(app)
 
 @app.route('/getRoom', methods=['GET'])
 def showRooms():
+    print(datetime.now())
     rooms = [room_json(room, session) for room in read_rooms(session)]
     response = jsonify(rooms)
     response.headers['Access-Control-Allow-Credentials'] = 'true'
@@ -35,21 +37,24 @@ def showRooms():
 @app.route('/postRoom', methods=['POST', 'OPTIONS'])
 def postRooms():
     # TODO check if logged in
+    print(datetime.now())
     if request.method == 'OPTIONS':
         return handleOptions()
-    photo = request.files.getlist("photo")
-    requested_json = request.json
-    requested_json["photo"] = photo
+    photo = request.files.getlist("photos")
+    requested_json = json.loads(request.form["json"])
+    requested_json["photos"] = photo
+    print(requested_json)
     success = write_room(requested_json, session)
-    json_response = {}
+    print(success)
     if success:
-        json_response['message'] = 'Successfully created room.'
-        json_response.status_code = 201
+        print("COME A LONG WAYYYY")
+        response = Response('Successfully created room.', status=201,
+                            mimetype='application/json')
     else:
-        json_response['message'] = 'Internal Database Failure.\
-                    We are working our ass off to fix it'
-        json_response.status_code = 500
-    response = jsonify(json_response)
+        response = Response('Internal Database Failure.\
+                    We are working our ass off to fix it', status=500,
+                            mimetype='application/json')
+    print("COME A SHIEEEEET")
     response.headers['Access-Control-Allow-Credentials'] = 'true'
     return response
 
@@ -59,7 +64,6 @@ def postRooms():
 def searchRooms():
     if request.method == 'OPTIONS':
         return handleOptions()
-    print(request.json)
     response = jsonify(search(request.json, session))
     response.headers['Access-Control-Allow-Credentials'] = 'true'
     return response

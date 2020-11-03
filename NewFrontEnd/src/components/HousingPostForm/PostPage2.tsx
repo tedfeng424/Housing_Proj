@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 import { roomTypeIcons, roomTypeUnchosen } from '../../assets/icons/all';
 import AutoComplete from '../PlacesAutoComplete';
+import { setPost, selectPost } from '../../redux/slices/posting';
+import { useSelector, useDispatch } from 'react-redux';
 
 type RoomType = { [P in keyof typeof roomTypeUnchosen]: boolean };
-interface Price {
-  minimum: number;
-  maximum: number;
-}
 const PostPage2: React.FC<{}> = () => {
-  const [address, setAddress] = useState<string>('');
+  const dispatch = useDispatch();
   const [roomType, setRoomType] = useState<RoomType>({
     single: false,
     double: false,
@@ -18,11 +16,7 @@ const PostPage2: React.FC<{}> = () => {
     suite: false,
     studio: false,
   });
-  const [price, setPrice] = useState<Price>({
-    minimum: 100,
-    maximum: 1000,
-  });
-
+  const price = useSelector(selectPost).price;
   return (
     <Container>
       <Row>
@@ -60,6 +54,9 @@ const PostPage2: React.FC<{}> = () => {
                     onClick={() => {
                       const changed = { ...roomType };
                       changed[key] = !roomType[key];
+                      if (changed[key]) {
+                        dispatch(setPost(['roomType', key]));
+                      }
                       setRoomType({
                         ...changed,
                       });
@@ -90,15 +87,12 @@ const PostPage2: React.FC<{}> = () => {
                 className="single-line-input"
                 type="number"
                 min={0}
-                value={price.minimum}
+                value={price}
                 onChange={(event) => {
-                  setPrice({
-                    ...price,
-                    minimum: parseInt(event.target.value),
-                  });
+                  dispatch(setPost(['price', parseInt(event.target.value)]));
                 }}
-                isValid={price.minimum > 0}
-                isInvalid={price.minimum <= 0}
+                isValid={price !== undefined && price > 0}
+                isInvalid={price === undefined || price <= 0}
                 placeholder="price"
               />
             </Col>

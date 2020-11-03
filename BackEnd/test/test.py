@@ -1,5 +1,5 @@
 from app.util.search import search
-from app.db.database_setup import Base
+from app.db.database_setup import Base, User
 from app.db.crud import write_room
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -35,6 +35,3 @@ def testPost():
     for p in photos:
         print(p.name)
     write_room(testRoomJson, session)
-
-
-testPost()

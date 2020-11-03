@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import AutoComplete from '../PlacesAutoComplete';
+import { setPost, selectPost } from '../../redux/slices/posting';
+import { useSelector, useDispatch } from 'react-redux';
 
 const nonSelectStyle = 'post-word-sub';
 const selectStyle = 'post-word-sub post-word-sub-selected';
@@ -11,10 +11,8 @@ const nonSelectBg = 'post-word-sub-bg';
 const SelectBg = 'post-word-sub-bg post-word-sub-bg-selected';
 
 const PostPage1: React.FC = () => {
-  const [firstName, setFirstName] = useState<string>('');
-  const [lastName, setLastName] = useState<string>('');
-  const [selected, setselected] = useState<string>('First');
-
+  const selected = useSelector(selectPost).leaserSchoolYear;
+  const dispatch = useDispatch();
   return (
     <Container>
       <Row>
@@ -43,7 +41,12 @@ const PostPage1: React.FC = () => {
         <Col md={{ span: 7, offset: 2 }}>
           <Row className="post-word"> Your name </Row>
           <Row>
-            <input className="w-100 single-line-input" />
+            <input
+              className="w-100 single-line-input"
+              onChange={(event) =>
+                dispatch(setPost(['name', event.target.value]))
+              }
+            />
           </Row>
         </Col>
       </Row>
@@ -52,13 +55,23 @@ const PostPage1: React.FC = () => {
         <Col md={{ span: 4, offset: 2 }}>
           <Row className="post-word"> Phone </Row>
           <Row>
-            <input className="w-75 single-line-input" />
+            <input
+              className="w-75 single-line-input"
+              onChange={(event) =>
+                dispatch(setPost(['leaserPhone', event.target.value]))
+              }
+            />
           </Row>
         </Col>
         <Col md={4}>
           <Row className="post-word"> School email </Row>
           <Row>
-            <input className="w-75 single-line-input" />
+            <input
+              className="w-75 single-line-input"
+              onChange={(event) =>
+                dispatch(setPost(['leaserEmail', event.target.value]))
+              }
+            />
           </Row>
         </Col>
       </Row>
@@ -71,7 +84,7 @@ const PostPage1: React.FC = () => {
             <div className={selected === 'First' ? SelectBg : nonSelectBg}>
               <span
                 className={selected == 'First' ? selectStyle : nonSelectStyle}
-                onClick={() => setselected('First')}
+                onClick={() => dispatch(setPost(['leaserSchoolYear', 'First']))}
               >
                 First
               </span>
@@ -81,7 +94,9 @@ const PostPage1: React.FC = () => {
                 className={
                   selected == 'Sophomore' ? selectStyle : nonSelectStyle
                 }
-                onClick={() => setselected('Sophomore')}
+                onClick={() =>
+                  dispatch(setPost(['leaserSchoolYear', 'Sophomore']))
+                }
               >
                 Sophomore
               </span>
@@ -89,7 +104,9 @@ const PostPage1: React.FC = () => {
             <div className={selected === 'Junior' ? SelectBg : nonSelectBg}>
               <span
                 className={selected == 'Junior' ? selectStyle : nonSelectStyle}
-                onClick={() => setselected('Junior')}
+                onClick={() =>
+                  dispatch(setPost(['leaserSchoolYear', 'Junior']))
+                }
               >
                 Junior
               </span>
@@ -97,7 +114,9 @@ const PostPage1: React.FC = () => {
             <div className={selected === 'Senior' ? SelectBg : nonSelectBg}>
               <span
                 className={selected == 'Senior' ? selectStyle : nonSelectStyle}
-                onClick={() => setselected('Senior')}
+                onClick={() =>
+                  dispatch(setPost(['leaserSchoolYear', 'Senior']))
+                }
               >
                 Senior
               </span>
@@ -105,7 +124,7 @@ const PostPage1: React.FC = () => {
             <div className={selected === 'Fifth' ? SelectBg : nonSelectBg}>
               <span
                 className={selected == 'Fifth' ? selectStyle : nonSelectStyle}
-                onClick={() => setselected('Fifth')}
+                onClick={() => dispatch(setPost(['leaserSchoolYear', 'Fifth']))}
               >
                 Fifth
               </span>
@@ -113,7 +132,7 @@ const PostPage1: React.FC = () => {
             <div className={selected === 'Grad' ? SelectBg : nonSelectBg}>
               <span
                 className={selected == 'Grad' ? selectStyle : nonSelectStyle}
-                onClick={() => setselected('Grad')}
+                onClick={() => dispatch(setPost(['leaserSchoolYear', 'Grad']))}
               >
                 Grad
               </span>
@@ -126,7 +145,12 @@ const PostPage1: React.FC = () => {
         <Col md={{ span: 4, offset: 2 }}>
           <Row className="post-word"> Major </Row>
           <Row>
-            <input className="w-75 single-line-input" />
+            <input
+              className="w-75 single-line-input"
+              onChange={(event) =>
+                dispatch(setPost(['leaserMajor', event.target.value]))
+              }
+            />
           </Row>
         </Col>
       </Row>

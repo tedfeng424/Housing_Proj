@@ -60,13 +60,13 @@ def upload_file_wobject(file_object, bucket, object_name=None):
 def get_images(user_name, category="housing", extra_path=""):
     prefix = "/".join([user_name, category, extra_path])
     # TODO error handling if no files
+    print(prefix)
     contents = s3_client.list_objects(
         Bucket='houseit', Prefix=prefix)['Contents']
     links = []
     for key in contents:
-        if "." in key['Key']:
+        if key['Key'][-4:] in ['.jpg', '.png', '.svg'] or key['Key'][-5:] in '.jpeg':
             links.append(key['Key'])
-    print(links)
     return links
 
 

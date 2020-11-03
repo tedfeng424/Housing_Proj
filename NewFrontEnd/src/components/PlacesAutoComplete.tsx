@@ -1,18 +1,27 @@
 import React, { useState } from 'react';
 import PlacesAutocomplete from 'react-places-autocomplete';
+import { setPost, selectPost } from '../redux/slices/posting';
+import { useSelector, useDispatch } from 'react-redux';
+import { getDurationInMinutes } from '../apis/google';
 
 interface PathProps {
   className?: string;
 }
 
 const AutoComplete: React.FC<PathProps> = ({ className = '' }) => {
-  const [address, setAddress] = useState<string>('');
+  const address = useSelector(selectPost).address;
+  const dispatch = useDispatch();
 
   return (
     <PlacesAutocomplete
       value={address}
-      onChange={setAddress}
-      onSelect={setAddress}
+      onChange={(add) => dispatch(setPost(['address', add]))}
+      onSelect={(add) => {
+        dispatch(setPost(['address', add]));
+        getDurationInMinutes(add).then((distance: any) => {
+          dispatch(setPost(['distance', distance ? distance : 'unknown']));
+        });
+      }}
     >
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
         <>

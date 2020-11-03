@@ -99,11 +99,21 @@ def room_json(room, session):
         'leaserSchoolYear': room.user.school_year,
         'leaserMajor': room.user.major,
         'leaserIntro': room.user.description,
-        'photo': get_images(room.user.name, extra_path=room_name),
+        'photo': get_images(room.user.email, extra_path=room_name),
         'profilePhoto': 'https://houseit.s3.us-east-2.amazonaws.com/' +
-        get_images(room.user.name, category="profile")[0]
+        get_images(room.user.email, category="profile")[0]
     }
     return return_json
+
+
+# Update
+
+
+def update_field(db_obj, session, condition={}, values={}):
+    print("updating the field", condition, values)
+    updated_obj = session.query(db_obj).filter_by(**condition).update(values)
+    session.commit()
+    return updated_obj
 
 # write an attribute to database
 
@@ -126,30 +136,32 @@ def write_room(room_json, session):
     room_owner = check_exist(
         User, session, **{'email': room_json['leaserEmail']})
     room_name = room_json['address'].split(",")[0]
-    if not room_owner:
-        room_owner = add_user(room_json['name'], room_json['leaserEmail'],
-                              datetime.now(), room_json['leaserPhone'],
-                              room_json['leaserIntro'],
-                              room_json['leaserSchoolYear'],
-                              room_json['leaserMajor'],
-                              session)
-    new_move_in = add_move_in(room_json['early_interval'],
-                              room_json['early_month'],
-                              room_json['late_interval'],
-                              room_json['late_month'], session)
+    # if it is first time post
+    if len(room_owner.school_year) == 0:
+        update_field(
+            User, session, {'email': room_json['leaserEmail']},
+            {'school_year': room_json['leaserSchoolYear'],
+             'major': room_json['leaserMajor'],
+             'description': room_json['leaserIntro'],
+             'phone': room_json['leaserPhone']
+             })
+    new_move_in = add_move_in(room_json['earlyInterval'],
+                              room_json['earlyMonth'],
+                              room_json['lateInterval'],
+                              room_json['lateMonth'], session)
     new_room = add_room(datetime.now(),
-                        room_json['room_type'],
+                        room_json['roomType'],
                         room_json['price'],
-                        room_json['description'],
-                        room_json['stay_period'],
+                        '',  # room_json['description'],
+                        room_json['stayPeriod'],
                         room_json['distance'],
                         room_json['address'],
                         room_owner, new_move_in, session)
     write_attr(room_json['other'], 'other', new_room, session)
     write_attr(room_json['facilities'], 'facilities', new_room, session)
     # add photo
-    for photo in room_json['photo']:
+    for photo in room_json['photos']:
         path_name = "/".join([room_owner.email, 'housing',
-                              room_name, photo.name])
+                              room_name, photo.filename])
         upload_file_wobject(photo, 'houseit', path_name)
     return True
