@@ -1,8 +1,8 @@
-import { backEndAPI } from './apiBases';
+import { backendAPI } from './apiBases';
 
 const getHousing = async (): Promise<any[] | undefined> => {
   try {
-    const result = await backEndAPI.get('/getRoom', { withCredentials: true });
+    const result = await backendAPI.get('/getRoom', { withCredentials: true });
     console.log(result);
     // handle errors
     if (result.request?.status !== 200) throw Error('Bad request');
@@ -15,7 +15,7 @@ const getHousing = async (): Promise<any[] | undefined> => {
 
 const searchHousing = async (roomJson: string): Promise<any[] | undefined> => {
   try {
-    const result = await backEndAPI.post('/searchRoom', roomJson, {
+    const result = await backendAPI.post('/searchRoom', roomJson, {
       headers: {
         'content-type': 'application/json',
       },
@@ -34,7 +34,7 @@ const searchHousing = async (roomJson: string): Promise<any[] | undefined> => {
 const postHousing = async (roomForm: FormData): Promise<any[] | undefined> => {
   console.log('get called');
   try {
-    const result = await backEndAPI.post('/postRoom', roomForm, {
+    const result = await backendAPI.post('/postRoom', roomForm, {
       headers: {
         'content-type': 'multipart/form-data',
       },

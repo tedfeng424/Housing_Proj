@@ -4,7 +4,7 @@ import { GoogleLogout } from 'react-google-login';
 import Cookies from 'universal-cookie';
 import Navbar from 'react-bootstrap/Navbar';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout, selectToken, selectUser } from '../redux/slices/auth';
+import { logout, selectUser } from '../redux/slices/auth';
 import Login from './Login';
 import { navIcons } from '../assets/icons/all';
 
@@ -14,18 +14,8 @@ const NavBar: React.FC = () => {
   const handleCloseLogin = () => setShowLogin(false);
   const handleShowLogin = () => setShowLogin(true);
 
-  const cookies = new Cookies();
-
   const dispatch = useDispatch();
-  const token = useSelector(selectToken);
   const user = useSelector(selectUser);
-  // useEffect(() => {
-  //   if (cookies.get('user') !== undefined && user === undefined) {
-  //     const { name, email, imageUrl, ...rest } = cookies.get('user');
-  //     const userFromCookie = { name, email, imageUrl };
-  //     dispatch(setUser(userFromCookie));
-  //   }
-  // });
 
   return (
     <>
@@ -41,28 +31,12 @@ const NavBar: React.FC = () => {
           <div>
             {!user ? (
               <Button className="g-sign-in" onClick={handleShowLogin}>
-                {/* need to handle isSignedOut case */}
                 Sign In
               </Button>
             ) : (
-              <GoogleLogout
-                clientId="778916194800-977823s60p7mtu1sj72ru0922p2pqh6m.apps.googleusercontent.com"
-                onLogoutSuccess={() => {
-                  // removeCookie('user'); // TODO change this to be in auth.ts
-                  cookies.remove('user');
-                  dispatch(logout(JSON.stringify({ access_token: token })));
-                }}
-                render={(renderProps) => (
-                  <Button
-                    className="g-sign-in"
-                    onClick={renderProps.onClick}
-                    disabled={renderProps.disabled}
-                  >
-                    {/* need to handle isSignedOut case */}
-                    Log Out
-                  </Button>
-                )}
-              />
+              <Button className="g-sign-in" onClick={() => dispatch(logout())}>
+                Log Out
+              </Button>
             )}
           </div>
         </Container>

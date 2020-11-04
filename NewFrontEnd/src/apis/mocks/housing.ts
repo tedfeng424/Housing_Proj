@@ -1,8 +1,8 @@
-import { backEndAPIFake } from '../apiBases';
+import { backendAPIFake } from '../apiBases';
 
 export const getHousingFake = async (): Promise<any[] | undefined> => {
   try {
-    const result = await backEndAPIFake.get('/fakeRoom');
+    const result = await backendAPIFake.get('/fakeRoom');
     console.log(result);
     // handle errors
     if (result.request?.status !== 200) throw Error('Bad request');

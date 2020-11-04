@@ -6,9 +6,8 @@ import {
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
 } from 'react-google-login';
-import Cookies from 'universal-cookie';
 import { useSelector, useDispatch } from 'react-redux';
-import { setUser, selectUser, login } from '../redux/slices/auth';
+import { selectUser, login } from '../redux/slices/auth';
 
 // https://developers.google.com/identity/sign-in/web/sign-in
 interface PathProps {
@@ -17,7 +16,6 @@ interface PathProps {
 }
 
 const Login: React.FC<PathProps> = ({ handleClose, show }) => {
-  const cookies = new Cookies();
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
@@ -31,18 +29,10 @@ const Login: React.FC<PathProps> = ({ handleClose, show }) => {
     response: GoogleLoginResponse | GoogleLoginResponseOffline,
   ) => {
     if (isOnline(response)) {
-      const { profileObj } = response;
-
-      const { name, email, imageUrl } = profileObj;
-      const newUser = { name, email, imageUrl };
-
-      // TODO this is temporary, since the backend will be setting the cookie in the future
-      cookies.set('user', profileObj, {
-        maxAge: 4320, // expires  72 hours after login
-      });
-
-      dispatch(login(JSON.stringify(newUser)));
+      const profile = response.profileObj;
+      dispatch(login(profile.name, profile.email));
     } else {
+      console.log('User is offline');
       console.log(response);
     }
   };

@@ -1,36 +1,73 @@
-import { backEndAPI } from './apiBases';
-const userLogIn = async (userJson: string): Promise<any[] | undefined> => {
+import { backendAPI } from './apiBases';
+
+export interface UserLoginResponse {
+  access_token: string;
+  email: string;
+  message: string;
+  user: string; // the user's name
+  imageUrl: string; // TODO i don't get an imageurl when logging in for some reason?
+}
+
+/**
+ * Login a user to a session.
+ * @param name - the user's name
+ * @param email - the user's email
+ * @param imageUrl - the user's profile image Url
+ * @returns - undefined if error occured, otherwise UserLoginResponse, which includes an access token,
+ *            email, message, user, imageUrl
+ */
+const userLogIn = async (
+  name: string,
+  email: string,
+): Promise<UserLoginResponse | undefined> => {
   try {
-    const result = await backEndAPI.post('/login', userJson, {
-      headers: {
-        'content-type': 'application/json',
+    const response = await backendAPI.post(
+      '/login',
+      JSON.stringify({ name, email }),
+      {
+        headers: {
+          'content-type': 'application/json',
+        },
+        withCredentials: true,
       },
-      withCredentials: true,
-    });
-    console.log(result);
-    // handle errors
-    if (result.request?.status !== 200) throw Error('Bad request');
-    return result.data;
+    );
+
+    if (response.request?.status !== 200) throw Error('Bad request');
+    return response.data;
   } catch (err) {
     console.error(err);
     return undefined;
   }
 };
-const userLogOut = async (userJson: string): Promise<any[] | undefined> => {
+
+// export interface UserLogoutResponse {
+//   // TODO
+// }
+
+/**
+ * Logout a user from a session.
+ * @param token - the token for the user's session.
+ * @returns - undefined if error occured, string result message otherwise
+ */
+const userLogOut = async (token: string): Promise<string | undefined> => {
   try {
-    const result = await backEndAPI.post('/logout', userJson, {
-      headers: {
-        'content-type': 'application/json',
+    const response = await backendAPI.post(
+      '/logout',
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      { access_token: token },
+      {
+        headers: {
+          'content-type': 'application/json',
+        },
+        withCredentials: true,
       },
-      withCredentials: true,
-    });
-    console.log(result);
-    // handle errors
-    if (result.request?.status !== 200) throw Error('Bad request');
-    return result.data;
+    );
+    console.log(response);
+
+    if (response.request?.status !== 200) throw Error('Bad request');
+    return response.data;
   } catch (err) {
-    console.error('logout fail');
-    console.error(err);
+    console.error(`Logout error: ${err}`);
     return undefined;
   }
 };
