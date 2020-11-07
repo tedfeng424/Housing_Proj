@@ -6,9 +6,11 @@ from datetime import datetime
 from app.util.aws.s3 import get_images
 from crud import add_user, \
     add_room, add_move_in, add_house_attribute, add_attribute
+import os
 
-
-engine = create_engine('sqlite:///housing.db')
+password = os.environ["DBPASSWORD"]
+engine = create_engine(
+    'mysql://admin:{password}@homehubdb.cluster-cdmngikujtht.us-east-2.rds.amazonaws.com:3306/housing'.format(password=password))
 # Bind the engine to the metadata of the Base class so that the
 # declaratives can be accessed through a DBSession instance
 Base.metadata.bind = engine

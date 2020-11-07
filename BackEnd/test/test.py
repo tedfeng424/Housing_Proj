@@ -4,7 +4,7 @@ from app.db.crud import write_room
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import os
-engine = create_engine('sqlite:///../app/db/housing.db')
+engine = create_engine('mysql:///../app/db/housing.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()

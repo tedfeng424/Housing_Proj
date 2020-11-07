@@ -2,7 +2,7 @@ import random
 from flask import Flask, render_template, request, redirect,\
     jsonify, url_for, flash, make_response, Response
 from flask import session as login_session
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 from app.assets.options import others, facilities
 from app.util.aws.s3 import get_images
 from app.bluePrints.auth import authetication
@@ -13,9 +13,12 @@ import json
 from db.crud import room_json, read_rooms, write_room
 from db.database_setup import Base
 from datetime import datetime
+import os
 
+password = os.environ["DBPASSWORD"]
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///db/housing.db'
+app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql://admin:{password}@homehubdb.cluster-cdmngikujtht.us-east-2.rds.amazonaws.com:3306/housing'.format(
+    password=password)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 session = db.create_scoped_session()
@@ -60,7 +63,6 @@ def postRooms():
 
 
 @app.route('/searchRoom', methods=['POST', 'OPTIONS'])
-# @cross_origin()
 def searchRooms():
     if request.method == 'OPTIONS':
         return handleOptions()
@@ -72,4 +74,4 @@ def searchRooms():
 if __name__ == '__main__':
     app.secret_key = b'\xb7\xe2\xd6\xa3\xe2\xe0\x11\xd1\x92\xf1\x92G&>\xa2:'
     app.debug = True
-    app.run(host='localhost', port=3001)
+    app.run(host='0.0.0.0', port=3001)

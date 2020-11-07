@@ -2,7 +2,7 @@ from crud import read_rooms
 from sqlalchemy import create_engine
 from database_setup import Base
 from sqlalchemy.orm import sessionmaker
-engine = create_engine('sqlite:///housing.db')
+engine = create_engine('mysql:///housing.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()

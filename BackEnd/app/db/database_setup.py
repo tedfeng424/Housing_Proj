@@ -2,6 +2,7 @@ from sqlalchemy import Column, ForeignKey, Integer, String, FLOAT, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy import create_engine
+import os
 
 Base = declarative_base()
 
@@ -14,7 +15,7 @@ class User(Base):
     date_created = Column(DateTime, nullable=False)
     phone = Column(String(250), nullable=False)
     name = Column(String(250), nullable=False)
-    school_year = Column(String, nullable=False)
+    school_year = Column(String(20), nullable=False)
     major = Column(String(250))
     description = Column(String(1000), nullable=False)
     room = relationship("Room", backref="user")
@@ -118,6 +119,8 @@ class Attribute(Base):
 
 
 if __name__ == '__main__':
-    engine = create_engine('sqlite:///housing.db')
+    password = os.environ["DBPASSWORD"]
+    engine = create_engine(
+        'mysql://admin:{password}@homehubdb.cluster-cdmngikujtht.us-east-2.rds.amazonaws.com:3306/housing'.format(password=password))
 
     Base.metadata.create_all(engine)
