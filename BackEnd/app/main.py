@@ -17,7 +17,7 @@ import os
 
 password = os.environ["DBPASSWORD"]
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql://admin:{password}@homehubdb.cluster-cdmngikujtht.us-east-2.rds.amazonaws.com:3306/housing'.format(
+app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql://admin:{password}@homehubdopedb.cluster-cdmngikujtht.us-east-2.rds.amazonaws.com:3306/housing'.format(
     password=password)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
