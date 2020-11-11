@@ -20,6 +20,7 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql://admin:{password}@homehubdopedb.cluster-cdmngikujtht.us-east-2.rds.amazonaws.com:3306/housing'.format(
     password=password)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_POOL_RECYCLE'] = 1800
 db = SQLAlchemy(app)
 session = db.create_scoped_session()
 app.config['DB_CONNECTION'] = session

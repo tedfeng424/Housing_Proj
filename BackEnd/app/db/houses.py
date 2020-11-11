@@ -10,7 +10,7 @@ import os
 
 password = os.environ["DBPASSWORD"]
 engine = create_engine(
-    'mysql://admin:{password}@homehubdopedb.cluster-cdmngikujtht.us-east-2.rds.amazonaws.com:3306/housing'.format(password=password))
+    'mysql://admin:{password}@homehubdopedb.cluster-cdmngikujtht.us-east-2.rds.amazonaws.com:3306/housing'.format(password=password), pool_recycle=1)
 # Bind the engine to the metadata of the Base class so that the
 # declaratives can be accessed through a DBSession instance
 Base.metadata.bind = engine
