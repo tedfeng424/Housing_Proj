@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { selectUser } from '../redux/slices/auth';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import { selectUser } from '../redux/slices/auth';
 import HousingList from './HouseCardList';
 import Filter from './Filter';
 import TV from './TV';
@@ -42,14 +42,18 @@ const Home: React.FC = () => {
               <>
                 <div className="secondary-title mt-3">Hello</div>
                 <div className="tv-separator" />
-                <Button onClick={handleShowLogin}>Sign in to post</Button>
+                <Button variant="secondary" onClick={handleShowLogin}>
+                  Sign in to post
+                </Button>
               </>
             ) : (
               <>
                 {/* TODO this is temporary for while the 'Post ur request' is disabled */}
                 <div className="secondary-title mt-3">Hello</div>
                 <div className="tv-separator" />
-                <Button onClick={handleShowHousingPost}>Post house info</Button>
+                <Button variant="secondary" onClick={handleShowHousingPost}>
+                  Post house info
+                </Button>
                 {/* <Button>Post ur request</Button> */}
               </>
             )}

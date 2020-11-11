@@ -53,7 +53,19 @@
 
 // TODO
 @mixin mousedown {
+  &:active {
+    @content;
+  }
+
+  &:active:hover {
+    @content;
+  }
+
   &:hover:active {
     @content;
   }
+}
+
+@mixin box-shadow($color) {
+  box-shadow: 2px 4px 8px rgba($color, $alpha: 0.3) !important;
 }

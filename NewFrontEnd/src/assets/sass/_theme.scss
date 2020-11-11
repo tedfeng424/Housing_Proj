@@ -66,43 +66,51 @@ body {
   border: 5px solid $secondary-light-color;
 }
 
-.hover-shadow {
-  &:hover {
-    box-shadow: 2px 4px 8px 0px #a4613e 30% !important;
-  }
-}
-
 /**
  * STYLE GUIDE BUTTONS
  */
 
 // btn = primary btn
-// TODO
-// .btn,
-// .primary-btn {
-//   @extend .hover-shadow;
-//   @include mousedown {
-//     background-color: $primary-dark-color;
-//   }
+.btn,
+// .primary-btn,
+.btn-primary {
+  @extend .rounded-pill;
+  @include mousedown {
+    background-color: $primary-dark-color !important;
+    box-shadow: none !important;
+  }
 
-//   font-weight: $bold-font-weight;
-//   font-size: $xl-font-size;
-//   background-color: $primary-light-color;
-//   color: white;
-//   box-shadow: none;
-// TODO add padding too
+  @extend .py-1;
+  @extend .px-4;
+  @extend .mx-4;
+  @extend .my-2;
+  font-weight: $bold-font-weight;
+  font-size: $xl-font-size;
+  background-color: $primary-light-color;
+  color: white;
+  box-shadow: none;
+  border: 0;
 
-//   &:hover {
-//     box-shadow: 2px 4px 8px 0px #a4613e 30%;
-//     background-color: $primary-light-color;
-//   }
-// }
+  &:hover {
+    @include box-shadow($primary-dark-color);
+    background-color: $primary-light-color;
+  }
 
-// .secondary-btn {
-// }
+  &:focus {
+    box-shadow: none;
+    background-color: $primary-light-color;
+  }
+}
 
-// .tertiary-btn {
-// }
+.btn-secondary {
+  @extend .btn-primary;
+  font-size: $m-font-size;
+}
+
+.btn-tertiary {
+  @extend .btn-secondary;
+  @extend .px-5;
+}
 
 // .toggle-btn {
 // }
