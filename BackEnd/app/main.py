@@ -22,8 +22,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql://admin:{password}@homehubdopedb.
     password=password)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-session = db.create_scoped_session()
-app.config['DB_CONNECTION'] = session
+#app.config['DB_CONNECTION'] = session
 app.register_blueprint(authetication)
 app.config['CORS_HEADERS'] = 'Content-Type'
 CORS(app)
@@ -32,9 +31,11 @@ CORS(app)
 @ app.route('/getRoom', methods=['GET'])
 def showRooms():
     print(datetime.now())
+    session = db.create_scoped_session()
     rooms = [room_json(room, session) for room in read_rooms(session)]
     response = jsonify(rooms)
     response.headers['Access-Control-Allow-Credentials'] = 'true'
+    session.close()
     return response
 
 
@@ -48,6 +49,7 @@ def postRooms():
     requested_json = json.loads(request.form["json"])
     requested_json["photos"] = photo
     print(requested_json)
+    session = db.create_scoped_session()
     success = write_room(requested_json, session)
     print(success)
     if success:
@@ -60,6 +62,7 @@ def postRooms():
                             mimetype='application/json')
     print("COME A SHIEEEEET")
     response.headers['Access-Control-Allow-Credentials'] = 'true'
+    session.close()
     return response
 
 
@@ -67,8 +70,10 @@ def postRooms():
 def searchRooms():
     if request.method == 'OPTIONS':
         return handleOptions()
+    session = db.create_scoped_session()
     response = jsonify(search(request.json, session))
     response.headers['Access-Control-Allow-Credentials'] = 'true'
+    session.close()
     return response
 
 
