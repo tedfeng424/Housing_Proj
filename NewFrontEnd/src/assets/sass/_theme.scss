@@ -112,5 +112,30 @@ body {
   @extend .px-5;
 }
 
-// .toggle-btn {
-// }
+// TODO test this
+.toggle-btn {
+  &-inactive,
+  &-active {
+    border-radius: $sm-border-radius;
+    font-weight: $bold-font-weight;
+  }
+
+  // not selected
+  &-inactive {
+    border: 3px $primary-dark-color;
+    color: $primary-dark-color;
+    background-color: white;
+  }
+
+  // selected
+  &-active {
+    border: 3px $primary-light-color;
+    color: white;
+    background-color: $primary-light-color;
+  }
+}
+
+// .tag-btn = selected .toggle-btn (i.e. .toggle-btn-active)
+.tag-btn {
+  @extend .toggle-btn-active;
+}
