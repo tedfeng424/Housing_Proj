@@ -22,7 +22,8 @@ app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql://admin:{password}@homehubdopedb.
     password=password)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-#app.config['DB_CONNECTION'] = session
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+    'connect_args': {'connect_timeout': 10}}
 app.register_blueprint(authetication)
 app.config['CORS_HEADERS'] = 'Content-Type'
 CORS(app)
@@ -31,11 +32,23 @@ CORS(app)
 @ app.route('/getRoom', methods=['GET'])
 def showRooms():
     print(datetime.now())
-    session = db.create_scoped_session()
-    rooms = [room_json(room, session) for room in read_rooms(session)]
+    RETRY = 3
+    rooms_db = []
+    success = False
+    track = 0
+    # retry if timeout
+    while not success and track < RETRY:
+        try:
+            session = db.create_scoped_session()
+            rooms_db = read_rooms(session)
+            success = True
+        except:
+            print("lost connection, retry")
+            track += 1
+    rooms = [room_json(room, session) for room in rooms_db]
+    session.remove()
     response = jsonify(rooms)
     response.headers['Access-Control-Allow-Credentials'] = 'true'
-    session.close()
     return response
 
 
@@ -62,7 +75,7 @@ def postRooms():
                             mimetype='application/json')
     print("COME A SHIEEEEET")
     response.headers['Access-Control-Allow-Credentials'] = 'true'
-    session.close()
+    session.remove()
     return response
 
 
@@ -73,7 +86,7 @@ def searchRooms():
     session = db.create_scoped_session()
     response = jsonify(search(request.json, session))
     response.headers['Access-Control-Allow-Credentials'] = 'true'
-    session.close()
+    session.remove()
     return response
 
 
