@@ -7,6 +7,7 @@ from app.assets.options import others, facilities
 from app.util.aws.s3 import get_images
 from app.bluePrints.auth import authetication
 from app.util.search import search
+from app.db.database_setup import Room
 from flask_sqlalchemy import SQLAlchemy
 from app.util.util import handleOptions
 import json
@@ -20,7 +21,6 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql://admin:{password}@homehubdopedb.cluster-cdmngikujtht.us-east-2.rds.amazonaws.com:3306/housing'.format(
     password=password)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_POOL_RECYCLE'] = 1800
 db = SQLAlchemy(app)
 session = db.create_scoped_session()
 app.config['DB_CONNECTION'] = session
@@ -29,7 +29,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 CORS(app)
 
 
-@app.route('/getRoom', methods=['GET'])
+@ app.route('/getRoom', methods=['GET'])
 def showRooms():
     print(datetime.now())
     rooms = [room_json(room, session) for room in read_rooms(session)]
@@ -38,7 +38,7 @@ def showRooms():
     return response
 
 
-@app.route('/postRoom', methods=['POST', 'OPTIONS'])
+@ app.route('/postRoom', methods=['POST', 'OPTIONS'])
 def postRooms():
     # TODO check if logged in
     print(datetime.now())
@@ -63,7 +63,7 @@ def postRooms():
     return response
 
 
-@app.route('/searchRoom', methods=['POST', 'OPTIONS'])
+@ app.route('/searchRoom', methods=['POST', 'OPTIONS'])
 def searchRooms():
     if request.method == 'OPTIONS':
         return handleOptions()

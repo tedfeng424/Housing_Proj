@@ -78,8 +78,16 @@ def read_rooms(session):
 
 def room_json(room, session):
     other_map = {'other': [], 'facilities': []}
-    for ha in room.house_attribute:
-        other_map[ha.house_attribute.category].append(ha.house_attribute.name)
+    house_attrs = session.query(House_Attribute).filter(
+        House_Attribute.room_id == room.id).all()
+    house_move_in = session.query(Move_In).filter(
+        Move_In.id == room.move_in_id).first()
+    house_user = session.query(User).filter(
+        User.id == room.user_id).first()
+    for ha in house_attrs:
+        category_name = session.query(Attribute).filter(
+            Attribute.name == ha.attribute_name).first().category
+        other_map[category_name].append(ha.attribute_name)
     r_json = room.serialize
     room_name = r_json['address'].split(",")[0]
     return_json = {
@@ -88,20 +96,20 @@ def room_json(room, session):
         'distance': r_json['distance'],
         'pricePerMonth': r_json['price'],
         'stayPeriod': r_json['stay_period'],
-        'early': room.move_in.early_interval + " " + room.move_in.early_month,
-        'late': room.move_in.late_interval + " " + room.move_in.late_month,
+        'early': house_move_in.early_interval + " " + house_move_in.early_month,
+        'late': house_move_in.late_interval + " " + house_move_in.late_month,
         'roomType': r_json['room_type'],
         'other': other_map['other'],
         'facilities': other_map['facilities'],
-        'leaserName': room.user.name,
-        'leaserEmail': room.user.email,
-        'leaserPhone': room.user.phone,
-        'leaserSchoolYear': room.user.school_year,
-        'leaserMajor': room.user.major,
-        'leaserIntro': room.user.description,
-        'photo': get_images(room.user.email, extra_path=room_name),
+        'leaserName': house_user.name,
+        'leaserEmail': house_user.email,
+        'leaserPhone': house_user.phone,
+        'leaserSchoolYear': house_user.school_year,
+        'leaserMajor': house_user.major,
+        'leaserIntro': house_user.description,
+        'photo': get_images(house_user.email, extra_path=room_name),
         'profilePhoto': 'https://houseit.s3.us-east-2.amazonaws.com/' +
-        get_images(room.user.email, category="profile")[0]
+        get_images(house_user.email, category="profile")[0]
     }
     return return_json
 
