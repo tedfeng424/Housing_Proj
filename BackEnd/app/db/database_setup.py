@@ -121,6 +121,6 @@ class Attribute(Base):
 if __name__ == '__main__':
     password = os.environ["DBPASSWORD"]
     engine = create_engine(
-        'mysql://admin:{password}@homehubdopedb.cluster-cdmngikujtht.us-east-2.rds.amazonaws.com:3306/housing'.format(password=password))
+        'mysql://admin:{password}@homehubdopedb.cluster-cdmngikujtht.us-east-2.rds.amazonaws.com:3306/housing'.format(password=password), pool_recycle=1)
 
     Base.metadata.create_all(engine)
