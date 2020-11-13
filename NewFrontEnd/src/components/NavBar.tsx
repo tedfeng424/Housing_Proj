@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Container, Col, Row } from 'react-bootstrap';
-import { GoogleLogout } from 'react-google-login';
-import Cookies from 'universal-cookie';
+import React, { useState } from 'react';
+import { Button, Container } from 'react-bootstrap';
 import Navbar from 'react-bootstrap/Navbar';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, selectUser } from '../redux/slices/auth';
@@ -42,20 +40,6 @@ const NavBar: React.FC = () => {
         </Container>
       </Navbar>
     </>
-    // <Container fluid className="d-flex navbar-whole">
-
-    //   <Col md={9}>
-    //     <nav className="navbar navbar-light">
-    //       <a className="navbar-brand" href="/">
-    //         <navIcons.logo />
-    //       </a>
-    //     </nav>
-    //   </Col>
-    //   <Col md={3}>
-    //     <Row className="h-25" />
-
-    //   </Col>
-    // </Container>
   );
 };
 
