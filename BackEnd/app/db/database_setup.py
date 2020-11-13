@@ -19,6 +19,7 @@ class User(Base):
     major = Column(String(250))
     description = Column(String(1000), nullable=False)
     room = relationship("Room", backref="user")
+    my_favorite = relationship("My_Favorite", backref='user)
 
     @property
     def serialize(self):
@@ -47,6 +48,7 @@ class Room(Base):
     move_in_id = Column(Integer, ForeignKey("move_in.id"))
     house_attribute = relationship("House_Attribute", backref="room")
     move_in = relationship("Move_In", backref="room")
+    my_favorite = relationship("My_Favorite", backref = "room")
 
     @property
     def serialize(self):
@@ -115,6 +117,21 @@ class Attribute(Base):
         return {
             'name': self.name,
             'category': self.category
+        }
+class My_Favorite(Base):
+    __tablename__ = 'my_favorite'
+    
+    id = Column(Integer, primary_key=True)
+    room_id = Column(Integer, ForeignKey('room.id'))
+    user_id = Column(Integer, ForeignKey('user.id'))
+                               
+    @property
+    def serialize(self):
+        """Return object data in easily serializeable format"""
+        return {
+            'id': self.id,
+            'room_id': self.room_id,
+            'user_id': self.user_id
         }
 
 
