@@ -4,32 +4,12 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import SlideShow from './SlideShow';
-import HouseProfile, { facilityToIcon } from './HouseProfile';
+import HouseProfile from './HouseProfile';
 import { abbreviateAddress, abbreviateMonth } from '../assets/utils';
 import { months } from '../assets/constants';
+import { HousePost } from '../assets/models/PostModels';
 
-// Path Props need to be exactly the same from backend response
-// TODO: extract common interface between HouseCard and HouseProfile
-export interface PathProps {
-  name: string;
-  location: string;
-  distance: string;
-  pricePerMonth: number;
-  stayPeriod: number;
-  early: string;
-  late: string;
-  roomType: string;
-  leaserName: string;
-  leaserEmail: string;
-  leaserPhone: string;
-  leaserSchoolYear: number;
-  leaserMajor: string;
-  leaserIntro: string;
-  photo: string[];
-  profilePhoto: string;
-  other: string[];
-  facilities: (keyof typeof facilityToIcon)[];
-}
+type PathProps = HousePost;
 
 const HouseCard: React.FC<PathProps> = ({
   name,
@@ -39,7 +19,7 @@ const HouseCard: React.FC<PathProps> = ({
   late,
   distance,
   location,
-  photo,
+  photos,
   profilePhoto,
   stayPeriod,
   leaserName,
@@ -52,8 +32,8 @@ const HouseCard: React.FC<PathProps> = ({
   facilities,
 }) => {
   const [show, setShow] = useState<boolean>(false);
-  const SlideShowContent = photo.map((link) => ({
-    src: `https://houseit.s3.us-east-2.amazonaws.com/${link}`,
+  const SlideShowContent = photos.map((urls) => ({
+    src: `https://houseit.s3.us-east-2.amazonaws.com/${urls}`,
     alt: `${leaserEmail} , ${location}}`,
   }));
   const [moveIn, setMoveIn] = useState<string>('');

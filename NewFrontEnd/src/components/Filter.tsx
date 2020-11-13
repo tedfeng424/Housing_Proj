@@ -6,46 +6,23 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
-import { searchHousing } from '../apis/index';
+import { useDispatch } from 'react-redux';
 import {
   roomTypeIcons,
-  roomTypeUnchosen,
   filterIcons,
   preferencesIcons,
 } from '../assets/icons/all';
 import { intervalOptions, yearMonths } from '../assets/constants';
 import { moveInSelect } from '../assets/utils/index';
-import { useDispatch } from 'react-redux';
-import { updateHousingPosts } from '../redux/slices/housing';
+import {
+  FilterModel,
+  PreferenceLiteralType,
+  Preferences,
+  RoomLiteralType,
+} from '../assets/models/FilterModel';
+import { searchHousingPosts } from '../redux/slices/housing';
 
-interface Preferences {
-  female: boolean;
-  male: boolean;
-  lgbtq: boolean;
-  parking: boolean;
-  pets: boolean;
-  privateBath: boolean;
-  _420: boolean;
-}
-
-type RoomLiteralType = keyof typeof roomTypeUnchosen;
-type PreferenceLiteralType = keyof Preferences;
-
-interface BackendJson {
-  distance: string;
-  room_type: RoomLiteralType[];
-  price_min: number;
-  price_max: number;
-  early_interval: string;
-  early_month: string;
-  late_interval: string;
-  late_month: string;
-  stay_period: number;
-  other: string[];
-  facilities: string[];
-}
-
-type RoomType = { [P in keyof typeof roomTypeUnchosen]: boolean };
+type RoomType = { [P in RoomLiteralType]: boolean };
 
 interface Price {
   minimum: number;
@@ -68,7 +45,7 @@ const formatRequest = (
   monthCount: number,
   minute: number,
   price: Price,
-): BackendJson => {
+): FilterModel => {
   let room_selections: RoomLiteralType[];
   room_selections = [
     'single',
@@ -83,21 +60,21 @@ const formatRequest = (
   let facilities: PreferenceLiteralType[];
   facilities = ['parking', 'privateBath'];
   const room_result: RoomLiteralType[] = [];
-  var selected_rooms = room_selections.reduce((result, room_selection) => {
+  const selected_rooms = room_selections.reduce((result, room_selection) => {
     if (rt[room_selection]) {
       result.push(room_selection);
     }
     return room_result;
   }, room_result);
   const other_result: PreferenceLiteralType[] = [];
-  var selected_other = other_prefs.reduce((other_result, other_pref) => {
+  const selected_other = other_prefs.reduce((other_result, other_pref) => {
     if (pref[other_pref]) {
       other_result.push(other_pref);
     }
     return other_result;
   }, other_result);
   const fac_result: PreferenceLiteralType[] = [];
-  var selected_fac = facilities.reduce((fac_result, other_pref) => {
+  const selected_fac = facilities.reduce((fac_result, other_pref) => {
     if (pref[other_pref]) {
       fac_result.push(other_pref);
     }
@@ -544,27 +521,20 @@ const Filter: React.FC<{}> = () => {
           <Row />
           <Row className="justify-content-center">
             <Button
-              onClick={() =>
-                dispatch(
-                  updateHousingPosts(() =>
-                    searchHousing(
-                      JSON.stringify(
-                        formatRequest(
-                          preferences,
-                          roomType,
-                          earlyInterval,
-                          earlyMonth,
-                          lateInterval,
-                          lateMonth,
-                          monthCount,
-                          minute,
-                          price,
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              }
+              onClick={() => {
+                const formattedRequest = formatRequest(
+                  preferences,
+                  roomType,
+                  earlyInterval,
+                  earlyMonth,
+                  lateInterval,
+                  lateMonth,
+                  monthCount,
+                  minute,
+                  price,
+                );
+                dispatch(searchHousingPosts(formattedRequest));
+              }}
             >
               Find Best Fit Now!
             </Button>

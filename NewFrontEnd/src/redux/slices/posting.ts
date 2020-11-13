@@ -1,8 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk, RootState } from '../store';
-import { HousingAPICall, updateHousingPosts } from './housing';
-import { getHousing } from '../../apis/index';
 
+// TODO this should all just be in the HousingPostForm
 export interface UserPost {
   // PostPage1
   name?: string;
@@ -72,12 +71,13 @@ const selectPost = (state: RootState) => state.housePost.post;
 const selectPicture = (state: RootState) => state.housePost.photo;
 export { selectPost, selectPicture };
 
-export const userPost = (apiCall: HousingAPICall): AppThunk => (dispatch) => {
+export const userPost = (apiCall: any): AppThunk => (dispatch) => {
+  // TODO temporary any's
   apiCall().then((response: any) => {
     // TODO should be informing user new post is created!
     // refresh the page with new posting
     console.log(response);
-    dispatch(updateHousingPosts(getHousing));
+    // dispatch(updateHousingPosts(getHousing)); // TODO
   });
 };
 

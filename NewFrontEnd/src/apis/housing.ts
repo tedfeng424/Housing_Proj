@@ -1,6 +1,8 @@
+import { HousePost } from '../assets/models/PostModels';
+import { FilterModel } from '../assets/models/FilterModel';
 import { backendAPI } from './apiBases';
 
-const getHousing = async (): Promise<any[] | undefined> => {
+const getHousingPostsAPI = async (): Promise<HousePost[] | undefined> => {
   try {
     const result = await backendAPI.get('/getRoom', { withCredentials: true });
     console.log(result);
@@ -13,17 +15,47 @@ const getHousing = async (): Promise<any[] | undefined> => {
   }
 };
 
-const searchHousing = async (roomJson: string): Promise<any[] | undefined> => {
+const searchHousingPostsAPI = async ({
+  // TODO in the middle. add types
+  distance,
+  room_type,
+  price_min,
+  price_max,
+  early_interval,
+  early_month,
+  late_interval,
+  late_month,
+  stay_period,
+  other,
+  facilities,
+}: FilterModel): Promise<HousePost[] | undefined> => {
   try {
-    const result = await backendAPI.post('/searchRoom', roomJson, {
-      headers: {
-        'content-type': 'application/json',
+    const result = await backendAPI.post(
+      '/searchRoom',
+      JSON.stringify({
+        distance,
+        room_type,
+        price_min,
+        price_max,
+        early_interval,
+        early_month,
+        late_interval,
+        late_month,
+        stay_period,
+        other,
+        facilities,
+      }),
+      {
+        headers: {
+          'content-type': 'application/json',
+        },
+        withCredentials: true,
       },
-      withCredentials: true,
-    });
+    );
     console.log(result);
     // handle errors
     if (result.request?.status !== 200) throw Error('Bad request');
+
     return result.data;
   } catch (err) {
     console.error(err);
@@ -31,7 +63,9 @@ const searchHousing = async (roomJson: string): Promise<any[] | undefined> => {
   }
 };
 
-const postHousing = async (roomForm: FormData): Promise<any[] | undefined> => {
+const newHousingPostAPI = async (
+  roomForm: FormData,
+): Promise<any[] | undefined> => {
   console.log('get called');
   try {
     const result = await backendAPI.post('/postRoom', roomForm, {
@@ -50,4 +84,4 @@ const postHousing = async (roomForm: FormData): Promise<any[] | undefined> => {
   }
 };
 
-export { getHousing, searchHousing, postHousing };
+export { getHousingPostsAPI, searchHousingPostsAPI, newHousingPostAPI };

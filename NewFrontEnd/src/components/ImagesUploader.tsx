@@ -3,19 +3,17 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import ImageUploader from 'react-images-upload';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   setPicture,
   selectPost,
   UserPost,
   userPost,
-} from '../redux/slices/posting';
-import { useSelector, useDispatch } from 'react-redux';
-import { postHousing } from '../apis/index';
-// import Dropzone from 'react-dropzone';
+} from '../redux/slices/posting'; // TODO
 
 // https://upmostly.com/tutorials/react-dropzone-file-uploads-react
 
-// Should place this else where when combining everying
+// TODO should place this else where when combining everying
 const tempStyle = {
   'font-family': 'Roboto Slab',
   'font-style': 'normal',
@@ -72,9 +70,9 @@ const ImagesUploader: React.FC<PathProps> = ({ setShow }) => {
             <Button
               variant="primary"
               onClick={() => {
-                dispatch(
-                  userPost(() => postHousing(FormMation(pictures, posts))),
-                );
+                // dispatch(
+                //   userPost(() => postHousing(FormMation(pictures, posts))),
+                // ); // TODO
                 setShow(false);
               }}
             >

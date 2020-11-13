@@ -1,12 +1,16 @@
 import { getDuration } from './google';
-import { getHousing, searchHousing, postHousing } from './housing';
+import {
+  getHousingPostsAPI,
+  searchHousingPostsAPI,
+  newHousingPostAPI,
+} from './housing';
 import { userLogIn, userLogOut } from './user';
 
 export {
   getDuration,
-  getHousing,
+  getHousingPostsAPI,
   userLogIn,
-  searchHousing,
-  postHousing,
+  searchHousingPostsAPI,
+  newHousingPostAPI,
   userLogOut,
 };

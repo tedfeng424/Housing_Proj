@@ -10,9 +10,7 @@ import Filter from './Filter';
 import TV from './TV';
 import Login from './Login';
 import HousingPost from './HousingPostForm';
-import HouseCard, { PathProps } from './HouseCard';
 import MyList from './MyList';
-import MyListCard from './MyListCard';
 
 const Home: React.FC = () => {
   const [showLogin, setShowLogin] = useState<boolean>(false);
@@ -20,7 +18,6 @@ const Home: React.FC = () => {
   const handleShowLogin = () => setShowLogin(true);
 
   const [showHousingPost, setShowHousingPost] = useState<boolean>(false);
-  const handleCloseHousingPost = () => setShowHousingPost(false);
   const handleShowHousingPost = () => setShowHousingPost(true);
   const user = useSelector(selectUser);
 
