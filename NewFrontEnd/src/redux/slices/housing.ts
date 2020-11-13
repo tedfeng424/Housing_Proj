@@ -89,40 +89,6 @@ export const newHousingFavorite = (housePost: HousePost): AppThunk => async (
   dispatch(appendToHousingFavorites([housePost]));
 };
 
-// export const updateHousingPosts = (apiCall: HousingAPICall): AppThunk => (
-//   dispatch,
-// ) => {
-//   // await simulation
-//   apiCall().then((response: any) => {
-//     dispatch(
-//       setHousingPosts(
-//         response
-//           ? response.map((room: any) => ({
-//               name: room.name,
-//               pricePerMonth: room.pricePerMonth,
-//               roomType: room.roomType,
-//               early: room.early,
-//               late: room.late,
-//               distance: room.distance,
-//               location: room.location,
-//               photo: room.photo,
-//               profilePhoto: room.profilePhoto,
-//               stayPeriod: room.stayPeriod,
-//               leaserName: room.leaserName,
-//               leaserSchoolYear: room.leaserSchoolYear,
-//               leaserMajor: room.leaserMajor,
-//               leaserIntro: room.leaserIntro,
-//               leaserEmail: room.leaserEmail,
-//               leaserPhone: room.leaserPhone,
-//               other: room.other,
-//               facilities: room.facilities,
-//             }))
-//           : [],
-//       ),
-//     );
-//   });
-// };
-
 export const selectHousingPosts = (state: RootState) => state.housing.posts;
 export const selectHousingFavorites = (state: RootState) =>
   state.housing.favorites;

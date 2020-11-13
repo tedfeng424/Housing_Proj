@@ -15,6 +15,7 @@ export interface WizardFormStep {
   exitWizardForm: () => void;
   nextStep: () => void;
   prevStep: () => void;
+  // TODO add this: submitForm: () => boolean;
 }
 
 interface PathProps {
@@ -22,6 +23,10 @@ interface PathProps {
   show: boolean;
   setShow: (show: boolean) => void;
   hideButtons?: boolean;
+  // TODO also add this (not in the interface though):
+  // WizardForm storage - place to store everything filled out in the form
+  // validationChecks - checks in the WizardForm storage thing to validate everything that needs to be validated
+  // onSubmit function that first checks the validationChecks and then calls whatever they pass into onSubmit
 }
 
 const WizardForm: React.FC<PathProps> = ({
