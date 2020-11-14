@@ -3,12 +3,13 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
-import SlideShow from './SlideShow';
+import SlideShow, { SlideShowItem } from './SlideShow';
 import HouseProfile from './HouseProfile';
 import { abbreviateAddress, abbreviateMonth } from '../assets/utils';
 import { months } from '../assets/constants';
 import { HousePost } from '../assets/models/PostModels';
 
+// change this to PathProps extends HousePost {} to include other props
 type PathProps = HousePost;
 
 const HouseCard: React.FC<PathProps> = ({
@@ -32,11 +33,18 @@ const HouseCard: React.FC<PathProps> = ({
   facilities,
 }) => {
   const [show, setShow] = useState<boolean>(false);
-  const SlideShowContent = photos.map((urls) => ({
-    src: `https://houseit.s3.us-east-2.amazonaws.com/${urls}`,
-    alt: `${leaserEmail} , ${location}}`,
-  }));
   const [moveIn, setMoveIn] = useState<string>('');
+  const [slideShowContent, setSlideShowContent] = useState<SlideShowItem[]>([]);
+
+  // set the slide show content
+  useEffect(() => {
+    setSlideShowContent(
+      photos.map((url) => ({
+        src: `https://houseit.s3.us-east-2.amazonaws.com/${url}`,
+        alt: `${leaserEmail} , ${location}}`,
+      })),
+    );
+  }, [setSlideShowContent, photos, leaserEmail, location]);
 
   // abbreviate the move in date
   useEffect(() => {
@@ -52,7 +60,7 @@ const HouseCard: React.FC<PathProps> = ({
   return (
     <>
       <HouseProfile
-        slideShowItems={SlideShowContent}
+        slideShowItems={slideShowContent}
         pricePerMonth={pricePerMonth}
         roomType={roomType}
         moveIn={moveIn}
@@ -78,7 +86,7 @@ const HouseCard: React.FC<PathProps> = ({
           <Container>
             <Row className="house-pic">
               <SlideShow
-                images={SlideShowContent}
+                images={slideShowContent}
                 onImageClick={() => setShow(true)}
               />
             </Row>

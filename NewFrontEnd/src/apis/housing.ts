@@ -4,11 +4,21 @@ import { backendAPI } from './apiBases';
 
 const getHousingPostsAPI = async (): Promise<HousePost[] | undefined> => {
   try {
-    const result = await backendAPI.get('/getRoom', { withCredentials: true });
+    const result = await backendAPI.get<HousePost[]>('/getRoom', {
+      withCredentials: true,
+    });
     console.log(result);
     // handle errors
     if (result.request?.status !== 200) throw Error('Bad request');
-    return result.data;
+
+    // TODO temporary fix because backend has photos as photo
+    const houseData = result.data;
+    houseData.forEach((house: any) => {
+      house.photos = house.photo;
+      house.photo = undefined;
+    });
+
+    return houseData;
   } catch (err) {
     console.error(err);
     return undefined;

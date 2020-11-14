@@ -10,14 +10,26 @@ interface PathProps {
 const GoogleMap: React.FC<PathProps> = ({ address }) => {
   const [center, setCenter] = useState({ lat: 11.0168, lng: 76.9558 });
   const [zoom, setZoom] = useState(11);
-  const code = geocodeByAddress(address);
-  const location = code.then((results) => getLatLng(results[0]));
+
   useEffect(() => {
-    location.then((longlat) => {
-      setCenter(longlat);
-      console.log(center);
-    });
-  }, [center]);
+    // Mounted is needed for React (not always necessary). You can only update a component's
+    // state when it is mounted -- we potentially set the state after it is already unmounted
+    // because of the async calls. Thus, we need to check if it is mounted before updating the state
+    let mounted = true;
+
+    // function that gets and sets the map pin
+    const setMapPin = async () => {
+      const code = await geocodeByAddress(address);
+      const location = await getLatLng(code[0]);
+      if (mounted) setCenter(location);
+    };
+    setMapPin();
+
+    return () => {
+      mounted = false;
+    };
+  }, [address, setCenter]);
+
   return (
     <div style={{ height: '25%', minHeight: '40vh', width: '100%' }}>
       <GoogleMapReact
