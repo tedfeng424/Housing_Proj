@@ -2,15 +2,20 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { HousePost } from '../assets/models/PostModels';
 
-export interface PathProps {
-  name: string;
-  phone: string;
-  email: string;
-  photos: string[];
-}
+// change this to PathProps extends HousePost {} to include other props
+export type PathProps = Pick<
+  HousePost,
+  'leaserName' | 'leaserPhone' | 'leaserEmail' | 'photos'
+>;
 
-const MyListCard: React.FC<PathProps> = ({ name, phone, email, photos }) => {
+const MyListCard: React.FC<PathProps> = ({
+  leaserName,
+  leaserPhone,
+  leaserEmail,
+  photos,
+}) => {
   return (
     <Container className="my-list-card">
       <Row className="d-flex">
@@ -28,9 +33,9 @@ const MyListCard: React.FC<PathProps> = ({ name, phone, email, photos }) => {
           />
         </Col>
         <Col className="align-self-center">
-          <Row>{name}</Row>
-          <Row>{phone}</Row>
-          <Row>{email}</Row>
+          <Row>{leaserName}</Row>
+          <Row>{leaserPhone}</Row>
+          <Row>{leaserEmail}</Row>
         </Col>
       </Row>
     </Container>

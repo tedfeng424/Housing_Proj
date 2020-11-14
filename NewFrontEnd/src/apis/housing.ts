@@ -27,7 +27,6 @@ const getHousingPostsAPI = async (): Promise<HousePost[] | undefined> => {
 };
 
 const searchHousingPostsAPI = async ({
-  // TODO in the middle. add types
   distance,
   roomType,
   priceMin,

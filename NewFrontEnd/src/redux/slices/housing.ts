@@ -4,6 +4,10 @@ import { HousePost } from '../../assets/models/PostModels';
 import { FilterModel } from '../../assets/models/FilterModel';
 import { AppThunk, RootState } from '../store';
 
+// TODO probably split up this housing slice into several folders, where thunks are in a
+// folder, selectors in another, reducers in another, and then export them and import
+// them to here
+
 interface HousingState {
   posts?: HousePost[];
   // TODO eventually do this: searchResults?: HousePost[];     and have a 'SearchResultsLoading' boolean
@@ -55,7 +59,7 @@ export const {
   appendToHousingFavorites,
 } = housingSlice.actions;
 
-// thunks below
+// PUT THUNKS HERE
 export const getHousingPosts = (): AppThunk => async (dispatch) => {
   // get the housing and then set the housing in redux
   const housingPosts = await getHousingPostsAPI();
@@ -89,6 +93,7 @@ export const newHousingFavorite = (housePost: HousePost): AppThunk => async (
   dispatch(appendToHousingFavorites([housePost]));
 };
 
+// SELECTORS HERE
 export const selectHousingPosts = (state: RootState) => state.housing.posts;
 export const selectHousingFavorites = (state: RootState) =>
   state.housing.favorites;

@@ -1,7 +1,6 @@
 import { roomTypeUnchosen } from '../icons/all';
 
 export interface FilterModel {
-  // TODO make a model for this and name it better
   distance: string;
   roomType: RoomLiteralType[];
   priceMin: number;
