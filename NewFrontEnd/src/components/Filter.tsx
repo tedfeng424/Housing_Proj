@@ -46,8 +46,7 @@ const formatRequest = (
   minute: number,
   price: Price,
 ): FilterModel => {
-  let room_selections: RoomLiteralType[];
-  room_selections = [
+  const roomSelections: RoomLiteralType[] = [
     'single',
     'double',
     'triple',
@@ -55,43 +54,51 @@ const formatRequest = (
     'suite',
     'studio',
   ];
-  let other_prefs: PreferenceLiteralType[];
-  other_prefs = ['female', 'male', 'lgbtq', 'pets', '_420'];
-  let facilities: PreferenceLiteralType[];
-  facilities = ['parking', 'privateBath'];
-  const room_result: RoomLiteralType[] = [];
-  const selected_rooms = room_selections.reduce((result, room_selection) => {
-    if (rt[room_selection]) {
-      result.push(room_selection);
+  const otherPrefs: PreferenceLiteralType[] = [
+    'female',
+    'male',
+    'lgbtq',
+    'pets',
+    '_420',
+  ];
+  const facilities: PreferenceLiteralType[] = ['parking', 'privateBath'];
+  const roomResult: RoomLiteralType[] = [];
+  const selectedRooms = roomSelections.reduce((result, roomSelection) => {
+    if (rt[roomSelection]) {
+      result.push(roomSelection);
     }
-    return room_result;
-  }, room_result);
-  const other_result: PreferenceLiteralType[] = [];
-  const selected_other = other_prefs.reduce((other_result, other_pref) => {
-    if (pref[other_pref]) {
-      other_result.push(other_pref);
-    }
-    return other_result;
-  }, other_result);
-  const fac_result: PreferenceLiteralType[] = [];
-  const selected_fac = facilities.reduce((fac_result, other_pref) => {
-    if (pref[other_pref]) {
-      fac_result.push(other_pref);
-    }
-    return fac_result;
-  }, fac_result);
+    return roomResult;
+  }, roomResult);
+  const selectedOther = otherPrefs.reduce<PreferenceLiteralType[]>(
+    (otherResult, otherPref) => {
+      if (pref[otherPref]) {
+        otherResult.push(otherPref);
+      }
+      return otherResult;
+    },
+    [],
+  );
+  const selectedFac = facilities.reduce<PreferenceLiteralType[]>(
+    (facResult, otherPref) => {
+      if (pref[otherPref]) {
+        facResult.push(otherPref);
+      }
+      return facResult;
+    },
+    [],
+  );
   return {
     distance: `${minute} mins`,
-    room_type: selected_rooms,
-    early_interval: earlyInterval,
-    early_month: earlyMonth,
-    late_interval: lateInterval,
-    late_month: lateMonth,
-    stay_period: monthCount,
-    price_min: price.minimum,
-    price_max: price.maximum,
-    other: selected_other,
-    facilities: selected_fac,
+    roomType: selectedRooms,
+    earlyInterval,
+    earlyMonth,
+    lateInterval,
+    lateMonth,
+    stayPeriod: monthCount,
+    priceMin: price.minimum,
+    priceMax: price.maximum,
+    other: selectedOther,
+    facilities: selectedFac,
   };
 };
 

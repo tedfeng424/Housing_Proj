@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import { HousePost } from '../assets/models/PostModels';
 import { FilterModel } from '../assets/models/FilterModel';
 import { backendAPI } from './apiBases';
@@ -28,14 +29,14 @@ const getHousingPostsAPI = async (): Promise<HousePost[] | undefined> => {
 const searchHousingPostsAPI = async ({
   // TODO in the middle. add types
   distance,
-  room_type,
-  price_min,
-  price_max,
-  early_interval,
-  early_month,
-  late_interval,
-  late_month,
-  stay_period,
+  roomType,
+  priceMin,
+  priceMax,
+  earlyInterval,
+  earlyMonth,
+  lateInterval,
+  lateMonth,
+  stayPeriod,
   other,
   facilities,
 }: FilterModel): Promise<HousePost[] | undefined> => {
@@ -44,14 +45,14 @@ const searchHousingPostsAPI = async ({
       '/searchRoom',
       JSON.stringify({
         distance,
-        room_type,
-        price_min,
-        price_max,
-        early_interval,
-        early_month,
-        late_interval,
-        late_month,
-        stay_period,
+        room_type: roomType,
+        price_min: priceMin,
+        price_max: priceMax,
+        early_interval: earlyInterval,
+        early_month: earlyMonth,
+        late_interval: lateInterval,
+        late_month: lateMonth,
+        stay_period: stayPeriod,
         other,
         facilities,
       }),

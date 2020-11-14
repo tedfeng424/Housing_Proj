@@ -3,14 +3,14 @@ import { roomTypeUnchosen } from '../icons/all';
 export interface FilterModel {
   // TODO make a model for this and name it better
   distance: string;
-  room_type: RoomLiteralType[];
-  price_min: number;
-  price_max: number;
-  early_interval: string;
-  early_month: string;
-  late_interval: string;
-  late_month: string;
-  stay_period: number;
+  roomType: RoomLiteralType[];
+  priceMin: number;
+  priceMax: number;
+  earlyInterval: string;
+  earlyMonth: string;
+  lateInterval: string;
+  lateMonth: string;
+  stayPeriod: number;
   other: string[];
   facilities: string[];
 }
