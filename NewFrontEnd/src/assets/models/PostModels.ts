@@ -17,6 +17,7 @@ export interface HousePost {
   leaserIntro: string;
   photos: string[];
   profilePhoto: string;
+  roomId: number;
   other: string[];
   facilities: (keyof typeof facilityToIcon)[];
 }

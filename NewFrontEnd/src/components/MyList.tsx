@@ -20,16 +20,6 @@ const MyList: React.FC<{}> = () => {
   return (
     <Container className="my-list">
       My list
-      <Row>
-        <MyListCard
-          photos={[
-            'https://cdn.vox-cdn.com/thumbor/op7DSI_UdWcXSbVGqA4wKYc2v3E=/0x0:1800x1179/1200x800/filters:focal(676x269:964x557)/cdn.vox-cdn.com/uploads/chorus_image/image/66741310/3zlqxf_copy.0.jpg',
-          ]}
-          leaserName="Keen"
-          leaserPhone="123-456-7890"
-          leaserEmail="email@email.com"
-        />
-      </Row>
       {favorites && // TODO this should be handled within the loader component (not yet made)
         Object.values(favorites).map((favorite) => (
           <Row key={JSON.stringify(favorite) /* TODO favorite.id */}>

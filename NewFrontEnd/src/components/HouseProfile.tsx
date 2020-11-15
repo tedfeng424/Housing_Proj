@@ -12,7 +12,6 @@ import {
   selectHousingFavorites,
   newHousingFavorite,
   removeHousingFavorite,
-  getHousePostId,
 } from '../redux/slices/housing';
 import GoogleMap from './GoogleMap';
 import PreviewSlideShow from './PreviewSlideShow';
@@ -62,7 +61,7 @@ interface PathProps {
   phone: string;
   bioProfilePic: string;
   bioDescription: string;
-  id: string; // TODO temporary
+  roomId: number;
   show: boolean;
   setShow: (show: boolean) => void;
 }
@@ -87,7 +86,7 @@ const HouseProfile: React.FC<PathProps> = ({
   phone,
   bioProfilePic,
   bioDescription,
-  id,
+  roomId,
   show,
   setShow,
 }) => {
@@ -201,17 +200,18 @@ const HouseProfile: React.FC<PathProps> = ({
                     leaserPhone: phone,
                     profilePhoto: bioProfilePic,
                     leaserIntro: bioDescription,
+                    roomId,
                   };
-                  if (favorites && favorites[id]) {
+                  if (favorites && favorites[roomId]) {
                     // need to remove from the favorites
-                    dispatch(removeHousingFavorite(getHousePostId(housePost))); // TODO temporarily use getHousePostId
+                    dispatch(removeHousingFavorite(roomId)); // TODO temporarily use getHousePostId
                   } else {
                     // need to add to the favorites
                     dispatch(newHousingFavorite(housePost));
                   }
                 }}
               >
-                {favorites && favorites[id]
+                {favorites && favorites[roomId]
                   ? 'Remove from my list!'
                   : 'Add to my list!'}
               </Button>

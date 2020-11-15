@@ -12,14 +12,7 @@ const getHousingPostsAPI = async (): Promise<HousePost[] | undefined> => {
     // handle errors
     if (result.request?.status !== 200) throw Error('Bad request');
 
-    // TODO temporary fix because backend has photos as photo
-    const houseData = result.data;
-    houseData.forEach((house: any) => {
-      house.photos = house.photo;
-      house.photo = undefined;
-    });
-
-    return houseData;
+    return result.data;
   } catch (err) {
     console.error(err);
     return undefined;
@@ -76,7 +69,6 @@ const searchHousingPostsAPI = async ({
 const newHousingPostAPI = async (
   roomForm: FormData,
 ): Promise<any[] | undefined> => {
-  console.log('get called');
   try {
     const result = await backendAPI.post('/postRoom', roomForm, {
       headers: {
@@ -94,4 +86,70 @@ const newHousingPostAPI = async (
   }
 };
 
-export { getHousingPostsAPI, searchHousingPostsAPI, newHousingPostAPI };
+const getHousingBookmarksAPI = async () => {
+  try {
+    const result = await backendAPI.get<HousePost[]>('/bookmark', {
+      withCredentials: true,
+    });
+    console.log(result);
+    if (result.request?.status !== 200) throw Error('Bad request');
+
+    return result.data;
+  } catch (err) {
+    console.error(err);
+    return undefined;
+  }
+};
+
+const addHousingBookmarkAPI = async (roomId: number) => {
+  try {
+    const result = await backendAPI.post(
+      '/bookmark',
+      JSON.stringify({ room_id: roomId, action: 'add' }),
+      {
+        headers: {
+          'content-type': 'application/json',
+        },
+        withCredentials: true,
+      },
+    );
+    console.log(result);
+    if (result.request?.status !== 201) throw Error('Bad request');
+
+    return true;
+  } catch (err) {
+    console.error(err);
+    return undefined;
+  }
+};
+
+const removeHousingBookmarkAPI = async (roomId: number) => {
+  try {
+    const result = await backendAPI.post(
+      '/bookmark',
+      JSON.stringify({ room_id: roomId, action: 'remove' }),
+      {
+        headers: {
+          'content-type': 'application/json',
+        },
+        withCredentials: true,
+      },
+    );
+    console.log(result);
+    if (result.request?.status !== 200) throw Error('Bad request');
+
+    return true;
+  } catch (err) {
+    console.error(err);
+    return undefined;
+  }
+};
+
+export {
+  getHousingPostsAPI,
+  searchHousingPostsAPI,
+  newHousingPostAPI,
+  getHousingBookmarksAPI,
+  addHousingBookmarkAPI,
+  removeHousingBookmarkAPI,
+};

@@ -3,17 +3,15 @@ import { getHousingPostsAPI, searchHousingPostsAPI } from '../../apis';
 import { HousePost } from '../../assets/models/PostModels';
 import { FilterModel } from '../../assets/models/FilterModel';
 import { AppThunk, RootState } from '../store';
+import {
+  addHousingBookmarkAPI,
+  getHousingBookmarksAPI,
+  removeHousingBookmarkAPI,
+} from '../../apis/housing';
 
 // TODO probably split up this housing slice into several folders, where thunks are in a
 // folder, selectors in another, reducers in another, and then export them and import
 // them to here
-
-// TODO temporary way to get id of a housePost. Should be in the model/returned from the backend though
-export const getHousePostId = (housePost: HousePost) =>
-  housePost.leaserEmail +
-  housePost.location +
-  housePost.early +
-  housePost.pricePerMonth;
 
 interface HousingState {
   posts?: HousePost[]; // TODO change this to be a object from the housepost's id to the housepost, then change favorites to be id: boolean
@@ -51,19 +49,17 @@ export const housingSlice = createSlice({
 
       if (action.payload) {
         action.payload.forEach((housePost) => {
-          const id = getHousePostId(housePost); // TODO temporary
-          if (state.favorites) state.favorites[id] = housePost;
+          if (state.favorites) state.favorites[housePost.roomId] = housePost;
         });
       }
     },
     addToHousingFavorites: (state, action: PayloadAction<HousePost>) => {
       if (!state.favorites) state.favorites = {};
 
-      const id = getHousePostId(action.payload); // TODO temporary
-      state.favorites[id] = action.payload;
+      state.favorites[action.payload.roomId] = action.payload;
     },
     // Pass in the HousePost ID (temporarily use the function defined above)
-    removeFromHousingFavorites: (state, action: PayloadAction<string>) => {
+    removeFromHousingFavorites: (state, action: PayloadAction<number>) => {
       if (state.favorites) {
         delete state.favorites[action.payload];
       }
@@ -108,15 +104,19 @@ export const newHousingPost = (housePost: HousePost): AppThunk => async (
 };
 
 export const getHousingFavorites = (): AppThunk => async (dispatch) => {
-  const favorites: HousePost[] = []; // TODO await getHousingFavoritesAPI();
-  dispatch(setHousingFavorites(favorites));
+  const favorites = await getHousingBookmarksAPI();
+  if (favorites) {
+    dispatch(setHousingFavorites(favorites));
+  } else {
+    // handle errors here
+  }
 };
 
 export const newHousingFavorite = (housePost: HousePost): AppThunk => async (
   dispatch,
 ) => {
   // TODO eventually change the housePost in here to just be the housePostId
-  const result = true; // TODO await newHousingFavoriteAPI(housePostId);
+  const result = await addHousingBookmarkAPI(housePost.roomId);
   if (result) {
     dispatch(addToHousingFavorites(housePost));
   } else {
@@ -124,12 +124,12 @@ export const newHousingFavorite = (housePost: HousePost): AppThunk => async (
   }
 };
 
-export const removeHousingFavorite = (housePostId: string): AppThunk => async (
+export const removeHousingFavorite = (roomId: number): AppThunk => async (
   dispatch,
 ) => {
-  const result = true; // TODO await API(housePostId);
+  const result = await removeHousingBookmarkAPI(roomId);
   if (result) {
-    dispatch(removeFromHousingFavorites(housePostId));
+    dispatch(removeFromHousingFavorites(roomId));
   } else {
     // handle error here
   }
