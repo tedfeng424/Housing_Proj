@@ -8,6 +8,7 @@ import HouseProfile from './HouseProfile';
 import { abbreviateAddress, abbreviateMonth } from '../assets/utils';
 import { months } from '../assets/constants';
 import { HousePost } from '../assets/models/PostModels';
+import { getHousePostId } from '../redux/slices/housing';
 
 // change this to PathProps extends HousePost {} to include other props
 type PathProps = HousePost;
@@ -79,6 +80,27 @@ const HouseCard: React.FC<PathProps> = ({
         phone={leaserPhone}
         bioProfilePic={profilePhoto}
         bioDescription={leaserIntro}
+        id={getHousePostId({
+          // TODO temporary. should replace this with the actual id when backend is updated
+          name,
+          location,
+          distance,
+          pricePerMonth,
+          stayPeriod,
+          early,
+          late,
+          roomType,
+          leaserName,
+          leaserEmail,
+          leaserPhone,
+          leaserSchoolYear,
+          leaserMajor,
+          leaserIntro,
+          photos,
+          profilePhoto,
+          other,
+          facilities,
+        })}
         show={show}
         setShow={setShow}
       />

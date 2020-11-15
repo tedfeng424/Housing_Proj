@@ -7,13 +7,18 @@ import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
-import Cookies from 'universal-cookie';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  selectHousingFavorites,
+  newHousingFavorite,
+  removeHousingFavorite,
+  getHousePostId,
+} from '../redux/slices/housing';
 import GoogleMap from './GoogleMap';
 import PreviewSlideShow from './PreviewSlideShow';
 import { SlideShowItem } from './SlideShow';
 import { contactIcons, miscIcons, facilityIcons } from '../assets/icons/all';
-import { newHousingFavorite } from '../redux/slices/housing';
+
 import { HousePost } from '../assets/models/PostModels';
 
 const Ellipse: React.FC<{}> = () => (
@@ -57,6 +62,7 @@ interface PathProps {
   phone: string;
   bioProfilePic: string;
   bioDescription: string;
+  id: string; // TODO temporary
   show: boolean;
   setShow: (show: boolean) => void;
 }
@@ -81,52 +87,12 @@ const HouseProfile: React.FC<PathProps> = ({
   phone,
   bioProfilePic,
   bioDescription,
+  id,
   show,
   setShow,
 }) => {
+  const favorites = useSelector(selectHousingFavorites);
   const dispatch = useDispatch();
-
-  // TODO delete this
-  // const onClick = () => {
-  //   // note this should be going through backend. I've done it through cookies right now,
-  //   // but trying to serialise even one houseProfileObj makes the cookie too big... -Keenan
-  //   const houseProfileObj = {
-  //     // houseType: houseType,
-  //     // pricePerMonth: pricePerMonth,
-  //     // roomType: roomType,
-  //     // moveIn: moveIn,
-  //     // stayPeriod: stayPeriod,
-  //     // facilities: facilities,
-  //     // lookingFor: lookingFor,
-  //     // distance: distance,
-  //     // address: address,
-  //     bioName,
-  //     // bioYear: bioYear,
-  //     // bioMajor: bioMajor,
-  //     email,
-  //     phone,
-  //     // bioProfilePic: bioProfilePic,
-  //     // bioDescription: bioDescription,
-  //   };
-
-  //   if (cookies.get('liked') === undefined) {
-  //     var payload = JSON.stringify([houseProfileObj]);
-  //     cookies.set('liked', payload, {
-  //       path: '/',
-  //       httpOnly: false,
-  //       maxAge: 120,
-  //     });
-  //     // console.log(cookies.get('liked'));
-  //   } else {
-  //     var payload = JSON.stringify([...cookies.get('liked'), houseProfileObj]);
-  //     cookies.set('liked', payload, {
-  //       path: '/',
-  //       httpOnly: false,
-  //       maxAge: 120,
-  //     });
-  //     // console.log(cookies.get('liked'));
-  //   }
-  // };
 
   return (
     <Modal
@@ -193,7 +159,11 @@ const HouseProfile: React.FC<PathProps> = ({
               <Row>Facilities</Row>
               <Row>
                 {facilities.map((facility) => (
-                  <Col xs={{ span: 3, offset: 1 }} className="text-center">
+                  <Col
+                    xs={{ span: 3, offset: 1 }}
+                    key={facility}
+                    className="text-center"
+                  >
                     <GetIcon str={facility} />
                     {facility}
                   </Col>
@@ -205,7 +175,7 @@ const HouseProfile: React.FC<PathProps> = ({
               <Row>Looking for</Row>
               <ul>
                 {lookingFor.map((description) => (
-                  <li>{description}</li>
+                  <li key={description}>{description}</li>
                 ))}
               </ul>
             </Container>
@@ -223,31 +193,39 @@ const HouseProfile: React.FC<PathProps> = ({
                 className="w-90"
                 onClick={() => {
                   const photos = slideShowItems.map((item) => item.src);
-                  dispatch(
-                    newHousingFavorite({
-                      photos,
-                      name: houseName,
-                      pricePerMonth,
-                      roomType,
-                      early,
-                      late,
-                      stayPeriod,
-                      facilities,
-                      other: lookingFor,
-                      distance,
-                      location: address,
-                      leaserName: bioName,
-                      leaserSchoolYear: bioYear,
-                      leaserMajor: bioMajor,
-                      leaserEmail: email,
-                      leaserPhone: phone,
-                      profilePhoto: bioProfilePic,
-                      leaserIntro: bioDescription,
-                    }),
-                  );
+                  const housePost = {
+                    // TODO change the prop vars to be the same name as HouseCard
+                    photos,
+                    name: houseName,
+                    pricePerMonth,
+                    roomType,
+                    early,
+                    late,
+                    stayPeriod,
+                    facilities,
+                    other: lookingFor,
+                    distance,
+                    location: address,
+                    leaserName: bioName,
+                    leaserSchoolYear: bioYear,
+                    leaserMajor: bioMajor,
+                    leaserEmail: email,
+                    leaserPhone: phone,
+                    profilePhoto: bioProfilePic,
+                    leaserIntro: bioDescription,
+                  };
+                  if (favorites && favorites[id]) {
+                    // need to remove from the favorites
+                    dispatch(removeHousingFavorite(getHousePostId(housePost))); // TODO temporarily use getHousePostId
+                  } else {
+                    // need to add to the favorites
+                    dispatch(newHousingFavorite(housePost));
+                  }
                 }}
               >
-                Add to my list!
+                {favorites && favorites[id]
+                  ? 'Remove from my list!'
+                  : 'Add to my list!'}
               </Button>
 
               <div className="text-primary">

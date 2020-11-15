@@ -188,7 +188,7 @@ const Filter: React.FC<{}> = () => {
                           `${key}Chosen` as keyof typeof roomTypeIcons
                         ];
                       return (
-                        <Col>
+                        <Col key={key}>
                           <Button
                             className="btn-filter"
                             onClick={() => {
@@ -293,6 +293,7 @@ const Filter: React.FC<{}> = () => {
                       {intervalOptions.map((interval) => (
                         <Dropdown.Item
                           eventKey={interval}
+                          key={interval}
                           onSelect={(event) => setEarlyInterval(event || '')}
                         >
                           {interval}
@@ -329,6 +330,7 @@ const Filter: React.FC<{}> = () => {
                         {yearMonths.map((month) => (
                           <Dropdown.Item
                             eventKey={month}
+                            key={month}
                             onSelect={(event) => setEarlyMonth(event || '')}
                           >
                             {month}
@@ -353,6 +355,7 @@ const Filter: React.FC<{}> = () => {
                       {intervalOptions.map((interval) => (
                         <Dropdown.Item
                           eventKey={interval}
+                          key={interval}
                           onSelect={(event) => setLateInterval(event || '')}
                         >
                           {interval}
@@ -372,6 +375,7 @@ const Filter: React.FC<{}> = () => {
                         {yearMonths.map((month) => (
                           <Dropdown.Item
                             eventKey={month}
+                            key={month}
                             onSelect={(event) => setLateMonth(event || '')}
                           >
                             {month}

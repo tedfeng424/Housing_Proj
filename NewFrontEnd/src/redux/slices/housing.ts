@@ -8,10 +8,17 @@ import { AppThunk, RootState } from '../store';
 // folder, selectors in another, reducers in another, and then export them and import
 // them to here
 
+// TODO temporary way to get id of a housePost. Should be in the model/returned from the backend though
+export const getHousePostId = (housePost: HousePost) =>
+  housePost.leaserEmail +
+  housePost.location +
+  housePost.early +
+  housePost.pricePerMonth;
+
 interface HousingState {
-  posts?: HousePost[];
+  posts?: HousePost[]; // TODO change this to be a object from the housepost's id to the housepost, then change favorites to be id: boolean
   // TODO eventually do this: searchResults?: HousePost[];     and have a 'SearchResultsLoading' boolean
-  favorites?: HousePost[];
+  favorites?: { [id: string]: HousePost };
 }
 
 const initialState: HousingState = {
@@ -40,23 +47,39 @@ export const housingSlice = createSlice({
       state,
       action: PayloadAction<HousePost[] | undefined>,
     ) => {
-      state.favorites = action.payload;
+      state.favorites = {};
+
+      if (action.payload) {
+        action.payload.forEach((housePost) => {
+          const id = getHousePostId(housePost); // TODO temporary
+          if (state.favorites) state.favorites[id] = housePost;
+        });
+      }
     },
-    appendToHousingFavorites: (state, action: PayloadAction<HousePost[]>) => {
+    addToHousingFavorites: (state, action: PayloadAction<HousePost>) => {
+      if (!state.favorites) state.favorites = {};
+
+      const id = getHousePostId(action.payload); // TODO temporary
+      state.favorites[id] = action.payload;
+    },
+    // Pass in the HousePost ID (temporarily, it's the JSON.stringify of the housepost)
+    removeFromHousingFavorites: (state, action: PayloadAction<string>) => {
       if (state.favorites) {
-        state.favorites.push(...action.payload);
-      } else {
-        state.favorites = action.payload;
+        delete state.favorites[action.payload];
       }
     },
   },
 });
 
-export const {
+// export the reducers that should be accessible by outside files
+export const {} = housingSlice.actions;
+// do NOT export these reducers. Only declare them and use them in the THUNKS
+const {
   setHousingPosts,
   appendToHousingPosts,
   setHousingFavorites,
-  appendToHousingFavorites,
+  addToHousingFavorites,
+  removeFromHousingFavorites,
 } = housingSlice.actions;
 
 // PUT THUNKS HERE
@@ -77,7 +100,11 @@ export const newHousingPost = (housePost: HousePost): AppThunk => async (
   dispatch,
 ) => {
   const result = true; // TODO await newHousingPostAPI(housePost);
-  dispatch(appendToHousingPosts([housePost]));
+  if (result) {
+    dispatch(appendToHousingPosts([housePost]));
+  } else {
+    // handle the error
+  }
 };
 
 export const getHousingFavorites = (): AppThunk => async (dispatch) => {
@@ -90,7 +117,22 @@ export const newHousingFavorite = (housePost: HousePost): AppThunk => async (
 ) => {
   // TODO eventually change the housePost in here to just be the housePostId
   const result = true; // TODO await newHousingFavoriteAPI(housePostId);
-  dispatch(appendToHousingFavorites([housePost]));
+  if (result) {
+    dispatch(addToHousingFavorites(housePost));
+  } else {
+    // handle error here
+  }
+};
+
+export const removeHousingFavorite = (housePostId: string): AppThunk => async (
+  dispatch,
+) => {
+  const result = true; // TODO await API(housePostId);
+  if (result) {
+    dispatch(removeFromHousingFavorites(housePostId));
+  } else {
+    // handle error here
+  }
 };
 
 // SELECTORS HERE

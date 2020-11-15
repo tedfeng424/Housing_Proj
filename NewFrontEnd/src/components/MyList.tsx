@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import { useDispatch, useSelector } from 'react-redux';
+import { HousePost } from '../assets/models/PostModels';
 import {
   getHousingFavorites,
   selectHousingFavorites,
@@ -30,8 +31,8 @@ const MyList: React.FC<{}> = () => {
         />
       </Row>
       {favorites && // TODO this should be handled within the loader component (not yet made)
-        favorites.map((favorite) => (
-          <Row>
+        Object.values(favorites).map((favorite) => (
+          <Row key={JSON.stringify(favorite) /* TODO favorite.id */}>
             <MyListCard
               {...favorite} // TODO
               // name={favorite.leaserName}

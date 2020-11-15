@@ -41,7 +41,7 @@ const PreviewSlideShow: React.FC<PathProps> = ({ items, className = '' }) => {
 
   // TODO eventually change to flexbox
   const thumbs = items.map((item, idx) => (
-    <Col sm={Math.ceil(12 / items.length)} className="p-0 m-0 ">
+    <Col sm={Math.ceil(12 / items.length)} key={item.src} className="p-0 m-0 ">
       <img
         className={
           activeIndex == idx
