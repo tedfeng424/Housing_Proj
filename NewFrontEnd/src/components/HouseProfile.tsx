@@ -125,32 +125,20 @@ const HouseProfile: React.FC<PathProps> = ({
                   <Row>${pricePerMonth}</Row>
                 </Col>
                 <Col md={{ span: 5, offset: 2 }}>
-                  <Row>Room type</Row>
-                  <Row>
-                    <h4>
-                      <b>{roomType}</b>
-                    </h4>
-                  </Row>
+                  <Row className="primary-text">Room type</Row>
+                  <Row className="secondary-text">{roomType}</Row>
                 </Col>
               </Row>
 
               <Row className="justify-content-center">
                 <Col md={5}>
-                  <Row>Move in time</Row>
-                  <Row>
-                    <h4>
-                      <b>{moveIn}</b>
-                    </h4>
-                  </Row>
+                  <Row className="primary-text">Move in time</Row>
+                  <Row className="secondary-text">{moveIn}</Row>
                 </Col>
 
                 <Col md={{ span: 5, offset: 2 }}>
-                  <Row>Stay period</Row>
-                  <Row>
-                    <h4>
-                      <b>{stayPeriod}</b>
-                    </h4>
-                  </Row>
+                  <Row className="primary-text">Stay period</Row>
+                  <Row className="secondary-text">{stayPeriod} months</Row>
                 </Col>
               </Row>
 

@@ -1,16 +1,14 @@
 .housing-profile-house-type {
-  @extend .h4;
   @extend .px-3;
   @extend .py-2;
   @extend .rounded;
-  color: theme-color('secondary');
+  @include font-type('title');
   background-color: theme-color('secondary-light');
 }
 
 .housing-profile-price {
   @extend .h2;
-  color: $primary-dark-color;
-  font-weight: 600;
+  @include font-type('price-related-large');
 }
 
 .housing-profile-bio {

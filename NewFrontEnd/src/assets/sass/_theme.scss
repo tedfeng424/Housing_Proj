@@ -2,18 +2,20 @@
 // in other files.
 
 body {
-  color: theme-color('secondary');
-  font-family: Montserrat;
+  font-family: $primary-font-stack;
 }
 
 .no-show {
-  border: 0;
-  background-color: rgba(255, 255, 255, 0) !important;
-  padding: 0 !important;
-  margin: 0 !important;
+  @include no-show;
 
-  :hover {
-    // have the shadow here?
+  @include mousedown {
+    @include no-show;
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    @include no-show;
   }
 }
 
@@ -25,11 +27,6 @@ body {
 .disappear-on-sm {
   @extend .d-none;
   @extend .d-md-flex;
-}
-
-.ex {
-  @extend .no-show;
-  display: flex;
 }
 
 .roboto-slab-font,
@@ -79,11 +76,6 @@ body {
 // .primary-btn,
 .btn-primary {
   @extend .rounded-pill;
-  @include mousedown {
-    background-color: $primary-dark-color !important;
-    box-shadow: none !important;
-  }
-
   @extend .py-1;
   @extend .px-4;
   @extend .mx-4;
@@ -95,8 +87,13 @@ body {
   box-shadow: none;
   border: 0;
 
+  @include mousedown {
+    background-color: $primary-dark-color !important;
+    box-shadow: none !important;
+  }
+
   &:hover {
-    @include box-shadow($primary-dark-color);
+    @include set-box-shadow($primary-dark-color);
     background-color: $primary-light-color;
   }
 
@@ -142,4 +139,39 @@ body {
 // .tag-btn = selected .toggle-btn (i.e. .toggle-btn-active)
 .tag-btn {
   @extend .toggle-btn-active;
+}
+
+/**
+ * STYLE GUIDE TEXT CLASSES
+ */
+.price-related-large-text {
+  @include font-type('price-related-large');
+}
+
+.price-related-small-text {
+  @include font-type('price-related-small');
+}
+
+.address-related-text {
+  @include font-type('address-related');
+}
+
+h1,
+.title {
+  @include font-type('title');
+}
+
+.primary-text,
+.text-primary {
+  @include font-type('primary-text');
+}
+
+.secondary-text,
+.text-secondary {
+  @include font-type('secondary-text');
+}
+
+p,
+.subtitle-text {
+  @include font-type('subtitle');
 }

@@ -62,7 +62,7 @@ export const housingSlice = createSlice({
       const id = getHousePostId(action.payload); // TODO temporary
       state.favorites[id] = action.payload;
     },
-    // Pass in the HousePost ID (temporarily, it's the JSON.stringify of the housepost)
+    // Pass in the HousePost ID (temporarily use the function defined above)
     removeFromHousingFavorites: (state, action: PayloadAction<string>) => {
       if (state.favorites) {
         delete state.favorites[action.payload];
