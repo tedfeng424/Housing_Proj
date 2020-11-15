@@ -49,7 +49,7 @@ const Home: React.FC = () => {
                 <div className="secondary-title mt-3">Hello</div>
                 <div className="tv-separator" />
                 <Button variant="secondary" onClick={handleShowHousingPost}>
-                  Post house info
+                  Post here
                 </Button>
                 {/* <Button>Post ur request</Button> */}
               </>

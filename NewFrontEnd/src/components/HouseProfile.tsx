@@ -169,13 +169,8 @@ const HouseProfile: React.FC<PathProps> = ({
           </Col>
 
           {/* third column */}
-          <Col
-            sm={12}
-            md={6}
-            lg={3}
-            className="d-flex flex-column mt-lg-5 mt-md-4"
-          >
-            <div className="px-3 pl-lg-1">
+          <Col sm={12} md={6} lg={3} className="d-flex flex-column mt-3">
+            <div className="px-2 pl-lg-1">
               <Button
                 className="w-90"
                 variant="tertiary"
@@ -213,8 +208,8 @@ const HouseProfile: React.FC<PathProps> = ({
                 }}
               >
                 {favorites && favorites[roomId]
-                  ? 'Remove from my list!'
-                  : 'Add to my list!'}
+                  ? 'Remove bookmark!'
+                  : 'Add bookmark!'}
               </Button>
 
               <div className="address-related-text">

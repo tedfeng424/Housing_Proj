@@ -58,4 +58,10 @@ const abbreviateMonth = (month: months): monthsAbrv =>
  */
 const abbreviateAddress = (address: string): string => address.split(',')[0];
 
-export { moveInSelect, abbreviateMonth, abbreviateAddress };
+/**
+ * Use to remove parentheses and everything inside the parentheses
+ */
+const removeParentheses = (str: string): string =>
+  str.replace(/ *\([^)]*\) */g, '');
+
+export { moveInSelect, abbreviateMonth, abbreviateAddress, removeParentheses };

@@ -31,7 +31,7 @@ const GoogleMap: React.FC<PathProps> = ({ address }) => {
   }, [address, setCenter]);
 
   return (
-    <div style={{ height: '25%', minHeight: '40vh', width: '100%' }}>
+    <div className="google-map-wrapper">
       <GoogleMapReact
         bootstrapURLKeys={{ key: 'AIzaSyDP7ZDv6xGzfVe7y7Sgb3MsYMqCVLNljeY' }} // TODO put key in an .env
         center={center}

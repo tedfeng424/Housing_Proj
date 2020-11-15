@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import SlideShow, { SlideShowItem } from './SlideShow';
 import HouseProfile from './HouseProfile';
-import { abbreviateAddress, abbreviateMonth } from '../assets/utils';
+import { abbreviateMonth, removeParentheses } from '../assets/utils';
 import { months } from '../assets/constants';
 import { HousePost } from '../assets/models/PostModels';
 
@@ -51,10 +51,17 @@ const HouseCard: React.FC<PathProps> = ({
   useEffect(() => {
     const [earlyInt, earlyMonth] = early.split(' ') as [string, months];
     const [lateInt, lateMonth] = late.split(' ') as [string, months];
+
+    // TODO temporary, 'anytime' should not be in the database (same with the removeParentheses)
+    const earlyIntDisplayed =
+      earlyInt.toLowerCase() === 'anytime' ? '' : removeParentheses(earlyInt);
+    const lateIntDisplayed =
+      lateInt.toLowerCase() === 'anytime' ? '' : removeParentheses(lateInt);
+
     setMoveIn(
-      `${earlyInt} ${abbreviateMonth(
+      `${earlyIntDisplayed} ${abbreviateMonth(
         earlyMonth,
-      )} - ${lateInt} ${abbreviateMonth(lateMonth)}`,
+      )} - ${lateIntDisplayed} ${abbreviateMonth(lateMonth)}`,
     );
   }, [early, late]);
 
@@ -106,7 +113,7 @@ const HouseCard: React.FC<PathProps> = ({
                   </div>
                 </Row>
                 <div className="text-right secondary-text">
-                  Move In {moveIn}
+                  Move in {moveIn}
                 </div>
               </Col>
             </Row>
@@ -117,8 +124,8 @@ const HouseCard: React.FC<PathProps> = ({
 
               <Col md={8} className="secondary-text">
                 <Row>
-                  <div className="w-100 text-right">
-                    {abbreviateAddress(location)}
+                  <div className="w-100 text-right text-truncate">
+                    {location}
                   </div>
                 </Row>
               </Col>

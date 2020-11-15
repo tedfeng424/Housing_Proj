@@ -190,7 +190,7 @@ const Filter: React.FC<{}> = () => {
                       return (
                         <Col key={key}>
                           <Button
-                            className="btn-filter"
+                            variant="no-show"
                             onClick={() => {
                               const changed = { ...roomType };
                               changed[key] = !roomType[key];
@@ -286,7 +286,10 @@ const Filter: React.FC<{}> = () => {
                 <Row className="justify-content-center">
                   <span className="word mr-3">As early as</span>
                   <Dropdown>
-                    <Dropdown.Toggle id="dropdown-basic">
+                    <Dropdown.Toggle
+                      id="dropdown-basic"
+                      className="btn-tertiary"
+                    >
                       {earlyInterval}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
@@ -321,7 +324,7 @@ const Filter: React.FC<{}> = () => {
                       }
                     >
                       <Dropdown.Toggle
-                        className="form-dropdown ml-0"
+                        className="form-dropdown ml-0 btn-tertiary"
                         id="dropdown-basic"
                       >
                         {earlyMonth}
@@ -348,7 +351,10 @@ const Filter: React.FC<{}> = () => {
                 <Row className="justify-content-center">
                   <span className="word notes">As late as </span>
                   <Dropdown>
-                    <Dropdown.Toggle id="dropdown-basic">
+                    <Dropdown.Toggle
+                      id="dropdown-basic"
+                      className="btn-tertiary"
+                    >
                       {lateInterval}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
@@ -366,7 +372,7 @@ const Filter: React.FC<{}> = () => {
                   <Form.Group>
                     <Form.Control className="clear-border" as={Dropdown}>
                       <Dropdown.Toggle
-                        className="form-dropdown ml-0"
+                        className="form-dropdown ml-0 btn-tertiary"
                         id="dropdown-basic"
                       >
                         {lateMonth}
@@ -431,7 +437,7 @@ const Filter: React.FC<{}> = () => {
             {/* TODO */}
             <Row className="justify-content-center">
               <Button
-                className="btn-filter"
+                variant="no-show"
                 onClick={() => {
                   setPreferences({
                     ...preferences,
@@ -446,7 +452,7 @@ const Filter: React.FC<{}> = () => {
                 )}
               </Button>
               <Button
-                className="btn-filter"
+                variant="no-show"
                 onClick={() => {
                   setPreferences({ ...preferences, male: !preferences.male });
                 }}
@@ -458,7 +464,7 @@ const Filter: React.FC<{}> = () => {
                 )}
               </Button>
               <Button
-                className="btn-filter"
+                variant="no-show"
                 onClick={() => {
                   setPreferences({
                     ...preferences,
@@ -473,7 +479,7 @@ const Filter: React.FC<{}> = () => {
                 )}
               </Button>
               <Button
-                className="btn-filter"
+                variant="no-show"
                 onClick={() => {
                   setPreferences({ ...preferences, pets: !preferences.pets });
                 }}
@@ -485,7 +491,7 @@ const Filter: React.FC<{}> = () => {
                 )}
               </Button>
               <Button
-                className="btn-filter"
+                variant="no-show"
                 onClick={() => {
                   setPreferences({ ...preferences, lgbtq: !preferences.lgbtq });
                 }}
@@ -497,7 +503,7 @@ const Filter: React.FC<{}> = () => {
                 )}
               </Button>
               <Button
-                className="btn-filter"
+                variant="no-show"
                 onClick={() => {
                   setPreferences({
                     ...preferences,
@@ -512,7 +518,7 @@ const Filter: React.FC<{}> = () => {
                 )}
               </Button>
               <Button
-                className="btn-filter"
+                variant="no-show"
                 onClick={() => {
                   setPreferences({
                     ...preferences,

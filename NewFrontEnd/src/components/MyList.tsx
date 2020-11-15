@@ -19,7 +19,7 @@ const MyList: React.FC<{}> = () => {
 
   return (
     <Container className="my-list">
-      My list
+      <span className="title">Bookmarks</span>
       {favorites && // TODO this should be handled within the loader component (not yet made)
         Object.values(favorites).map((favorite) => (
           <Row key={JSON.stringify(favorite) /* TODO favorite.id */}>

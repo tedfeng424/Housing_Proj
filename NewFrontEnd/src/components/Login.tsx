@@ -39,20 +39,12 @@ const Login: React.FC<PathProps> = ({ handleClose, show }) => {
 
   return (
     <Modal id="LoginModal" show={show} onHide={handleClose} centered>
-      <Button className="btn-filter">
-        <img
-          className="d-block"
-          src="/close.svg"
-          alt="Close"
-          onClick={() => handleClose()}
-        />
-      </Button>
-      <img className="d-block" src="/login.svg" alt="LogIn" />
-      {user ? (
-        <span className="word"> Logged In using Redux as {user.name}! </span> // lil' test here
-      ) : (
-        <></>
-      )}
+      <div>
+        <Button variant="no-show" onClick={() => handleClose()}>
+          <img className="pl-2" src="/close.svg" alt="Close" />
+        </Button>
+      </div>
+      <img src="/login.svg" alt="LogIn" />
       <GoogleLogin
         className="g-auth"
         clientId="778916194800-977823s60p7mtu1sj72ru0922p2pqh6m.apps.googleusercontent.com"

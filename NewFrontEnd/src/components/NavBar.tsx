@@ -7,17 +7,14 @@ import Login from './Login';
 import { navIcons } from '../assets/icons/all';
 
 const NavBar: React.FC = () => {
-  const [showLogin, setShowLogin] = useState(false);
-
-  const handleCloseLogin = () => setShowLogin(false);
-  const handleShowLogin = () => setShowLogin(true);
+  const [showLogin, setShowLogin] = useState<boolean>(false);
 
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
 
   return (
     <>
-      <Login show={showLogin} handleClose={handleCloseLogin} />
+      <Login show={showLogin} handleClose={() => setShowLogin(false)} />
       <Navbar sticky="top" className="navbar-wrapper p-0 m-0 mb-4">
         <Container className="d-flex align-items-center my-0">
           <div className="mr-auto">
@@ -28,11 +25,18 @@ const NavBar: React.FC = () => {
 
           <div>
             {!user ? (
-              <Button className="g-sign-in" onClick={handleShowLogin}>
+              <Button
+                variant="no-show"
+                className="g-sign-in"
+                onClick={() => setShowLogin(true)}
+              >
                 Sign In
               </Button>
             ) : (
-              <Button className="g-sign-in" onClick={() => dispatch(logout())}>
+              <Button
+                className="g-sign-in no-show"
+                onClick={() => dispatch(logout())}
+              >
                 Log Out
               </Button>
             )}

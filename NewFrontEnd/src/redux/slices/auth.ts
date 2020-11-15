@@ -17,7 +17,13 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  user: cookies.get<User>('user'), // TODO undefined
+  // user: cookies.get<User>('user'),
+  user: {
+    name: 'Amit Bar',
+    email: "'noneofyobusiness@gmail.com",
+    imageUrl: 'image',
+    token: 'fake',
+  },
 };
 
 export const authSlice = createSlice({
