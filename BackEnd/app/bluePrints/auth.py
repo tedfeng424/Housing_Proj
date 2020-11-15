@@ -23,7 +23,8 @@ def login():
     requested_json = request.json
     # check in with db to see if user is new
     session = current_app.config['DB_CONNECTION']
-    if not check_exist(User, session, **{'email': requested_json['email']}):
+    user = check_exist(User, session, **{'email': requested_json['email']})
+    if not user:
         add_user(requested_json['name'], requested_json['email'],
                  datetime.now(),
                  "", "", "", "",
@@ -34,6 +35,9 @@ def login():
         path_name = "/".join([requested_json['email'],
                               'profile', selected_icon])
         upload_file_wname(icon_path+selected_icon, 'houseit', path_name)
+    
+    login_session["user_id"] = user.id
+
     json_response = {}
     json_response['user'] = requested_json['name']
     json_response['email'] = requested_json['email']
@@ -41,6 +45,10 @@ def login():
     json_response['message'] = 'Successfully created room.'
     response = jsonify(json_response)
     response.headers['Access-Control-Allow-Credentials'] = 'true'
+    response.headers['Access-Control-Allow-Headers'] = "Content-Type"
+    response.headers['Content-Type'] = 'application/json'
+    response.set_cookie('access_token', access_token) # TODO test
+    print(access_token)
     return response
 
 

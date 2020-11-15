@@ -2,7 +2,7 @@ import random
 from flask import Flask, render_template, request, redirect,\
     jsonify, url_for, flash, make_response, Response
 from flask import session as login_session
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from app.assets.options import others, facilities
 from app.util.aws.s3 import get_images
 from app.bluePrints.auth import authetication
@@ -35,9 +35,10 @@ def showRooms():
     rooms_db = read_rooms(session)
     success = True
     rooms = [room_json(room, session) for room in rooms_db]
-    session.remove()
     response = jsonify(rooms)
     response.headers['Access-Control-Allow-Credentials'] = 'true'
+    response.headers['Access-Control-Allow-Headers'] = "Content-Type"
+    response.headers['Content-Type'] = 'application/json'
     return response
 
 
@@ -51,7 +52,6 @@ def postRooms():
     requested_json = json.loads(request.form["json"])
     requested_json["photos"] = photo
     print(requested_json)
-    session = db.create_scoped_session()
     success = write_room(requested_json, session)
     print(success)
     if success:
@@ -64,7 +64,8 @@ def postRooms():
                             mimetype='application/json')
     print("COME A SHIEEEEET")
     response.headers['Access-Control-Allow-Credentials'] = 'true'
-    session.remove()
+    response.headers['Access-Control-Allow-Headers'] = "Content-Type"
+    response.headers['Content-Type'] = 'application/json'
     return response
 
 
@@ -72,38 +73,55 @@ def postRooms():
 def searchRooms():
     if request.method == 'OPTIONS':
         return handleOptions()
-    session = db.create_scoped_session()
     response = jsonify(search(request.json, session))
     response.headers['Access-Control-Allow-Credentials'] = 'true'
-    session.remove()
+    response.headers['Access-Control-Allow-Headers'] = "Content-Type"
+    response.headers['Content-Type'] = 'application/json'
     return response
+
 
 @ app.route('/bookmark', methods=['POST', 'OPTIONS', 'GET'])
 def bookmark():
-    session = db.create_scoped_session()
     if request.method == 'OPTIONS':
         return handleOptions()
     requested_json = request.json
 
+    client_token = request.cookies.get("access_token")
+    print(client_token)
+    print(login_session)
+    if not client_token or (client_token != login_session["access_token"]):
+        # if user is not logged in
+        print(client_token, login_session["access_token"])
+        response = Response("Bookmark get/add/remove is forbidden due to invalid token",
+                            status=403, mimetype='application/json')
+        response.headers['Access-Control-Allow-Credentials'] = 'true'
+        response.headers['Access-Control-Allow-Headers'] = "Content-Type"
+        response.headers['Content-Type'] = "application/json"
+        return response
+
     if request.method == 'GET':
         bookmarks = [bookmark.serialize for bookmark in session.query(Bookmark).all()]
-        bookmark_rooms = [session.query(Room).filter_by(Room.id == bookmark.room_id).one() for bookmark in bookmarks]
-        room = [room_json(bookmark_room) for bookmark_room in bookmark_rooms]
+        bookmark_rooms = [session.query(Room).filter_by(id = bookmark["room_id"]).one() for bookmark in bookmarks]
+        room = [room_json(bookmark_room, session) for bookmark_room in bookmark_rooms]
         response = jsonify(room)
         response.headers['Access-Control-Allow-Credentials'] = 'true'
+        response.headers['Access-Control-Allow-Headers'] = "Content-Type"
+        response.headers['Content-Type'] = 'application/json'
         return response
 
     else:
         if requested_json['action'] == 'add':
-            add_bookmark(requested_json['room_id'], requested_json['user_id'], session)
+            add_bookmark(requested_json['room_id'], login_session["user_id"], session)
             response = Response('Successfully added bookmark.', status=201,
                             mimetype='application/json')
         else:
-            remove_bookmark(requested_json['room_id'], session)
+            remove_bookmark(requested_json['room_id'], login_session["user_id"], session)
             response = Response('Successfully deleted bookmark.', status=200,
                             mimetype='application/json')
     print(session.query(Bookmark).all())
-    session.remove()
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    response.headers['Access-Control-Allow-Headers'] = "Content-Type"
+    response.headers['Content-Type'] = 'application/json'
     return response
 
 

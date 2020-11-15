@@ -59,8 +59,8 @@ def add_bookmark(room_id, user_id, session):
     add_and_commit(bookmark_to_add, session)
     return bookmark_to_add
 
-def remove_bookmark(room_id, session):
-    session.query(Bookmark).filter_by(Bookmark.room_id == room_id).delete()
+def remove_bookmark(room_id, user_id, session):
+    session.query(Bookmark).filter_by(room_id = room_id, user_id = user_id).delete()
     session.commit()
     return
 # Read
