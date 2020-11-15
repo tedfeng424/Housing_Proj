@@ -11,21 +11,21 @@ from app.db.database_setup import Room
 from flask_sqlalchemy import SQLAlchemy
 from app.util.util import handleOptions
 import json
-from db.crud import room_json, read_rooms, write_room
+from db.crud import room_json, read_rooms, write_room, add_bookmark, remove_bookmark
 from db.database_setup import Base
 from datetime import datetime
 import os
 
 password = os.environ["DBPASSWORD"]
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql://admin:{password}@homehubdopedb.cluster-cdmngikujtht.us-east-2.rds.amazonaws.com:3306/housing'.format(
-    password=password)
+app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///db/housing.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
     'connect_args': {'connect_timeout': 10}}
 app.register_blueprint(authetication)
 app.config['CORS_HEADERS'] = 'Content-Type'
+
 CORS(app)
 
 
@@ -88,6 +88,18 @@ def searchRooms():
     response.headers['Access-Control-Allow-Credentials'] = 'true'
     session.remove()
     return response
+
+@ app.route('/bookmark', methods=['POST', 'OPTIONS'])
+def bookmark():
+    if request.method == 'OPTIONS':
+        return handleOptions()
+    requested_json = request.json
+    if requested_json['ACTION'] == 'add':
+        add_bookmark(requested_json['room_id'], requested_json['user_id'], session)
+    else:
+        remove_bookmark(requested_json['room_id'], session)
+    return
+
 
 
 if __name__ == '__main__':
