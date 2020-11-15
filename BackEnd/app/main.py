@@ -7,7 +7,7 @@ from app.assets.options import others, facilities
 from app.util.aws.s3 import get_images
 from app.bluePrints.auth import authetication
 from app.util.search import search
-from app.db.database_setup import Room
+from app.db.database_setup import Bookmark, Room
 from flask_sqlalchemy import SQLAlchemy
 from app.util.util import handleOptions
 import json
@@ -21,13 +21,10 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///db/housing.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
-    'connect_args': {'connect_timeout': 10}}
 app.register_blueprint(authetication)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 CORS(app)
-
 
 @ app.route('/getRoom', methods=['GET'])
 def showRooms():
@@ -38,13 +35,13 @@ def showRooms():
     track = 0
     # retry if timeout
     while not success and track < RETRY:
-        try:
-            session = db.create_scoped_session()
-            rooms_db = read_rooms(session)
-            success = True
-        except:
-            print("lost connection, retry")
-            track += 1
+        # try:
+        session = db.create_scoped_session()
+        rooms_db = read_rooms(session)
+        success = True
+        # except:
+        #     print("lost connection, retry")
+        #     track += 1
     rooms = [room_json(room, session) for room in rooms_db]
     session.remove()
     response = jsonify(rooms)
@@ -89,16 +86,33 @@ def searchRooms():
     session.remove()
     return response
 
-@ app.route('/bookmark', methods=['POST', 'OPTIONS'])
+@ app.route('/bookmark', methods=['POST', 'OPTIONS', 'GET'])
 def bookmark():
+    session = db.create_scoped_session()
     if request.method == 'OPTIONS':
         return handleOptions()
     requested_json = request.json
-    if requested_json['ACTION'] == 'add':
-        add_bookmark(requested_json['room_id'], requested_json['user_id'], session)
+
+    if request.method == 'GET':
+        bookmarks = [bookmark.serialize for bookmark in session.query(Bookmark).all()]
+        bookmark_rooms = [session.query(Room).filter_by(Room.id == bookmark.room_id).one() for bookmark in bookmarks]
+        room = [room_json(bookmark_room) for bookmark_room in bookmark_rooms]
+        response = jsonify(room)
+        response.headers['Access-Control-Allow-Credentials'] = 'true'
+        return response
+
     else:
-        remove_bookmark(requested_json['room_id'], session)
-    return
+        if requested_json['action'] == 'add':
+            add_bookmark(requested_json['room_id'], requested_json['user_id'], session)
+            response = Response('Successfully added bookmark.', status=201,
+                            mimetype='application/json')
+        else:
+            remove_bookmark(requested_json['room_id'], session)
+            response = Response('Successfully deleted bookmark.', status=200,
+                            mimetype='application/json')
+    print(session.query(Bookmark).all())
+    session.remove()
+    return response
 
 
 

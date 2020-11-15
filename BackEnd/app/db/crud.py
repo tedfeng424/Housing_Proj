@@ -116,9 +116,10 @@ def room_json(room, session):
         'leaserSchoolYear': house_user.school_year,
         'leaserMajor': house_user.major,
         'leaserIntro': house_user.description,
-        'photo': get_images(house_user.email, extra_path=room_name),
+        'photos': get_images(house_user.email, extra_path=room_name),
         'profilePhoto': 'https://houseit.s3.us-east-2.amazonaws.com/' +
-        get_images(house_user.email, category="profile")[0]
+        get_images(house_user.email, category="profile")[0],
+        'roomId': r_json['id']
     }
     return return_json
 

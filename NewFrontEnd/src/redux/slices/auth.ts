@@ -17,13 +17,13 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  // user: cookies.get<User>('user'),
-  user: {
-    name: 'Amit Bar',
-    email: "'noneofyobusiness@gmail.com",
-    imageUrl: 'image',
-    token: 'fake',
-  },
+  user: cookies.get<User>('user'),
+  // TODO temp for fake logged in user: {
+  //   name: 'Amit Bar',
+  //   email: "'noneofyobusiness@gmail.com",
+  //   imageUrl: 'image',
+  //   token: 'fake',
+  // },
 };
 
 export const authSlice = createSlice({
