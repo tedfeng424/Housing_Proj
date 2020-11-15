@@ -19,7 +19,7 @@ class User(Base):
     major = Column(String(250))
     description = Column(String(1000), nullable=False)
     room = relationship("Room", backref="user")
-    bookmark = relationship("bookmark", backref='user)
+    bookmark = relationship("Bookmark", backref="user")
 
     @property
     def serialize(self):
@@ -48,7 +48,7 @@ class Room(Base):
     move_in_id = Column(Integer, ForeignKey("move_in.id"))
     house_attribute = relationship("House_Attribute", backref="room")
     move_in = relationship("Move_In", backref="room")
-    bookmark = relationship("bookmark", backref = "room")
+    bookmark = relationship("Bookmark", backref = "room")
 
     @property
     def serialize(self):
