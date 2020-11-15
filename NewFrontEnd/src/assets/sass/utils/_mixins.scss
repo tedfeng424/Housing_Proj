@@ -39,7 +39,7 @@
     color: $secondary-dark-color;
   } @else if $type == 'secondary-text' {
     font-weight: $regular-font-weight;
-    font-size: $l-font-size;
+    font-size: $sm-font-size;
     color: $secondary-dark-color;
   } @else if $type == 'subtitle' {
     font-weight: $regular-font-weight;

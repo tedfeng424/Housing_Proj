@@ -95,24 +95,27 @@ const HouseCard: React.FC<PathProps> = ({
               />
             </Row>
             <Row className="px-2">
-              <Col md={4} className="house-card-left house-card-price">
+              <Col md={4} className="price-related-large-text">
                 <Row>${pricePerMonth}</Row>
               </Col>
-              <Col md={8} className="house-card-right house-card-right-top">
+              <Col md={8} className="pt-1">
                 <Row>
-                  <div className="w-100 text-right">
+                  <div className="w-100 text-right secondary-text">
                     {roomType}
-                    <span className="divider"> | </span>Move In {moveIn}
+                    <span className="divider"> | </span> baths
                   </div>
                 </Row>
+                <div className="text-right secondary-text">
+                  Move In {moveIn}
+                </div>
               </Col>
             </Row>
             <Row className="px-2">
-              <Col md={4} className="house-card-left house-card-left-bottom">
+              <Col md={4} className="address-related-text">
                 <Row>{distance}</Row>
               </Col>
 
-              <Col md={8} className="house-card-right">
+              <Col md={8} className="secondary-text">
                 <Row>
                   <div className="w-100 text-right">
                     {abbreviateAddress(location)}

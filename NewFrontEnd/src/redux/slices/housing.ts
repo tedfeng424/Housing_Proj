@@ -116,7 +116,8 @@ export const newHousingFavorite = (housePost: HousePost): AppThunk => async (
   dispatch,
 ) => {
   // TODO eventually change the housePost in here to just be the housePostId
-  const result = await addHousingBookmarkAPI(housePost.roomId);
+  // TODO const result = await addHousingBookmarkAPI(housePost.roomId);
+  const result = true;
   if (result) {
     dispatch(addToHousingFavorites(housePost));
   } else {
@@ -127,7 +128,8 @@ export const newHousingFavorite = (housePost: HousePost): AppThunk => async (
 export const removeHousingFavorite = (roomId: number): AppThunk => async (
   dispatch,
 ) => {
-  const result = await removeHousingBookmarkAPI(roomId);
+  // TODO const result = await removeHousingBookmarkAPI(roomId);
+  const result = true;
   if (result) {
     dispatch(removeFromHousingFavorites(roomId));
   } else {

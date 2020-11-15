@@ -124,27 +124,27 @@ const HouseProfile: React.FC<PathProps> = ({
                   <Row>${pricePerMonth}</Row>
                 </Col>
                 <Col md={{ span: 5, offset: 2 }}>
-                  <Row className="primary-text">Room type</Row>
-                  <Row className="secondary-text">{roomType}</Row>
+                  <Row className="subtitle-text">Room type</Row>
+                  <Row className="primary-text">{roomType}</Row>
                 </Col>
               </Row>
 
               <Row className="justify-content-center">
                 <Col md={5}>
-                  <Row className="primary-text">Move in time</Row>
-                  <Row className="secondary-text">{moveIn}</Row>
+                  <Row className="subtitle-text">Move in time</Row>
+                  <Row className="primary-text">{moveIn}</Row>
                 </Col>
 
                 <Col md={{ span: 5, offset: 2 }}>
-                  <Row className="primary-text">Stay period</Row>
-                  <Row className="secondary-text">{stayPeriod} months</Row>
+                  <Row className="subtitle-text">Stay period</Row>
+                  <Row className="primary-text">{stayPeriod} months</Row>
                 </Col>
               </Row>
 
               <Ellipse />
 
-              <Row>Facilities</Row>
-              <Row>
+              <Row className="subtitle-text">Facilities</Row>
+              <Row className="subtitle-text">
                 {facilities.map((facility) => (
                   <Col
                     xs={{ span: 3, offset: 1 }}
@@ -159,8 +159,8 @@ const HouseProfile: React.FC<PathProps> = ({
 
               <Ellipse />
 
-              <Row>Looking for</Row>
-              <ul>
+              <Row className="subtitle-text">Looking for</Row>
+              <ul className="primary-text">
                 {lookingFor.map((description) => (
                   <li key={description}>{description}</li>
                 ))}
@@ -178,6 +178,7 @@ const HouseProfile: React.FC<PathProps> = ({
             <div className="px-3 pl-lg-1">
               <Button
                 className="w-90"
+                variant="tertiary"
                 onClick={() => {
                   const photos = slideShowItems.map((item) => item.src);
                   const housePost = {
@@ -216,21 +217,19 @@ const HouseProfile: React.FC<PathProps> = ({
                   : 'Add to my list!'}
               </Button>
 
-              <div className="text-primary">
-                <b>{distance} public transit to school</b>
+              <div className="address-related-text">
+                {distance} public transit to school
               </div>
-              <div>{address}</div>
+              <div className="secondary-text">{address}</div>
               <GoogleMap address={address} />
             </div>
 
             <Container className="housing-profile-bio">
               <Row>
                 <Col md={8} className="text-center">
-                  <div>
-                    <b>{bioName}</b>
-                  </div>
+                  <div className="primary-text">{bioName}</div>
 
-                  <div>
+                  <div className="secondary-text">
                     {bioYear} | {bioMajor}
                   </div>
 

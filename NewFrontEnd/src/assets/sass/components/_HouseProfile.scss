@@ -31,6 +31,7 @@
 }
 
 .housing-profile-speech-bubble {
+  @include font-type('secondary-text');
   $padding: map-get($spacers, 3);
   $margin-top: map-get($spacers, 4);
   padding: $padding;
