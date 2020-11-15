@@ -21,8 +21,8 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///db/housing.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
-    'connect_args': {'connect_timeout': 10}}
+# app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+#     'connect_args': {'connect_timeout': 10}}
 app.register_blueprint(authetication)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
@@ -38,13 +38,13 @@ def showRooms():
     track = 0
     # retry if timeout
     while not success and track < RETRY:
-        try:
+        # try:
             session = db.create_scoped_session()
             rooms_db = read_rooms(session)
             success = True
-        except:
-            print("lost connection, retry")
-            track += 1
+        # except:
+        #     print("lost connection, retry")
+        #     track += 1
     rooms = [room_json(room, session) for room in rooms_db]
     session.remove()
     response = jsonify(rooms)

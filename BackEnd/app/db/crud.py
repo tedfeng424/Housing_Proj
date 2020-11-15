@@ -60,7 +60,7 @@ def add_bookmark(room_id, user_id, session):
     return bookmark_to_add
 
 def remove_bookmark(room_id, session):
-    session.query(Bookmark).filter_by(Bookmark.room_id = room_id).delete()
+    session.query(Bookmark).filter_by(room_id = room_id).delete() # changed from Bookmark.room_id
     session.commit()
     return
 # Read
