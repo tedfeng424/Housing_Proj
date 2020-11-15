@@ -1,0 +1,82 @@
+.housing-profile-house-type {
+  @extend .h4;
+  @extend .px-3;
+  @extend .py-2;
+  @extend .rounded;
+  color: theme-color('secondary');
+  background-color: theme-color('secondary-light');
+}
+
+.housing-profile-price {
+  @extend .h2;
+  color: $primary-dark-color;
+  font-weight: 600;
+}
+
+.housing-profile-bio {
+  @extend .px-3;
+  @extend .py-2;
+  @extend .mt-2;
+  // TODO
+  // $margin-bottom: -1 * map-get($spacers, 3);
+  // $margin-right: add(-1 * map-get($spacers, 3), -1 * map-get($spacers, 3));
+  // margin-bottom: $margin-bottom;
+  // margin-right: $margin-right;
+  background-color: theme-color('secondary-light');
+  flex: 100%;
+  width: auto;
+  border-radius: ($rounded-lg / 2) 0 $rounded-lg 0;
+
+  @include mobile-and-smaller {
+    border-radius: ($rounded-lg / 2) ($rounded-lg / 2) $rounded-lg $rounded-lg;
+  }
+}
+
+.housing-profile-speech-bubble {
+  $padding: map-get($spacers, 3);
+  $margin-top: map-get($spacers, 4);
+  padding: $padding;
+  margin-top: $margin-top;
+  position: relative;
+  border-radius: $rounded-lg;
+  border-top-right-radius: 0;
+  box-shadow: 3px 3px 4px -2px $gray-400;
+  background-color: white;
+  word-break: break-word;
+
+  &:before {
+    $triangle-size: 1rem;
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    right: 0;
+    top: subtract(0, add($padding, $triangle-size));
+    box-shadow: 3px 0px 4px -2px $gray-400;
+    border: $triangle-size solid;
+    border-color: transparent white white transparent;
+  }
+}
+
+.slide-h {
+  height: 50%;
+  top: 20%;
+  position: absolute;
+  margin: 0;
+}
+
+.house-profile-preview-slideshow {
+  margin: 0;
+  overflow: hidden;
+  border-radius: $rounded-lg 0 0 $rounded-lg;
+  @include md-and-smaller {
+    border-radius: $rounded-lg $rounded-lg 0 0;
+  }
+}
+
+.house-profile-modal {
+  .modal-content {
+    @extend .secondary-border-thin;
+    padding: 0;
+  }
+}

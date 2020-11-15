@@ -1,0 +1,65 @@
+// Edit bootstrap style here! Change the vars before importing bootstrap,
+// and change classes after importing.
+
+/* CHANGE BOOTSTRAP VARIABLES HERE */
+$theme-colors: (
+  'responsive-to-user': $responsive-to-user-color,
+  'focused': $focused-color,
+  'unfocused': $unfocused-color,
+  'primary': $primary-color,
+  'primary-light': $primary-color-light,
+  'secondary': $secondary-color,
+  'secondary-light': $secondary-light-color,
+);
+
+$sizes: (
+  90: 90%,
+  15: 15%,
+);
+
+/* IMPORT BOOTSTRAP SASS HERE (which uses the overrided variables above) */
+@import '~bootstrap/scss/bootstrap';
+
+/* OVERRIDE THE BOOTSTRAP SASS BELOW */
+.btn {
+  @extend .py-1;
+  @extend .px-4;
+  @extend .mx-4;
+  @extend .my-2;
+  @extend .rounded-pill;
+  color: white;
+  font-weight: $default-text-weight;
+  box-shadow: none !important;
+}
+
+$modal-default-margin: map-get($spacers, 3);
+.modal-content {
+  padding: $modal-default-margin;
+  border-radius: $rounded-lg;
+}
+
+.carousel-inner {
+  height: 100%;
+}
+
+.carousel {
+  height: 100%;
+}
+
+.carousel-item {
+  height: 100%;
+}
+
+.card-body {
+  padding: 0.5rem;
+}
+
+.valid-feedback,
+.invalid-feedback {
+  text-align: right;
+}
+
+body {
+  font-family: $primary-font-stack;
+  background: #fffcfb;
+}

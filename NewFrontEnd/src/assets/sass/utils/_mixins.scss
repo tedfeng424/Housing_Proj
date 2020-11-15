@@ -1,0 +1,59 @@
+@mixin mobile-and-smaller {
+  @include media-breakpoint-down('sm') {
+    @content;
+  }
+}
+
+@mixin md-and-smaller {
+  @include media-breakpoint-down('md') {
+    @content;
+  }
+}
+
+/**
+ * STYLE GUIDE TYPOGRAPHY MIXINS.
+ */
+// Mixin for the type of font. Argument should be one of the strings in the following if statements
+@mixin font-type($type) {
+  font-family: $primary-font-stack;
+
+  @if $type == 'price-related-large' {
+    font-weight: $bold-font-weight;
+    font-size: $l-font-size;
+    color: $primary-dark-color;
+  } @else if $type == 'price-related-small' {
+    font-weight: $bold-font-weight;
+    font-size: $xs-font-size;
+    color: $primary-dark-color;
+  } @else if $type == 'address-related' {
+    font-weight: $bold-font-weight;
+    font-size: $sm-font-size;
+    color: $primary-dark-color;
+  } @else if $type == 'title' {
+    font-weight: $bold-font-weight;
+    font-size: $l-font-size;
+    color: $secondary-dark-color;
+  } @else if $type == 'primary-text' {
+    font-weight: $bold-font-weight;
+    font-size: $sm-font-size;
+    color: $secondary-dark-color;
+  } @else if $type == 'secondary-text' {
+    font-weight: $regular-font-weight;
+    font-size: $l-font-size;
+    color: $secondary-dark-color;
+  } @else if $type == 'subtitle' {
+    font-weight: $regular-font-weight;
+    font-size: $xs-font-size;
+    color: $secondary-dark-color;
+  } @else {
+    @error "#{$type} is not one of the available font styles. \
+            Check _mixins.scss to see which font styles you can use.";
+  }
+}
+
+// TODO
+@mixin mousedown {
+  &:hover:active {
+    @content;
+  }
+}

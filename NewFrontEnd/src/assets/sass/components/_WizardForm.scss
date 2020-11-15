@@ -1,0 +1,14 @@
+.nav-arrow {
+  position: absolute !important;
+  top: 50%;
+}
+
+.arrow-icon {
+  min-width: 28px;
+}
+
+.wizard-form-modal-dialog {
+  @include media-breakpoint-up('md') {
+    max-width: 90%;
+  }
+}

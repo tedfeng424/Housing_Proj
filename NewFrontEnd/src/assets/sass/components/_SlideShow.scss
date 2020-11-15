@@ -1,0 +1,13 @@
+.slide-preview {
+  position: relative;
+  background-color: aqua;
+}
+
+.slide-preview li {
+  margin: 0 5px 5px 0;
+  border: 1px solid black;
+}
+
+.selected-img {
+  filter: brightness(50%);
+}

@@ -1,0 +1,49 @@
+.house-card {
+  @extend .secondary-border-thin;
+  background-color: theme-color('secondary-light');
+  border-radius: 25px; // TODO make variable
+  overflow: hidden;
+}
+
+.house-pic {
+  height: 200px;
+}
+
+.house-card-right {
+  color: theme-color('secondary');
+  font-weight: normal;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.house-card-right-row {
+  text-align: right;
+}
+
+.house-card-right-top {
+  padding-top: 0.25rem;
+}
+
+.house-card-left {
+  color: theme-color('focused-color');
+  font-style: normal;
+  font-weight: bold;
+}
+
+.house-card-price {
+  color: $primary-dark-color;
+  font-size: 24px;
+  line-height: 29px;
+}
+
+.house-card-left-bottom {
+  color: $primary-dark-color;
+  line-height: 20px;
+}
+
+.divider {
+  color: rgba(77, 94, 59, 0.2);
+  font-weight: bold;
+}

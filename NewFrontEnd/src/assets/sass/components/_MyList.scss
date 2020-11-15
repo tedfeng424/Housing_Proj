@@ -1,0 +1,29 @@
+// TODO change the widths/heights to not use exact values. need to allow them to be reactive
+.my-list {
+  background-color: rgba(253, 244, 240, 1);
+  border-radius: 22px;
+  width: 223px;
+  height: 470px;
+  text-align: center;
+  font-size: 24px;
+  overflow-y: auto;
+}
+
+.my-list-card {
+  background-color: white;
+  // margin: auto;
+  width: 221px;
+  height: 70px;
+  border-radius: 15px;
+  font-size: 12px;
+  display: flex;
+  margin: 0px 1px 1px;
+}
+
+.my-list-image {
+  display: block;
+  width: 52px;
+  height: 61px;
+  border-radius: 13px;
+  align-self: center;
+}
