@@ -104,7 +104,7 @@ const HouseProfile: React.FC<PathProps> = ({
       <Container className="p-0">
         <Row>
           {/* first column */}
-          <Col sm={12} lg={5}>
+          <Col sm={12} lg={4}>
             <PreviewSlideShow
               items={slideShowItems}
               className="house-profile-preview-slideshow"
@@ -169,10 +169,9 @@ const HouseProfile: React.FC<PathProps> = ({
           </Col>
 
           {/* third column */}
-          <Col sm={12} md={6} lg={3} className="d-flex flex-column mt-3">
-            <div className="px-2 pl-lg-1">
+          <Col sm={12} md={6} lg={4} className="d-flex flex-column mt-3">
+            <div className="house-profile-top-half">
               <Button
-                className="w-90"
                 variant="tertiary"
                 onClick={() => {
                   const photos = slideShowItems.map((item) => item.src);
@@ -219,9 +218,9 @@ const HouseProfile: React.FC<PathProps> = ({
               <GoogleMap address={address} />
             </div>
 
-            <Container className="housing-profile-bio">
+            <Container className="housing-profile-bio h-50">
               <Row>
-                <Col md={8} className="text-center">
+                <Col xs={8} className="text-center">
                   <div className="primary-text">{bioName}</div>
 
                   <div className="secondary-text">
@@ -257,8 +256,12 @@ const HouseProfile: React.FC<PathProps> = ({
                   </Row>
                 </Col>
 
-                <Col md={4} className="mt-auto text-center">
-                  <Image src={bioProfilePic} roundedCircle fluid />
+                <Col xs={4} className="mt-auto text-center">
+                  <Image
+                    src={bioProfilePic}
+                    roundedCircle
+                    className="w-100 w-sm-25"
+                  />
                 </Col>
               </Row>
 
