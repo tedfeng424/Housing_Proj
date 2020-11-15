@@ -19,7 +19,7 @@ class User(Base):
     major = Column(String(250))
     description = Column(String(1000), nullable=False)
     room = relationship("Room", backref="user")
-    my_favorite = relationship("My_Favorite", backref='user)
+    bookmark = relationship("bookmark", backref='user)
 
     @property
     def serialize(self):
@@ -48,7 +48,7 @@ class Room(Base):
     move_in_id = Column(Integer, ForeignKey("move_in.id"))
     house_attribute = relationship("House_Attribute", backref="room")
     move_in = relationship("Move_In", backref="room")
-    my_favorite = relationship("My_Favorite", backref = "room")
+    bookmark = relationship("bookmark", backref = "room")
 
     @property
     def serialize(self):
@@ -118,8 +118,8 @@ class Attribute(Base):
             'name': self.name,
             'category': self.category
         }
-class My_Favorite(Base):
-    __tablename__ = 'my_favorite'
+class Bookmark(Base):
+    __tablename__ = 'bookmark'
     
     id = Column(Integer, primary_key=True)
     room_id = Column(Integer, ForeignKey('room.id'))
@@ -137,7 +137,7 @@ class My_Favorite(Base):
 
 if __name__ == '__main__':
     password = os.environ["DBPASSWORD"]
-    engine = create_engine(
-        'mysql://admin:{password}@homehubdopedb.cluster-cdmngikujtht.us-east-2.rds.amazonaws.com:3306/housing'.format(password=password), pool_recycle=1)
+    engine = create_engine('sqlite:///housing.db')
 
     Base.metadata.create_all(engine)
+

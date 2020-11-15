@@ -1,5 +1,5 @@
 from app.db.database_setup import User, Room, Move_In,\
-    House_Attribute, Attribute
+    House_Attribute, Attribute, Bookmark
 from app.util.aws.s3 import get_images, upload_file_wobject
 from datetime import datetime
 
@@ -54,6 +54,15 @@ def add_attribute(name, category, session):
     add_and_commit(Attribute_to_add, session)
     return Attribute_to_add
 
+def add_bookmark(room_id, user_id, session):
+    bookmark_to_add = Bookmark(room_id = room_id, user_id = user_id)
+    add_and_commit(bookmark_to_add, session)
+    return bookmark_to_add
+
+def remove_bookmark(room_id, session):
+    session.query(Bookmark).filter_by(Bookmark.room_id = room_id).delete()
+    session.commit()
+    return
 # Read
 
 
