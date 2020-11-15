@@ -25,26 +25,18 @@ db = SQLAlchemy(app)
 #     'connect_args': {'connect_timeout': 10}}
 app.register_blueprint(authetication)
 app.config['CORS_HEADERS'] = 'Content-Type'
-
+session = db.create_scoped_session()
+app.config['DB_CONNECTION'] = session
 CORS(app)
 
 
 @ app.route('/getRoom', methods=['GET'])
 def showRooms():
     print(datetime.now())
-    RETRY = 3
     rooms_db = []
     success = False
-    track = 0
-    # retry if timeout
-    while not success and track < RETRY:
-        # try:
-            session = db.create_scoped_session()
-            rooms_db = read_rooms(session)
-            success = True
-        # except:
-        #     print("lost connection, retry")
-        #     track += 1
+    rooms_db = read_rooms(session)
+    success = True
     rooms = [room_json(room, session) for room in rooms_db]
     session.remove()
     response = jsonify(rooms)
