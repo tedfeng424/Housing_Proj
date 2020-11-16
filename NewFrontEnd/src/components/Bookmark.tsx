@@ -16,11 +16,7 @@ const Bookmark: React.FC<PathProps> = (props) => {
     <>
       <HouseProfile show={show} setShow={setShow} {...props} />
 
-      <Button
-        variant="no-show"
-        className="mx-1 my-2"
-        onClick={() => setShow(true)}
-      >
+      <Button variant="no-show" className="w-100" onClick={() => setShow(true)}>
         <div className="bookmark">
           <div>
             <img // TODO change this to be a carousel (first need to update the carousel)

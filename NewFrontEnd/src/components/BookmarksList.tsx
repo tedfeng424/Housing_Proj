@@ -23,10 +23,12 @@ const BookmarksList: React.FC<{}> = () => {
       <div className="bookmarks-list-title">Bookmarks</div>
       {favorites && // TODO this should be handled within the loader component (not yet made)
         Object.values(favorites).map((favorite) => (
-          <Bookmark
-            key={favorite.roomId}
-            {...favorite} // TODO
-          />
+          <div className="w-100 mb-1 px-1">
+            <Bookmark
+              key={favorite.roomId}
+              {...favorite} // TODO
+            />
+          </div>
         ))}
     </div>
   );
