@@ -13,13 +13,14 @@
   font-size: 24px;
 }
 
-.title {
+.filter-title {
   @extend .mb-3;
   @include font-type('title');
+
   text-align: center;
-  line-height: 57px;
-  width: 229px;
-  height: 57px;
+  line-height: 60px;
+  width: 230px;
+  height: 60px;
   color: $primary-dark-color;
   background-image: url('../../icons/misc/wordBubble.svg');
 }

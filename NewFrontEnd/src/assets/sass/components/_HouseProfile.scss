@@ -57,7 +57,7 @@
 
 .house-profile-modal {
   .modal-content {
-    @extend .secondary-border-thin;
+    @include thin-border('lg');
     padding: 0;
   }
 }

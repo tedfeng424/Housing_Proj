@@ -35,7 +35,7 @@ const NavBar: React.FC = () => {
             ) : (
               <Button
                 variant="no-show"
-                className="g-sign-in no-show"
+                className="g-sign-out"
                 onClick={() => dispatch(logout())}
               >
                 Log Out
