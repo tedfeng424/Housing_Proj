@@ -89,6 +89,9 @@ const newHousingPostAPI = async (
 const getHousingBookmarksAPI = async () => {
   try {
     const result = await backendAPI.get<HousePost[]>('/bookmark', {
+      headers: {
+        'content-type': 'application/json',
+      },
       withCredentials: true,
     });
     console.log(result);

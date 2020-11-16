@@ -37,6 +37,9 @@ export const authSlice = createSlice({
         cookies.set('user', action.payload, {
           maxAge: 4320, // expires  72 hours after login
         });
+        console.log(action.payload.token);
+        console.log(cookies.get('access_token'));
+        // cookies.set('access_token', action.payload.token);
       } else {
         cookies.remove('user');
       }
