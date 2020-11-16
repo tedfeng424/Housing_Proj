@@ -1,5 +1,6 @@
 .google-map-wrapper {
-  height: 25%;
+  @extend .px-3;
+  height: 30%;
   min-height: 20vh;
   width: 100%;
 }

@@ -1,27 +1,21 @@
+import { User } from '../assets/models/User';
 import { backendAPI } from './apiBases';
 
-export interface UserLoginResponse {
+export interface UserLoginResponse extends Omit<User, 'token'> {
   access_token: string;
-  email: string;
   message: string;
-  user: string; // the user's name
-  imageUrl: string; // TODO i don't get an imageurl when logging in for some reason?
 }
 
 /**
  * Login a user to a session.
  * @param name - the user's name
  * @param email - the user's email
- * @param imageUrl - the user's profile image Url
  * @returns - undefined if error occured, otherwise UserLoginResponse, which includes an access token,
  *            email, message, user, imageUrl
  */
-const userLogIn = async (
-  name: string,
-  email: string,
-): Promise<UserLoginResponse | undefined> => {
+const userLogIn = async (name: string, email: string) => {
   try {
-    const response = await backendAPI.post(
+    const response = await backendAPI.post<UserLoginResponse>(
       '/login',
       JSON.stringify({ name, email }),
       {
@@ -31,9 +25,15 @@ const userLogIn = async (
         withCredentials: true,
       },
     );
-
     if (response.request?.status !== 200) throw Error('Bad request');
-    return response.data;
+
+    const data: User = {
+      name: response.data.name,
+      email: response.data.email,
+      token: response.data.access_token,
+    };
+
+    return data;
   } catch (err) {
     console.error(err);
     return undefined;
@@ -49,9 +49,9 @@ const userLogIn = async (
  * @param token - the token for the user's session.
  * @returns - undefined if error occured, string result message otherwise
  */
-const userLogOut = async (token: string): Promise<string | undefined> => {
+const userLogOut = async (token: string) => {
   try {
-    const response = await backendAPI.post(
+    const response = await backendAPI.post<string>(
       '/logout',
       // eslint-disable-next-line @typescript-eslint/camelcase
       { access_token: token },

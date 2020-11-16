@@ -220,7 +220,7 @@ const HouseProfile: React.FC<PathProps> = ({
 
             <Container className="housing-profile-bio h-50">
               <Row>
-                <Col xs={8} className="text-center">
+                <Col xs={8} lg={9} className="text-center">
                   <div className="primary-text">{bioName}</div>
 
                   <div className="secondary-text">
@@ -256,12 +256,8 @@ const HouseProfile: React.FC<PathProps> = ({
                   </Row>
                 </Col>
 
-                <Col xs={4} className="mt-auto text-center">
-                  <Image
-                    src={bioProfilePic}
-                    roundedCircle
-                    className="w-100 w-sm-25"
-                  />
+                <Col xs={4} lg={3} className="mt-auto text-center">
+                  <Image src={bioProfilePic} roundedCircle className="w-100" />
                 </Col>
               </Row>
 
