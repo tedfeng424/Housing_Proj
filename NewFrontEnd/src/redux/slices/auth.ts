@@ -25,15 +25,12 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<User | undefined>) => {
-      console.log('setting user');
       state.user = action.payload;
       if (action.payload) {
         cookies.set('user', action.payload, {
+          // TODO should probably set this from the backend as well (similar to access_token)
           maxAge: 4320, // expires  72 hours after login
         });
-        console.log(action.payload.token);
-        console.log(cookies.get('access_token'));
-        // cookies.set('access_token', action.payload.token);
       } else {
         cookies.remove('user');
       }
@@ -48,8 +45,6 @@ export const { setUser } = authSlice.actions;
 export const login = (name: string, email: string): AppThunk => async (
   dispatch,
 ) => {
-  console.log('logging in');
-  // login api function call here to the backend
   const response = await userLogIn(name, email);
   if (response) {
     dispatch(
@@ -64,14 +59,12 @@ export const login = (name: string, email: string): AppThunk => async (
 
 // TODO this doesn't seem to be able to handle when the cookie times out
 export const logout = (): AppThunk => async (dispatch, getState) => {
-  console.log('logging out');
   // remove cookies here, which will automatically update the user
   const token = getState().auth.user?.token;
   if (!token) return;
 
   const response = await userLogOut(token);
   if (response) {
-    console.log('dispatching the logout');
     dispatch(setUser(undefined)); // TODO not sure if this is needed
   }
 };

@@ -3,7 +3,7 @@ from flask import current_app, Blueprint, request, \
 from app.db.crud import check_exist, add_user
 from app.db.database_setup import User
 from datetime import datetime
-from app.util.util import handleOptions
+from app.util.util import generateResponse
 from app.util.aws.s3 import upload_file_wname
 import os
 import random
@@ -16,7 +16,7 @@ authetication = Blueprint('auth', __name__)
 def login():
     """Create anti-forgery state token."""
     if request.method == 'OPTIONS':
-        return handleOptions()
+        return generateResponse()
     access_token = "".join(random.choice(string.ascii_uppercase + string.digits)
                            for x in range(32))
     login_session["access_token"] = access_token
@@ -25,29 +25,26 @@ def login():
     session = current_app.config['DB_CONNECTION']
     user = check_exist(User, session, **{'email': requested_json['email']})
     if not user:
-        add_user(requested_json['name'], requested_json['email'],
-                 datetime.now(),
-                 "", "", "", "",
-                 session)
+        user = add_user(requested_json['name'], requested_json['email'],
+                        datetime.now(),
+                        "", "", "", "",
+                        session)
         icon_path = './assets/profile_default_icons/'
         selected_icon = random.choice(
             os.listdir(icon_path))
         path_name = "/".join([requested_json['email'],
                               'profile', selected_icon])
         upload_file_wname(icon_path+selected_icon, 'houseit', path_name)
-    
+
     login_session["user_id"] = user.id
 
-    json_response = {}
-    json_response['user'] = requested_json['name']
-    json_response['email'] = requested_json['email']
-    json_response['access_token'] = access_token
-    json_response['message'] = 'Successfully created room.'
-    response = jsonify(json_response)
-    response.headers['Access-Control-Allow-Credentials'] = 'true'
-    response.headers['Access-Control-Allow-Headers'] = "Content-Type"
-    response.headers['Content-Type'] = 'application/json'
-    response.set_cookie('access_token', access_token) # TODO test
+    json_response = {'user': requested_json['name'],
+                     'email': requested_json['email'],
+                     'access_token': access_token,
+                     'message': 'Successfully created room.'
+                     }
+    response = generateResponse(json_response)
+    response.set_cookie('access_token', access_token)
     print(access_token)
     return response
 
@@ -55,16 +52,10 @@ def login():
 @authetication.route("/logout", methods=['POST', 'OPTIONS'])
 def logout():
     if request.method == 'OPTIONS':
-        return handleOptions()
+        return generateResponse()
     client_token = request.json.get('access_token')
-    if client_token and (client_token == login_session["access_token"]):
-        response = Response("Successful Logout!", status=200,
-                            mimetype='application/json')
-        response.headers['Access-Control-Allow-Credentials'] = 'true'
-        return response
-    else:
+    message, status = 'Successful Logout!', 200
+    if not client_token or (client_token != login_session["access_token"]):
+        message, status = 'Logout is Forbidden due to wrong token', 403
         print(client_token, login_session["access_token"])
-        response = Response("Logout is Forbidden due to wrong token",
-                            status=403, mimetype='application/json')
-        response.headers['Access-Control-Allow-Credentials'] = 'true'
-        return response
+    return generateResponse(elem=message, status=status)
