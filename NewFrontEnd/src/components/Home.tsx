@@ -10,7 +10,7 @@ import Filter from './Filter';
 import TV from './TV';
 import Login from './Login';
 import HousingPost from './HousingPostForm';
-import MyList from './MyList';
+import MyList from './BookmarksList';
 
 const Home: React.FC = () => {
   const [showLogin, setShowLogin] = useState<boolean>(false);

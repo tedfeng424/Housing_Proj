@@ -35,17 +35,17 @@ const HouseCard: React.FC<PathProps> = ({
 }) => {
   const [show, setShow] = useState<boolean>(false);
   const [moveIn, setMoveIn] = useState<string>('');
-  const [slideShowContent, setSlideShowContent] = useState<SlideShowItem[]>([]);
+  const [slideShowItems, setSlideShowItems] = useState<SlideShowItem[]>([]);
 
-  // set the slide show content
+  // set the slide show items
   useEffect(() => {
-    setSlideShowContent(
+    setSlideShowItems(
       photos.map((url) => ({
         src: `https://houseit.s3.us-east-2.amazonaws.com/${url}`,
         alt: `${leaserEmail} , ${location}}`,
       })),
     );
-  }, [setSlideShowContent, photos, leaserEmail, location]);
+  }, [setSlideShowItems, photos, leaserEmail, location]);
 
   // abbreviate the move in date
   useEffect(() => {
@@ -68,25 +68,24 @@ const HouseCard: React.FC<PathProps> = ({
   return (
     <>
       <HouseProfile
-        slideShowItems={slideShowContent}
+        photos={photos}
         pricePerMonth={pricePerMonth}
         roomType={roomType}
-        moveIn={moveIn}
         early={early}
         late={late}
         distance={distance}
-        address={location}
-        houseName={name}
+        location={location}
+        name={name}
         stayPeriod={stayPeriod}
         facilities={facilities}
-        lookingFor={other}
-        bioName={leaserName}
-        bioYear={leaserSchoolYear}
-        bioMajor={leaserMajor}
-        email={leaserEmail}
-        phone={leaserPhone}
-        bioProfilePic={profilePhoto}
-        bioDescription={leaserIntro}
+        other={other}
+        leaserName={leaserName}
+        leaserSchoolYear={leaserSchoolYear}
+        leaserMajor={leaserMajor}
+        leaserEmail={leaserEmail}
+        leaserPhone={leaserPhone}
+        profilePhoto={profilePhoto}
+        leaserIntro={leaserIntro}
         roomId={roomId}
         show={show}
         setShow={setShow}
@@ -97,7 +96,7 @@ const HouseCard: React.FC<PathProps> = ({
           <Container>
             <Row className="house-pic">
               <SlideShow
-                images={slideShowContent}
+                images={slideShowItems}
                 onImageClick={() => setShow(true)}
               />
             </Row>

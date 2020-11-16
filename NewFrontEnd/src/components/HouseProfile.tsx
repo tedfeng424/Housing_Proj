@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -19,6 +19,8 @@ import { SlideShowItem } from './SlideShow';
 import { contactIcons, miscIcons, facilityIcons } from '../assets/icons/all';
 
 import { HousePost } from '../assets/models/PostModels';
+import { months } from '../assets/constants';
+import { removeParentheses, abbreviateMonth } from '../assets/utils';
 
 const Ellipse: React.FC<{}> = () => (
   <Row className="justify-content-center">
@@ -41,57 +43,66 @@ const GetIcon: React.FC<{ str: keyof typeof facilityToIcon }> = ({ str }) => (
   <div className="mt-2">{facilityToIcon[str]}</div>
 );
 
-interface PathProps {
-  slideShowItems: SlideShowItem[];
-  houseName: string;
-  pricePerMonth: number;
-  roomType: string;
-  moveIn: string;
-  early: string;
-  late: string;
-  stayPeriod: number;
-  facilities: (keyof typeof facilityToIcon)[];
-  lookingFor: string[];
-  distance: string;
-  address: string;
-  bioName: string;
-  bioYear: number;
-  bioMajor: string;
-  email: string;
-  phone: string;
-  bioProfilePic: string;
-  bioDescription: string;
-  roomId: number;
+interface PathProps extends HousePost {
   show: boolean;
   setShow: (show: boolean) => void;
 }
 
 const HouseProfile: React.FC<PathProps> = ({
-  slideShowItems,
-  houseName,
+  name,
   pricePerMonth,
   roomType,
-  moveIn,
   early,
   late,
-  stayPeriod,
-  facilities,
-  lookingFor,
   distance,
-  address,
-  bioName,
-  bioYear,
-  bioMajor,
-  email,
-  phone,
-  bioProfilePic,
-  bioDescription,
+  location,
+  photos,
+  profilePhoto,
+  stayPeriod,
+  leaserName,
+  leaserSchoolYear,
+  leaserMajor,
+  leaserIntro,
+  leaserEmail,
+  leaserPhone,
   roomId,
+  other,
+  facilities,
   show,
   setShow,
 }) => {
   const favorites = useSelector(selectHousingFavorites);
   const dispatch = useDispatch();
+  const [moveIn, setMoveIn] = useState<string>('');
+  const [slideShowItems, setSlideShowItems] = useState<SlideShowItem[]>([]);
+
+  // set the slide show content
+  useEffect(() => {
+    setSlideShowItems(
+      photos.map((url) => ({
+        src: `https://houseit.s3.us-east-2.amazonaws.com/${url}`,
+        alt: `${leaserEmail} , ${location}}`,
+      })),
+    );
+  }, [photos, leaserEmail, location]);
+
+  // abbreviate the move in date
+  useEffect(() => {
+    const [earlyInt, earlyMonth] = early.split(' ') as [string, months];
+    const [lateInt, lateMonth] = late.split(' ') as [string, months];
+
+    // TODO temporary, 'anytime' should not be in the database (same with the removeParentheses)
+    const earlyIntDisplayed =
+      earlyInt.toLowerCase() === 'anytime' ? '' : removeParentheses(earlyInt);
+    const lateIntDisplayed =
+      lateInt.toLowerCase() === 'anytime' ? '' : removeParentheses(lateInt);
+
+    setMoveIn(
+      `${earlyIntDisplayed} ${abbreviateMonth(
+        earlyMonth,
+      )} - ${lateIntDisplayed} ${abbreviateMonth(lateMonth)}`,
+    );
+  }, [early, late]);
 
   return (
     <Modal
@@ -116,7 +127,7 @@ const HouseProfile: React.FC<PathProps> = ({
             {/* mt-3 mt-lg-5 mt-md-4 */}
             <Container className="d-flex flex-column justify-content-around mx-3 mx-lg-0 h-100">
               <Row className="justify-content-center flex-grow-0">
-                <span className="housing-profile-house-type">{houseName}</span>
+                <span className="housing-profile-house-type">{name}</span>
               </Row>
 
               <Row>
@@ -161,7 +172,7 @@ const HouseProfile: React.FC<PathProps> = ({
 
               <Row className="subtitle-text">Looking for</Row>
               <ul className="primary-text">
-                {lookingFor.map((description) => (
+                {other.map((description) => (
                   <li key={description}>{description}</li>
                 ))}
               </ul>
@@ -178,23 +189,23 @@ const HouseProfile: React.FC<PathProps> = ({
                   const housePost = {
                     // TODO change the prop vars to be the same name as HouseCard
                     photos,
-                    name: houseName,
+                    name,
                     pricePerMonth,
                     roomType,
                     early,
                     late,
                     stayPeriod,
                     facilities,
-                    other: lookingFor,
+                    other,
                     distance,
-                    location: address,
-                    leaserName: bioName,
-                    leaserSchoolYear: bioYear,
-                    leaserMajor: bioMajor,
-                    leaserEmail: email,
-                    leaserPhone: phone,
-                    profilePhoto: bioProfilePic,
-                    leaserIntro: bioDescription,
+                    location,
+                    leaserName,
+                    leaserSchoolYear,
+                    leaserMajor,
+                    leaserEmail,
+                    leaserPhone,
+                    profilePhoto,
+                    leaserIntro,
                     roomId,
                   };
                   if (favorites && favorites[roomId]) {
@@ -214,42 +225,42 @@ const HouseProfile: React.FC<PathProps> = ({
               <div className="address-related-text">
                 {distance} public transit to school
               </div>
-              <div className="secondary-text">{address}</div>
-              <GoogleMap address={address} />
+              <div className="secondary-text">{location}</div>
+              <GoogleMap address={location} />
             </div>
 
             <Container className="housing-profile-bio h-50">
               <Row>
                 <Col xs={8} lg={9} className="text-center">
-                  <div className="primary-text">{bioName}</div>
+                  <div className="primary-text">{leaserName}</div>
 
                   <div className="secondary-text">
-                    {bioYear} | {bioMajor}
+                    {leaserSchoolYear} | {leaserMajor}
                   </div>
 
                   <Row className="justify-content-center">
                     <OverlayTrigger
                       placement="bottom"
-                      overlay={<Tooltip id="tooltip">{email}</Tooltip>}
+                      overlay={<Tooltip id="tooltip">{leaserEmail}</Tooltip>}
                     >
                       <contactIcons.email
                         className="d-block mr-3"
                         onClick={async () => {
-                          await navigator.clipboard.writeText(email);
-                          window.open(`mailto:${email}`, '_blank');
+                          await navigator.clipboard.writeText(leaserEmail);
+                          window.open(`mailto:${leaserEmail}`, '_blank');
                         }}
                       />
                     </OverlayTrigger>
 
                     <OverlayTrigger
                       placement="bottom"
-                      overlay={<Tooltip id="tooltip">{phone}</Tooltip>}
+                      overlay={<Tooltip id="tooltip">{leaserPhone}</Tooltip>}
                     >
                       <contactIcons.phone
                         className="d-block mr-3"
                         onClick={async () => {
-                          await navigator.clipboard.writeText(phone);
-                          window.open(`tel:${phone}`, '_blank');
+                          await navigator.clipboard.writeText(leaserPhone);
+                          window.open(`tel:${leaserPhone}`, '_blank');
                         }}
                       />
                     </OverlayTrigger>
@@ -257,12 +268,12 @@ const HouseProfile: React.FC<PathProps> = ({
                 </Col>
 
                 <Col xs={4} lg={3} className="mt-auto text-center">
-                  <Image src={bioProfilePic} roundedCircle className="w-100" />
+                  <Image src={profilePhoto} roundedCircle className="w-100" />
                 </Col>
               </Row>
 
               <div className="housing-profile-speech-bubble">
-                {bioDescription}
+                {profilePhoto}
               </div>
             </Container>
           </Col>
