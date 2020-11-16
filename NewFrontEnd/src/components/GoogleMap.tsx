@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import GoogleMapReact from 'google-map-react';
+import GoogleMapReact, { Coords } from 'google-map-react';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
+import { mapIcons } from '../assets/icons/all';
 
-const AnyReactComponent = ({ text }: any) => <div>{text}</div>;
+const MapPin: React.FC<Coords> = () => <mapIcons.mapPin />;
 
 interface PathProps {
   address: string;
 }
+
 const GoogleMap: React.FC<PathProps> = ({ address }) => {
-  const [center, setCenter] = useState({ lat: 11.0168, lng: 76.9558 });
-  const [zoom, setZoom] = useState(11);
+  const [center, setCenter] = useState<Coords>({ lat: 11.0168, lng: 76.9558 });
+  const [zoom, setZoom] = useState(12);
 
   useEffect(() => {
     // Mounted is needed for React (not always necessary). You can only update a component's
@@ -37,11 +39,7 @@ const GoogleMap: React.FC<PathProps> = ({ address }) => {
         center={center}
         defaultZoom={zoom}
       >
-        <AnyReactComponent
-          lat={center.lat}
-          lng={center.lng}
-          text="I am Here!"
-        />
+        <MapPin lat={center.lat} lng={center.lng} />
       </GoogleMapReact>
     </div>
   );

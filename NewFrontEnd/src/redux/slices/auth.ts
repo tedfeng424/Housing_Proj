@@ -2,15 +2,9 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import Cookies from 'universal-cookie';
 import { AppThunk, RootState } from '../store'; // TODO
 import { userLogIn, userLogOut } from '../../apis/index';
+import { User } from '../../assets/models/User';
 
 const cookies = new Cookies();
-
-interface User {
-  name: string;
-  email: string;
-  imageUrl: string;
-  token: string;
-}
 
 interface AuthState {
   user?: User;
@@ -37,6 +31,9 @@ export const authSlice = createSlice({
         cookies.set('user', action.payload, {
           maxAge: 4320, // expires  72 hours after login
         });
+        console.log(action.payload.token);
+        console.log(cookies.get('access_token'));
+        // cookies.set('access_token', action.payload.token);
       } else {
         cookies.remove('user');
       }
@@ -57,10 +54,9 @@ export const login = (name: string, email: string): AppThunk => async (
   if (response) {
     dispatch(
       setUser({
-        name: response.user,
+        name: response.name,
         email: response.email,
-        imageUrl: response.imageUrl,
-        token: response.access_token,
+        token: response.token,
       }),
     );
   }
