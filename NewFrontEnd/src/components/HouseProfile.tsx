@@ -185,7 +185,6 @@ const HouseProfile: React.FC<PathProps> = ({
               <Button
                 variant="tertiary"
                 onClick={() => {
-                  const photos = slideShowItems.map((item) => item.src);
                   const housePost = {
                     // TODO change the prop vars to be the same name as HouseCard
                     photos,
@@ -210,7 +209,7 @@ const HouseProfile: React.FC<PathProps> = ({
                   };
                   if (favorites && favorites[roomId]) {
                     // need to remove from the favorites
-                    dispatch(removeHousingFavorite(roomId)); // TODO temporarily use getHousePostId
+                    dispatch(removeHousingFavorite(roomId));
                   } else {
                     // need to add to the favorites
                     dispatch(newHousingFavorite(housePost));
@@ -272,9 +271,7 @@ const HouseProfile: React.FC<PathProps> = ({
                 </Col>
               </Row>
 
-              <div className="housing-profile-speech-bubble">
-                {profilePhoto}
-              </div>
+              <div className="housing-profile-speech-bubble">{leaserIntro}</div>
             </Container>
           </Col>
         </Row>

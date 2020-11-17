@@ -10,7 +10,7 @@ import Filter from './Filter';
 import TV from './TV';
 import Login from './Login';
 import HousingPost from './HousingPostForm';
-import MyList from './BookmarksList';
+import BookmarksList from './BookmarksList';
 
 const Home: React.FC = () => {
   const [showLogin, setShowLogin] = useState<boolean>(false);
@@ -65,7 +65,7 @@ const Home: React.FC = () => {
 
         {/* see if either md=3 or md=auto works -Keenan */}
         <Col md={3}>
-          <MyList />
+          <BookmarksList />
         </Col>
       </Row>
     </Container>

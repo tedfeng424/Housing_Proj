@@ -13,6 +13,7 @@ import facilityIcons from './facilities/all';
 import filterIcons from './filter/all';
 import carouselIcons from './carousel/all';
 import mapIcons from './map/all';
+import bookmarkIcons from './bookmarks/all';
 
 export {
   navIcons,
@@ -28,4 +29,5 @@ export {
   filterIcons,
   carouselIcons,
   mapIcons,
+  bookmarkIcons,
 };
