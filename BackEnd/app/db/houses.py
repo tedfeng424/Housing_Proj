@@ -56,9 +56,9 @@ adam_move_in = add_move_in(
     "Anytime", "January", "Late(21-31)", "October", session)
 
 # Add mock Attribute
-attr_gym = add_attribute('gym room', 'facilities', session)
-attr_park = add_attribute('parking', 'facilities', session)
-attr_ele = add_attribute('elevator', 'facilities', session)
+attr_gym = add_attribute('Gym room', 'facilities', session)
+attr_park = add_attribute('Parking', 'facilities', session)
+attr_ele = add_attribute('Elevator', 'facilities', session)
 attr_male = add_attribute('male', 'other', session)
 attr_pri = add_attribute('private', 'other', session)
 attr_female = add_attribute('female', 'other', session)
