@@ -10,7 +10,7 @@ import Filter from './Filter';
 import TV from './TV';
 import Login from './Login';
 import HousingPost from './HousingPostForm';
-import MyList from './MyList';
+import MyList from './BookmarksList';
 
 const Home: React.FC = () => {
   const [showLogin, setShowLogin] = useState<boolean>(false);
@@ -37,7 +37,7 @@ const Home: React.FC = () => {
           <TV>
             {!user ? (
               <>
-                <div className="secondary-title mt-3">Hello</div>
+                <div className="special-text mt-3">Hello</div>
                 <div className="tv-separator" />
                 <Button variant="secondary" onClick={handleShowLogin}>
                   Sign in to post
@@ -46,7 +46,7 @@ const Home: React.FC = () => {
             ) : (
               <>
                 {/* TODO this is temporary for while the 'Post ur request' is disabled */}
-                <div className="secondary-title mt-3">Hello</div>
+                <div className="special-text mt-3">Hello</div>
                 <div className="tv-separator" />
                 <Button variant="secondary" onClick={handleShowHousingPost}>
                   Post here

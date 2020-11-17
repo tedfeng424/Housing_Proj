@@ -151,7 +151,7 @@ const Filter: React.FC<{}> = () => {
         <Container>
           <Form>
             <Row className="justify-content-center my-4">
-              <div className="title">Distance</div>
+              <div className="filter-title">Distance</div>
             </Row>
             <Row className="justify-content-center">
               <span className="word">Less than </span>
@@ -177,7 +177,7 @@ const Filter: React.FC<{}> = () => {
               {/* Room Type */}
               <Col md={12} lg={6} className="justify-content-center">
                 <Row className="justify-content-center">
-                  <div className="title">Room Type</div>
+                  <div className="filter-title">Room Type</div>
                 </Row>
                 <Row className="justify-content-center">
                   {(Object.keys(roomType) as Array<keyof typeof roomType>).map(
@@ -219,7 +219,7 @@ const Filter: React.FC<{}> = () => {
                 className="justify-content-center"
               >
                 <Row className="justify-content-center">
-                  <div className="title">Price Range</div>
+                  <div className="filter-title">Price Range</div>
                 </Row>
 
                 <Form.Row className="justify-content-center m-2">
@@ -280,7 +280,7 @@ const Filter: React.FC<{}> = () => {
               {/* Move in time */}
               <Col md={12} lg={6} className="justify-content-center">
                 <Row className="justify-content-center">
-                  <div className="title">Move in time</div>
+                  <div className="filter-title">Move in time</div>
                 </Row>
 
                 <Row className="justify-content-center">
@@ -403,7 +403,7 @@ const Filter: React.FC<{}> = () => {
                 className="justify-content-center"
               >
                 <Row className="justify-content-center">
-                  <div className="title">Stay period</div>
+                  <div className="filter-title">Stay period</div>
                 </Row>
                 <Row className="justify-content-center">
                   <Col>
@@ -431,7 +431,7 @@ const Filter: React.FC<{}> = () => {
             <Separator className="my-4" />
 
             <Row className="justify-content-md-center">
-              <span className="title">Others</span>
+              <span className="filter-title">Others</span>
             </Row>
 
             {/* TODO */}

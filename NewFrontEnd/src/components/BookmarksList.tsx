@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,9 +7,10 @@ import {
   getHousingFavorites,
   selectHousingFavorites,
 } from '../redux/slices/housing';
-import MyListCard from './MyListCard';
+import Bookmark from './Bookmark';
+import HouseProfile from './HouseProfile';
 
-const MyList: React.FC<{}> = () => {
+const BookmarksList: React.FC<{}> = () => {
   const favorites = useSelector(selectHousingFavorites);
   const dispatch = useDispatch();
 
@@ -18,22 +19,19 @@ const MyList: React.FC<{}> = () => {
   }, [dispatch]);
 
   return (
-    <Container className="my-list">
-      <span className="title">Bookmarks</span>
+    <div className="bookmarks-list">
+      <div className="bookmarks-list-title">Bookmarks</div>
       {favorites && // TODO this should be handled within the loader component (not yet made)
         Object.values(favorites).map((favorite) => (
-          <Row key={JSON.stringify(favorite) /* TODO favorite.id */}>
-            <MyListCard
+          <div className="w-100 mb-1 px-1">
+            <Bookmark
+              key={favorite.roomId}
               {...favorite} // TODO
-              // name={favorite.leaserName}
-              // phone={favorite.leaserPhone}
-              // email={favorite.leaserEmail}
-              // photos={favorite.photos}
             />
-          </Row>
+          </div>
         ))}
-    </Container>
+    </div>
   );
 };
 
-export default MyList;
+export default BookmarksList;
