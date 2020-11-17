@@ -161,7 +161,7 @@ const Filter: React.FC<{}> = () => {
                 min={0}
                 max={120}
                 value={minute}
-                onChange={(event) => setMinute(parseInt(event.target.value))}
+                onChange={(event) => setMinute(parseInt(event.target.value))} // TODO only parse teh int before making the api request
                 isValid={minute > 0 && minute <= 120}
                 isInvalid={minute <= 0 || minute > 120}
                 placeholder="minutes to school"

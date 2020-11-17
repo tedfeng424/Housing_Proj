@@ -67,7 +67,7 @@ const searchHousingPostsAPI = async ({
 };
 
 const newHousingPostAPI = async (
-  roomForm: FormData,
+  roomForm: HousePost, // TODO
 ): Promise<any[] | undefined> => {
   try {
     const result = await backendAPI.post('/postRoom', roomForm, {

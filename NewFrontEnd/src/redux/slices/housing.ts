@@ -6,6 +6,7 @@ import { AppThunk, RootState } from '../store';
 import {
   addHousingBookmarkAPI,
   getHousingBookmarksAPI,
+  newHousingPostAPI,
   removeHousingBookmarkAPI,
 } from '../../apis/housing';
 
@@ -13,15 +14,24 @@ import {
 // folder, selectors in another, reducers in another, and then export them and import
 // them to here
 
+// TODO move this to a different file
+enum SearchingMode {
+  NOT_SEARCHING,
+  STARTED,
+  FINISHED,
+}
+
 interface HousingState {
   posts?: HousePost[]; // TODO change this to be a object from the housepost's id to the housepost, then change favorites to be id: boolean
   // TODO eventually do this: searchResults?: HousePost[];     and have a 'SearchResultsLoading' boolean
   favorites?: { [id: string]: HousePost };
+  searching: SearchingMode;
 }
 
 const initialState: HousingState = {
   posts: undefined,
   favorites: undefined,
+  searching: SearchingMode.NOT_SEARCHING,
 };
 
 export const housingSlice = createSlice({
@@ -64,6 +74,9 @@ export const housingSlice = createSlice({
         delete state.favorites[action.payload];
       }
     },
+    setSearchingMode: (state, action: PayloadAction<SearchingMode>) => {
+      state.searching = action.payload;
+    },
   },
 });
 
@@ -76,6 +89,7 @@ const {
   setHousingFavorites,
   addToHousingFavorites,
   removeFromHousingFavorites,
+  setSearchingMode,
 } = housingSlice.actions;
 
 // PUT THUNKS HERE
@@ -88,16 +102,23 @@ export const getHousingPosts = (): AppThunk => async (dispatch) => {
 export const searchHousingPosts = (housePost: FilterModel): AppThunk => async (
   dispatch,
 ) => {
-  const searchResults = await searchHousingPostsAPI(housePost);
-  dispatch(setHousingPosts(searchResults)); // TODO this is temporary. eventually have a separate var for the search results
+  try {
+    dispatch(setSearchingMode(SearchingMode.STARTED));
+    const searchResults = await searchHousingPostsAPI(housePost);
+    dispatch(setHousingPosts(searchResults));
+    dispatch(setSearchingMode(SearchingMode.FINISHED));
+  } catch (err) {
+    // handle error
+    console.error(err);
+  }
 };
 
 export const newHousingPost = (housePost: HousePost): AppThunk => async (
   dispatch,
 ) => {
-  const result = true; // TODO await newHousingPostAPI(housePost);
+  const result = await newHousingPostAPI(housePost);
   if (result) {
-    dispatch(appendToHousingPosts([housePost]));
+    // dispatch(appendToHousingPosts([housePost]));
   } else {
     // handle the error
   }

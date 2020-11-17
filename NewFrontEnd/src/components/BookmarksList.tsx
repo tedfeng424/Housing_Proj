@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bookmarkIcons } from '../assets/icons/all';
-import { HousePost } from '../assets/models/PostModels';
 import {
   getHousingFavorites,
   selectHousingFavorites,
 } from '../redux/slices/housing';
 import Bookmark from './Bookmark';
-import HouseProfile from './HouseProfile';
 
-const BookmarksList: React.FC<{}> = () => {
+const BookmarksList: React.FC = () => {
   const favorites = useSelector(selectHousingFavorites);
   const dispatch = useDispatch();
 
@@ -27,11 +23,8 @@ const BookmarksList: React.FC<{}> = () => {
       </div>
       {favorites && // TODO this should be handled within the loader component (not yet made)
         Object.values(favorites).map((favorite) => (
-          <div className="w-100 mb-1 px-1">
-            <Bookmark
-              key={favorite.roomId}
-              {...favorite} // TODO
-            />
+          <div key={favorite.roomId} className="w-100 mb-1 px-1">
+            <Bookmark {...favorite} />
           </div>
         ))}
     </div>
