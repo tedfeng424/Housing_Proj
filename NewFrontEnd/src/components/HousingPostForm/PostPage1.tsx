@@ -2,27 +2,17 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { WizardFormStep } from '../WizardForm';
 import { setPost, selectPost } from '../../redux/slices/posting';
+import { useSelector, useDispatch } from 'react-redux';
 
 const nonSelectStyle = 'post-word-sub';
 const selectStyle = 'post-word-sub post-word-sub-selected';
 const nonSelectBg = 'post-word-sub-bg';
 const SelectBg = 'post-word-sub-bg post-word-sub-bg-selected';
 
-export interface PostPage1Store {
-  leaserPhone: string;
-  schoolYear?: string;
-  major: string;
-}
-
-type PathProps = WizardFormStep;
-
-const PostPage1: React.FC<PathProps> = ({ useWizardFormStorage }) => {
-  const [{ leaserPhone, schoolYear, major }, setStore] = useWizardFormStorage<
-    PostPage1Store
-  >();
-
+const PostPage1: React.FC = () => {
+  const selected = useSelector(selectPost).leaserSchoolYear;
+  const dispatch = useDispatch();
   return (
     <Container>
       <Row>
@@ -47,7 +37,7 @@ const PostPage1: React.FC<PathProps> = ({ useWizardFormStorage }) => {
         />
       </Form.Row> */}
 
-      {/* <Row>
+      <Row>
         <Col md={{ span: 7, offset: 2 }}>
           <Row className="post-word"> Your name </Row>
           <Row>
@@ -59,19 +49,8 @@ const PostPage1: React.FC<PathProps> = ({ useWizardFormStorage }) => {
             />
           </Row>
         </Col>
-      </Row> */}
-      <Form.Row className="justify-content-center m-2">
-        <Form.Label className="post-word">Phone</Form.Label>
-        <Form.Control
-          className="single-line-input"
-          type="text"
-          value={leaserPhone}
-          onChange={(e) => setStore({ leaserPhone: e.target.value })}
-          isValid={firstName.length > 0}
-          isInvalid={firstName.length === 0}
-          placeholder="Name"
-        />
-      </Form.Row>
+      </Row>
+      <br />
       <Row>
         <Col md={{ span: 4, offset: 2 }}>
           <Row className="post-word"> Phone </Row>
@@ -79,12 +58,12 @@ const PostPage1: React.FC<PathProps> = ({ useWizardFormStorage }) => {
             <input
               className="w-75 single-line-input"
               onChange={(event) =>
-                setStore({ leaserPhone: event.target.value })
+                dispatch(setPost(['leaserPhone', event.target.value]))
               }
             />
           </Row>
         </Col>
-        {/* <Col md={4}>
+        <Col md={4}>
           <Row className="post-word"> School email </Row>
           <Row>
             <input
@@ -94,7 +73,7 @@ const PostPage1: React.FC<PathProps> = ({ useWizardFormStorage }) => {
               }
             />
           </Row>
-        </Col> */}
+        </Col>
       </Row>
       <br />
       <Row>
