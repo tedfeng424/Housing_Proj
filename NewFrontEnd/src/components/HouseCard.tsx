@@ -5,8 +5,11 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import SlideShow from './SlideShow';
 import HouseProfile, { facilityToIcon } from './HouseProfile';
-import { abbreviateAddress, abbreviateMonth } from '../assets/utils';
-import { months } from '../assets/constants';
+import {
+  abbreviateAddress,
+  formatRoomType,
+  formatMoveIn,
+} from '../assets/utils';
 
 // Path Props need to be exactly the same from backend response
 // TODO: extract common interface between HouseCard and HouseProfile
@@ -60,13 +63,7 @@ const HouseCard: React.FC<PathProps> = ({
 
   // abbreviate the move in date
   useEffect(() => {
-    const [earlyInt, earlyMonth] = early.split(' ') as [string, months];
-    const [lateInt, lateMonth] = late.split(' ') as [string, months];
-    setMoveIn(
-      `${earlyInt} ${abbreviateMonth(
-        earlyMonth,
-      )} - ${lateInt} ${abbreviateMonth(lateMonth)}`,
-    );
+    setMoveIn(formatMoveIn(early, late));
   }, [early, late]);
 
   return (
@@ -102,29 +99,70 @@ const HouseCard: React.FC<PathProps> = ({
                 onImageClick={() => setShow(true)}
               />
             </Row>
+
+            {/* 1st row */}
             <Row className="px-2">
-              <Col md={4} className="house-card-left house-card-price">
-                <Row>${pricePerMonth}</Row>
+              {/* 1st, left */}
+              <Col md={6} className="house-card-left-new">
+                <Row>
+                  {/* FIX THIS */}
+                  <span>
+                    <span className="house-card-price">
+                      ${Math.round(pricePerMonth)}
+                    </span>
+                    <span className="house-card-negotiable">
+                      {true ? ' (nnn)' : ''}
+                    </span>
+                  </span>
+                </Row>
               </Col>
-              <Col md={8} className="house-card-right house-card-right-top">
+
+              {/* 1st, right */}
+              <Col md={6} className="house-card-right-new house-card-right-top">
                 <Row>
                   <div className="w-100 text-right">
-                    {roomType}
-                    <span className="divider"> | </span>Move In {moveIn}
+                    {formatRoomType(roomType)}
+                    <span className="divider"> | </span>
+                    {5}B {3.5}B
                   </div>
                 </Row>
               </Col>
             </Row>
+
+            {/* 2nd row */}
             <Row className="px-2">
-              <Col md={4} className="house-card-left house-card-left-bottom">
-                <Row>{distance}</Row>
+              {/* 2nd, left */}
+              <Col md={6} className="house-card-left-new">
+                <Row>
+                  {/* todo: find a better way to put a space here */}
+                  <span>
+                    <span className="font-weight-bold">~ {distance}</span>
+                    {' transit'}
+                  </span>
+                </Row>
               </Col>
 
-              <Col md={8} className="house-card-right">
-                <Row>
-                  <div className="w-100 text-right">
-                    {abbreviateAddress(location)}
-                  </div>
+              {/* 2nd, right */}
+              <Col md={6} className="house-card-right-new">
+                <Row className="house-card-right-row">
+                  Move In {moveIn}
+                  {/* <div className="w-100 text-right">Move In {moveIn}</div> */}
+                  {/* <div className="w-100 text-right">yayayayayayayaya</div> */}
+                </Row>
+              </Col>
+            </Row>
+
+            {/* last row */}
+            <Row className="px-2">
+              {/* last, left */}
+              <Col md={6} className="house-card-left-new">
+                <Row>To Price Center</Row>
+              </Col>
+
+              {/* last, right */}
+              <Col md={6} className="house-card-right-new">
+                <Row className="house-card-right-row">
+                  {abbreviateAddress(location)}
                 </Row>
               </Col>
             </Row>

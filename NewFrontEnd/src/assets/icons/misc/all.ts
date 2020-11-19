@@ -4,6 +4,7 @@ import { ReactComponent as greenX } from './greenX.svg';
 import { ReactComponent as orangeX } from './orangeX.svg';
 import { ReactComponent as leftArrow } from './leftArrow.svg';
 import { ReactComponent as rightArrow } from './rightArrow.svg';
+import { ReactComponent as mapMarker } from './mapMarker.svg';
 
 export default {
   ellipse,
@@ -12,4 +13,5 @@ export default {
   orangeX,
   leftArrow,
   rightArrow,
+  mapMarker,
 };

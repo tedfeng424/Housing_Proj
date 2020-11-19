@@ -79,4 +79,49 @@ const monthsUnabrvToAbrv = {
   [months.DECEMBER]: monthsAbrv.DECEMBER,
 };
 
-export { intervalOptions, yearMonths, months, monthsAbrv, monthsUnabrvToAbrv };
+/**
+ * Types of room, as returned from BackEnd
+ */
+enum roomTypesDb {
+  SINGLE = 'single',
+  DOUBLE = 'double',
+  TRIPLE = 'triple',
+  LIVINGROOM = 'livingRoom',
+  SUITE = 'suite',
+  STUDIO = 'studio',
+}
+
+/**
+ * Types of room
+ */
+enum roomTypes {
+  SINGLE = 'Single',
+  DOUBLE = 'Double',
+  TRIPLE = 'Triple',
+  LIVINGROOM = 'Living Room',
+  SUITE = 'Suite',
+  STUDIO = 'Studio',
+}
+
+/**
+ * DB string representing room type to proper string
+ */
+const roomDbToRoom = {
+  [roomTypesDb.SINGLE]: roomTypes.SINGLE,
+  [roomTypesDb.DOUBLE]: roomTypes.DOUBLE,
+  [roomTypesDb.TRIPLE]: roomTypes.TRIPLE,
+  [roomTypesDb.LIVINGROOM]: roomTypes.LIVINGROOM,
+  [roomTypesDb.SUITE]: roomTypes.SUITE,
+  [roomTypesDb.STUDIO]: roomTypes.STUDIO,
+};
+
+export {
+  intervalOptions,
+  yearMonths,
+  months,
+  monthsAbrv,
+  monthsUnabrvToAbrv,
+  roomTypes,
+  roomTypesDb,
+  roomDbToRoom,
+};

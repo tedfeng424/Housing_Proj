@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
+import { useDispatch } from 'react-redux';
 import { searchHousing } from '../apis/index';
 import {
   roomTypeIcons,
@@ -15,7 +16,6 @@ import {
 } from '../assets/icons/all';
 import { intervalOptions, yearMonths } from '../assets/constants';
 import { moveInSelect } from '../assets/utils/index';
-import { useDispatch } from 'react-redux';
 import { updateHousingPosts } from '../redux/slices/housing';
 
 interface Preferences {
@@ -83,21 +83,21 @@ const formatRequest = (
   let facilities: PreferenceLiteralType[];
   facilities = ['parking', 'privateBath'];
   const room_result: RoomLiteralType[] = [];
-  var selected_rooms = room_selections.reduce((result, room_selection) => {
+  const selected_rooms = room_selections.reduce((result, room_selection) => {
     if (rt[room_selection]) {
       result.push(room_selection);
     }
     return room_result;
   }, room_result);
   const other_result: PreferenceLiteralType[] = [];
-  var selected_other = other_prefs.reduce((other_result, other_pref) => {
+  const selected_other = other_prefs.reduce((other_result, other_pref) => {
     if (pref[other_pref]) {
       other_result.push(other_pref);
     }
     return other_result;
   }, other_result);
   const fac_result: PreferenceLiteralType[] = [];
-  var selected_fac = facilities.reduce((fac_result, other_pref) => {
+  const selected_fac = facilities.reduce((fac_result, other_pref) => {
     if (pref[other_pref]) {
       fac_result.push(other_pref);
     }

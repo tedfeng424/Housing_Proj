@@ -26,6 +26,7 @@
   flex: 100%;
   width: auto;
   border-radius: ($rounded-lg / 2) 0 $rounded-lg 0;
+  // height: 100%;
 
   @include mobile-and-smaller {
     border-radius: ($rounded-lg / 2) ($rounded-lg / 2) $rounded-lg $rounded-lg;
@@ -43,6 +44,8 @@
   box-shadow: 3px 3px 4px -2px $gray-400;
   background-color: white;
   word-break: break-word;
+  overflow-y: auto;
+  // height: 100%;
 
   &:before {
     $triangle-size: 1rem;
@@ -79,4 +82,23 @@
     @extend .secondary-border-thin;
     padding: 0;
   }
+}
+
+.house-profile-distance {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px; // todo: relative
+  line-height: 20px; // ditto
+  color: $primary-dark-color;
+}
+
+.house-profile-close {
+  position: fixed;
+  display: block;
+  width: 41px;
+  height: 41px;
+  margin: 10px 0px 0px 10px;
+  background-color: white;
+  border-radius: 50%;
+  z-index: 2;
 }

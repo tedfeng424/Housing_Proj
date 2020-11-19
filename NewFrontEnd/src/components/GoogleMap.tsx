@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import GoogleMapReact from 'google-map-react';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
+import { miscIcons } from '../assets/icons/all';
 
-const AnyReactComponent = ({ text }: any) => <div>{text}</div>;
+// todo: figure out how to make marker POINT be on top of location
+// todo: remove text from parameters without breaking the component
+const AnyReactComponent = ({ text }: any) => {
+  return <miscIcons.mapMarker className="d-block" />;
+};
 
 interface PathProps {
   address: string;
@@ -17,7 +22,7 @@ const GoogleMap: React.FC<PathProps> = ({ address }) => {
       setCenter(longlat);
       console.log(center);
     });
-  }, [center]);
+  }, [center, location]);
   return (
     <div style={{ height: '25%', minHeight: '40vh', width: '100%' }}>
       <GoogleMapReact
@@ -25,11 +30,7 @@ const GoogleMap: React.FC<PathProps> = ({ address }) => {
         center={center}
         defaultZoom={zoom}
       >
-        <AnyReactComponent
-          lat={center.lat}
-          lng={center.lng}
-          text="I am Here!"
-        />
+        <AnyReactComponent lat={center.lat} lng={center.lng} />
       </GoogleMapReact>
     </div>
   );

@@ -12,6 +12,7 @@ import GoogleMap from './GoogleMap';
 import PreviewSlideShow from './PreviewSlideShow';
 import { SlideShowItem } from './SlideShow';
 import { contactIcons, miscIcons, facilityIcons } from '../assets/icons/all';
+import { formatRoomType } from '../assets/utils';
 
 const Ellipse: React.FC<{}> = () => (
   <Row className="justify-content-center">
@@ -102,7 +103,7 @@ const HouseProfile: React.FC<PathProps> = ({
     };
 
     if (cookies.get('liked') === undefined) {
-      var payload = JSON.stringify([houseProfileObj]);
+      const payload = JSON.stringify([houseProfileObj]);
       cookies.set('liked', payload, {
         path: '/',
         httpOnly: false,
@@ -110,7 +111,10 @@ const HouseProfile: React.FC<PathProps> = ({
       });
       // console.log(cookies.get('liked'));
     } else {
-      var payload = JSON.stringify([...cookies.get('liked'), houseProfileObj]);
+      const payload = JSON.stringify([
+        ...cookies.get('liked'),
+        houseProfileObj,
+      ]);
       cookies.set('liked', payload, {
         path: '/',
         httpOnly: false,
@@ -132,6 +136,9 @@ const HouseProfile: React.FC<PathProps> = ({
         <Row>
           {/* first column */}
           <Col sm={12} lg={5}>
+            <div onClick={() => setShow(false)} className="house-profile-close">
+              <miscIcons.greenX className="d-block" />
+            </div>
             <PreviewSlideShow
               items={slideShowItems}
               className="house-profile-preview-slideshow"
@@ -142,7 +149,7 @@ const HouseProfile: React.FC<PathProps> = ({
           <Col sm={12} md={6} lg={4}>
             {/* mt-3 mt-lg-5 mt-md-4 */}
             <Container className="d-flex flex-column justify-content-around mx-3 mx-lg-0 h-100">
-              <Row className="justify-content-center flex-grow-0">
+              <Row className="flex-grow-0">
                 <span className="housing-profile-house-type">{houseName}</span>
               </Row>
 
@@ -154,7 +161,7 @@ const HouseProfile: React.FC<PathProps> = ({
                   <Row>Room type</Row>
                   <Row>
                     <h4>
-                      <b>{roomType}</b>
+                      <b>{formatRoomType(roomType)}</b>
                     </h4>
                   </Row>
                 </Col>
@@ -174,7 +181,7 @@ const HouseProfile: React.FC<PathProps> = ({
                   <Row>Stay period</Row>
                   <Row>
                     <h4>
-                      <b>{stayPeriod}</b>
+                      <b>{stayPeriod} months</b>
                     </h4>
                   </Row>
                 </Col>
@@ -210,12 +217,21 @@ const HouseProfile: React.FC<PathProps> = ({
             lg={3}
             className="d-flex flex-column mt-lg-5 mt-md-4"
           >
+            {/* todo: fix alignment here */}
             <div className="px-3 pl-lg-1">
-              <Button className="w-90">Add to my list!</Button>
+              <Row>
+                <Col>
+                  <Button className="w-90">Add to my list!</Button>
+                </Col>
+                <Col>
+                  <contactIcons.share className="d-block" />
+                </Col>
+              </Row>
 
-              <div className="text-primary">
-                <b>{distance} public transit to school</b>
+              <div className="house-profile-distance">
+                <b>~ {distance}</b> public transit to Price Center
               </div>
+
               <div>{address}</div>
               <GoogleMap address={address} />
             </div>
@@ -267,6 +283,7 @@ const HouseProfile: React.FC<PathProps> = ({
 
               <div className="housing-profile-speech-bubble">
                 {bioDescription}
+                {/* aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa */}
               </div>
             </Container>
           </Col>
