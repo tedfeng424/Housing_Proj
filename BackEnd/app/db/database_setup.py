@@ -1,8 +1,9 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, FLOAT, DateTime
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, backref
-from sqlalchemy import create_engine
 import os
+from sqlalchemy import create_engine
+from sqlalchemy.orm import relationship, backref
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, ForeignKey, Integer, String, FLOAT, DateTime,
+Boolean
 
 Base = declarative_base()
 
@@ -41,6 +42,7 @@ class Room(Base):
     user_id = Column(Integer, ForeignKey('user.id'))
     room_type = Column(String(250), nullable=False)
     price = Column(Integer, nullable=False)
+    negotiable = Column(Boolean, nullable=False)
     description = Column(String(1000), nullable=False)
     stay_period = Column(String(250), nullable=False)
     distance = Column(String(250), nullable=False)
@@ -48,7 +50,7 @@ class Room(Base):
     move_in_id = Column(Integer, ForeignKey("move_in.id"))
     house_attribute = relationship("House_Attribute", backref="room")
     move_in = relationship("Move_In", backref="room")
-    bookmark = relationship("Bookmark", backref = "room")
+    bookmark = relationship("Bookmark", backref="room")
 
     @property
     def serialize(self):
@@ -58,6 +60,7 @@ class Room(Base):
             'user_id': self.user_id,
             'room_type': self.room_type,
             'price': self.price,
+            'negotiable': self.negotiable
             'description': self.description,
             'stay_period': self.stay_period,
             'distance': self.distance,
@@ -118,13 +121,15 @@ class Attribute(Base):
             'name': self.name,
             'category': self.category
         }
+
+
 class Bookmark(Base):
     __tablename__ = 'bookmark'
-    
+
     id = Column(Integer, primary_key=True)
     room_id = Column(Integer, ForeignKey('room.id'))
     user_id = Column(Integer, ForeignKey('user.id'))
-                               
+
     @property
     def serialize(self):
         """Return object data in easily serializeable format"""
@@ -140,4 +145,3 @@ if __name__ == '__main__':
     engine = create_engine('sqlite:///housing.db')
 
     Base.metadata.create_all(engine)
-

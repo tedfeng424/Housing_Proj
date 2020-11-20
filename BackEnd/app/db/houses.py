@@ -64,19 +64,19 @@ attr_pri = add_attribute('private', 'other', session)
 attr_female = add_attribute('female', 'other', session)
 
 # Add Room
-cris_room = add_room(datetime.now(), "single", 1000, "Damn it LOOOOOOL", 2,
+cris_room = add_room(datetime.now(), "single", 1000, True, "Damn it LOOOOOOL", 2,
                      "16 mins",
                      "Costa Verde Village, Costa Verde Boulevard, San Diego, CA, USA",
                      cris, cris_move_in, session)
-amit_room = add_room(datetime.now(), "single", 2000, "Damn it LOOOOOOL", 10,
+amit_room = add_room(datetime.now(), "single", 2000, True, "Damn it LOOOOOOL", 10,
                      "5 mins",
                      "Solazzo Apartment Homes, Villa La Jolla Drive, La Jolla, CA, USA",
                      amit, amit_move_in, session)
-keenan_room = add_room(datetime.now(), "single", 3000, "Damn it LOOOOOOL", 5,
+keenan_room = add_room(datetime.now(), "single", 3000, False, "Damn it LOOOOOOL", 5,
                        "65 mins",
                        "Regents Court, Regents Road, San Diego, CA, USA",
                        keenan, keenan_move_in, session)
-adam_room = add_room(datetime.now(), "livingRoom", 5000, "Damn it LOOOOOOL", 9,
+adam_room = add_room(datetime.now(), "livingRoom", 5000, False, "Damn it LOOOOOOL", 9,
                      "60 mins",
                      "Towers At Costa Verde, Costa Verde Boulevard, San Diego, CA, USA",
                      adam, adam_move_in, session)
