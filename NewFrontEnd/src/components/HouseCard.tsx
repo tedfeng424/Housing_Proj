@@ -111,7 +111,7 @@ const HouseCard: React.FC<PathProps> = ({
                       ${Math.round(pricePerMonth)}
                     </span>
                     <span className="house-card-negotiable">
-                      {true ? ' (nnn)' : ''}
+                      {true ? ' (*)' : ''}
                     </span>
                   </span>
                 </Row>
@@ -123,6 +123,7 @@ const HouseCard: React.FC<PathProps> = ({
                   <div className="w-100 text-right">
                     {formatRoomType(roomType)}
                     <span className="divider"> | </span>
+                    {/* TODO: play around with size here */}
                     {5}B {3.5}B
                   </div>
                 </Row>

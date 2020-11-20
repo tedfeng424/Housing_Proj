@@ -44,8 +44,10 @@
   box-shadow: 3px 3px 4px -2px $gray-400;
   background-color: white;
   word-break: break-word;
+
+  // TODO: make sure to switch to a relative max-height
   overflow-y: auto;
-  // height: 100%;
+  max-height: 200px;
 
   &:before {
     $triangle-size: 1rem;
@@ -93,7 +95,7 @@
 }
 
 .house-profile-close {
-  position: fixed;
+  position: absolute;
   display: block;
   width: 41px;
   height: 41px;

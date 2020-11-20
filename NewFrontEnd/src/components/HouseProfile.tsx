@@ -237,7 +237,7 @@ const HouseProfile: React.FC<PathProps> = ({
             </div>
 
             <Container className="housing-profile-bio">
-              <Row>
+              <Row className="housing-profile-bio-header">
                 <Col md={8} className="text-center">
                   <div>
                     <b>{bioName}</b>
@@ -281,9 +281,21 @@ const HouseProfile: React.FC<PathProps> = ({
                 </Col>
               </Row>
 
+              {/* TODO: make this fixed-size without using max-height */}
               <div className="housing-profile-speech-bubble">
-                {bioDescription}
-                {/* aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa */}
+                {/* {bioDescription} */}
+                aaaaaaaaaaaa trialtext aaaaaaaaaaaaaaaaaaaaaaaa
+                aaaFFFFFFFFFFFaaaIIIIIIIIIaaaXaaaaaaaaXaaaaaaaaaaaa
+                aaaFaaaaaaaaaaaaaaaaaIaaaaaaaaXaaaaaaXaaaaaaaaaaaaa
+                aaaFaaaaaaaaaaaaaaaaaIaaaaaaaaaXaaaaXaaaaaaaaaaaaaa
+                aaaFaaaaaaaaaaaaaaaaaIaaaaaaaaaaXaaXaaaaaaaaaaaaaaa
+                aaaFFFFFFFFFFFaaaaaaaIaaaaaaaaaaaXXaaaaaaaaaaaaaaaa
+                aaaFaaaaaaaaaaaaaaaaaIaaaaaaaaaaaXXaaaaaaaaaaaaaaaa
+                aaaFaaaaaaaaaaaaaaaaaIaaaaaaaaaaXaaXaaaaaaaaaaaaaaa
+                aaaFaaaaaaaaaaaaaaaaaIaaaaaaaaaXaaaaXaaaaaaaaaaaaaa
+                aaaFaaaaaaaaaaaaaaaaaIaaaaaaaaXaaaaaaXaaaaaaaaaaaaa
+                aaaFaaaaaaaaaaaaaIIIIIIIIIaaaXaaaaaaaaXaaaaaaaaaaaa
+                aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
               </div>
             </Container>
           </Col>
