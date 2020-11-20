@@ -13,4 +13,10 @@
     @extend .py-2;
     @include font-type('secondary-title');
   }
+
+  &-none-message {
+    @extend .py-2;
+    @include font-type('subtitle');
+    color: $primary-dark-color;
+  }
 }

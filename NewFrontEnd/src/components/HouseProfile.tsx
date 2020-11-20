@@ -17,10 +17,11 @@ import GoogleMap from './GoogleMap';
 import PreviewSlideShow from './PreviewSlideShow';
 import { SlideShowItem } from './SlideShow';
 import { contactIcons, miscIcons, facilityIcons } from '../assets/icons/all';
-
+import { LOGIN_TO_VIEW } from '../assets/constants/messages';
 import { HousePost } from '../assets/models/PostModels';
 import { months } from '../assets/constants';
 import { removeParentheses, abbreviateMonth } from '../assets/utils';
+import { selectUser } from '../redux/slices/auth';
 
 const Ellipse: React.FC<{}> = () => (
   <Row className="justify-content-center">
@@ -72,6 +73,7 @@ const HouseProfile: React.FC<PathProps> = ({
   setShow,
 }) => {
   const favorites = useSelector(selectHousingFavorites);
+  const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const [moveIn, setMoveIn] = useState<string>('');
   const [slideShowItems, setSlideShowItems] = useState<SlideShowItem[]>([]);
@@ -240,26 +242,38 @@ const HouseProfile: React.FC<PathProps> = ({
                   <Row className="justify-content-center">
                     <OverlayTrigger
                       placement="bottom"
-                      overlay={<Tooltip id="tooltip">{leaserEmail}</Tooltip>}
+                      overlay={
+                        <Tooltip id="tooltip">
+                          {user ? leaserEmail : LOGIN_TO_VIEW}
+                        </Tooltip>
+                      }
                     >
                       <contactIcons.email
                         className="d-block mr-3"
                         onClick={async () => {
-                          await navigator.clipboard.writeText(leaserEmail);
-                          window.open(`mailto:${leaserEmail}`, '_blank');
+                          if (user) {
+                            await navigator.clipboard.writeText(leaserEmail);
+                            window.open(`mailto:${leaserEmail}`, '_blank');
+                          }
                         }}
                       />
                     </OverlayTrigger>
 
                     <OverlayTrigger
                       placement="bottom"
-                      overlay={<Tooltip id="tooltip">{leaserPhone}</Tooltip>}
+                      overlay={
+                        <Tooltip id="tooltip">
+                          {user ? leaserPhone : LOGIN_TO_VIEW}
+                        </Tooltip>
+                      }
                     >
                       <contactIcons.phone
                         className="d-block mr-3"
                         onClick={async () => {
-                          await navigator.clipboard.writeText(leaserPhone);
-                          window.open(`tel:${leaserPhone}`, '_blank');
+                          if (user) {
+                            await navigator.clipboard.writeText(leaserPhone);
+                            window.open(`tel:${leaserPhone}`, '_blank');
+                          }
                         }}
                       />
                     </OverlayTrigger>

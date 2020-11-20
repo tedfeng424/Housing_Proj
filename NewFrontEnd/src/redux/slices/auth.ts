@@ -61,7 +61,7 @@ export const login = (name: string, email: string): AppThunk => async (
 export const logout = (): AppThunk => async (dispatch, getState) => {
   // remove cookies here, which will automatically update the user
   const token = getState().auth.user?.token;
-  if (!token) return;
+  if (!token) return; // TODO doesn't work well anymore. I think it's cause we changed the backend
 
   const response = await userLogOut(token);
   if (response) {
