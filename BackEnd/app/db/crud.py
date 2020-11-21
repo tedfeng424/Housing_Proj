@@ -124,7 +124,8 @@ def room_json(room, session):
         'photos': get_images(house_user.email, extra_path=room_name),
         'profilePhoto': 'https://houseit.s3.us-east-2.amazonaws.com/' +
         get_images(house_user.email, category="profile")[0],
-        'roomId': r_json['id']
+        'roomId': r_json['id'],
+        'negotiable': r_json['negotiable']
     }
     return return_json
 
