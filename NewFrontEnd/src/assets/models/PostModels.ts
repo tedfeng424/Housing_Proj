@@ -20,4 +20,5 @@ export interface HousePost {
   roomId: number;
   other: string[];
   facilities: (keyof typeof facilityToIcon)[];
+  negotiable: boolean;
 }

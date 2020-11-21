@@ -32,6 +32,7 @@ const HouseCard: React.FC<PathProps> = ({
   roomId,
   other,
   facilities,
+  negotiable,
 }) => {
   const [show, setShow] = useState<boolean>(false);
   const [moveIn, setMoveIn] = useState<string>('');
@@ -89,6 +90,7 @@ const HouseCard: React.FC<PathProps> = ({
         roomId={roomId}
         show={show}
         setShow={setShow}
+        negotiable={negotiable}
       />
 
       <Card className="house-card">
@@ -102,7 +104,9 @@ const HouseCard: React.FC<PathProps> = ({
             </Row>
             <Row className="px-2">
               <Col md={4} className="price-related-large-text">
-                <Row>${pricePerMonth}</Row>
+                <Row>
+                  {negotiable && '~'}${pricePerMonth}
+                </Row>
               </Col>
               <Col md={8} className="pt-1">
                 <Row>

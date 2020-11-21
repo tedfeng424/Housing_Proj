@@ -71,6 +71,7 @@ const HouseProfile: React.FC<PathProps> = ({
   facilities,
   show,
   setShow,
+  negotiable,
 }) => {
   const favorites = useSelector(selectHousingFavorites);
   const user = useSelector(selectUser);
@@ -134,7 +135,9 @@ const HouseProfile: React.FC<PathProps> = ({
 
               <Row>
                 <Col className="housing-profile-price" md={5}>
-                  <Row>${pricePerMonth}</Row>
+                  <Row>
+                    {negotiable && '~'}${pricePerMonth}
+                  </Row>
                 </Col>
                 <Col md={{ span: 5, offset: 2 }}>
                   <Row className="subtitle-text">Room type</Row>
@@ -208,6 +211,7 @@ const HouseProfile: React.FC<PathProps> = ({
                     profilePhoto,
                     leaserIntro,
                     roomId,
+                    negotiable,
                   };
                   if (favorites && favorites[roomId]) {
                     // need to remove from the favorites
