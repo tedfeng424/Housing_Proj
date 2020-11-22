@@ -11,7 +11,7 @@ const FilterButton: React.FC<{
       onClick={() => {
         dispatch(setShow(true));
       }}
-      className="filter-launch-button"
+      className="primary-secondary"
     >
       {name}
     </Button>
