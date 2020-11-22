@@ -1,6 +1,6 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import counter from '../redux-example/counter/counterSlice';
-import { auth, housing, housePost } from './slices/index';
+import { auth, housing, housePost, filter } from './slices/index';
 
 export const store = configureStore({
   reducer: {
@@ -8,6 +8,7 @@ export const store = configureStore({
     auth,
     housing,
     housePost,
+    filter,
   },
 });
 

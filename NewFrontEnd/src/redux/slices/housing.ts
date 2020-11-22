@@ -15,7 +15,7 @@ import {
 // them to here
 
 // TODO move this to a different file
-enum SearchingMode {
+export enum SearchingMode {
   NOT_SEARCHING,
   STARTED,
   FINISHED,
@@ -158,6 +158,8 @@ export const removeHousingFavorite = (roomId: number): AppThunk => async (
 
 // SELECTORS HERE
 export const selectHousingPosts = (state: RootState) => state.housing.posts;
+export const selectHousingSearchMode = (state: RootState) =>
+  state.housing.searching;
 export const selectHousingFavorites = (state: RootState) =>
   state.housing.favorites;
 

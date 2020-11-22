@@ -14,6 +14,7 @@ import filterIcons from './filter/all';
 import carouselIcons from './carousel/all';
 import mapIcons from './map/all';
 import bookmarkIcons from './bookmarks/all';
+import loading from './loading/all';
 
 export {
   navIcons,
@@ -30,4 +31,5 @@ export {
   carouselIcons,
   mapIcons,
   bookmarkIcons,
+  loading,
 };
