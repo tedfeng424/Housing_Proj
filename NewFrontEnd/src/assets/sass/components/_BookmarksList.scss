@@ -5,9 +5,12 @@
   background-color: $primary-2-color;
   border-radius: 22px;
   width: 220px;
-  height: 470px;
+  height: 100%;
   text-align: center;
-  overflow-y: auto;
+
+  &-bookmarks {
+    overflow-y: auto;
+  }
 
   &-title {
     @extend .py-2;

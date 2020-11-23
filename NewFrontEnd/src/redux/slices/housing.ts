@@ -124,6 +124,7 @@ export const newHousingPost = (housePost: HousePost): AppThunk => async (
   }
 };
 
+// TODO add a check for if the user is signed in
 export const getHousingFavorites = (): AppThunk => async (dispatch) => {
   const favorites = await getHousingBookmarksAPI();
   if (favorites) {

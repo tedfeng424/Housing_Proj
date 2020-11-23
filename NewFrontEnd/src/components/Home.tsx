@@ -28,45 +28,46 @@ const Home: React.FC = () => {
       <HousingPost show={showHousingPost} setShow={setShowHousingPost} />
 
       {/* The actual home page */}
-      <Row className="mb-5">
-        <Col md={9} className="my-auto">
-          <Filter />
-        </Col>
-
-        <Col md={3} className="my-auto">
-          <TV>
-            {!user ? (
-              <>
-                <div className="special-text mt-3">Hello</div>
-                <div className="tv-separator" />
-                <Button variant="secondary" onClick={handleShowLogin}>
-                  Sign in to post
-                </Button>
-              </>
-            ) : (
-              <>
-                {/* TODO this is temporary for while the 'Post ur request' is disabled */}
-                <div className="special-text mt-3">Hello</div>
-                <div className="tv-separator" />
-                <Button variant="secondary" onClick={handleShowHousingPost}>
-                  Post here
-                </Button>
-                {/* <Button>Post ur request</Button> */}
-              </>
-            )}
-          </TV>
-        </Col>
-      </Row>
-
       <Row>
-        <Col md={9}>
-          <HousingList />
+        <Col md={9} className="my-auto">
+          <div className="mb-5">
+            <Filter />
+          </div>
+
+          <div>
+            <HousingList />
+          </div>
         </Col>
 
-        {/* see if either md=3 or md=auto works -Keenan */}
-        <Col md={3}>
-          <BookmarksList />
-        </Col>
+        <div className="home-sidebar d-flex flex-column">
+          <div className="mb-3">
+            <TV>
+              {!user ? (
+                <>
+                  <div className="special-text mt-3">Hello</div>
+                  <div className="tv-separator" />
+                  <Button variant="secondary" onClick={handleShowLogin}>
+                    Sign in to post
+                  </Button>
+                </>
+              ) : (
+                <>
+                  {/* TODO this is temporary for while the 'Post ur request' is disabled */}
+                  <div className="special-text mt-3">Hello</div>
+                  <div className="tv-separator" />
+                  <Button variant="secondary" onClick={handleShowHousingPost}>
+                    Post here
+                  </Button>
+                  {/* <Button>Post ur request</Button> */}
+                </>
+              )}
+            </TV>
+          </div>
+
+          <div className="home-bookmarks-list-wrapper">
+            <BookmarksList />
+          </div>
+        </div>
       </Row>
     </Container>
   );

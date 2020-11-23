@@ -19,6 +19,10 @@ body {
 .single-line-input {
   @include font-type('primary-input-text');
   // TODO
+  // border: 2px solid $darker-background-color;
+  // border-radius: $sm-border-radius;
+  // box-shadow: none;
+  // outline: none;
   border: 0;
   border-bottom: 3px solid theme-color('primary');
   border-radius: 0;
