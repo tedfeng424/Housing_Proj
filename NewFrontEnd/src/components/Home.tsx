@@ -29,7 +29,7 @@ const Home: React.FC = () => {
 
       {/* The actual home page */}
       <Row>
-        <Col md={{span:8,offset:1}} className="my-auto">
+        <Col md={{ span: 8, offset: 1 }} className="my-auto">
           <div className="mb-5">
             <Filter />
           </div>
@@ -38,8 +38,6 @@ const Home: React.FC = () => {
             <HousingList />
           </div>
         </Col>
-
-        
         <div className="home-sidebar d-flex flex-column">
           <div className="mb-3">
             <TV>
