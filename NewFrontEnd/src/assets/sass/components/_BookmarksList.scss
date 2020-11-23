@@ -8,10 +8,6 @@
   height: 100%;
   text-align: center;
 
-  &-bookmarks {
-    overflow-y: auto;
-  }
-
   &-title {
     @extend .py-2;
     @include font-type('secondary-title');

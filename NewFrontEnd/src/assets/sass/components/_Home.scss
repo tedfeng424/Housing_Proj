@@ -12,4 +12,5 @@ $side-bar-top: $navbar-height;
 
 .home-bookmarks-list-wrapper {
   height: 100%;
+  overflow-y: auto;
 }
