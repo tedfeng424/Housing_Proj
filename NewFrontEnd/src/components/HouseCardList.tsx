@@ -26,7 +26,7 @@ const HousingList: React.FC = () => {
       <Row>
         {cards && cards.length > 0 ? ( // TODO this should be handled within the loader component (not yet made)
           cards.map((card) => (
-            <Col xs={12} md={6} key={JSON.stringify(card)} className="mb-5">
+            <Col xs={12} md={10} lg={6} key={JSON.stringify(card)} className="mb-5">
               <HouseCard
                 name={card.name}
                 pricePerMonth={card.pricePerMonth}
