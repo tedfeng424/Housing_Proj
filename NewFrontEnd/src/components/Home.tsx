@@ -22,14 +22,14 @@ const Home: React.FC = () => {
   const user = useSelector(selectUser);
 
   return (
-    <Container>
+    <Container fluid>
       {/* Modals */}
       <Login show={showLogin} handleClose={handleCloseLogin} />
       <HousingPost show={showHousingPost} setShow={setShowHousingPost} />
 
       {/* The actual home page */}
       <Row>
-        <Col md={9} className="my-auto">
+        <Col md={{span:8,offset:1}} className="my-auto">
           <div className="mb-5">
             <Filter />
           </div>
@@ -39,6 +39,7 @@ const Home: React.FC = () => {
           </div>
         </Col>
 
+        
         <div className="home-sidebar d-flex flex-column">
           <div className="mb-3">
             <TV>
