@@ -89,6 +89,15 @@ enum SchoolYear {
   Grad = 'Grad',
 }
 
+enum RoomType {
+  single = 'Single',
+  double = 'Double',
+  triple = 'Triple',
+  studio = 'Studio',
+  suite = 'Suite',
+  livingRoom = 'Living room',
+}
+
 export {
   intervalOptions,
   yearMonths,
@@ -96,4 +105,5 @@ export {
   monthsAbrv,
   monthsUnabrvToAbrv,
   SchoolYear,
+  RoomType,
 };

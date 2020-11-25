@@ -3,10 +3,7 @@ import preferencesIcons, {
   preferencesChosen,
   preferencesUnchosen,
 } from './preferences/all';
-import roomTypeIcons, {
-  roomTypeChosen,
-  roomTypeUnchosen,
-} from './roomType/all';
+import roomTypeIcons from './roomType/all';
 import contactIcons from './contact/all';
 import miscIcons from './misc/all';
 import facilityIcons from './facilities/all';
@@ -21,8 +18,6 @@ export {
   preferencesChosen,
   preferencesUnchosen,
   roomTypeIcons,
-  roomTypeChosen,
-  roomTypeUnchosen,
   contactIcons,
   miscIcons,
   facilityIcons,

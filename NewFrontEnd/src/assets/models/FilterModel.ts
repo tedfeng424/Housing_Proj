@@ -1,4 +1,4 @@
-import { roomTypeUnchosen } from '../icons/all';
+import { RoomType } from '../constants';
 
 export interface FilterModel {
   distance: string;
@@ -24,5 +24,5 @@ export interface Preferences {
   _420: boolean;
 }
 
-export type RoomLiteralType = keyof typeof roomTypeUnchosen;
+export type RoomLiteralType = keyof typeof RoomType;
 export type PreferenceLiteralType = keyof Preferences;

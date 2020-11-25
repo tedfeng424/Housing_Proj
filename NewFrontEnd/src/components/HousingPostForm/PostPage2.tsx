@@ -1,22 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Container, Row, Col, Button, Form } from 'react-bootstrap';
-import { roomTypeIcons, roomTypeUnchosen } from '../../assets/icons/all';
+import { roomTypeIcons } from '../../assets/icons/all';
 import AutoComplete from '../PlacesAutoComplete';
-import { setPost, selectPost } from '../../redux/slices/posting';
-import { useSelector, useDispatch } from 'react-redux';
+import { RoomType } from '../../assets/constants';
+import { WizardFormStep } from '../WizardForm';
 
-type RoomType = { [P in keyof typeof roomTypeUnchosen]: boolean };
-const PostPage2: React.FC<{}> = () => {
-  const dispatch = useDispatch();
-  const [roomType, setRoomType] = useState<RoomType>({
-    single: false,
-    double: false,
-    triple: false,
-    livingRoom: false,
-    suite: false,
-    studio: false,
+export interface PostPage2Store {
+  roomType: keyof typeof RoomType;
+  price: number;
+}
+
+type PathProps = {};
+
+const PostPage2: React.FC<PathProps & WizardFormStep<PostPage2Store>> = ({
+  useWizardFormStorage,
+}) => {
+  const [{ roomType, price }, setStore] = useWizardFormStorage<PostPage2Store>({
+    roomType: 'single',
+    price: 500,
   });
-  const price = useSelector(selectPost).price;
+
   return (
     <Container>
       <Row>
@@ -42,27 +45,26 @@ const PostPage2: React.FC<{}> = () => {
           <Row className="justify-content-center">
             <div className="title">Room Type</div>
           </Row>
+          {/* TODO update the filter to be like below */}
           <Row className="justify-content-center">
-            {(Object.keys(roomType) as Array<keyof typeof roomType>).map(
+            {(Object.keys(RoomType) as Array<keyof typeof RoomType>).map(
               (key) => {
                 const RoomTypeUnchosen = roomTypeIcons[key];
                 const RoomTypeChosen =
                   roomTypeIcons[`${key}Chosen` as keyof typeof roomTypeIcons];
                 return (
                   <Button
+                    variant="no-show"
                     className="btn-filter"
                     onClick={() => {
-                      const changed = { ...roomType };
-                      changed[key] = !roomType[key];
-                      if (changed[key]) {
-                        dispatch(setPost(['roomType', key]));
-                      }
-                      setRoomType({
-                        ...changed,
-                      });
+                      setStore({ roomType: key });
                     }}
                   >
-                    {roomType[key] ? <RoomTypeChosen /> : <RoomTypeUnchosen />}
+                    {roomType === key ? (
+                      <RoomTypeChosen />
+                    ) : (
+                      <RoomTypeUnchosen />
+                    )}
                   </Button>
                 );
               },
@@ -70,7 +72,6 @@ const PostPage2: React.FC<{}> = () => {
           </Row>
         </Col>
 
-        {/* Price Range. TODO: only use one price */}
         <Col
           md={12}
           lg={{ span: 5, offset: 1 }}
@@ -81,19 +82,23 @@ const PostPage2: React.FC<{}> = () => {
           </Row>
 
           <Form.Row className="justify-content-center m-2">
-            <Form.Label className="word mr-3">$USD</Form.Label>
+            <Form.Label className="word mr-3">$</Form.Label>
             <Col>
               <Form.Control
                 className="single-line-input"
                 type="number"
                 min={0}
-                value={price}
-                onChange={(event) => {
-                  dispatch(setPost(['price', parseInt(event.target.value)]));
+                // value={price}
+                onChange={(e) => {
+                  if (e.target.value) {
+                    setStore({ price: parseInt(e.target.value) });
+                  } else {
+                    setStore({ price: -1 }); // force it to be invalid
+                  }
                 }}
                 isValid={price !== undefined && price > 0}
-                isInvalid={price === undefined || price <= 0}
-                placeholder="price"
+                isInvalid={!price || price <= 0}
+                placeholder="Price"
               />
             </Col>
           </Form.Row>
@@ -104,4 +109,4 @@ const PostPage2: React.FC<{}> = () => {
   );
 };
 
-export default PostPage2;
+export default PostPage2 as React.FC<PathProps>;

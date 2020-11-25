@@ -21,10 +21,9 @@ export interface WizardFormStep<P> {
   exitWizardForm: () => void;
   nextStep: () => void;
   prevStep: () => void;
-  useWizardFormStorage: <P extends {}>() => [
-    P,
-    setWizardFormStorageFunction<P>,
-  ];
+  useWizardFormStorage: <P extends {}>(
+    initialValue?: AtLeastOneObject<P>,
+  ) => [P, setWizardFormStorageFunction<P>];
   submitForm: () => boolean; // returns success or failure
   setIsValidated: (validated: boolean) => void;
 }
@@ -118,10 +117,15 @@ const WizardForm = <T extends {}>({
    * Works similar to useState.
    */
   // TODO add initial state here instead of the WizardFrom
-  const useWizardFormStorage = <P extends Partial<T>>() => {
+  const useWizardFormStorage = <P extends Partial<T>>(
+    initialValue?: AtLeastOneObject<P>,
+  ) => {
     const setWizardFormStorageWrapper: setWizardFormStorageFunction<P> = (
       value: AtLeastOneObject<P>,
     ) => setWizardFormStorage({ ...wizardFormStorage, ...value });
+
+    // TODO for some reaosn, this is causing an issue: if (initialValue) setWizardFormStorageWrapper(initialValue);
+
     // wizard form storage is limited to the intersection of P and T
     return [wizardFormStorage as P, setWizardFormStorageWrapper] as [
       P,
