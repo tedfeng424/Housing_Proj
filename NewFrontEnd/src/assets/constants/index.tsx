@@ -25,6 +25,7 @@ const yearMonths = [
 /**
  * Months in the year
  */
+// TODO make everything PascalCase
 enum months {
   ANYTIME = 'Anytime',
   JANUARY = 'January',
@@ -79,4 +80,20 @@ const monthsUnabrvToAbrv = {
   [months.DECEMBER]: monthsAbrv.DECEMBER,
 };
 
-export { intervalOptions, yearMonths, months, monthsAbrv, monthsUnabrvToAbrv };
+enum SchoolYear {
+  First = 'First',
+  Second = 'Second',
+  Third = 'Third',
+  Fourth = 'Fourth',
+  Fifth = 'Fifth',
+  Grad = 'Grad',
+}
+
+export {
+  intervalOptions,
+  yearMonths,
+  months,
+  monthsAbrv,
+  monthsUnabrvToAbrv,
+  SchoolYear,
+};

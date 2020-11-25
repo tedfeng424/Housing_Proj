@@ -27,6 +27,11 @@ export type ObjectValidationChecks<T> = {
 };
 
 /**
+ * Use as a type for "one of the variables from P".
+ */
+export type OneFrom<P> = { [K in keyof P]: Pick<P, K> };
+
+/**
  * Function used to validate move in select form
  * @param earlyMonth - the early month selected
  * @param earlyInterval - the early interval selected

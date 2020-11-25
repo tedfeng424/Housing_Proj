@@ -6,17 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import { miscIcons } from '../assets/icons/all';
-import {
-  AtLeastOneArray,
-  AtLeastOneObject,
-  ObjectValidationChecks,
-} from '../assets/utils';
-
-// wizard form storage to hold things between the wizard form. will be an array of objects, and each wizardformstep will have access to their respective index in the array.
-// Need to have an interface (generic) that the user can set for each respective wizard form steps.
-// Need to have validation checks for everything in the wizardForm storage
-// maybe I should have a set
-// what if you make a useWizardFormStorage hook that they can use within children. They can pass in a generic as well!
+import { AtLeastOneArray, AtLeastOneObject, OneFrom } from '../assets/utils';
 
 /**
  * Each child component will be given:
@@ -24,23 +14,31 @@ import {
  * - an exit() function to exit the form (i.e. when the user completes the form)
  * - a submitForm() which can be called when you would like to submit the form (it returns T/F based on success of onSubmit and validationChecks)
  */
-export interface WizardFormStep {
+type setWizardFormStorageFunction<P> = (
+  value: AtLeastOneObject<P, OneFrom<P>>,
+) => void;
+export interface WizardFormStep<P> {
   exitWizardForm: () => void;
   nextStep: () => void;
   prevStep: () => void;
-  useWizardFormStorage: <T extends {}>() => Partial<T>; // TODO should it be partial??? this hook takes a generic and returns an object of type T, where all of the values start as undefined
+  useWizardFormStorage: <P extends {}>() => [
+    P,
+    setWizardFormStorageFunction<P>,
+  ];
   submitForm: () => boolean; // returns success or failure. // TODO needs to be undefined if onSubmit is undefined
 }
 
+type WizardFormChild<T> = React.ReactElement<WizardFormStep<T>>;
+
 // T is whatever is in the storage
-interface PathProps<T> {
-  children: AtLeastOneArray<React.ReactElement>; // the steps of the form (needs to be of length at least 0)
+interface PathProps<T = {}> {
+  children: AtLeastOneArray<WizardFormChild<T>>; // the steps of the form (needs to be of length at least 0)
   show: boolean;
   setShow: (show: boolean) => void;
   hideButtons?: boolean;
   onSubmit: (wizardFormStorage: T) => boolean;
-  validationChecks?: ObjectValidationChecks<T>; // each part in the storage should have a validation check
-  initialStorage: T;
+  // TODO validationChecks?: ObjectValidationChecks<T>; // each part in the storage should have a validation check
+  initialStorage?: Partial<T>;
 }
 
 /**
@@ -53,14 +51,15 @@ const WizardForm = <T extends {}>({
   setShow,
   hideButtons = false,
   onSubmit,
-  validationChecks,
-  initialStorage,
+  initialStorage = {},
 }: PathProps<T>) => {
   const [index, setIndex] = useState<number>(0);
   const [isFirst, setIsFirst] = useState<boolean>(true);
   const [isLast, setIsLast] = useState<boolean>(index === children.length - 1);
-  const [CurStep, setCurStep] = useState<React.ReactElement>(children[0]);
-  const [wizardFormStorage, setWizardFormStorage] = useState<T>(initialStorage);
+  const [CurStep, setCurStep] = useState<WizardFormChild<T>>(children[0]);
+  const [wizardFormStorage, setWizardFormStorage] = useState<Partial<T>>(
+    initialStorage,
+  );
 
   useEffect(() => {
     setCurStep(children[index]);
@@ -97,27 +96,33 @@ const WizardForm = <T extends {}>({
    */
   const submitForm = (): boolean => {
     // TODO this is not good enough. You want 2 options: 1) validation result for the whole form and 2) validation result for only one page in the form
-    if (validationChecks) {
-      // validate each value in the wizard form storage and return false if any of them didn't pass the validation
-      const validationResult: boolean = (Object.keys(validationChecks) as Array<
-        keyof T
-      >).reduce<boolean>(
-        (prev, cur) => prev && validationChecks[cur](wizardFormStorage[cur]),
-        true,
-      );
-      if (!validationResult) return false;
-    }
-    return onSubmit(wizardFormStorage);
+    // TODO if (validationChecks) {
+    //   // validate each value in the wizard form storage and return false if any of them didn't pass the validation
+    //   const validationResult: boolean = (Object.keys(validationChecks) as Array<
+    //     keyof T
+    //   >).reduce<boolean>(
+    //     (prev, cur) => prev && validationChecks[cur](wizardFormStorage[cur]),
+    //     true,
+    //   );
+    //   if (!validationResult) return false;
+    // }
+    // Everything should be validated by this point
+    return onSubmit(wizardFormStorage as T);
   };
 
   /**
    * Hook to access function to update WizardForm's "local storage". It's shared among all children.
    * Works similar to useState.
    */
-  const useWizardFormStorage = <P extends {}>() => {
-    const setWizardFormStorageWrapper = (value: AtLeastOneObject<P>) =>
-      setWizardFormStorage({ ...wizardFormStorage, ...value });
-    return [wizardFormStorage, setWizardFormStorageWrapper]; // TODO wizardFormStorage here should be limited to only P
+  const useWizardFormStorage = <P extends Partial<T>>() => {
+    const setWizardFormStorageWrapper: setWizardFormStorageFunction<P> = (
+      value: AtLeastOneObject<P>,
+    ) => setWizardFormStorage({ ...wizardFormStorage, ...value });
+    // wizard form storage is limited to the intersection of P and T
+    return [wizardFormStorage as P, setWizardFormStorageWrapper] as [
+      P,
+      setWizardFormStorageFunction<P>,
+    ];
   };
 
   // TODO need to figure out how to have loading thing on top

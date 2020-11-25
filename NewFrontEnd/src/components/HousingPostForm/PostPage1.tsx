@@ -2,6 +2,7 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { Form } from 'react-bootstrap';
 import { WizardFormStep } from '../WizardForm';
 import { setPost, selectPost } from '../../redux/slices/posting';
 
@@ -12,23 +13,22 @@ const SelectBg = 'post-word-sub-bg post-word-sub-bg-selected';
 
 export interface PostPage1Store {
   leaserPhone: string;
-  schoolYear?: string;
+  schoolYear: string;
   major: string;
 }
 
-type PathProps = WizardFormStep;
+type PathProps = WizardFormStep<PostPage1Store>;
 
 const PostPage1: React.FC<PathProps> = ({ useWizardFormStorage }) => {
-  const [{ leaserPhone, schoolYear, major }, setStore] = useWizardFormStorage<
-    PostPage1Store
-  >();
+  const [store, setStore] = useWizardFormStorage<PostPage1Store>();
+  const { leaserPhone, schoolYear, major } = store;
 
   return (
     <Container>
       <Row>
         <Col>
           <span className="post-title">
-            ~Something personal will make your post more trustworthy~
+            ~ Something personal will make your post more trustworthy ~
           </span>
         </Col>
       </Row>
@@ -47,19 +47,6 @@ const PostPage1: React.FC<PathProps> = ({ useWizardFormStorage }) => {
         />
       </Form.Row> */}
 
-      {/* <Row>
-        <Col md={{ span: 7, offset: 2 }}>
-          <Row className="post-word"> Your name </Row>
-          <Row>
-            <input
-              className="w-100 single-line-input"
-              onChange={(event) =>
-                dispatch(setPost(['name', event.target.value]))
-              }
-            />
-          </Row>
-        </Col>
-      </Row> */}
       <Form.Row className="justify-content-center m-2">
         <Form.Label className="post-word">Phone</Form.Label>
         <Form.Control
@@ -84,17 +71,6 @@ const PostPage1: React.FC<PathProps> = ({ useWizardFormStorage }) => {
             />
           </Row>
         </Col>
-        {/* <Col md={4}>
-          <Row className="post-word"> School email </Row>
-          <Row>
-            <input
-              className="w-75 single-line-input"
-              onChange={(event) =>
-                dispatch(setPost(['leaserEmail', event.target.value]))
-              }
-            />
-          </Row>
-        </Col> */}
       </Row>
       <br />
       <Row>
