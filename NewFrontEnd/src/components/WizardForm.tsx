@@ -25,19 +25,18 @@ export interface WizardFormStep<P> {
     P,
     setWizardFormStorageFunction<P>,
   ];
-  submitForm: () => boolean; // returns success or failure. // TODO needs to be undefined if onSubmit is undefined
+  submitForm: () => boolean; // returns success or failure
+  setIsValidated: (validated: boolean) => void;
 }
-
-type WizardFormChild<T> = React.ReactElement<WizardFormStep<T>>;
 
 // T is whatever is in the storage
 interface PathProps<T = {}> {
-  children: AtLeastOneArray<WizardFormChild<T>>; // the steps of the form (needs to be of length at least 0)
+  children: AtLeastOneArray<React.ReactElement>; // the steps of the form (needs to be of length at least 0)
   show: boolean;
   setShow: (show: boolean) => void;
   hideButtons?: boolean;
   onSubmit: (wizardFormStorage: T) => boolean;
-  // TODO validationChecks?: ObjectValidationChecks<T>; // each part in the storage should have a validation check
+  validateOnlyAtSubmit?: boolean;
   initialStorage?: Partial<T>;
 }
 
@@ -51,14 +50,18 @@ const WizardForm = <T extends {}>({
   setShow,
   hideButtons = false,
   onSubmit,
+  validateOnlyAtSubmit = false,
   initialStorage = {},
 }: PathProps<T>) => {
   const [index, setIndex] = useState<number>(0);
   const [isFirst, setIsFirst] = useState<boolean>(true);
   const [isLast, setIsLast] = useState<boolean>(index === children.length - 1);
-  const [CurStep, setCurStep] = useState<WizardFormChild<T>>(children[0]);
+  const [CurStep, setCurStep] = useState<React.ReactElement>(children[0]);
   const [wizardFormStorage, setWizardFormStorage] = useState<Partial<T>>(
     initialStorage,
+  );
+  const [validations, setValidations] = useState<AtLeastOneArray<boolean>>(
+    children.map(() => false) as AtLeastOneArray<false>,
   );
 
   useEffect(() => {
@@ -76,8 +79,13 @@ const WizardForm = <T extends {}>({
 
   /**
    * Use this to navigate the wizard form to the next step.
+   * If validateOnlyAtSubmit is false, it will only go to the
+   * next step if this step is validated.
    */
   const nextStep = () => {
+    // validate if needed
+    if (!validateOnlyAtSubmit && !validations[index]) return;
+
     if (index + 1 < children.length) setIndex(index + 1);
   };
 
@@ -89,23 +97,18 @@ const WizardForm = <T extends {}>({
   };
 
   /**
-   * Use this to submit the form (it runs validation checks first).
-   * Returns T/F based on success of validationChecks and onSubmit.
-   * (i.e. returns false if validation fails, returns false if onSubmit
-   * returns false, otherwise returns true).
+   * Use this to submit the form (it checks validation values first).
+   * Returns T/F based on success of validation values and onSubmit.
+   * (i.e. returns false if any validations are false, returns false
+   * if onSubmit returns false, otherwise returns true).
    */
   const submitForm = (): boolean => {
-    // TODO this is not good enough. You want 2 options: 1) validation result for the whole form and 2) validation result for only one page in the form
-    // TODO if (validationChecks) {
-    //   // validate each value in the wizard form storage and return false if any of them didn't pass the validation
-    //   const validationResult: boolean = (Object.keys(validationChecks) as Array<
-    //     keyof T
-    //   >).reduce<boolean>(
-    //     (prev, cur) => prev && validationChecks[cur](wizardFormStorage[cur]),
-    //     true,
-    //   );
-    //   if (!validationResult) return false;
-    // }
+    const allValidations = validations.reduce<boolean>(
+      (prev, cur) => prev && cur,
+      true,
+    );
+    if (!allValidations) return false;
+
     // Everything should be validated by this point
     return onSubmit(wizardFormStorage as T);
   };
@@ -114,6 +117,7 @@ const WizardForm = <T extends {}>({
    * Hook to access function to update WizardForm's "local storage". It's shared among all children.
    * Works similar to useState.
    */
+  // TODO add initial state here instead of the WizardFrom
   const useWizardFormStorage = <P extends Partial<T>>() => {
     const setWizardFormStorageWrapper: setWizardFormStorageFunction<P> = (
       value: AtLeastOneObject<P>,
@@ -123,6 +127,16 @@ const WizardForm = <T extends {}>({
       P,
       setWizardFormStorageFunction<P>,
     ];
+  };
+
+  /**
+   * Use this to set if the current step is validated or not. Initialized as true unless otherwise
+   * specified.
+   */
+  const setIsValidated = (validated: boolean) => {
+    const updatedValidations = [...validations] as typeof validations;
+    updatedValidations[index] = validated;
+    setValidations(updatedValidations);
   };
 
   // TODO need to figure out how to have loading thing on top
@@ -138,7 +152,7 @@ const WizardForm = <T extends {}>({
           <Col xs={1} className="d-flex arrow-icon justify-content-center">
             {!isFirst && !hideButtons && (
               <div>
-                <Button onClick={prevStep} className="no-show">
+                <Button variant="no-show" onClick={prevStep}>
                   <miscIcons.leftArrow />
                 </Button>
               </div>
@@ -146,19 +160,29 @@ const WizardForm = <T extends {}>({
           </Col>
 
           <Col xs={10} className="d-flex">
+            {/* TODO {CurStep({
+              nextStep,
+              prevStep,
+              exitWizardForm,
+              submitForm,
+              useWizardFormStorage,
+              setIsValidated,
+            })} */}
             {React.cloneElement(CurStep, {
               nextStep,
               prevStep,
               exitWizardForm,
               submitForm,
               useWizardFormStorage,
+              setIsValidated,
             })}
           </Col>
 
+          {/* TODO need to make the button look disabled when you can't move forward */}
           <Col xs={1} className="d-flex arrow-icon justify-content-center">
             {!isLast && !hideButtons && (
               <div>
-                <Button onClick={nextStep} className="no-show">
+                <Button variant="no-show" onClick={nextStep}>
                   <miscIcons.rightArrow />
                 </Button>
               </div>
@@ -286,11 +310,3 @@ export const FakeStepTest4: React.FC = () => (
     </Row>
   </Container>
 );
-
-// interface TestWizardFormStorage {
-//   storage:
-// }
-
-// export const TestWizardForm: React.FC = () => (
-//   <WizardForm<
-// );

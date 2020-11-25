@@ -23,6 +23,7 @@ const HousingPost: React.FC<PathProps> = ({ show, setShow }) => (
       console.log(n);
       return true;
     }}
+    validateOnlyAtSubmit // TODO temporary
   >
     <PostPage1 />
     <PostPage2 />
