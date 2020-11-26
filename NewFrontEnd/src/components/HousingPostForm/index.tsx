@@ -13,7 +13,7 @@ interface PathProps {
 }
 // TODO only show PostPage1 for first time user
 const HousingPost: React.FC<PathProps> = ({ show, setShow }) => (
-  <WizardForm show={show} setShow={setShow}>
+  <WizardForm show={show} setShow={setShow} title="Find your place">
     <PostPage1 />
     <PostPage2 />
     <PostPage3 />

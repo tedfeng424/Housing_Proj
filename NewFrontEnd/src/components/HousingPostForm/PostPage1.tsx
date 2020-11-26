@@ -2,8 +2,8 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { setPost, selectPost } from '../../redux/slices/posting';
 import { useSelector, useDispatch } from 'react-redux';
+import { setPost, selectPost } from '../../redux/slices/posting';
 
 const nonSelectStyle = 'post-word-sub';
 const selectStyle = 'post-word-sub post-word-sub-selected';

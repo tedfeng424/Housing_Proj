@@ -15,6 +15,7 @@ export interface WizardFormStep {
   exitWizardForm: () => void;
   nextStep: () => void;
   prevStep: () => void;
+  setStep: (i: number) => void;
   // TODO add this: submitForm: () => boolean;
 }
 
@@ -22,7 +23,7 @@ interface PathProps {
   children: { 0: React.ReactElement } & React.ReactElement[]; // the steps of the form (needs to be of length at least 0)
   show: boolean;
   setShow: (show: boolean) => void;
-  hideButtons?: boolean;
+  title: string;
   // TODO also add this (not in the interface though):
   // WizardForm storage - place to store everything filled out in the form
   // validationChecks - checks in the WizardForm storage thing to validate everything that needs to be validated
@@ -33,7 +34,7 @@ const WizardForm: React.FC<PathProps> = ({
   children,
   show,
   setShow,
-  hideButtons,
+  title,
 }) => {
   const [index, setIndex] = useState<number>(0);
   const [isFirst, setIsFirst] = useState<boolean>(true);
@@ -48,6 +49,10 @@ const WizardForm: React.FC<PathProps> = ({
 
   const exitWizardForm = () => {
     setShow(false);
+  };
+
+  const setStep = (i: number) => {
+    if (i >= 0 && i < children.length) setIndex(i);
   };
 
   const nextStep = () => {
@@ -66,37 +71,76 @@ const WizardForm: React.FC<PathProps> = ({
       onHide={() => setShow(false)}
       centered
     >
-      <Container className="h-100 py-4">
-        <div className="d-flex align-items-center justify-content-around h-100">
-          <Col xs={1} className="d-flex arrow-icon justify-content-center">
-            {!isFirst && !hideButtons && (
-              <div>
-                <Button onClick={prevStep} className="no-show">
-                  <miscIcons.leftArrow />
-                </Button>
-              </div>
-            )}
-          </Col>
-
-          <Col xs={10} className="d-flex">
-            {React.cloneElement(CurStep, {
-              nextStep,
-              prevStep,
-              exitWizardForm,
-            })}
-          </Col>
-
-          <Col xs={1} className="d-flex arrow-icon justify-content-center">
-            {!isLast && !hideButtons && (
-              <div>
-                <Button onClick={nextStep} className="no-show">
-                  <miscIcons.rightArrow />
-                </Button>
-              </div>
-            )}
-          </Col>
+      <div className="h-100 w-100">
+        {/* TODO add border-radius to top and bottom rows */}
+        <div className="wizard-form-top-bar">
+          <Button variant="no-show" onClick={() => setShow(false)}>
+            <miscIcons.orangeX />
+          </Button>
+          <span className="title">{title}</span>
+          <span className="reset">Reset</span>
         </div>
-      </Container>
+
+        {/* TODO <div className="d-flex align-items-center justify-content-around h-100"> */}
+        <div className="wizard-form-middle">
+          {React.cloneElement(CurStep, {
+            nextStep,
+            prevStep,
+            setStep,
+            exitWizardForm,
+          })}
+        </div>
+
+        <div className="wizard-form-bottom-bar">
+          <div className="d-flex">
+            {children.map((c, i) => (
+              <div className="mx-1">
+                <Button variant="no-show" onClick={() => setStep(i)}>
+                  {i === index ? (
+                    <miscIcons.smallEllipseActive />
+                  ) : (
+                    <miscIcons.smallEllipseInactive />
+                  )}
+                </Button>
+              </div>
+            ))}
+          </div>
+
+          <div className="d-flex">
+            <div className="mr-2">
+              {isFirst ? (
+                <div>
+                  <Button variant="no-show" onClick={prevStep}>
+                    <miscIcons.smallLeftArrowDisabled />
+                  </Button>
+                </div>
+              ) : (
+                <div>
+                  <Button variant="no-show" onClick={prevStep}>
+                    <miscIcons.smallLeftArrow />
+                  </Button>
+                </div>
+              )}
+            </div>
+
+            <div className="ml-2">
+              {isLast ? (
+                <div>
+                  <Button variant="no-show" onClick={nextStep}>
+                    <miscIcons.smallRightArrowDisabled />
+                  </Button>
+                </div>
+              ) : (
+                <div>
+                  <Button variant="no-show" onClick={nextStep}>
+                    <miscIcons.smallRightArrow />
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
     </Modal>
   );
 };
@@ -117,7 +161,7 @@ export default WizardForm;
 */
 
 /* Basic example with hidden buttons:
-<WizardForm show={show} setShow={setShow} hideButtons>
+<WizardForm show={show} setShow={setShow}>
   <FakeStepTest1 />
   <FakeStepTest2 />
   <FakeStepTest3 />

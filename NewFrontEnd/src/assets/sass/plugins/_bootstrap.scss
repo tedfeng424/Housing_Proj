@@ -10,13 +10,14 @@ $theme-colors: (
   'primary-light': $primary-light-color,
   'secondary': $primary-light-color,
   'secondary-light': $secondary-light-color,
-  'secondary-dark':$secondary-dark-color,
+  'secondary-dark': $secondary-dark-color,
   'no-show': white,
 );
 
 $sizes: (
   90: 90%,
   15: 15%,
+  5: 5%,
 );
 
 /* IMPORT BOOTSTRAP SASS HERE (which uses the overrided variables above) */
