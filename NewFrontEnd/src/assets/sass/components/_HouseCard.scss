@@ -1,5 +1,5 @@
 .house-card {
-  @extend .secondary-border-thin;
+  @include thin-border('md');
   background-color: theme-color('secondary-light');
   border-radius: 25px; // TODO make variable
   overflow: hidden;
@@ -7,75 +7,6 @@
 
 .house-pic {
   height: 200px;
-}
-
-.house-card-text-new {
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px; // todo: relative
-  line-height: 20px; // ditto
-}
-
-.house-card-right-new {
-  @extend .house-card-text-new;
-  color: theme-color('secondary');
-  text-align: right;
-}
-
-.house-card-left-new {
-  @extend .house-card-text-new;
-  color: $primary-dark-color;
-}
-
-.house-card-negotiable {
-  line-height: 29px;
-}
-
-.house-card-right {
-  color: theme-color('secondary');
-  font-weight: normal;
-  font-style: normal;
-  font-size: 16px;
-  line-height: 20px;
-}
-
-.house-card-right-row {
-  display: block;
-  overflow: hidden;
-  text-align: right; // todo: make it actually align right
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.house-card-right-top {
-  padding-top: 0.25rem;
-  line-height: 29px;
-}
-
-.house-card-left {
-  color: theme-color('focused-color');
-  font-style: normal;
-  font-weight: bold;
-}
-
-.house-card-price {
-  font-size: 24px;
-  font-weight: bold;
-  line-height: 29px;
-  padding-top: 0.25rem;
-}
-
-.house-card-left-small {
-  color: $primary-dark-color;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  // line-height: 20px;
-}
-
-.house-card-left-bottom {
-  color: $primary-dark-color;
-  line-height: 20px;
 }
 
 .divider {

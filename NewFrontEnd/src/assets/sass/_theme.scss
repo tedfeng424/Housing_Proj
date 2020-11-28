@@ -2,15 +2,8 @@
 // in other files.
 
 body {
-  color: theme-color('secondary');
-  font-family: Montserrat;
-}
-
-.no-show {
-  border: 0;
-  background-color: rgba(255, 255, 255, 0) !important;
-  padding: 0 !important;
-  margin: 0 !important;
+  font-family: $primary-font-stack;
+  background-color: $primary-1-color;
 }
 
 .disappear-on-xs {
@@ -23,26 +16,9 @@ body {
   @extend .d-md-flex;
 }
 
-.ex {
-  @extend .no-show;
-  display: flex;
-}
-
-.roboto-slab-font,
-.secondary-title-font {
-  font-family: $roboto-slab-font, 'Courier New', Courier, monospace;
-}
-
-.secondary-title {
-  @extend .secondary-title-font;
-  color: $focused-color;
-  font-weight: $default-text-weight;
-  font-size: 20px;
-}
-
 .single-line-input {
-  font-weight: $default-text-weight;
-  color: theme-color('primary');
+  @include font-type('primary-input-text');
+  // TODO
   border: 0;
   border-bottom: 3px solid theme-color('primary');
   border-radius: 0;
@@ -62,47 +38,159 @@ body {
   }
 }
 
-.secondary-border-thin {
-  border: 5px solid $secondary-light-color;
-}
-
-.hover-shadow {
-  &:hover {
-    box-shadow: 2px 4px 8px 0px #a4613e 30% !important;
-  }
-}
-
 /**
  * STYLE GUIDE BUTTONS
  */
 
 // btn = primary btn
-// TODO
 // .btn,
-// .primary-btn {
-//   @extend .hover-shadow;
-//   @include mousedown {
-//     background-color: $primary-dark-color;
-//   }
+.btn-primary {
+  @extend .rounded-pill;
+  @extend .py-1;
+  @extend .px-4;
+  @extend .mx-4;
+  @extend .my-2;
+  font-weight: $bold-font-weight;
+  font-size: $xl-font-size;
+  background-color: $primary-light-color;
+  color: white;
+  box-shadow: none;
+  border: 0;
 
-//   font-weight: $bold-font-weight;
-//   font-size: $xl-font-size;
-//   background-color: $primary-light-color;
-//   color: white;
-//   box-shadow: none;
-// TODO add padding too
+  @include mousedown {
+    background-color: $primary-dark-color !important;
+    box-shadow: none !important;
+  }
 
-//   &:hover {
-//     box-shadow: 2px 4px 8px 0px #a4613e 30%;
-//     background-color: $primary-light-color;
-//   }
-// }
+  &:hover {
+    @include set-box-shadow($primary-dark-color);
+    background-color: $primary-light-color;
+  }
 
-// .secondary-btn {
-// }
+  &:focus {
+    box-shadow: none;
+    background-color: $primary-light-color;
+  }
+}
 
-// .tertiary-btn {
-// }
+.btn-secondary {
+  @extend .btn-primary;
+  font-size: $md-font-size;
+}
 
-// .toggle-btn {
+.btn-tertiary {
+  @extend .btn-secondary;
+  @extend .px-5;
+}
+
+// TODO test this
+.toggle-btn {
+  &-inactive,
+  &-active {
+    border-radius: $sm-border-radius;
+    font-weight: $bold-font-weight;
+  }
+
+  // not selected
+  &-inactive {
+    border: 3px $primary-dark-color;
+    color: $primary-dark-color;
+    background-color: white;
+  }
+
+  // selected
+  &-active {
+    border: 3px $primary-light-color;
+    color: white;
+    background-color: $primary-light-color;
+  }
+}
+
+// .tag-btn = selected .toggle-btn (i.e. .toggle-btn-active)
+.tag-btn {
+  @extend .toggle-btn-active;
+}
+
+.no-show {
+  @include no-show;
+
+  @include mousedown {
+    @include no-show;
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    @include no-show;
+  }
+}
+
+.btn-no-show {
+  @extend .no-show;
+}
+
+/**
+ * STYLE GUIDE TEXT CLASSES
+ */
+.price-related-large-text {
+  @include font-type('price-related-large');
+}
+
+.price-related-small-text {
+  @include font-type('price-related-small');
+}
+
+.address-related-text {
+  @include font-type('address-related');
+}
+
+.primary-input-text {
+  @include font-type('primary-input-text');
+}
+
+h1,
+.title {
+  @include font-type('title');
+}
+
+.secondary-title {
+  @include font-type('secondary-title');
+}
+
+.primary-text,
+.text-primary {
+  @include font-type('primary-text');
+}
+
+.secondary-text,
+.text-secondary {
+  @include font-type('secondary-text');
+}
+
+p,
+.subtitle-text {
+  @include font-type('subtitle');
+}
+
+.special-text {
+  @include font-type('special');
+}
+
+/**
+ * STYLE GUIDE BORDERS
+ */
+.sm-thin-border {
+  @include thin-border('sm');
+}
+
+.md-thin-border {
+  @include thin-border('md');
+}
+
+.lg-thin-border {
+  @include thin-border('lg');
+}
+// TODO
+// .secondary-title {
+//   font-size: 20px;
 // }

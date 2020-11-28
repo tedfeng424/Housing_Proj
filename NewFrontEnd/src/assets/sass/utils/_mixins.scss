@@ -19,7 +19,7 @@
 
   @if $type == 'price-related-large' {
     font-weight: $bold-font-weight;
-    font-size: $l-font-size;
+    font-size: $lg-font-size;
     color: $primary-dark-color;
   } @else if $type == 'price-related-small' {
     font-weight: $bold-font-weight;
@@ -29,31 +29,78 @@
     font-weight: $bold-font-weight;
     font-size: $sm-font-size;
     color: $primary-dark-color;
+  } @else if $type == 'primary-input-text' {
+    font-weight: $bold-font-weight;
+    font-size: $sm-font-size;
+    color: $primary-dark-color;
   } @else if $type == 'title' {
     font-weight: $bold-font-weight;
-    font-size: $l-font-size;
+    font-size: $lg-font-size;
     color: $secondary-dark-color;
+  } @else if $type == 'secondary-title' {
+    font-weight: $bold-font-weight;
+    font-size: $lg-font-size;
+    color: $primary-dark-color;
   } @else if $type == 'primary-text' {
     font-weight: $bold-font-weight;
     font-size: $sm-font-size;
     color: $secondary-dark-color;
   } @else if $type == 'secondary-text' {
     font-weight: $regular-font-weight;
-    font-size: $l-font-size;
+    font-size: $sm-font-size;
     color: $secondary-dark-color;
   } @else if $type == 'subtitle' {
     font-weight: $regular-font-weight;
     font-size: $xs-font-size;
     color: $secondary-dark-color;
+  } @else if $type == 'special' {
+    font-family: $secondary-font-stack;
+    font-weight: $bold-font-weight;
+    font-size: $md-font-size;
+    color: $primary-dark-color;
   } @else {
     @error "#{$type} is not one of the available font styles. \
             Check _mixins.scss to see which font styles you can use.";
   }
 }
 
-// TODO
 @mixin mousedown {
+  &:active {
+    @content;
+  }
+
+  &:active:hover {
+    @content;
+  }
+
   &:hover:active {
     @content;
+  }
+}
+
+@mixin set-box-shadow($color: $primary-dark-color) {
+  box-shadow: 2px 4px 8px rgba($color, $alpha: 0.3) !important;
+}
+
+@mixin no-show {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background-color: rgba(255, 255, 255, 0) !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+@mixin thin-border($size: 'lg', $color: $secondary-light-color) {
+  @if $size == 'sm' {
+    border: 2px solid $color;
+  } @else if $size == 'md' {
+    border: 4px solid $color;
+  } @else if $size == 'lg' {
+    border: 6px solid $color;
+  } @else {
+    @error "#{$size} is not one of the available border sizes. \
+            Check _mixins.scss to see which sizes you can use.";
   }
 }

@@ -33,6 +33,7 @@ $tertiary-color: #f3d990;
  */
 // Font stack
 $primary-font-stack: 'Montserrat', 'Courier New', Courier, monospace;
+$secondary-font-stack: 'Roboto Slab', 'Courier New', Courier, monospace;
 
 // Font Weights
 $bold-font-weight: 700;
@@ -40,10 +41,17 @@ $regular-font-weight: 400;
 
 // Font sizes
 $xl-font-size: 26px;
-$l-font-size: 24px;
-$m-font-size: 18px;
+$lg-font-size: 24px;
+$md-font-size: 18px;
 $sm-font-size: 16px;
 $xs-font-size: 12px;
+
+/**
+ * STYLE GUIDE OTHER VARS.
+ */
+// TODO
+$lg-border-radius: 22px;
+$sm-border-radius: 10px;
 
 /**
  * There are 5 main colors: 3 orange variations, two green. The three orange variations seem to have 3 purposes:
@@ -62,11 +70,6 @@ $secondary-light-color: #e6f0d8;
 $main-background-color: #fffcfb;
 $darker-background-color: #f8e6d8;
 
-$default-text-weight: 700;
-
 $rounded-lg: 40px;
 
 $default-border-width: 3px;
-
-$roboto-slab-font: 'Roboto Slab';
-$secondary-title-font: $roboto-slab-font;

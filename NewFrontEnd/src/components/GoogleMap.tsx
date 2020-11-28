@@ -1,36 +1,51 @@
 import React, { useEffect, useState } from 'react';
-import GoogleMapReact from 'google-map-react';
+import GoogleMapReact, { Coords } from 'google-map-react';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import { miscIcons } from '../assets/icons/all';
+import { mapIcons } from '../assets/icons/all';
 
-// todo: figure out how to make marker POINT be on top of location
-// todo: remove text from parameters without breaking the component
-const AnyReactComponent = ({ text }: any) => {
-  return <miscIcons.mapMarker className="d-block" />;
-};
+const MapPin: React.FC<Coords> = () => (
+  <div>
+    <div style={{ marginLeft: '-17px', marginTop: '-46px' }}>
+      <mapIcons.mapPin />
+    </div>
+  </div>
+);
 
 interface PathProps {
   address: string;
 }
+
 const GoogleMap: React.FC<PathProps> = ({ address }) => {
-  const [center, setCenter] = useState({ lat: 11.0168, lng: 76.9558 });
-  const [zoom, setZoom] = useState(11);
-  const code = geocodeByAddress(address);
-  const location = code.then((results) => getLatLng(results[0]));
+  const [center, setCenter] = useState<Coords>({ lat: 32.8801, lng: -117.234 }); // TODO this is no good. We need to have a loading symbol in the map when this is not set. Solution: Keep track of when the center is set from useEffect (use a var with useState). If it hasn't been set yet, then instead of showing the mapPin, show the loading gif
+  const [zoom, setZoom] = useState(12);
+
   useEffect(() => {
-    location.then((longlat) => {
-      setCenter(longlat);
-      console.log(center);
-    });
-  }, [center, location]);
+    // Mounted is needed for React (not always necessary). You can only update a component's
+    // state when it is mounted -- we potentially set the state after it is already unmounted
+    // because of the async calls. Thus, we need to check if it is mounted before updating the state
+    let mounted = true;
+
+    // function that gets and sets the map pin
+    const setMapPin = async () => {
+      const code = await geocodeByAddress(address);
+      const location = await getLatLng(code[0]);
+      if (mounted) setCenter(location);
+    };
+    setMapPin();
+
+    return () => {
+      mounted = false;
+    };
+  }, [address, setCenter]);
+
   return (
-    <div style={{ height: '25%', minHeight: '40vh', width: '100%' }}>
+    <div className="google-map-wrapper">
       <GoogleMapReact
         bootstrapURLKeys={{ key: 'AIzaSyDP7ZDv6xGzfVe7y7Sgb3MsYMqCVLNljeY' }} // TODO put key in an .env
         center={center}
         defaultZoom={zoom}
       >
-        <AnyReactComponent lat={center.lat} lng={center.lng} />
+        <MapPin lat={center.lat} lng={center.lng} />
       </GoogleMapReact>
     </div>
   );

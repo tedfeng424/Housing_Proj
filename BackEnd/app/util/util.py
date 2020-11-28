@@ -1,8 +1,6 @@
-from flask import Response
+from flask import jsonify, make_response
 
 
-def handleOptions():
-    resp = Response()
-    resp.headers['Access-Control-Allow-Headers'] = "Content-Type"
-    resp.headers['Access-Control-Allow-Credentials'] = 'true'
-    return resp
+def generateResponse(elem={}, status=200):
+    response = make_response(jsonify(elem), status)
+    return response

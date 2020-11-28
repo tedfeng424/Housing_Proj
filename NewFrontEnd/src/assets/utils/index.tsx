@@ -62,51 +62,9 @@ const abbreviateMonth = (month: months): monthsAbrv =>
 const abbreviateAddress = (address: string): string => address.split(',')[0];
 
 /**
- * Use to provide formatting to room type
+ * Use to remove parentheses and everything inside the parentheses
  */
-const formatRoomType = (roomType: string): roomTypes =>
-  roomDbToRoom[roomType as roomTypesDb];
+const removeParentheses = (str: string): string =>
+  str.replace(/ *\([^)]*\) */g, '');
 
-/**
- * Use to provide formatting to intervals (TODO: change to enums)
- */
-const formatInterval = (interval: string): string => {
-  return interval.replace(/ *\([^)]*\) */g, '');
-};
-
-/**
- * Use to provide formatting to whole movein string
- * TODO: make this code neater!
- */
-const formatMoveIn = (early: string, late: string): string => {
-  const [earlyInt, earlyMonth] = early.split(' ') as [string, months];
-  const [lateInt, lateMonth] = late.split(' ') as [string, months];
-
-  if (earlyMonth === lateMonth) return abbreviateMonth(earlyMonth);
-
-  let earlyPart = `${formatInterval(earlyInt)} ${abbreviateMonth(earlyMonth)}`;
-  let latePart = `${formatInterval(lateInt)} ${abbreviateMonth(lateMonth)}`;
-
-  if (
-    formatInterval(earlyInt) === 'Anytime' ||
-    formatInterval(earlyInt) === 'Early'
-  ) {
-    earlyPart = abbreviateMonth(earlyMonth);
-  }
-  if (
-    formatInterval(lateInt) === 'Anytime' ||
-    formatInterval(lateInt) === 'Late'
-  ) {
-    latePart = abbreviateMonth(lateMonth);
-  }
-  return `${earlyPart} - ${latePart}`;
-};
-
-export {
-  moveInSelect,
-  abbreviateMonth,
-  abbreviateAddress,
-  formatRoomType,
-  formatInterval,
-  formatMoveIn,
-};
+export { moveInSelect, abbreviateMonth, abbreviateAddress, removeParentheses };

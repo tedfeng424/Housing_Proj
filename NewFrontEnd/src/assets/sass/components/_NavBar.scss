@@ -15,28 +15,9 @@
 
 .g-sign-in,
 .g-sign-out {
-  margin: 0 !important;
-  font-family: Roboto Slab;
-  font-style: normal;
-  font-weight: bold;
-  font-size: calc(50% + 0.5vw + 1vh);
-  line-height: 30px;
-  /* or 167% */
+  @include font-type('special');
   display: flex;
   align-items: flex-end;
   letter-spacing: 0.2em;
-  border: 0;
-  outline: 0;
   color: $secondary-color !important;
-  background-color: #fff !important;
-}
-
-.g-sign-in:hover,
-.g-sign-out:hover {
-  color: theme-color('secondary-light-color') !important;
-}
-
-.g-auth {
-  box-shadow: none !important;
-  margin: 0 auto;
 }

@@ -3,36 +3,14 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
-import SlideShow from './SlideShow';
-import HouseProfile, { facilityToIcon } from './HouseProfile';
-import {
-  abbreviateAddress,
-  formatRoomType,
-  formatMoveIn,
-} from '../assets/utils';
+import SlideShow, { SlideShowItem } from './SlideShow';
+import HouseProfile from './HouseProfile';
+import { abbreviateMonth, removeParentheses } from '../assets/utils';
+import { months } from '../assets/constants';
+import { HousePost } from '../assets/models/PostModels';
 
-// Path Props need to be exactly the same from backend response
-// TODO: extract common interface between HouseCard and HouseProfile
-export interface PathProps {
-  name: string;
-  location: string;
-  distance: string;
-  pricePerMonth: number;
-  stayPeriod: number;
-  early: string;
-  late: string;
-  roomType: string;
-  leaserName: string;
-  leaserEmail: string;
-  leaserPhone: string;
-  leaserSchoolYear: number;
-  leaserMajor: string;
-  leaserIntro: string;
-  photo: string[];
-  profilePhoto: string;
-  other: string[];
-  facilities: (keyof typeof facilityToIcon)[];
-}
+// change this to PathProps extends HousePost {} to include other props
+type PathProps = HousePost;
 
 const HouseCard: React.FC<PathProps> = ({
   name,
@@ -42,7 +20,7 @@ const HouseCard: React.FC<PathProps> = ({
   late,
   distance,
   location,
-  photo,
+  photos,
   profilePhoto,
   stayPeriod,
   leaserName,
@@ -51,43 +29,68 @@ const HouseCard: React.FC<PathProps> = ({
   leaserIntro,
   leaserEmail,
   leaserPhone,
+  roomId,
   other,
   facilities,
+  negotiable,
 }) => {
   const [show, setShow] = useState<boolean>(false);
-  const SlideShowContent = photo.map((link) => ({
-    src: `https://houseit.s3.us-east-2.amazonaws.com/${link}`,
-    alt: `${leaserEmail} , ${location}}`,
-  }));
   const [moveIn, setMoveIn] = useState<string>('');
+  const [slideShowItems, setSlideShowItems] = useState<SlideShowItem[]>([]);
+
+  // set the slide show items
+  useEffect(() => {
+    setSlideShowItems(
+      photos.map((url) => ({
+        src: `https://houseit.s3.us-east-2.amazonaws.com/${url}`,
+        alt: `${leaserEmail} , ${location}}`,
+      })),
+    );
+  }, [setSlideShowItems, photos, leaserEmail, location]);
 
   // abbreviate the move in date
   useEffect(() => {
-    setMoveIn(formatMoveIn(early, late));
+    const [earlyInt, earlyMonth] = early.split(' ') as [string, months];
+    const [lateInt, lateMonth] = late.split(' ') as [string, months];
+
+    // TODO temporary, 'anytime' should not be in the database (same with the removeParentheses)
+    const earlyIntDisplayed =
+      earlyInt.toLowerCase() === 'anytime' ? '' : removeParentheses(earlyInt);
+    const lateIntDisplayed =
+      lateInt.toLowerCase() === 'anytime' ? '' : removeParentheses(lateInt);
+
+    setMoveIn(
+      `${earlyIntDisplayed} ${abbreviateMonth(
+        earlyMonth,
+      )} - ${lateIntDisplayed} ${abbreviateMonth(lateMonth)}`,
+    );
   }, [early, late]);
 
   return (
     <>
       <HouseProfile
-        slideShowItems={SlideShowContent}
+        photos={photos}
         pricePerMonth={pricePerMonth}
         roomType={roomType}
-        moveIn={moveIn}
+        early={early}
+        late={late}
         distance={distance}
-        address={location}
-        houseName={name}
+        location={location}
+        name={name}
         stayPeriod={stayPeriod}
         facilities={facilities}
-        lookingFor={other}
-        bioName={leaserName}
-        bioYear={leaserSchoolYear}
-        bioMajor={leaserMajor}
-        email={leaserEmail}
-        phone={leaserPhone}
-        bioProfilePic={profilePhoto}
-        bioDescription={leaserIntro}
+        other={other}
+        leaserName={leaserName}
+        leaserSchoolYear={leaserSchoolYear}
+        leaserMajor={leaserMajor}
+        leaserEmail={leaserEmail}
+        leaserPhone={leaserPhone}
+        profilePhoto={profilePhoto}
+        leaserIntro={leaserIntro}
+        roomId={roomId}
         show={show}
         setShow={setShow}
+        negotiable={negotiable}
       />
 
       <Card className="house-card">
@@ -95,75 +98,42 @@ const HouseCard: React.FC<PathProps> = ({
           <Container>
             <Row className="house-pic">
               <SlideShow
-                images={SlideShowContent}
+                images={slideShowItems}
                 onImageClick={() => setShow(true)}
               />
             </Row>
 
             {/* 1st row */}
             <Row className="px-2">
-              {/* 1st, left */}
-              <Col md={6} className="house-card-left-new">
+              <Col md={4} className="price-related-large-text">
                 <Row>
-                  {/* FIX THIS */}
-                  <span>
-                    <span className="house-card-price">
-                      ${Math.round(pricePerMonth)}
-                    </span>
-                    <span className="house-card-negotiable">
-                      {true ? ' (*)' : ''}
-                    </span>
-                  </span>
+                  {negotiable && '~'}${pricePerMonth}
                 </Row>
               </Col>
-
-              {/* 1st, right */}
-              <Col md={6} className="house-card-right-new house-card-right-top">
+              <Col md={8} className="pt-1">
                 <Row>
-                  <div className="w-100 text-right">
-                    {formatRoomType(roomType)}
-                    <span className="divider"> | </span>
-                    {/* TODO: play around with size here */}
-                    {5}B {3.5}B
+                  <div className="w-100 text-right secondary-text">
+                    {roomType}
+                    <span className="divider"> | </span> baths
                   </div>
                 </Row>
+                <div className="text-right secondary-text">
+                  Move in {moveIn}
+                </div>
               </Col>
             </Row>
 
             {/* 2nd row */}
             <Row className="px-2">
-              {/* 2nd, left */}
-              <Col md={6} className="house-card-left-new">
+              <Col md={4} className="address-related-text">
+                <Row>{distance}</Row>
+              </Col>
+
+              <Col md={8} className="secondary-text">
                 <Row>
-                  {/* todo: find a better way to put a space here */}
-                  <span>
-                    <span className="font-weight-bold">~ {distance}</span>
-                    {' transit'}
-                  </span>
-                </Row>
-              </Col>
-
-              {/* 2nd, right */}
-              <Col md={6} className="house-card-right-new">
-                <Row className="house-card-right-row">
-                  Move In {moveIn}
-                  {/* <div className="w-100 text-right">Move In {moveIn}</div> */}
-                  {/* <div className="w-100 text-right">yayayayayayayaya</div> */}
-                </Row>
-              </Col>
-            </Row>
-
-            {/* last row */}
-            <Row className="px-2">
-              {/* last, left */}
-              <Col md={6} className="house-card-left-new">
-                <Row>To Price Center</Row>
-              </Col>
-
-              {/* last, right */}
-              <Col md={6} className="house-card-right-new">
-                <Row className="house-card-right-row">
-                  {abbreviateAddress(location)}
+                  <div className="w-100 text-right text-truncate">
+                    {location}
+                  </div>
                 </Row>
               </Col>
             </Row>

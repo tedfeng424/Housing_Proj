@@ -1,27 +1,27 @@
 .housing-profile-house-type {
-  @extend .h4;
   @extend .px-3;
   @extend .py-2;
   @extend .rounded;
-  color: theme-color('secondary');
+  @include font-type('title');
   background-color: theme-color('secondary-light');
 }
 
 .housing-profile-price {
   @extend .h2;
-  color: $primary-dark-color;
-  font-weight: 600;
+  @include font-type('price-related-large');
+}
+
+.house-profile-top-half {
+  @extend .px-2;
+  @extend .pl-lg-1;
+  height: 50%;
+  display: contents;
 }
 
 .housing-profile-bio {
   @extend .px-3;
   @extend .py-2;
   @extend .mt-2;
-  // TODO
-  // $margin-bottom: -1 * map-get($spacers, 3);
-  // $margin-right: add(-1 * map-get($spacers, 3), -1 * map-get($spacers, 3));
-  // margin-bottom: $margin-bottom;
-  // margin-right: $margin-right;
   background-color: theme-color('secondary-light');
   flex: 100%;
   width: auto;
@@ -34,6 +34,7 @@
 }
 
 .housing-profile-speech-bubble {
+  @include font-type('secondary-text');
   $padding: map-get($spacers, 3);
   $margin-top: map-get($spacers, 4);
   padding: $padding;
@@ -44,30 +45,6 @@
   box-shadow: 3px 3px 4px -2px $gray-400;
   background-color: white;
   word-break: break-word;
-
-  // TODO: make sure to switch to a relative max-height
-  overflow-y: auto;
-  max-height: 200px;
-
-  &:before {
-    $triangle-size: 1rem;
-    content: ' ';
-    position: absolute;
-    width: 0;
-    height: 0;
-    right: 0;
-    top: subtract(0, add($padding, $triangle-size));
-    box-shadow: 3px 0px 4px -2px $gray-400;
-    border: $triangle-size solid;
-    border-color: transparent white white transparent;
-  }
-}
-
-.slide-h {
-  height: 50%;
-  top: 20%;
-  position: absolute;
-  margin: 0;
 }
 
 .house-profile-preview-slideshow {
@@ -81,7 +58,7 @@
 
 .house-profile-modal {
   .modal-content {
-    @extend .secondary-border-thin;
+    @include thin-border('lg');
     padding: 0;
   }
 }

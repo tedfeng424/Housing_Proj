@@ -6,46 +6,26 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
-import { useDispatch } from 'react-redux';
-import { searchHousing } from '../apis/index';
+import { useDispatch, useSelector } from 'react-redux';
+import FilterButton from './FilterButton';
 import {
   roomTypeIcons,
-  roomTypeUnchosen,
   filterIcons,
   preferencesIcons,
 } from '../assets/icons/all';
 import { intervalOptions, yearMonths } from '../assets/constants';
 import { moveInSelect } from '../assets/utils/index';
-import { updateHousingPosts } from '../redux/slices/housing';
+import {
+  FilterModel,
+  PreferenceLiteralType,
+  Preferences,
+  RoomLiteralType,
+} from '../assets/models/FilterModel';
+import { searchHousingPosts } from '../redux/slices/housing';
 
-interface Preferences {
-  female: boolean;
-  male: boolean;
-  lgbtq: boolean;
-  parking: boolean;
-  pets: boolean;
-  privateBath: boolean;
-  _420: boolean;
-}
+import { setShow, selectShow } from '../redux/slices/filter';
 
-type RoomLiteralType = keyof typeof roomTypeUnchosen;
-type PreferenceLiteralType = keyof Preferences;
-
-interface BackendJson {
-  distance: string;
-  room_type: RoomLiteralType[];
-  price_min: number;
-  price_max: number;
-  early_interval: string;
-  early_month: string;
-  late_interval: string;
-  late_month: string;
-  stay_period: number;
-  other: string[];
-  facilities: string[];
-}
-
-type RoomType = { [P in keyof typeof roomTypeUnchosen]: boolean };
+type RoomType = { [P in RoomLiteralType]: boolean };
 
 interface Price {
   minimum: number;
@@ -68,9 +48,8 @@ const formatRequest = (
   monthCount: number,
   minute: number,
   price: Price,
-): BackendJson => {
-  let room_selections: RoomLiteralType[];
-  room_selections = [
+): FilterModel => {
+  const roomSelections: RoomLiteralType[] = [
     'single',
     'double',
     'triple',
@@ -78,48 +57,56 @@ const formatRequest = (
     'suite',
     'studio',
   ];
-  let other_prefs: PreferenceLiteralType[];
-  other_prefs = ['female', 'male', 'lgbtq', 'pets', '_420'];
-  let facilities: PreferenceLiteralType[];
-  facilities = ['parking', 'privateBath'];
-  const room_result: RoomLiteralType[] = [];
-  const selected_rooms = room_selections.reduce((result, room_selection) => {
-    if (rt[room_selection]) {
-      result.push(room_selection);
+  const otherPrefs: PreferenceLiteralType[] = [
+    'female',
+    'male',
+    'lgbtq',
+    'pets',
+    '_420',
+  ];
+  const facilities: PreferenceLiteralType[] = ['parking', 'privateBath'];
+  const roomResult: RoomLiteralType[] = [];
+  const selectedRooms = roomSelections.reduce((result, roomSelection) => {
+    if (rt[roomSelection]) {
+      result.push(roomSelection);
     }
-    return room_result;
-  }, room_result);
-  const other_result: PreferenceLiteralType[] = [];
-  const selected_other = other_prefs.reduce((other_result, other_pref) => {
-    if (pref[other_pref]) {
-      other_result.push(other_pref);
-    }
-    return other_result;
-  }, other_result);
-  const fac_result: PreferenceLiteralType[] = [];
-  const selected_fac = facilities.reduce((fac_result, other_pref) => {
-    if (pref[other_pref]) {
-      fac_result.push(other_pref);
-    }
-    return fac_result;
-  }, fac_result);
+    return roomResult;
+  }, roomResult);
+  const selectedOther = otherPrefs.reduce<PreferenceLiteralType[]>(
+    (otherResult, otherPref) => {
+      if (pref[otherPref]) {
+        otherResult.push(otherPref);
+      }
+      return otherResult;
+    },
+    [],
+  );
+  const selectedFac = facilities.reduce<PreferenceLiteralType[]>(
+    (facResult, otherPref) => {
+      if (pref[otherPref]) {
+        facResult.push(otherPref);
+      }
+      return facResult;
+    },
+    [],
+  );
   return {
     distance: `${minute} mins`,
-    room_type: selected_rooms,
-    early_interval: earlyInterval,
-    early_month: earlyMonth,
-    late_interval: lateInterval,
-    late_month: lateMonth,
-    stay_period: monthCount,
-    price_min: price.minimum,
-    price_max: price.maximum,
-    other: selected_other,
-    facilities: selected_fac,
+    roomType: selectedRooms,
+    earlyInterval,
+    earlyMonth,
+    lateInterval,
+    lateMonth,
+    stayPeriod: monthCount,
+    priceMin: price.minimum,
+    priceMax: price.maximum,
+    other: selectedOther,
+    facilities: selectedFac,
   };
 };
 
 const Filter: React.FC<{}> = () => {
-  const [show, setShow] = useState<boolean>(false);
+  const show = useSelector(selectShow);
   const [earlyInterval, setEarlyInterval] = useState<string>('Anytime');
   const [earlyMonth, setEarlyMonth] = useState<string>('Anytime');
   const [lateInterval, setLateInterval] = useState<string>('Anytime');
@@ -155,19 +142,22 @@ const Filter: React.FC<{}> = () => {
       <div className="filter-launch-pad">
         <filterIcons.hello className="disappear-on-sm" />
         <filterIcons.arrow className="disappear-on-sm" />
-        <Button onClick={() => setShow(true)} className="filter-launch-button">
-          Filter & Match
-        </Button>
+        <FilterButton name="Find your place" />
         <filterIcons.arrow className="disappear-on-sm" />
         <filterIcons.loveHouse className="disappear-on-sm" />
       </div>
 
       {/* The filter itself */}
-      <Modal show={show} onHide={() => setShow(false)} size="xl" centered>
+      <Modal
+        show={show}
+        onHide={() => dispatch(setShow(false))}
+        size="xl"
+        centered
+      >
         <Container>
           <Form>
             <Row className="justify-content-center my-4">
-              <div className="title">Distance</div>
+              <div className="filter-title">Distance</div>
             </Row>
             <Row className="justify-content-center">
               <span className="word">Less than </span>
@@ -177,7 +167,7 @@ const Filter: React.FC<{}> = () => {
                 min={0}
                 max={120}
                 value={minute}
-                onChange={(event) => setMinute(parseInt(event.target.value))}
+                onChange={(event) => setMinute(parseInt(event.target.value))} // TODO only parse teh int before making the api request
                 isValid={minute > 0 && minute <= 120}
                 isInvalid={minute <= 0 || minute > 120}
                 placeholder="minutes to school"
@@ -193,7 +183,7 @@ const Filter: React.FC<{}> = () => {
               {/* Room Type */}
               <Col md={12} lg={6} className="justify-content-center">
                 <Row className="justify-content-center">
-                  <div className="title">Room Type</div>
+                  <div className="filter-title">Room Type</div>
                 </Row>
                 <Row className="justify-content-center">
                   {(Object.keys(roomType) as Array<keyof typeof roomType>).map(
@@ -204,9 +194,9 @@ const Filter: React.FC<{}> = () => {
                           `${key}Chosen` as keyof typeof roomTypeIcons
                         ];
                       return (
-                        <Col>
+                        <Col key={key}>
                           <Button
-                            className="btn-filter"
+                            variant="no-show"
                             onClick={() => {
                               const changed = { ...roomType };
                               changed[key] = !roomType[key];
@@ -235,7 +225,7 @@ const Filter: React.FC<{}> = () => {
                 className="justify-content-center"
               >
                 <Row className="justify-content-center">
-                  <div className="title">Price Range</div>
+                  <div className="filter-title">Price Range</div>
                 </Row>
 
                 <Form.Row className="justify-content-center m-2">
@@ -296,19 +286,23 @@ const Filter: React.FC<{}> = () => {
               {/* Move in time */}
               <Col md={12} lg={6} className="justify-content-center">
                 <Row className="justify-content-center">
-                  <div className="title">Move in time</div>
+                  <div className="filter-title">Move in time</div>
                 </Row>
 
                 <Row className="justify-content-center">
                   <span className="word mr-3">As early as</span>
                   <Dropdown>
-                    <Dropdown.Toggle id="dropdown-basic">
+                    <Dropdown.Toggle
+                      id="dropdown-basic"
+                      className="btn-tertiary"
+                    >
                       {earlyInterval}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                       {intervalOptions.map((interval) => (
                         <Dropdown.Item
                           eventKey={interval}
+                          key={interval}
                           onSelect={(event) => setEarlyInterval(event || '')}
                         >
                           {interval}
@@ -336,7 +330,7 @@ const Filter: React.FC<{}> = () => {
                       }
                     >
                       <Dropdown.Toggle
-                        className="form-dropdown ml-0"
+                        className="form-dropdown ml-0 btn-tertiary"
                         id="dropdown-basic"
                       >
                         {earlyMonth}
@@ -345,6 +339,7 @@ const Filter: React.FC<{}> = () => {
                         {yearMonths.map((month) => (
                           <Dropdown.Item
                             eventKey={month}
+                            key={month}
                             onSelect={(event) => setEarlyMonth(event || '')}
                           >
                             {month}
@@ -362,13 +357,17 @@ const Filter: React.FC<{}> = () => {
                 <Row className="justify-content-center">
                   <span className="word notes">As late as </span>
                   <Dropdown>
-                    <Dropdown.Toggle id="dropdown-basic">
+                    <Dropdown.Toggle
+                      id="dropdown-basic"
+                      className="btn-tertiary"
+                    >
                       {lateInterval}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                       {intervalOptions.map((interval) => (
                         <Dropdown.Item
                           eventKey={interval}
+                          key={interval}
                           onSelect={(event) => setLateInterval(event || '')}
                         >
                           {interval}
@@ -379,7 +378,7 @@ const Filter: React.FC<{}> = () => {
                   <Form.Group>
                     <Form.Control className="clear-border" as={Dropdown}>
                       <Dropdown.Toggle
-                        className="form-dropdown ml-0"
+                        className="form-dropdown ml-0 btn-tertiary"
                         id="dropdown-basic"
                       >
                         {lateMonth}
@@ -388,6 +387,7 @@ const Filter: React.FC<{}> = () => {
                         {yearMonths.map((month) => (
                           <Dropdown.Item
                             eventKey={month}
+                            key={month}
                             onSelect={(event) => setLateMonth(event || '')}
                           >
                             {month}
@@ -409,7 +409,7 @@ const Filter: React.FC<{}> = () => {
                 className="justify-content-center"
               >
                 <Row className="justify-content-center">
-                  <div className="title">Stay period</div>
+                  <div className="filter-title">Stay period</div>
                 </Row>
                 <Row className="justify-content-center">
                   <Col>
@@ -437,13 +437,13 @@ const Filter: React.FC<{}> = () => {
             <Separator className="my-4" />
 
             <Row className="justify-content-md-center">
-              <span className="title">Others</span>
+              <span className="filter-title">Others</span>
             </Row>
 
             {/* TODO */}
             <Row className="justify-content-center">
               <Button
-                className="btn-filter"
+                variant="no-show"
                 onClick={() => {
                   setPreferences({
                     ...preferences,
@@ -458,7 +458,7 @@ const Filter: React.FC<{}> = () => {
                 )}
               </Button>
               <Button
-                className="btn-filter"
+                variant="no-show"
                 onClick={() => {
                   setPreferences({ ...preferences, male: !preferences.male });
                 }}
@@ -470,7 +470,7 @@ const Filter: React.FC<{}> = () => {
                 )}
               </Button>
               <Button
-                className="btn-filter"
+                variant="no-show"
                 onClick={() => {
                   setPreferences({
                     ...preferences,
@@ -485,7 +485,7 @@ const Filter: React.FC<{}> = () => {
                 )}
               </Button>
               <Button
-                className="btn-filter"
+                variant="no-show"
                 onClick={() => {
                   setPreferences({ ...preferences, pets: !preferences.pets });
                 }}
@@ -497,7 +497,7 @@ const Filter: React.FC<{}> = () => {
                 )}
               </Button>
               <Button
-                className="btn-filter"
+                variant="no-show"
                 onClick={() => {
                   setPreferences({ ...preferences, lgbtq: !preferences.lgbtq });
                 }}
@@ -509,7 +509,7 @@ const Filter: React.FC<{}> = () => {
                 )}
               </Button>
               <Button
-                className="btn-filter"
+                variant="no-show"
                 onClick={() => {
                   setPreferences({
                     ...preferences,
@@ -524,7 +524,7 @@ const Filter: React.FC<{}> = () => {
                 )}
               </Button>
               <Button
-                className="btn-filter"
+                variant="no-show"
                 onClick={() => {
                   setPreferences({
                     ...preferences,
@@ -544,27 +544,20 @@ const Filter: React.FC<{}> = () => {
           <Row />
           <Row className="justify-content-center">
             <Button
-              onClick={() =>
-                dispatch(
-                  updateHousingPosts(() =>
-                    searchHousing(
-                      JSON.stringify(
-                        formatRequest(
-                          preferences,
-                          roomType,
-                          earlyInterval,
-                          earlyMonth,
-                          lateInterval,
-                          lateMonth,
-                          monthCount,
-                          minute,
-                          price,
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              }
+              onClick={() => {
+                const formattedRequest = formatRequest(
+                  preferences,
+                  roomType,
+                  earlyInterval,
+                  earlyMonth,
+                  lateInterval,
+                  lateMonth,
+                  monthCount,
+                  minute,
+                  price,
+                );
+                dispatch(searchHousingPosts(formattedRequest));
+              }}
             >
               Find Best Fit Now!
             </Button>

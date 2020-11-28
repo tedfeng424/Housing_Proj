@@ -21,10 +21,12 @@ def add_user(name, email, date_created, phone, description, school_year, major,
     return User_to_add
 
 
-def add_room(date_created, room_type, price, description, stay_period,
+def add_room(date_created, room_type, price, negotiable, description,
+             stay_period,
              distance, address, user, move_in, session):
     Room_to_add = Room(date_created=date_created, room_type=room_type,
                        price=price,
+                       negotiable=negotiable,
                        description=description, stay_period=stay_period,
                        distance=distance, address=address,
                        user=user, move_in=move_in)
@@ -54,13 +56,16 @@ def add_attribute(name, category, session):
     add_and_commit(Attribute_to_add, session)
     return Attribute_to_add
 
+
 def add_bookmark(room_id, user_id, session):
-    bookmark_to_add = Bookmark(room_id = room_id, user_id = user_id)
+    bookmark_to_add = Bookmark(room_id=room_id, user_id=user_id)
     add_and_commit(bookmark_to_add, session)
     return bookmark_to_add
 
-def remove_bookmark(room_id, session):
-    session.query(Bookmark).filter_by(room_id = room_id).delete() # changed from Bookmark.room_id
+
+def remove_bookmark(room_id, user_id, session):
+    session.query(Bookmark).filter_by(
+        room_id=room_id, user_id=user_id).delete()
     session.commit()
     return
 # Read
@@ -116,9 +121,11 @@ def room_json(room, session):
         'leaserSchoolYear': house_user.school_year,
         'leaserMajor': house_user.major,
         'leaserIntro': house_user.description,
-        'photo': get_images(house_user.email, extra_path=room_name),
+        'photos': get_images(house_user.email, extra_path=room_name),
         'profilePhoto': 'https://houseit.s3.us-east-2.amazonaws.com/' +
-        get_images(house_user.email, category="profile")[0]
+        get_images(house_user.email, category="profile")[0],
+        'roomId': r_json['id'],
+        'negotiable': r_json['negotiable']
     }
     return return_json
 
@@ -169,6 +176,7 @@ def write_room(room_json, session):
     new_room = add_room(datetime.now(),
                         room_json['roomType'],
                         room_json['price'],
+                        room_json['negotiable'],
                         '',  # room_json['description'],
                         room_json['stayPeriod'],
                         room_json['distance'],

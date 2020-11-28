@@ -13,17 +13,15 @@
   font-size: 24px;
 }
 
-.title {
+.filter-title {
   @extend .mb-3;
+  @include font-type('title');
+
   text-align: center;
-  font-family: Montserrat;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 24px;
-  line-height: 57px;
-  width: 229px;
-  height: 57px;
-  color: theme-color('focused');
+  line-height: 60px;
+  width: 230px;
+  height: 60px;
+  color: $primary-dark-color;
   background-image: url('../../icons/misc/wordBubble.svg');
 }
 
@@ -48,13 +46,6 @@
 
 .w-10rem {
   width: 10rem;
-}
-
-.btn-filter {
-  margin: 0rem !important;
-  padding: 0 !important;
-  background-color: white !important;
-  border-color: white !important;
 }
 
 .separator {

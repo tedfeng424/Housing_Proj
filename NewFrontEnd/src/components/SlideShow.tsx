@@ -40,7 +40,7 @@ const SlideShow: React.FC<PathProps> = ({ images, onImageClick }) => {
       className="w-100"
     >
       {images.map((image) => (
-        <Carousel.Item>
+        <Carousel.Item key={image.src}>
           <button
             className="no-show w-100 h-100"
             type="button"

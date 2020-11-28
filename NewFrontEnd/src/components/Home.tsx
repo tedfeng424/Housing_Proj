@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { selectUser } from '../redux/slices/auth';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import { selectUser } from '../redux/slices/auth';
 import HousingList from './HouseCardList';
 import Filter from './Filter';
 import TV from './TV';
 import Login from './Login';
 import HousingPost from './HousingPostForm';
-import HouseCard, { PathProps } from './HouseCard';
-import MyList from './MyList';
-import MyListCard from './MyListCard';
+import BookmarksList from './BookmarksList';
 
 const Home: React.FC = () => {
   const [showLogin, setShowLogin] = useState<boolean>(false);
@@ -20,7 +18,6 @@ const Home: React.FC = () => {
   const handleShowLogin = () => setShowLogin(true);
 
   const [showHousingPost, setShowHousingPost] = useState<boolean>(false);
-  const handleCloseHousingPost = () => setShowHousingPost(false);
   const handleShowHousingPost = () => setShowHousingPost(true);
   const user = useSelector(selectUser);
 
@@ -40,16 +37,20 @@ const Home: React.FC = () => {
           <TV>
             {!user ? (
               <>
-                <div className="secondary-title mt-3">Hello</div>
+                <div className="special-text mt-3">Hello</div>
                 <div className="tv-separator" />
-                <Button onClick={handleShowLogin}>Sign in to post</Button>
+                <Button variant="secondary" onClick={handleShowLogin}>
+                  Sign in to post
+                </Button>
               </>
             ) : (
               <>
                 {/* TODO this is temporary for while the 'Post ur request' is disabled */}
-                <div className="secondary-title mt-3">Hello</div>
+                <div className="special-text mt-3">Hello</div>
                 <div className="tv-separator" />
-                <Button onClick={handleShowHousingPost}>Post house info</Button>
+                <Button variant="secondary" onClick={handleShowHousingPost}>
+                  Post here
+                </Button>
                 {/* <Button>Post ur request</Button> */}
               </>
             )}
@@ -64,7 +65,7 @@ const Home: React.FC = () => {
 
         {/* see if either md=3 or md=auto works -Keenan */}
         <Col md={3}>
-          <MyList />
+          <BookmarksList />
         </Col>
       </Row>
     </Container>

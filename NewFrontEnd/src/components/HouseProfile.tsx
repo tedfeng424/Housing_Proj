@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -7,12 +7,21 @@ import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
-import Cookies from 'universal-cookie';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  selectHousingFavorites,
+  newHousingFavorite,
+  removeHousingFavorite,
+} from '../redux/slices/housing';
 import GoogleMap from './GoogleMap';
 import PreviewSlideShow from './PreviewSlideShow';
 import { SlideShowItem } from './SlideShow';
 import { contactIcons, miscIcons, facilityIcons } from '../assets/icons/all';
-import { formatRoomType } from '../assets/utils';
+import { LOGIN_TO_VIEW } from '../assets/constants/messages';
+import { HousePost } from '../assets/models/PostModels';
+import { months } from '../assets/constants';
+import { removeParentheses, abbreviateMonth } from '../assets/utils';
+import { selectUser } from '../redux/slices/auth';
 
 const Ellipse: React.FC<{}> = () => (
   <Row className="justify-content-center">
@@ -35,94 +44,68 @@ const GetIcon: React.FC<{ str: keyof typeof facilityToIcon }> = ({ str }) => (
   <div className="mt-2">{facilityToIcon[str]}</div>
 );
 
-interface PathProps {
-  slideShowItems: SlideShowItem[];
-  houseName: string;
-  pricePerMonth: number;
-  roomType: string;
-  moveIn: string;
-  stayPeriod: number;
-  facilities: (keyof typeof facilityToIcon)[];
-  lookingFor: string[];
-  distance: string;
-  address: string;
-  bioName: string;
-  bioYear: number;
-  bioMajor: string;
-  email: string;
-  phone: string;
-  bioProfilePic: string;
-  bioDescription: string;
+interface PathProps extends HousePost {
   show: boolean;
   setShow: (show: boolean) => void;
 }
 
 const HouseProfile: React.FC<PathProps> = ({
-  slideShowItems,
-  houseName,
+  name,
   pricePerMonth,
   roomType,
-  moveIn,
-  stayPeriod,
-  facilities,
-  lookingFor,
+  early,
+  late,
   distance,
-  address,
-  bioName,
-  bioYear,
-  bioMajor,
-  email,
-  phone,
-  bioProfilePic,
-  bioDescription,
+  location,
+  photos,
+  profilePhoto,
+  stayPeriod,
+  leaserName,
+  leaserSchoolYear,
+  leaserMajor,
+  leaserIntro,
+  leaserEmail,
+  leaserPhone,
+  roomId,
+  other,
+  facilities,
   show,
   setShow,
+  negotiable,
 }) => {
-  const cookies = new Cookies();
+  const favorites = useSelector(selectHousingFavorites);
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+  const [moveIn, setMoveIn] = useState<string>('');
+  const [slideShowItems, setSlideShowItems] = useState<SlideShowItem[]>([]);
 
-  const onClick = () => {
-    // note this should be going through backend. I've done it through cookies right now,
-    // but trying to serialise even one houseProfileObj makes the cookie too big... -Keenan
-    const houseProfileObj = {
-      // houseType: houseType,
-      // pricePerMonth: pricePerMonth,
-      // roomType: roomType,
-      // moveIn: moveIn,
-      // stayPeriod: stayPeriod,
-      // facilities: facilities,
-      // lookingFor: lookingFor,
-      // distance: distance,
-      // address: address,
-      bioName,
-      // bioYear: bioYear,
-      // bioMajor: bioMajor,
-      email,
-      phone,
-      // bioProfilePic: bioProfilePic,
-      // bioDescription: bioDescription,
-    };
+  // set the slide show content
+  useEffect(() => {
+    setSlideShowItems(
+      photos.map((url) => ({
+        src: `https://houseit.s3.us-east-2.amazonaws.com/${url}`,
+        alt: `${leaserEmail} , ${location}}`,
+      })),
+    );
+  }, [photos, leaserEmail, location]);
 
-    if (cookies.get('liked') === undefined) {
-      const payload = JSON.stringify([houseProfileObj]);
-      cookies.set('liked', payload, {
-        path: '/',
-        httpOnly: false,
-        maxAge: 120,
-      });
-      // console.log(cookies.get('liked'));
-    } else {
-      const payload = JSON.stringify([
-        ...cookies.get('liked'),
-        houseProfileObj,
-      ]);
-      cookies.set('liked', payload, {
-        path: '/',
-        httpOnly: false,
-        maxAge: 120,
-      });
-      // console.log(cookies.get('liked'));
-    }
-  };
+  // abbreviate the move in date
+  useEffect(() => {
+    const [earlyInt, earlyMonth] = early.split(' ') as [string, months];
+    const [lateInt, lateMonth] = late.split(' ') as [string, months];
+
+    // TODO temporary, 'anytime' should not be in the database (same with the removeParentheses)
+    const earlyIntDisplayed =
+      earlyInt.toLowerCase() === 'anytime' ? '' : removeParentheses(earlyInt);
+    const lateIntDisplayed =
+      lateInt.toLowerCase() === 'anytime' ? '' : removeParentheses(lateInt);
+
+    setMoveIn(
+      `${earlyIntDisplayed} ${abbreviateMonth(
+        earlyMonth,
+      )} - ${lateIntDisplayed} ${abbreviateMonth(lateMonth)}`,
+    );
+  }, [early, late]);
 
   return (
     <Modal
@@ -135,10 +118,7 @@ const HouseProfile: React.FC<PathProps> = ({
       <Container className="p-0">
         <Row>
           {/* first column */}
-          <Col sm={12} lg={5}>
-            <div onClick={() => setShow(false)} className="house-profile-close">
-              <miscIcons.greenX className="d-block" />
-            </div>
+          <Col sm={12} lg={4}>
             <PreviewSlideShow
               items={slideShowItems}
               className="house-profile-preview-slideshow"
@@ -149,50 +129,44 @@ const HouseProfile: React.FC<PathProps> = ({
           <Col sm={12} md={6} lg={4}>
             {/* mt-3 mt-lg-5 mt-md-4 */}
             <Container className="d-flex flex-column justify-content-around mx-3 mx-lg-0 h-100">
-              <Row className="flex-grow-0">
-                <span className="housing-profile-house-type">{houseName}</span>
+              <Row className="justify-content-center flex-grow-0">
+                <span className="housing-profile-house-type">{name}</span>
               </Row>
 
               <Row>
                 <Col className="housing-profile-price" md={5}>
-                  <Row>${pricePerMonth}</Row>
+                  <Row>
+                    {negotiable && '~'}${pricePerMonth}
+                  </Row>
                 </Col>
                 <Col md={{ span: 5, offset: 2 }}>
-                  <Row>Room type</Row>
-                  <Row>
-                    <h4>
-                      <b>{formatRoomType(roomType)}</b>
-                    </h4>
-                  </Row>
+                  <Row className="subtitle-text">Room type</Row>
+                  <Row className="primary-text">{roomType}</Row>
                 </Col>
               </Row>
 
               <Row className="justify-content-center">
                 <Col md={5}>
-                  <Row>Move in time</Row>
-                  <Row>
-                    <h4>
-                      <b>{moveIn}</b>
-                    </h4>
-                  </Row>
+                  <Row className="subtitle-text">Move in time</Row>
+                  <Row className="primary-text">{moveIn}</Row>
                 </Col>
 
                 <Col md={{ span: 5, offset: 2 }}>
-                  <Row>Stay period</Row>
-                  <Row>
-                    <h4>
-                      <b>{stayPeriod} months</b>
-                    </h4>
-                  </Row>
+                  <Row className="subtitle-text">Stay period</Row>
+                  <Row className="primary-text">{stayPeriod} months</Row>
                 </Col>
               </Row>
 
               <Ellipse />
 
-              <Row>Facilities</Row>
-              <Row>
+              <Row className="subtitle-text">Facilities</Row>
+              <Row className="subtitle-text">
                 {facilities.map((facility) => (
-                  <Col xs={{ span: 3, offset: 1 }} className="text-center">
+                  <Col
+                    xs={{ span: 3, offset: 1 }}
+                    key={facility}
+                    className="text-center"
+                  >
                     <GetIcon str={facility} />
                     {facility}
                   </Col>
@@ -201,102 +175,121 @@ const HouseProfile: React.FC<PathProps> = ({
 
               <Ellipse />
 
-              <Row>Looking for</Row>
-              <ul>
-                {lookingFor.map((description) => (
-                  <li>{description}</li>
+              <Row className="subtitle-text">Looking for</Row>
+              <ul className="primary-text">
+                {other.map((description) => (
+                  <li key={description}>{description}</li>
                 ))}
               </ul>
             </Container>
           </Col>
 
           {/* third column */}
-          <Col
-            sm={12}
-            md={6}
-            lg={3}
-            className="d-flex flex-column mt-lg-5 mt-md-4"
-          >
-            {/* todo: fix alignment here */}
-            <div className="px-3 pl-lg-1">
-              <Row>
-                <Col>
-                  <Button className="w-90">Add to my list!</Button>
-                </Col>
-                <Col>
-                  <contactIcons.share className="d-block" />
-                </Col>
-              </Row>
+          <Col sm={12} md={6} lg={4} className="d-flex flex-column mt-3">
+            <div className="house-profile-top-half">
+              <Button
+                variant="tertiary"
+                onClick={() => {
+                  const housePost = {
+                    // TODO change the prop vars to be the same name as HouseCard
+                    photos,
+                    name,
+                    pricePerMonth,
+                    roomType,
+                    early,
+                    late,
+                    stayPeriod,
+                    facilities,
+                    other,
+                    distance,
+                    location,
+                    leaserName,
+                    leaserSchoolYear,
+                    leaserMajor,
+                    leaserEmail,
+                    leaserPhone,
+                    profilePhoto,
+                    leaserIntro,
+                    roomId,
+                    negotiable,
+                  };
+                  if (favorites && favorites[roomId]) {
+                    // need to remove from the favorites
+                    dispatch(removeHousingFavorite(roomId));
+                  } else {
+                    // need to add to the favorites
+                    dispatch(newHousingFavorite(housePost));
+                  }
+                }}
+              >
+                {favorites && favorites[roomId]
+                  ? 'Remove bookmark!'
+                  : 'Add bookmark!'}
+              </Button>
 
-              <div className="house-profile-distance">
-                <b>~ {distance}</b> public transit to Price Center
+              <div className="address-related-text">
+                {distance} public transit to school
               </div>
-
-              <div>{address}</div>
-              <GoogleMap address={address} />
+              <div className="secondary-text">{location}</div>
+              <GoogleMap address={location} />
             </div>
 
-            <Container className="housing-profile-bio">
-              <Row className="housing-profile-bio-header">
-                <Col md={8} className="text-center">
-                  <div>
-                    <b>{bioName}</b>
-                  </div>
+            <Container className="housing-profile-bio h-50">
+              <Row>
+                <Col xs={8} lg={9} className="text-center">
+                  <div className="primary-text">{leaserName}</div>
 
-                  <div>
-                    {bioYear} | {bioMajor}
+                  <div className="secondary-text">
+                    {leaserSchoolYear} | {leaserMajor}
                   </div>
 
                   <Row className="justify-content-center">
                     <OverlayTrigger
                       placement="bottom"
-                      overlay={<Tooltip id="tooltip">{email}</Tooltip>}
+                      overlay={
+                        <Tooltip id="tooltip">
+                          {user ? leaserEmail : LOGIN_TO_VIEW}
+                        </Tooltip>
+                      }
                     >
                       <contactIcons.email
                         className="d-block mr-3"
                         onClick={async () => {
-                          await navigator.clipboard.writeText(email);
-                          window.open(`mailto:${email}`, '_blank');
+                          if (user) {
+                            await navigator.clipboard.writeText(leaserEmail);
+                            window.open(`mailto:${leaserEmail}`, '_blank');
+                          }
                         }}
                       />
                     </OverlayTrigger>
 
                     <OverlayTrigger
                       placement="bottom"
-                      overlay={<Tooltip id="tooltip">{phone}</Tooltip>}
+                      overlay={
+                        <Tooltip id="tooltip">
+                          {user ? leaserPhone : LOGIN_TO_VIEW}
+                        </Tooltip>
+                      }
                     >
                       <contactIcons.phone
                         className="d-block mr-3"
                         onClick={async () => {
-                          await navigator.clipboard.writeText(phone);
-                          window.open(`tel:${phone}`, '_blank');
+                          if (user) {
+                            await navigator.clipboard.writeText(leaserPhone);
+                            window.open(`tel:${leaserPhone}`, '_blank');
+                          }
                         }}
                       />
                     </OverlayTrigger>
                   </Row>
                 </Col>
 
-                <Col md={4} className="mt-auto text-center">
-                  <Image src={bioProfilePic} roundedCircle fluid />
+                <Col xs={4} lg={3} className="mt-auto text-center">
+                  <Image src={profilePhoto} roundedCircle className="w-100" />
                 </Col>
               </Row>
 
-              {/* TODO: make this fixed-size without using max-height */}
-              <div className="housing-profile-speech-bubble">
-                {/* {bioDescription} */}
-                aaaaaaaaaaaa trialtext aaaaaaaaaaaaaaaaaaaaaaaa
-                aaaFFFFFFFFFFFaaaIIIIIIIIIaaaXaaaaaaaaXaaaaaaaaaaaa
-                aaaFaaaaaaaaaaaaaaaaaIaaaaaaaaXaaaaaaXaaaaaaaaaaaaa
-                aaaFaaaaaaaaaaaaaaaaaIaaaaaaaaaXaaaaXaaaaaaaaaaaaaa
-                aaaFaaaaaaaaaaaaaaaaaIaaaaaaaaaaXaaXaaaaaaaaaaaaaaa
-                aaaFFFFFFFFFFFaaaaaaaIaaaaaaaaaaaXXaaaaaaaaaaaaaaaa
-                aaaFaaaaaaaaaaaaaaaaaIaaaaaaaaaaaXXaaaaaaaaaaaaaaaa
-                aaaFaaaaaaaaaaaaaaaaaIaaaaaaaaaaXaaXaaaaaaaaaaaaaaa
-                aaaFaaaaaaaaaaaaaaaaaIaaaaaaaaaXaaaaXaaaaaaaaaaaaaa
-                aaaFaaaaaaaaaaaaaaaaaIaaaaaaaaXaaaaaaXaaaaaaaaaaaaa
-                aaaFaaaaaaaaaaaaaIIIIIIIIIaaaXaaaaaaaaXaaaaaaaaaaaa
-                aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-              </div>
+              <div className="housing-profile-speech-bubble">{leaserIntro}</div>
             </Container>
           </Col>
         </Row>

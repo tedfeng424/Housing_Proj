@@ -1,71 +1,60 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import HouseCard, { PathProps } from './HouseCard';
-import { getHousing } from '../apis/index';
 import { useSelector, useDispatch } from 'react-redux';
+import { loading } from '../assets/icons/all';
+import HouseNotFound from './HouseNotFound';
+import HouseCard from './HouseCard';
 import {
-  selectingHousingPosts,
-  updateHousingPosts,
+  getHousingPosts,
+  selectHousingPosts,
+  selectHousingSearchMode,
+  SearchingMode,
 } from '../redux/slices/housing';
 
 const HousingList: React.FC = () => {
-  //const [cards, setCards] = useState<PathProps[]>([]);
-  const cards = useSelector(selectingHousingPosts);
+  const cards = useSelector(selectHousingPosts);
+  const searchMode = useSelector(selectHousingSearchMode);
   const dispatch = useDispatch();
   useEffect(() => {
     // api call to get the housing card info
-    dispatch(updateHousingPosts(getHousing));
-  }, []);
-
+    dispatch(getHousingPosts());
+  }, [dispatch]);
   return (
     <Container fluid>
       <Row>
-        {cards.map(
-          ({
-            name,
-            pricePerMonth,
-            roomType,
-            early,
-            late,
-            distance,
-            location,
-            photo,
-            profilePhoto,
-            stayPeriod,
-            leaserName,
-            leaserSchoolYear,
-            leaserMajor,
-            leaserIntro,
-            leaserEmail,
-            leaserPhone,
-            other,
-            facilities,
-          }) => (
-            <Col xs={12} md={6} className="mb-5">
+        {cards && cards.length > 0 ? ( // TODO this should be handled within the loader component (not yet made)
+          cards.map((card) => (
+            <Col xs={12} md={6} key={JSON.stringify(card)} className="mb-5">
               <HouseCard
-                name={name}
-                pricePerMonth={pricePerMonth}
-                roomType={roomType}
-                early={early}
-                late={late}
-                distance={distance}
-                location={location}
-                photo={photo}
-                profilePhoto={profilePhoto}
-                stayPeriod={stayPeriod}
-                leaserName={leaserName}
-                leaserSchoolYear={leaserSchoolYear}
-                leaserMajor={leaserMajor}
-                leaserIntro={leaserIntro}
-                leaserEmail={leaserEmail}
-                leaserPhone={leaserPhone}
-                other={other}
-                facilities={facilities}
+                name={card.name}
+                pricePerMonth={card.pricePerMonth}
+                roomType={card.roomType}
+                early={card.early}
+                late={card.late}
+                distance={card.distance}
+                location={card.location}
+                photos={card.photos}
+                profilePhoto={card.profilePhoto}
+                stayPeriod={card.stayPeriod}
+                leaserName={card.leaserName}
+                leaserSchoolYear={card.leaserSchoolYear}
+                leaserMajor={card.leaserMajor}
+                leaserIntro={card.leaserIntro}
+                leaserEmail={card.leaserEmail}
+                leaserPhone={card.leaserPhone}
+                roomId={card.roomId}
+                other={card.other}
+                facilities={card.facilities}
+                negotiable={card.negotiable}
               />
             </Col>
-          ),
+          ))
+        ) : searchMode === SearchingMode.FINISHED ? (
+          <HouseNotFound />
+        ) : (
+          <img className="w-100 h-100" src={loading.loading} alt="loading..." />
         )}
       </Row>
     </Container>
