@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import { selectUser } from '../redux/slices/auth';
-import HousingList from './HouseCardList';
+import HouseCardList from './HouseCardList';
 import Filter from './Filter';
 import TV from './TV';
 import Login from './Login';
@@ -60,7 +60,7 @@ const Home: React.FC = () => {
 
       <Row>
         <Col md={9}>
-          <HousingList />
+          <HouseCardList />
         </Col>
 
         {/* see if either md=3 or md=auto works -Keenan */}

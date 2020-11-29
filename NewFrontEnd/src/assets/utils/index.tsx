@@ -67,4 +67,41 @@ const abbreviateAddress = (address: string): string => address.split(',')[0];
 const removeParentheses = (str: string): string =>
   str.replace(/ *\([^)]*\) */g, '');
 
-export { moveInSelect, abbreviateMonth, abbreviateAddress, removeParentheses };
+/**
+ * Use to abbreviate moveIn string
+ */
+const abbreviateMoveIn = (
+  earlyInt: string,
+  earlyMonth: months,
+  lateInt: string,
+  lateMonth: months,
+): string => {
+  // 1st pass: anytime from
+  if (earlyInt === 'Anytime') {
+    earlyInt = 'Early';
+  }
+  // 2nd pass: anytime to
+  if (lateInt === 'Anytime') {
+    lateInt = 'Late';
+  }
+  if (earlyMonth === lateMonth) {
+    // 3rd pass: duplicates, or early - late
+    if (earlyInt === lateInt) {
+      return `${earlyInt} ${abbreviateMonth(earlyMonth)}`;
+    }
+    if (earlyInt === 'Early' && lateInt === 'Late') {
+      return `${abbreviateMonth(earlyMonth)}`;
+    }
+  }
+  return `${earlyInt} ${abbreviateMonth(
+    earlyMonth,
+  )} - ${lateInt} ${abbreviateMonth(lateMonth)}`;
+};
+
+export {
+  moveInSelect,
+  abbreviateMonth,
+  abbreviateAddress,
+  removeParentheses,
+  abbreviateMoveIn,
+};

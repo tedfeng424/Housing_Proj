@@ -20,7 +20,11 @@ import { contactIcons, miscIcons, facilityIcons } from '../assets/icons/all';
 import { LOGIN_TO_VIEW } from '../assets/constants/messages';
 import { HousePost } from '../assets/models/PostModels';
 import { months } from '../assets/constants';
-import { removeParentheses, abbreviateMonth } from '../assets/utils';
+import {
+  removeParentheses,
+  abbreviateMonth,
+  abbreviateMoveIn,
+} from '../assets/utils';
 import { selectUser } from '../redux/slices/auth';
 
 const Ellipse: React.FC<{}> = () => (
@@ -96,14 +100,21 @@ const HouseProfile: React.FC<PathProps> = ({
 
     // TODO temporary, 'anytime' should not be in the database (same with the removeParentheses)
     const earlyIntDisplayed =
-      earlyInt.toLowerCase() === 'anytime' ? '' : removeParentheses(earlyInt);
+      earlyInt.toLowerCase() === 'anytime'
+        ? earlyInt
+        : removeParentheses(earlyInt);
     const lateIntDisplayed =
-      lateInt.toLowerCase() === 'anytime' ? '' : removeParentheses(lateInt);
+      lateInt.toLowerCase() === 'anytime'
+        ? lateInt
+        : removeParentheses(lateInt);
 
     setMoveIn(
-      `${earlyIntDisplayed} ${abbreviateMonth(
+      abbreviateMoveIn(
+        earlyIntDisplayed,
         earlyMonth,
-      )} - ${lateIntDisplayed} ${abbreviateMonth(lateMonth)}`,
+        lateIntDisplayed,
+        lateMonth,
+      ),
     );
   }, [early, late]);
 
@@ -119,6 +130,10 @@ const HouseProfile: React.FC<PathProps> = ({
         <Row>
           {/* first column */}
           <Col sm={12} lg={4}>
+            {/* Close button overlay */}
+            <div onClick={() => setShow(false)} className="house-profile-close">
+              <miscIcons.greenX className="d-block" />
+            </div>
             <PreviewSlideShow
               items={slideShowItems}
               className="house-profile-preview-slideshow"
@@ -129,7 +144,7 @@ const HouseProfile: React.FC<PathProps> = ({
           <Col sm={12} md={6} lg={4}>
             {/* mt-3 mt-lg-5 mt-md-4 */}
             <Container className="d-flex flex-column justify-content-around mx-3 mx-lg-0 h-100">
-              <Row className="justify-content-center flex-grow-0">
+              <Row className="justify-content-left flex-grow-0">
                 <span className="housing-profile-house-type">{name}</span>
               </Row>
 
@@ -228,7 +243,7 @@ const HouseProfile: React.FC<PathProps> = ({
               </Button>
 
               <div className="address-related-text">
-                {distance} public transit to school
+                <b>~ {distance}</b>&nbsp;public transit to school
               </div>
               <div className="secondary-text">{location}</div>
               <GoogleMap address={location} />

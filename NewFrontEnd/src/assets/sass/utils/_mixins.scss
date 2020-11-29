@@ -26,7 +26,7 @@
     font-size: $xs-font-size;
     color: $primary-dark-color;
   } @else if $type == 'address-related' {
-    font-weight: $bold-font-weight;
+    font-weight: $regular-font-weight;
     font-size: $sm-font-size;
     color: $primary-dark-color;
   } @else if $type == 'primary-input-text' {
