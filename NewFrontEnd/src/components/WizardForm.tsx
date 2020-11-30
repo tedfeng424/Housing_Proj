@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import { miscIcons } from '../assets/icons/all';
-import { AtLeastOneArray, AtLeastOneObject, OneFrom } from '../assets/utils';
+import { AtLeastOneArray } from '../assets/utils';
 
 /**
  * Each child component will be given:
@@ -14,15 +14,13 @@ import { AtLeastOneArray, AtLeastOneObject, OneFrom } from '../assets/utils';
  * - an exit() function to exit the form (i.e. when the user completes the form)
  * - a submitForm() which can be called when you would like to submit the form (it returns T/F based on success of onSubmit and validationChecks)
  */
-type setWizardFormStorageFunction<P> = (
-  value: AtLeastOneObject<P, OneFrom<P>>,
-) => void;
+type setWizardFormStorageFunction<P> = (value: Partial<P>) => void;
 export interface WizardFormStep<P> {
   exitWizardForm: () => void;
   nextStep: () => void;
   prevStep: () => void;
   useWizardFormStorage: <P extends {}>(
-    initialValue?: AtLeastOneObject<P>,
+    initialValue?: Partial<P>,
   ) => [P, setWizardFormStorageFunction<P>];
   submitForm: () => boolean; // returns success or failure
   setIsValidated: (validated: boolean) => void;
@@ -118,10 +116,10 @@ const WizardForm = <T extends {}>({
    */
   // TODO add initial state here instead of the WizardFrom
   const useWizardFormStorage = <P extends Partial<T>>(
-    initialValue?: AtLeastOneObject<P>,
+    initialValue?: Partial<P>,
   ) => {
     const setWizardFormStorageWrapper: setWizardFormStorageFunction<P> = (
-      value: AtLeastOneObject<P>,
+      value: Partial<P>,
     ) => setWizardFormStorage({ ...wizardFormStorage, ...value });
 
     // TODO for some reaosn, this is causing an issue: if (initialValue) setWizardFormStorageWrapper(initialValue);

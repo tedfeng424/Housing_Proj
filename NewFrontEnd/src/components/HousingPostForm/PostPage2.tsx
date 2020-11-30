@@ -6,6 +6,8 @@ import { RoomType } from '../../assets/constants';
 import { WizardFormStep } from '../WizardForm';
 
 export interface PostPage2Store {
+  locationSearch: string;
+  selectedLocation: string;
   roomType: keyof typeof RoomType;
   price: number;
 }
@@ -15,7 +17,10 @@ type PathProps = {};
 const PostPage2: React.FC<PathProps & WizardFormStep<PostPage2Store>> = ({
   useWizardFormStorage,
 }) => {
-  const [{ roomType, price }, setStore] = useWizardFormStorage<PostPage2Store>({
+  const [
+    { locationSearch, selectedLocation, roomType, price },
+    setStore,
+  ] = useWizardFormStorage<PostPage2Store>({
     roomType: 'single',
     price: 500,
   });
@@ -31,8 +36,19 @@ const PostPage2: React.FC<PathProps & WizardFormStep<PostPage2Store>> = ({
       </Row>
 
       <Form.Row className="justify-content-center m-2 my-4">
-        <Form.Label className="title">Location</Form.Label>
-        <AutoComplete className="single-line-input w-100" />
+        <Form.Label className="post-word">Location</Form.Label>
+        <AutoComplete
+          className="single-line-input w-100"
+          initialAddress={locationSearch}
+          onChange={(value) => {
+            setStore({ locationSearch: value, selectedLocation: undefined });
+          }}
+          onSelect={(value) => {
+            setStore({ locationSearch: value, selectedLocation: value });
+          }}
+          isValid={selectedLocation?.length > 0}
+          isInvalid={!selectedLocation}
+        />
       </Form.Row>
 
       <Row className="justify-content-center">
@@ -43,7 +59,7 @@ const PostPage2: React.FC<PathProps & WizardFormStep<PostPage2Store>> = ({
           className="justify-content-center"
         >
           <Row className="justify-content-center">
-            <div className="title">Room Type</div>
+            <div className="post-word">Room Type</div>
           </Row>
           {/* TODO update the filter to be like below */}
           <Row className="justify-content-center">
@@ -78,7 +94,7 @@ const PostPage2: React.FC<PathProps & WizardFormStep<PostPage2Store>> = ({
           className="justify-content-center"
         >
           <Row className="justify-content-center">
-            <div className="title">Price</div>
+            <div className="post-word">Price</div>
           </Row>
 
           <Form.Row className="justify-content-center m-2">
@@ -87,16 +103,15 @@ const PostPage2: React.FC<PathProps & WizardFormStep<PostPage2Store>> = ({
               <Form.Control
                 className="single-line-input"
                 type="number"
-                min={0}
-                // value={price}
+                value={price}
                 onChange={(e) => {
                   if (e.target.value) {
                     setStore({ price: parseInt(e.target.value) });
                   } else {
-                    setStore({ price: -1 }); // force it to be invalid
+                    setStore({ price: undefined }); // force it to be invalid
                   }
                 }}
-                isValid={price !== undefined && price > 0}
+                isValid={price !== undefined && price > 0} // TODO set the max of the price
                 isInvalid={!price || price <= 0}
                 placeholder="Price"
               />
