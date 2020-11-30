@@ -55,7 +55,7 @@ const PostPage1: React.FC<PathProps & WizardFormStep<PostPage1Store>> = ({
         <Form.Control
           className="single-line-input"
           type="text"
-          // value={leaserPhone}
+          value={leaserPhone}
           onChange={(e) => setStore({ leaserPhone: e.target.value })}
           isValid={leaserPhone?.length > 0}
           isInvalid={leaserPhone?.length === 0}
@@ -173,17 +173,18 @@ const PostPage1: React.FC<PathProps & WizardFormStep<PostPage1Store>> = ({
         </Col>
       </Row>
       <br />
-      <Row>
-        <Col md={{ span: 4 }}>
-          <Row className="post-word">Major</Row>
-          <Row>
-            <input
-              className="w-75 single-line-input"
-              onChange={(e) => setStore({ major: e.target.value })}
-            />
-          </Row>
-        </Col>
-      </Row>
+      <Form.Row className="justify-content-center m-2">
+        <Form.Label className="post-word">Major</Form.Label>
+        <Form.Control
+          className="single-line-input"
+          type="text"
+          value={major}
+          onChange={(e) => setStore({ major: e.target.value })}
+          isValid={major?.length > 0}
+          isInvalid={major?.length === 0}
+          placeholder="Major"
+        />
+      </Form.Row>
     </Container>
   );
 };
