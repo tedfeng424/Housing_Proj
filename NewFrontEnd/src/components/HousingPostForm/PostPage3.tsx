@@ -1,24 +1,45 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Dropdown, Form } from 'react-bootstrap';
-import { intervalOptions, yearMonths } from '../../assets/constants';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  intervalOptions,
+  months,
+  yearMonths,
+  Interval,
+} from '../../assets/constants';
 import { moveInSelect } from '../../assets/utils/index';
 import { setPost, selectPost } from '../../redux/slices/posting';
-import { useSelector, useDispatch } from 'react-redux';
+import { WizardFormStep } from '../WizardForm';
 
-const PostPage3: React.FC<{}> = () => {
-  const stayPeriod = useSelector(selectPost).stayPeriod;
-  const earlyInterval = useSelector(selectPost).earlyInterval;
-  const earlyMonth = useSelector(selectPost).earlyMonth;
-  const lateInterval = useSelector(selectPost).lateInterval;
-  const lateMonth = useSelector(selectPost).lateMonth;
-  const dispatch = useDispatch();
+export interface PostPage3Store {
+  stayPeriod: number;
+  earlyInterval: string;
+  earlyMonth: string;
+  lateInterval: string;
+  lateMonth: string;
+}
+
+const PostPage3: React.FC<WizardFormStep<PostPage3Store>> = ({
+  useWizardFormStorage,
+}) => {
+  const [
+    { stayPeriod, earlyInterval, earlyMonth, lateInterval, lateMonth },
+    setStore,
+  ] = useWizardFormStorage<PostPage3Store>({
+    stayPeriod: 12,
+    earlyInterval: Interval.Anytime,
+    earlyMonth: months.Anytime,
+    lateInterval: Interval.Anytime,
+    lateMonth: months.Anytime,
+  });
+
   return (
     <Container>
       <Row className="justify-content-center">
         {/* Move in time */}
         <Col md={12} lg={6} className="justify-content-center">
           <Row className="justify-content-center">
-            <div className="title">Move in time</div>
+            <div className="post-word">Move in time</div>
           </Row>
 
           <Row>
@@ -33,8 +54,8 @@ const PostPage3: React.FC<{}> = () => {
                 {intervalOptions.map((interval) => (
                   <Dropdown.Item
                     eventKey={interval}
-                    onSelect={(event) =>
-                      dispatch(setPost(['earlyInterval', event]))
+                    onSelect={(s) =>
+                      setStore({ earlyInterval: s || undefined })
                     }
                   >
                     {interval}
@@ -71,9 +92,7 @@ const PostPage3: React.FC<{}> = () => {
                   {yearMonths.map((month) => (
                     <Dropdown.Item
                       eventKey={month}
-                      onSelect={(event) =>
-                        dispatch(setPost(['earlyMonth', event]))
-                      }
+                      onSelect={(s) => setStore({ earlyMonth: s || undefined })}
                     >
                       {month}
                     </Dropdown.Item>
@@ -99,9 +118,7 @@ const PostPage3: React.FC<{}> = () => {
                 {intervalOptions.map((interval) => (
                   <Dropdown.Item
                     eventKey={interval}
-                    onSelect={(event) =>
-                      dispatch(setPost(['lateInterval', event]))
-                    }
+                    onSelect={(s) => setStore({ lateInterval: s || undefined })}
                   >
                     {interval}
                   </Dropdown.Item>
@@ -120,9 +137,7 @@ const PostPage3: React.FC<{}> = () => {
                   {yearMonths.map((month) => (
                     <Dropdown.Item
                       eventKey={month}
-                      onSelect={(event) =>
-                        dispatch(setPost(['lateMonth', event]))
-                      }
+                      onSelect={(s) => setStore({ lateMonth: s || undefined })}
                     >
                       {month}
                     </Dropdown.Item>
@@ -143,7 +158,7 @@ const PostPage3: React.FC<{}> = () => {
           className="justify-content-center"
         >
           <Row className="justify-content-center">
-            <div className="title">Stay period</div>
+            <div className="post-word">Stay period</div>
           </Row>
           <Row className="justify-content-center">
             <Col>
@@ -152,15 +167,19 @@ const PostPage3: React.FC<{}> = () => {
                   <Form.Control
                     className="single-line-input"
                     value={stayPeriod}
-                    onChange={(event) =>
-                      dispatch(
-                        setPost(['stayPeriod', parseInt(event.target.value)]),
-                      )
-                    }
+                    onChange={(e) => {
+                      if (e.target.value) {
+                        setStore({ stayPeriod: parseInt(e.target.value) });
+                      } else {
+                        setStore({ stayPeriod: undefined }); // force it to be invalid
+                      }
+                    }}
                     type="number"
                     placeholder="# of Months"
-                    isValid={stayPeriod > 0 && stayPeriod <= 12}
-                    isInvalid={stayPeriod <= 0 || stayPeriod > 12}
+                    isValid={stayPeriod > 0 && stayPeriod <= 12} // TODO what if someone wants to stay for 2 years?
+                    isInvalid={
+                      !stayPeriod || stayPeriod <= 0 || stayPeriod > 12
+                    }
                   />
                 </Col>
                 <span className="word">Month(s)</span>
@@ -173,4 +192,4 @@ const PostPage3: React.FC<{}> = () => {
   );
 };
 
-export default PostPage3;
+export default PostPage3 as React.FC;

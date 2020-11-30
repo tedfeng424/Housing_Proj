@@ -1,8 +1,8 @@
-enum intervalOptionsInMonthEnumTODO { // TODO start using enums like this whenever possible instead of consts
-  ANYTIME = 'Anytime',
-  EARLY = 'Early(1-10)',
-  MID = 'Mid(11-20)',
-  LATE = 'Late(21-31)',
+export enum Interval { // TODO start using enums like this whenever possible instead of consts
+  Anytime = 'Anytime',
+  Early = 'Early(1-10)',
+  Mid = 'Mid(11-20)',
+  Late = 'Late(21-31)',
 }
 const intervalOptions = ['Anytime', 'Early(1-10)', 'Mid(11-20)', 'Late(21-31)'];
 
@@ -27,57 +27,57 @@ const yearMonths = [
  */
 // TODO make everything PascalCase
 enum months {
-  ANYTIME = 'Anytime',
-  JANUARY = 'January',
-  FEBRUARY = 'February',
-  MARCH = 'March',
-  APRIL = 'April',
-  MAY = 'May',
-  JUNE = 'June',
-  JULY = 'July',
-  AUGUST = 'August',
-  SEPTEMBER = 'September',
-  OCTOBER = 'October',
-  NOVEMBER = 'November',
-  DECEMBER = 'December',
+  Anytime = 'Anytime',
+  January = 'January',
+  February = 'February',
+  March = 'March',
+  April = 'April',
+  May = 'May',
+  June = 'June',
+  July = 'July',
+  August = 'August',
+  September = 'September',
+  October = 'October',
+  November = 'November',
+  December = 'December',
 }
 
 /**
  * Months in the year, abbreviated
  */
 enum monthsAbrv {
-  ANYTIME = 'Anytime',
-  JANUARY = 'Jan',
-  FEBRUARY = 'Feb',
-  MARCH = 'Mar',
-  APRIL = 'Apr',
-  MAY = 'May',
-  JUNE = 'Jun',
-  JULY = 'Jul',
-  AUGUST = 'Aug',
-  SEPTEMBER = 'Sep',
-  OCTOBER = 'Oct',
-  NOVEMBER = 'Nov',
-  DECEMBER = 'Dec',
+  Anytime = 'Anytime',
+  January = 'Jan',
+  February = 'Feb',
+  March = 'Mar',
+  April = 'Apr',
+  May = 'May',
+  June = 'Jun',
+  July = 'Jul',
+  August = 'Aug',
+  September = 'Sep',
+  October = 'Oct',
+  November = 'Nov',
+  December = 'Dec',
 }
 
 /**
  * object of month (unabbreviated) to month (abbreviated)
  */
 const monthsUnabrvToAbrv = {
-  [months.ANYTIME]: monthsAbrv.ANYTIME,
-  [months.JANUARY]: monthsAbrv.JANUARY,
-  [months.FEBRUARY]: monthsAbrv.FEBRUARY,
-  [months.MARCH]: monthsAbrv.MARCH,
-  [months.APRIL]: monthsAbrv.APRIL,
-  [months.MAY]: monthsAbrv.MAY,
-  [months.JUNE]: monthsAbrv.JUNE,
-  [months.JULY]: monthsAbrv.JULY,
-  [months.AUGUST]: monthsAbrv.AUGUST,
-  [months.SEPTEMBER]: monthsAbrv.SEPTEMBER,
-  [months.OCTOBER]: monthsAbrv.OCTOBER,
-  [months.NOVEMBER]: monthsAbrv.NOVEMBER,
-  [months.DECEMBER]: monthsAbrv.DECEMBER,
+  [months.Anytime]: monthsAbrv.Anytime,
+  [months.January]: monthsAbrv.January,
+  [months.February]: monthsAbrv.February,
+  [months.March]: monthsAbrv.March,
+  [months.April]: monthsAbrv.April,
+  [months.May]: monthsAbrv.May,
+  [months.June]: monthsAbrv.June,
+  [months.July]: monthsAbrv.July,
+  [months.August]: monthsAbrv.August,
+  [months.September]: monthsAbrv.September,
+  [months.October]: monthsAbrv.October,
+  [months.November]: monthsAbrv.November,
+  [months.December]: monthsAbrv.December,
 };
 
 enum SchoolYear {
