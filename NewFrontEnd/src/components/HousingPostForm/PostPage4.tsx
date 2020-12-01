@@ -38,7 +38,7 @@ const PostPage4: React.FC<WizardFormStep<PostPage4Store>> = ({
 
   // TODO temporary
   useEffect(() => {
-    setStore({ selectedPreferences: {} });
+    if (!selectedPreferences) setStore({ selectedPreferences: {} });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
