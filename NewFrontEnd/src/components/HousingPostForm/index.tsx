@@ -30,7 +30,7 @@ const HousingPost: React.FC<PathProps> = ({ show, setShow }) => (
     <PostPage3 />
     <PostPage4 />
     <PostPage5 />
-    <PostPage6 setShow={setShow} />
+    <PostPage6 />
   </WizardForm>
 );
 
