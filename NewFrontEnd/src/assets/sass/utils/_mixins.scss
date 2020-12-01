@@ -29,6 +29,10 @@
     font-weight: $regular-font-weight;
     font-size: $sm-font-size;
     color: $primary-dark-color;
+  } @else if $type == 'tooltip' {
+    font-weight: $regular-font-weight;
+    font-size: $md-font-size;
+    color: $primary-dark-color;
   } @else if $type == 'primary-input-text' {
     font-weight: $bold-font-weight;
     font-size: $sm-font-size;

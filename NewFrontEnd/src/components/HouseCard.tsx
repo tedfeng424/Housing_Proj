@@ -5,11 +5,7 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import SlideShow, { SlideShowItem } from './SlideShow';
 import HouseProfile from './HouseProfile';
-import {
-  abbreviateMonth,
-  removeParentheses,
-  abbreviateMoveIn,
-} from '../assets/utils';
+import { removeParentheses, abbreviateMoveIn } from '../assets/utils';
 import { months } from '../assets/constants';
 import { HousePost } from '../assets/models/PostModels';
 

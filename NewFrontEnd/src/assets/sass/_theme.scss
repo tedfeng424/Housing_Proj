@@ -167,6 +167,10 @@ h1,
   @include font-type('secondary-text');
 }
 
+.tooltip-text {
+  @include font-type('tooltip');
+}
+
 p,
 .subtitle-text {
   @include font-type('subtitle');
