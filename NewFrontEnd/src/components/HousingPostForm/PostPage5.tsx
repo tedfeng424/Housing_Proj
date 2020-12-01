@@ -6,12 +6,14 @@ export interface PostPage5Store {
   leaserIntro: string;
 }
 
+export const PostPage5InitialStore: PostPage5Store = {
+  leaserIntro: '',
+};
+
 const PostPage5: React.FC<WizardFormStep<PostPage5Store>> = ({
   useWizardFormStorage,
 }) => {
-  const [{ leaserIntro }, setStore] = useWizardFormStorage<PostPage5Store>({
-    leaserIntro: '',
-  });
+  const [{ leaserIntro }, setStore] = useWizardFormStorage<PostPage5Store>();
 
   return (
     <Container>

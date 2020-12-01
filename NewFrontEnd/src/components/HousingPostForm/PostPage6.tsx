@@ -7,13 +7,16 @@ export interface PostPage6Store {
   pictures: File[];
 }
 
+export const PostPage6InitialStore: PostPage6Store = {
+  pictures: [],
+};
+
 const PostPage6: React.FC<WizardFormStep<PostPage6Store>> = ({
   exitWizardForm,
   useWizardFormStorage,
+  submitForm,
 }) => {
-  const [{ pictures }, setStore] = useWizardFormStorage<PostPage6Store>({
-    pictures: [],
-  });
+  const [{ pictures }, setStore] = useWizardFormStorage<PostPage6Store>();
 
   return (
     <Container>
@@ -34,7 +37,7 @@ const PostPage6: React.FC<WizardFormStep<PostPage6Store>> = ({
             // dispatch(
             //   userPost(() => postHousing(FormMation(pictures, posts))),
             // ); // TODO
-            exitWizardForm();
+            submitForm();
           }}
         >
           Submit

@@ -1,13 +1,27 @@
 import React from 'react';
-import PostPage1, { PostPage1Store } from './PostPage1';
-import PostPage2 from './PostPage2';
-import PostPage3 from './PostPage3';
-import PostPage4 from './PostPage4';
-import PostPage5 from './PostPage5';
-import PostPage6 from './PostPage6';
+import PostPage1, { PostPage1InitialStore, PostPage1Store } from './PostPage1';
+import PostPage2, { PostPage2InitialStore, PostPage2Store } from './PostPage2';
+import PostPage3, { PostPage3InitialStore, PostPage3Store } from './PostPage3';
+import PostPage4, { PostPage4InitialStore, PostPage4Store } from './PostPage4';
+import PostPage5, { PostPage5InitialStore, PostPage5Store } from './PostPage5';
+import PostPage6, { PostPage6InitialStore, PostPage6Store } from './PostPage6';
 import WizardForm from '../WizardForm';
 
-type WizardFormStorage = PostPage1Store;
+type WizardFormStorage = PostPage1Store &
+  PostPage2Store &
+  PostPage3Store &
+  PostPage4Store &
+  PostPage5Store &
+  PostPage6Store;
+
+const initialWizardFormStorage = {
+  ...PostPage1InitialStore,
+  ...PostPage2InitialStore,
+  ...PostPage3InitialStore,
+  ...PostPage4InitialStore,
+  ...PostPage5InitialStore,
+  ...PostPage6InitialStore,
+};
 
 interface PathProps {
   show: boolean;
@@ -20,10 +34,12 @@ const HousingPost: React.FC<PathProps> = ({ show, setShow }) => (
     show={show}
     setShow={setShow}
     onSubmit={(n) => {
+      console.log('clicked');
       console.log(n);
       return true;
     }}
     validateOnlyAtSubmit // TODO temporary
+    initialStorage={initialWizardFormStorage}
   >
     <PostPage1 />
     <PostPage2 />

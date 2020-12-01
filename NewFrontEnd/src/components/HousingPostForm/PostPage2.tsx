@@ -7,23 +7,24 @@ import { WizardFormStep } from '../WizardForm';
 
 export interface PostPage2Store {
   locationSearch: string;
-  selectedLocation: string;
+  selectedLocation?: string;
   roomType: keyof typeof RoomType;
   price: number;
 }
 
-type PathProps = {};
+export const PostPage2InitialStore: PostPage2Store = {
+  locationSearch: '',
+  roomType: 'single',
+  price: 500,
+};
 
-const PostPage2: React.FC<PathProps & WizardFormStep<PostPage2Store>> = ({
+const PostPage2: React.FC<WizardFormStep<PostPage2Store>> = ({
   useWizardFormStorage,
 }) => {
   const [
     { locationSearch, selectedLocation, roomType, price },
     setStore,
-  ] = useWizardFormStorage<PostPage2Store>({
-    roomType: 'single',
-    price: 500,
-  });
+  ] = useWizardFormStorage<PostPage2Store>();
 
   return (
     <Container>
@@ -46,7 +47,7 @@ const PostPage2: React.FC<PathProps & WizardFormStep<PostPage2Store>> = ({
           onSelect={(value) => {
             setStore({ locationSearch: value, selectedLocation: value });
           }}
-          isValid={selectedLocation?.length > 0}
+          isValid={selectedLocation !== undefined}
           isInvalid={!selectedLocation}
         />
       </Form.Row>
@@ -72,6 +73,7 @@ const PostPage2: React.FC<PathProps & WizardFormStep<PostPage2Store>> = ({
                   <Button
                     variant="no-show"
                     className="btn-filter"
+                    key={key}
                     onClick={() => {
                       setStore({ roomType: key });
                     }}
@@ -124,4 +126,4 @@ const PostPage2: React.FC<PathProps & WizardFormStep<PostPage2Store>> = ({
   );
 };
 
-export default PostPage2 as React.FC<PathProps>;
+export default PostPage2 as React.FC;

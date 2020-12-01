@@ -17,6 +17,12 @@ export interface PostPage1Store {
   major: string;
 }
 
+export const PostPage1InitialStore: PostPage1Store = {
+  leaserPhone: '',
+  schoolYear: SchoolYear.First,
+  major: '',
+};
+
 type PathProps = {};
 
 const PostPage1: React.FC<PathProps & WizardFormStep<PostPage1Store>> = ({

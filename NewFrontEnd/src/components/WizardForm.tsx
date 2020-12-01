@@ -19,9 +19,8 @@ export interface WizardFormStep<P> {
   exitWizardForm: () => void;
   nextStep: () => void;
   prevStep: () => void;
-  useWizardFormStorage: <P extends {}>(
-    initialValue?: Partial<P>,
-  ) => [P, setWizardFormStorageFunction<P>];
+  useWizardFormStorage: <P extends {}>() => // initialValue?: Partial<P>,
+  [P, setWizardFormStorageFunction<P>];
   submitForm: () => boolean; // returns success or failure
   setIsValidated: (validated: boolean) => void;
 }
@@ -107,29 +106,28 @@ const WizardForm = <T extends {}>({
     if (!allValidations) return false;
 
     // Everything should be validated by this point
-    return onSubmit(wizardFormStorage as T);
+    const success = onSubmit(wizardFormStorage as T);
+    if (success) exitWizardForm();
+    return success;
   };
 
   /**
    * Hook to access function to update WizardForm's "local storage". It's shared among all children.
    * Works similar to useState.
    */
-  // TODO add initial state here instead of the WizardFrom
-  const useWizardFormStorage = <P extends Partial<T>>(
-    initialValue?: Partial<P>,
-  ) => {
-    const setWizardFormStorageWrapper: setWizardFormStorageFunction<P> = (
-      value: Partial<P>,
-    ) => setWizardFormStorage({ ...wizardFormStorage, ...value });
+  const useWizardFormStorage = <P extends Partial<T>>() =>
+    // initialValue?: Partial<P>, // TODO not working, not sure how to get it working
+    {
+      const setWizardFormStorageWrapper: setWizardFormStorageFunction<P> = (
+        value: Partial<P>,
+      ) => setWizardFormStorage({ ...wizardFormStorage, ...value });
 
-    // TODO for some reaosn, this is causing an issue: if (initialValue) setWizardFormStorageWrapper(initialValue);
-
-    // wizard form storage is limited to the intersection of P and T
-    return [wizardFormStorage as P, setWizardFormStorageWrapper] as [
-      P,
-      setWizardFormStorageFunction<P>,
-    ];
-  };
+      // wizard form storage is limited to the intersection of P and T
+      return [wizardFormStorage as P, setWizardFormStorageWrapper] as [
+        Partial<P>,
+        setWizardFormStorageFunction<P>,
+      ];
+    };
 
   /**
    * Use this to set if the current step is validated or not. Initialized as true unless otherwise

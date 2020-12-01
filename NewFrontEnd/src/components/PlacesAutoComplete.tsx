@@ -58,7 +58,6 @@ const AutoComplete: React.FC<PathProps> = ({
             {suggestions.map((suggestion) => (
               // TODO: Missing "key" prop for element in iterator
               <div
-                key={suggestion}
                 {
                   /* TODO fix 'Prop spreading is forbidden' */
                   ...getSuggestionItemProps(suggestion, {
@@ -70,6 +69,7 @@ const AutoComplete: React.FC<PathProps> = ({
                       : { backgroundColor: '#ffffff', cursor: 'pointer' },
                   })
                 }
+                key={suggestion.description}
               >
                 <span>{suggestion.description}</span>
               </div>

@@ -29,12 +29,16 @@ export interface PostPage4Store {
   selectedPreferences: Partial<Preferences>;
 }
 
+export const PostPage4InitialStore: PostPage4Store = {
+  selectedPreferences: {},
+};
+
 const PostPage4: React.FC<WizardFormStep<PostPage4Store>> = ({
   useWizardFormStorage,
 }) => {
   const [{ selectedPreferences }, setStore] = useWizardFormStorage<
     PostPage4Store
-  >({ selectedPreferences: {} });
+  >();
 
   // TODO temporary
   useEffect(() => {

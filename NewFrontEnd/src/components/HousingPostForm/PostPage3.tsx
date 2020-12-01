@@ -17,19 +17,21 @@ export interface PostPage3Store {
   lateMonth: string;
 }
 
+export const PostPage3InitialStore: PostPage3Store = {
+  stayPeriod: 12,
+  earlyInterval: Interval.Anytime,
+  earlyMonth: months.Anytime,
+  lateInterval: Interval.Anytime,
+  lateMonth: months.Anytime,
+};
+
 const PostPage3: React.FC<WizardFormStep<PostPage3Store>> = ({
   useWizardFormStorage,
 }) => {
   const [
     { stayPeriod, earlyInterval, earlyMonth, lateInterval, lateMonth },
     setStore,
-  ] = useWizardFormStorage<PostPage3Store>({
-    stayPeriod: 12,
-    earlyInterval: Interval.Anytime,
-    earlyMonth: months.Anytime,
-    lateInterval: Interval.Anytime,
-    lateMonth: months.Anytime,
-  });
+  ] = useWizardFormStorage<PostPage3Store>();
 
   return (
     <Container>
