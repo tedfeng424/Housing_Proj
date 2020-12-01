@@ -43,7 +43,14 @@ const Login: React.FC<PathProps> = ({ handleClose, show }) => {
         <Button variant="no-show" onClick={() => handleClose()}>
           <img className="pl-2" src="/close.svg" alt="Close" />
         </Button>
+        <img
+          className="float-right pr-2 pt-1"
+          src="/info_circle.svg"
+          alt="info circle"
+          title="TESTING 123"
+        />
       </div>
+
       <img src="/login.svg" alt="LogIn" />
       <GoogleLogin
         className="g-auth"
