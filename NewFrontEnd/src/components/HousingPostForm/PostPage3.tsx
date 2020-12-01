@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Container, Row, Col, Dropdown, Form } from 'react-bootstrap';
-import { useSelector, useDispatch } from 'react-redux';
 import {
   intervalOptions,
   months,
@@ -8,7 +7,6 @@ import {
   Interval,
 } from '../../assets/constants';
 import { moveInSelect } from '../../assets/utils/index';
-import { setPost, selectPost } from '../../redux/slices/posting';
 import { WizardFormStep } from '../WizardForm';
 
 export interface PostPage3Store {
