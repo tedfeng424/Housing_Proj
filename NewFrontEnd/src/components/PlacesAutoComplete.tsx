@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import PlacesAutocomplete from 'react-places-autocomplete';
-import { useSelector, useDispatch } from 'react-redux';
 import { Form } from 'react-bootstrap';
-import { setPost, selectPost } from '../redux/slices/posting';
-import { getDurationInMinutes } from '../apis/google';
 
 interface PathProps {
   className?: string;

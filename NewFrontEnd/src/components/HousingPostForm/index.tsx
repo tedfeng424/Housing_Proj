@@ -36,6 +36,9 @@ const HousingPost: React.FC<PathProps> = ({ show, setShow }) => (
     onSubmit={(n) => {
       console.log('clicked');
       console.log(n);
+      // dispatch(
+      //   userPost(() => postHousing(FormMation(pictures, posts))),
+      // ); // TODO
       return true;
     }}
     validateOnlyAtSubmit // TODO temporary

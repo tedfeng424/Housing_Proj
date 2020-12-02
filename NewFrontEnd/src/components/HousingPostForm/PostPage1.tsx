@@ -27,21 +27,18 @@ type PathProps = {};
 
 const PostPage1: React.FC<PathProps & WizardFormStep<PostPage1Store>> = ({
   useWizardFormStorage,
+  setIsValidated,
 }) => {
   const [{ leaserPhone, schoolYear, major }, setStore] = useWizardFormStorage<
     PostPage1Store
   >();
 
+  // useEffect(() => {
+  //   setIsValidated();
+  // }, [leaserPhone, schoolYear, major])
+
   return (
     <Container>
-      <Row>
-        <Col>
-          <span className="post-title">
-            ~ Something personal will make your post more trustworthy ~
-          </span>
-        </Col>
-      </Row>
-
       {/* TODO this is what the inputs should look like */}
       {/* <Form.Row className="justify-content-center m-2">
         <Form.Label className="post-word">Your name</Form.Label>

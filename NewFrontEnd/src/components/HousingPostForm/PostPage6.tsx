@@ -12,7 +12,6 @@ export const PostPage6InitialStore: PostPage6Store = {
 };
 
 const PostPage6: React.FC<WizardFormStep<PostPage6Store>> = ({
-  exitWizardForm,
   useWizardFormStorage,
   submitForm,
 }) => {
@@ -31,15 +30,7 @@ const PostPage6: React.FC<WizardFormStep<PostPage6Store>> = ({
         />
       </Row>
       <div className="text-center">
-        <Button
-          variant="primary"
-          onClick={() => {
-            // dispatch(
-            //   userPost(() => postHousing(FormMation(pictures, posts))),
-            // ); // TODO
-            submitForm();
-          }}
-        >
+        <Button variant="primary" onClick={() => submitForm()}>
           Submit
         </Button>
       </div>

@@ -131,7 +131,7 @@ const WizardForm = <T extends {}>({
 
   /**
    * Use this to set if the current step is validated or not. Initialized as true unless otherwise
-   * specified.
+   * specified. NOTE: you can only set isValidated in the current page.
    */
   const setIsValidated = (validated: boolean) => {
     const updatedValidations = [...validations] as typeof validations;
