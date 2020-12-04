@@ -22,6 +22,7 @@ import { HousePost } from '../assets/models/PostModels';
 import { months } from '../assets/constants';
 import {
   removeParentheses,
+  abbreviateAddress,
   abbreviateMonth,
   abbreviateMoveIn,
 } from '../assets/utils';
@@ -126,8 +127,8 @@ const HouseProfile: React.FC<PathProps> = ({
       centered
       className="house-profile-modal"
     >
-      <Container className="p-0">
-        <Row>
+      <Container className="p-0 house-profile-container">
+        <Row className="h-100">
           {/* first column */}
           <Col sm={12} lg={4}>
             {/* Close button overlay */}
@@ -237,19 +238,19 @@ const HouseProfile: React.FC<PathProps> = ({
                   }
                 }}
               >
-                {favorites && favorites[roomId]
-                  ? 'Remove bookmark!'
-                  : 'Add bookmark!'}
+                {favorites && favorites[roomId] ? '-' : '+'}
               </Button>
 
               <div className="address-related-text">
-                <b>~ {distance}</b>&nbsp;public transit to school
+                <b>~ {distance}</b>&nbsp;public transit
               </div>
-              <div className="secondary-text">{location}</div>
-              <GoogleMap address={location} />
+              <div className="secondary-text">
+                {abbreviateAddress(location)}
+              </div>
+              <GoogleMap address={location} className="house-profile-map" />
             </div>
 
-            <Container className="housing-profile-bio h-50">
+            <Container className="housing-profile-bio">
               <Row>
                 <Col xs={8} lg={9} className="text-center">
                   <div className="primary-text">{leaserName}</div>

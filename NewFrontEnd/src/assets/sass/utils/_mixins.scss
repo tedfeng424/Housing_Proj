@@ -10,6 +10,12 @@
   }
 }
 
+@mixin lg-and-larger {
+  @include media-breakpoint-up('lg') {
+    @content;
+  }
+}
+
 /**
  * STYLE GUIDE TYPOGRAPHY MIXINS.
  */
