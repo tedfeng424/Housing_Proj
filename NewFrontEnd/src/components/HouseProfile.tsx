@@ -25,6 +25,7 @@ import {
   abbreviateAddress,
   abbreviateMonth,
   abbreviateMoveIn,
+  formatRoomType,
 } from '../assets/utils';
 import { selectUser } from '../redux/slices/auth';
 
@@ -132,9 +133,14 @@ const HouseProfile: React.FC<PathProps> = ({
           {/* first column */}
           <Col sm={12} lg={4}>
             {/* Close button overlay */}
-            <div onClick={() => setShow(false)} className="house-profile-close">
-              <miscIcons.greenX className="d-block" />
-            </div>
+            {/* TODO: margins on top and left */}
+            <Button
+              variant="no-show"
+              onClick={() => setShow(false)}
+              className="house-profile-close"
+            >
+              <miscIcons.greenX />
+            </Button>
             <PreviewSlideShow
               items={slideShowItems}
               className="house-profile-preview-slideshow"
@@ -157,7 +163,7 @@ const HouseProfile: React.FC<PathProps> = ({
                 </Col>
                 <Col md={{ span: 5, offset: 2 }}>
                   <Row className="subtitle-text">Room type</Row>
-                  <Row className="primary-text">{roomType}</Row>
+                  <Row className="primary-text">{formatRoomType(roomType)}</Row>
                 </Col>
               </Row>
 
@@ -203,43 +209,53 @@ const HouseProfile: React.FC<PathProps> = ({
           {/* third column */}
           <Col sm={12} md={6} lg={4} className="d-flex flex-column mt-3">
             <div className="house-profile-top-half">
-              <Button
-                variant="tertiary"
-                onClick={() => {
-                  const housePost = {
-                    // TODO change the prop vars to be the same name as HouseCard
-                    photos,
-                    name,
-                    pricePerMonth,
-                    roomType,
-                    early,
-                    late,
-                    stayPeriod,
-                    facilities,
-                    other,
-                    distance,
-                    location,
-                    leaserName,
-                    leaserSchoolYear,
-                    leaserMajor,
-                    leaserEmail,
-                    leaserPhone,
-                    profilePhoto,
-                    leaserIntro,
-                    roomId,
-                    negotiable,
-                  };
-                  if (favorites && favorites[roomId]) {
-                    // need to remove from the favorites
-                    dispatch(removeHousingFavorite(roomId));
-                  } else {
-                    // need to add to the favorites
-                    dispatch(newHousingFavorite(housePost));
-                  }
-                }}
-              >
-                {favorites && favorites[roomId] ? '-' : '+'}
-              </Button>
+              <Row>
+                <Col xs={8} className="justify-content-center">
+                  <Button
+                    variant="tertiary"
+                    block
+                    onClick={() => {
+                      const housePost = {
+                        // TODO change the prop vars to be the same name as HouseCard
+                        photos,
+                        name,
+                        pricePerMonth,
+                        roomType,
+                        early,
+                        late,
+                        stayPeriod,
+                        facilities,
+                        other,
+                        distance,
+                        location,
+                        leaserName,
+                        leaserSchoolYear,
+                        leaserMajor,
+                        leaserEmail,
+                        leaserPhone,
+                        profilePhoto,
+                        leaserIntro,
+                        roomId,
+                        negotiable,
+                      };
+                      if (favorites && favorites[roomId]) {
+                        // need to remove from the favorites
+                        dispatch(removeHousingFavorite(roomId));
+                      } else {
+                        // need to add to the favorites
+                        dispatch(newHousingFavorite(housePost));
+                      }
+                    }}
+                  >
+                    {favorites && favorites[roomId] ? '-' : '+'}
+                  </Button>
+                </Col>
+                <Col xs={{ span: 3, offset: 1 }}>
+                  <Button variant="no-show">
+                    <contactIcons.share />
+                  </Button>
+                </Col>
+              </Row>
 
               <div className="address-related-text">
                 <b>~ {distance}</b>&nbsp;public transit

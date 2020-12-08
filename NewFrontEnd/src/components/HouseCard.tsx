@@ -5,8 +5,12 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import SlideShow, { SlideShowItem } from './SlideShow';
 import HouseProfile from './HouseProfile';
-import { removeParentheses, abbreviateMoveIn } from '../assets/utils';
-import { months } from '../assets/constants';
+import {
+  removeParentheses,
+  abbreviateMoveIn,
+  formatRoomType,
+} from '../assets/utils';
+import { months, roomDbToRoom } from '../assets/constants';
 import { HousePost } from '../assets/models/PostModels';
 
 // change this to PathProps extends HousePost {} to include other props
@@ -123,7 +127,7 @@ const HouseCard: React.FC<PathProps> = ({
               <Col md={6} className="pt-2">
                 <Row>
                   <div className="w-100 text-right secondary-text">
-                    {roomType}
+                    {formatRoomType(roomType)}
                     {/* currently doesn't make sense to include this for single room rentals */}
                     {/* <span className="divider"> | </span> baths */}
                   </div>

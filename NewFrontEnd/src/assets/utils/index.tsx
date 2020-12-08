@@ -57,6 +57,13 @@ const abbreviateMonth = (month: months): monthsAbrv =>
   monthsUnabrvToAbrv[month];
 
 /**
+ * Use to format roomType string, as returned from BE
+ * @param roomType - roomType to format
+ */
+const formatRoomType = (roomType: string): roomTypes =>
+  roomDbToRoom[roomType as roomTypesDb];
+
+/**
  * Use to abbreviate address to only everything before the first comma
  */
 const abbreviateAddress = (address: string): string => address.split(',')[0];
@@ -104,4 +111,5 @@ export {
   abbreviateAddress,
   removeParentheses,
   abbreviateMoveIn,
+  formatRoomType,
 };
