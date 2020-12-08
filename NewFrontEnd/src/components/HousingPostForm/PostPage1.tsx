@@ -2,57 +2,45 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import * as z from 'zod';
 import { Form } from 'react-bootstrap';
 import { WizardFormStep } from '../WizardForm';
-import { SchoolYear } from '../../assets/constants';
+import { SchoolYear, NON_EMPTY_ERR_MSG } from '../../assets/constants';
 
 const nonSelectStyle = 'post-word-sub';
 const selectStyle = 'post-word-sub post-word-sub-selected';
 const nonSelectBg = 'post-word-sub-bg';
 const SelectBg = 'post-word-sub-bg post-word-sub-bg-selected';
 
-export interface PostPage1Store {
-  leaserPhone: string;
-  schoolYear: SchoolYear;
-  major: string;
-}
+// TODO put in constants
+const phoneRegex = /([ ]*\+?[ ]*[0-9]{0,4}[ ]*(-|\()?[0-9]{3}[ ]*(-|\))?[ ]*[0-9]{3}[ ]*-?[ ]*[0-9]{4}[ ]*)/;
 
-export const PostPage1InitialStore: PostPage1Store = {
+const page1StoreSchema = z.object({
+  leaserPhone: z
+    .string()
+    .nonempty(NON_EMPTY_ERR_MSG)
+    .regex(phoneRegex, 'Phone number is not a valid format.'),
+  schoolYear: z.nativeEnum(SchoolYear),
+  major: z.string().nonempty(NON_EMPTY_ERR_MSG).min(1, 'Not long enough.'),
+});
+
+export type PostPage1Store = z.infer<typeof page1StoreSchema>;
+
+const page1InitialStore: PostPage1Store = {
   leaserPhone: '',
   schoolYear: SchoolYear.First,
   major: '',
 };
 
-type PathProps = {};
-
-const PostPage1: React.FC<PathProps & WizardFormStep<PostPage1Store>> = ({
+const PostPage1: React.FC<WizardFormStep<PostPage1Store>> = ({
   useWizardFormStorage,
-  setIsValidated,
 }) => {
   const [{ leaserPhone, schoolYear, major }, setStore] = useWizardFormStorage<
     PostPage1Store
-  >();
-
-  // useEffect(() => {
-  //   setIsValidated();
-  // }, [leaserPhone, schoolYear, major])
+  >(page1InitialStore, page1StoreSchema);
 
   return (
     <Container>
-      {/* TODO this is what the inputs should look like */}
-      {/* <Form.Row className="justify-content-center m-2">
-        <Form.Label className="post-word">Your name</Form.Label>
-        <Form.Control
-          className="single-line-input"
-          type="text"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          isValid={firstName.length > 0}
-          isInvalid={firstName.length === 0}
-          placeholder="Name"
-        />
-      </Form.Row> */}
-
       <Form.Row className="justify-content-center m-2">
         <Form.Label className="post-word">Phone</Form.Label>
         <Form.Control
@@ -65,19 +53,6 @@ const PostPage1: React.FC<PathProps & WizardFormStep<PostPage1Store>> = ({
           placeholder="Phone number"
         />
       </Form.Row>
-      {/* <Row>
-        <Col md={{ span: 4, offset: 2 }}>
-          <Row className="post-word"> Phone </Row>
-          <Row>
-            <input
-              className="w-75 single-line-input"
-              onChange={(event) =>
-                setStore({ leaserPhone: event.target.value })
-              }
-            />
-          </Row>
-        </Col>
-      </Row> */}
       <br />
       <Row>
         <Col>
@@ -192,6 +167,6 @@ const PostPage1: React.FC<PathProps & WizardFormStep<PostPage1Store>> = ({
   );
 };
 
-// NOTE: need the "as" since typescript doesn't know that WizardForm parent component will
+// NOTE: need the "as React.FC" since typescript doesn't know that WizardForm parent component will
 // provide the WizardFormStep props
-export default PostPage1 as React.FC<PathProps>;
+export default PostPage1 as React.FC;

@@ -5,8 +5,14 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import * as z from 'zod';
+import { ZodSchema, ZodError } from 'zod';
 import { miscIcons } from '../assets/icons/all';
 import { AtLeastOneArray } from '../assets/utils';
+
+type ValidationResult<P> =
+  | { success: true }
+  | { success: false; errors: { [key in keyof P]: ZodError } };
 
 /**
  * Each child component will be given:
@@ -19,26 +25,28 @@ export interface WizardFormStep<P> {
   exitWizardForm: () => void;
   nextStep: () => void;
   prevStep: () => void;
-  useWizardFormStorage: <P extends {}>() => // initialValue?: Partial<P>,
-  [P, setWizardFormStorageFunction<P>];
-  submitForm: () => boolean; // returns success or failure
-  setIsValidated: (validated: boolean) => void;
+  useWizardFormStorage: <P extends {}>(
+    initialValue?: Partial<P>,
+    schema?: ZodSchema<P>,
+  ) => [P, setWizardFormStorageFunction<P>];
+  submitForm: () => Promise<ValidationResult<P> | { success: boolean }>; // returns success or failure
+  overrideValidation: (validated: boolean) => void;
 }
 
-// T is whatever is in the storage
+// T is whatever is in the store
 interface PathProps<T = {}> {
   children: AtLeastOneArray<React.ReactElement>; // the steps of the form (needs to be of length at least 0)
   show: boolean;
   setShow: (show: boolean) => void;
   hideButtons?: boolean;
-  onSubmit: (wizardFormStorage: T) => boolean;
+  onSubmit: (store: T) => boolean;
   validateOnlyAtSubmit?: boolean;
   initialStorage?: Partial<T>;
 }
 
 /**
  * Not using React.FC as a work around to allow for generics for Wizard Form.
- * DO NOT DO THIS NORMALLY. I will try to find a better way to do this
+ * Do not do this normally. I will try to find a better way to do this
  */
 const WizardForm = <T extends {}>({
   children,
@@ -53,12 +61,23 @@ const WizardForm = <T extends {}>({
   const [isFirst, setIsFirst] = useState<boolean>(true);
   const [isLast, setIsLast] = useState<boolean>(index === children.length - 1);
   const [CurStep, setCurStep] = useState<React.ReactElement>(children[0]);
-  const [wizardFormStorage, setWizardFormStorage] = useState<Partial<T>>(
-    initialStorage,
-  );
-  const [validations, setValidations] = useState<AtLeastOneArray<boolean>>(
-    children.map(() => false) as AtLeastOneArray<false>,
-  );
+
+  const [store, setStore] = useState<Partial<T>>(initialStorage);
+  // need to keep track of when the store is initialized (otherwise, it'll be an infinite loop of reupdating)
+  const [storeInitialized, setStoreInitialized] = useState<
+    AtLeastOneArray<boolean>
+  >(children.map(() => false) as AtLeastOneArray<boolean>);
+
+  const [zodSchemas, setZodSchemas] = useState<
+    AtLeastOneArray<ZodSchema<Partial<T>> | undefined>
+  >(children.map(() => undefined) as AtLeastOneArray<undefined>);
+  // need to keep track of when the store is initialized (otherwise, it'll be an infinite loop of reupdating)
+  const [schemasInitialized, setSchemasInitialized] = useState<
+    AtLeastOneArray<boolean>
+  >(children.map(() => false) as AtLeastOneArray<boolean>);
+  const [validationsOverride, setValidationsOverride] = useState<
+    AtLeastOneArray<boolean | undefined>
+  >(children.map(() => undefined) as AtLeastOneArray<undefined>);
 
   useEffect(() => {
     setCurStep(children[index]);
@@ -80,7 +99,7 @@ const WizardForm = <T extends {}>({
    */
   const nextStep = () => {
     // validate if needed
-    if (!validateOnlyAtSubmit && !validations[index]) return;
+    if (!validateOnlyAtSubmit && !validationsOverride[index]) return;
 
     if (index + 1 < children.length) setIndex(index + 1);
   };
@@ -98,45 +117,71 @@ const WizardForm = <T extends {}>({
    * (i.e. returns false if any validations are false, returns false
    * if onSubmit returns false, otherwise returns true).
    */
-  const submitForm = (): boolean => {
-    const allValidations = validations.reduce<boolean>(
-      (prev, cur) => prev && cur,
+  const submitForm = async (): Promise<
+    ValidationResult<T> | { success: boolean }
+  > => {
+    const allValidations = validationsOverride.reduce<boolean>(
+      (prev, cur) => prev && (cur === undefined || cur),
       true,
     );
-    if (!allValidations) return false;
+    if (!allValidations) return { success: false /* errors: {} */ }; // TODO temporary
 
     // Everything should be validated by this point
-    const success = onSubmit(wizardFormStorage as T);
+    const success = await onSubmit(store as T);
     if (success) exitWizardForm();
-    return success;
+    return { success };
   };
 
   /**
-   * Hook to access function to update WizardForm's "local storage". It's shared among all children.
-   * Works similar to useState.
+   * Validates current form step.
    */
-  const useWizardFormStorage = <P extends Partial<T>>() =>
+  // const validateCurrent = (): ValidationResult<T> => { // TODO temporary "T", should actually be P
+  //   zodSchemas[index]?.safeParse()
+  // };
+
+  /**
+   * Hook to access function to update WizardForm's "local store". It's shared among all children.
+   * Works similar to useState, except also can provide zod schema for validation here.
+   */
+  const useWizardFormStorage = <P extends Partial<T>>(
+    initialValue?: Partial<P>,
+    schema?: ZodSchema<P>,
+  ) =>
     // initialValue?: Partial<P>, // TODO not working, not sure how to get it working
     {
       const setWizardFormStorageWrapper: setWizardFormStorageFunction<P> = (
         value: Partial<P>,
-      ) => setWizardFormStorage({ ...wizardFormStorage, ...value });
+      ) => setStore({ ...store, ...value });
+
+      if (!schemasInitialized[index]) {
+        setZodSchemas({ ...zodSchemas, [index]: schema });
+        setSchemasInitialized({ ...schemasInitialized, [index]: true });
+      }
+
+      if (!storeInitialized[index]) {
+        if (initialValue) {
+          setWizardFormStorageWrapper(initialValue);
+        }
+        setStoreInitialized({ ...storeInitialized, [index]: true });
+      }
 
       // wizard form storage is limited to the intersection of P and T
-      return [wizardFormStorage as P, setWizardFormStorageWrapper] as [
+      return [store as P, setWizardFormStorageWrapper] as [
         Partial<P>,
         setWizardFormStorageFunction<P>,
       ];
     };
 
   /**
-   * Use this to set if the current step is validated or not. Initialized as true unless otherwise
-   * specified. NOTE: you can only set isValidated in the current page.
+   * Use this to override if the current step is validated.
+   * NOTE: you can only set isValidated in the current page.
    */
-  const setIsValidated = (validated: boolean) => {
-    const updatedValidations = [...validations] as typeof validations;
+  const overrideValidation = (validated: boolean) => {
+    const updatedValidations = [
+      ...validationsOverride,
+    ] as typeof validationsOverride;
     updatedValidations[index] = validated;
-    setValidations(updatedValidations);
+    setValidationsOverride(updatedValidations);
   };
 
   // TODO need to figure out how to have loading thing on top
@@ -174,7 +219,7 @@ const WizardForm = <T extends {}>({
               exitWizardForm,
               submitForm,
               useWizardFormStorage,
-              setIsValidated,
+              overrideValidation,
             })}
           </Col>
 

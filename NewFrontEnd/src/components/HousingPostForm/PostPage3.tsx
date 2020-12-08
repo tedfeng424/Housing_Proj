@@ -16,6 +16,9 @@ export interface PostPage3Store {
   lateInterval: string;
   lateMonth: string;
 }
+// const page3StoreSchema = z.object({
+//   stayPeriod: z.number()
+// })
 
 export const PostPage3InitialStore: PostPage3Store = {
   stayPeriod: 12,

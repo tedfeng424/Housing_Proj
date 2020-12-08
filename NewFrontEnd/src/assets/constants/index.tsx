@@ -1,3 +1,5 @@
+export * from './messages';
+
 export enum Interval { // TODO start using enums like this whenever possible instead of consts
   Anytime = 'Anytime',
   Early = 'Early(1-10)',
