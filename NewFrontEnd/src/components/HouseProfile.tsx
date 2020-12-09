@@ -209,53 +209,49 @@ const HouseProfile: React.FC<PathProps> = ({
           {/* third column */}
           <Col sm={12} md={6} lg={4} className="d-flex flex-column mt-3">
             <div className="house-profile-top-half">
-              <Row>
-                <Col xs={8} className="justify-content-center">
-                  <Button
-                    variant="tertiary"
-                    block
-                    onClick={() => {
-                      const housePost = {
-                        // TODO change the prop vars to be the same name as HouseCard
-                        photos,
-                        name,
-                        pricePerMonth,
-                        roomType,
-                        early,
-                        late,
-                        stayPeriod,
-                        facilities,
-                        other,
-                        distance,
-                        location,
-                        leaserName,
-                        leaserSchoolYear,
-                        leaserMajor,
-                        leaserEmail,
-                        leaserPhone,
-                        profilePhoto,
-                        leaserIntro,
-                        roomId,
-                        negotiable,
-                      };
-                      if (favorites && favorites[roomId]) {
-                        // need to remove from the favorites
-                        dispatch(removeHousingFavorite(roomId));
-                      } else {
-                        // need to add to the favorites
-                        dispatch(newHousingFavorite(housePost));
-                      }
-                    }}
-                  >
-                    {favorites && favorites[roomId] ? '-' : '+'}
-                  </Button>
-                </Col>
-                <Col xs={{ span: 3, offset: 1 }}>
-                  <Button variant="no-show">
-                    <contactIcons.share />
-                  </Button>
-                </Col>
-              </Row>
+              <div className="d-flex pr-3 align-content-center">
+                <Button
+                  variant="tertiary"
+                  block
+                  onClick={() => {
+                    const housePost = {
+                      // TODO change the prop vars to be the same name as HouseCard
+                      photos,
+                      name,
+                      pricePerMonth,
+                      roomType,
+                      early,
+                      late,
+                      stayPeriod,
+                      facilities,
+                      other,
+                      distance,
+                      location,
+                      leaserName,
+                      leaserSchoolYear,
+                      leaserMajor,
+                      leaserEmail,
+                      leaserPhone,
+                      profilePhoto,
+                      leaserIntro,
+                      roomId,
+                      negotiable,
+                    };
+                    if (favorites && favorites[roomId]) {
+                      // need to remove from the favorites
+                      dispatch(removeHousingFavorite(roomId));
+                    } else {
+                      // need to add to the favorites
+                      dispatch(newHousingFavorite(housePost));
+                    }
+                  }}
+                >
+                  {favorites && favorites[roomId] ? '-' : '+'}
+                </Button>
+                <Button variant="no-show">
+                  <contactIcons.share />
+                </Button>
+              </div>
 
               <div className="address-related-text">
                 <b>~ {distance}</b>&nbsp;public transit
