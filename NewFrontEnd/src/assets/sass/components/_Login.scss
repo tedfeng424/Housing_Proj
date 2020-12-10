@@ -1,16 +1,14 @@
-.tooltip {
-  width: 100%;
-  justify-items: center;
-  // margin-left: 50%;
-}
-
 .tooltip > .tooltip-inner {
   @include font-type('tooltip');
   background-color: $primary-1-color;
   border-radius: 20px 0px 20px 20px;
   margin-right: 20px;
-  // margin-left: 50%;
-  // width: 2000px;
+  width: 5000px !important;
+}
+
+.tooltip-inner {
+  max-width: 25vw; // for laptop
+  // TODO: max-width for mobile
 }
 
 .tooltip > .arrow {
