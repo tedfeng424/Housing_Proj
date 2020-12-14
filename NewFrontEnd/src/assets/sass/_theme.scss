@@ -19,27 +19,33 @@ body {
 .single-line-input {
   @include font-type('primary-input-text');
   // TODO
-  // border: 2px solid $darker-background-color;
-  // border-radius: $sm-border-radius;
+  border: 2px solid $darker-background-color;
+  border-radius: 8px;
   // box-shadow: none;
   // outline: none;
-  border: 0;
-  border-bottom: 3px solid theme-color('primary');
-  border-radius: 0;
+  // border: 2 solid theme-color('primary');
+  // border-bottom: 3px solid theme-color('primary');
+  // border-radius: 0;
   box-shadow: none;
   outline: none;
+  height: 50px;
+  font-size: 20px;
+  padding-left: 18px;
 
-  :focus,
   :active,
   &.was-validated,
   &.form-control:valid,
   &.form-control.is-valid {
     color: theme-color('primary');
-    border: 0;
-    border-bottom: 3px solid theme-color('primary');
-    border-radius: 0;
+    border: 2px solid $primary-light-color;
+    // border-bottom: 3px solid theme-color('primary');
+    border-radius: 8px;
     box-shadow: none;
   }
+}
+
+.single-line-input:focus {
+  border: 2px solid $primary-light-color;
 }
 
 /**
