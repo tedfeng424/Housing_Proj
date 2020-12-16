@@ -37,11 +37,15 @@ def login():
         upload_file_wname(icon_path+selected_icon, 'houseit', path_name)
 
     login_session["user_id"] = user.id
-
+    print(user.serialize)
     json_response = {'user': requested_json['name'],
                      'email': requested_json['email'],
                      'access_token': access_token,
-                     'message': 'Successfully created room.'
+                     'message': 'Successfully created room.',
+                     'description': user.description,
+                     'phone': user.phone,
+                     'schoolYear': user.school_year,
+                     'major': user.major
                      }
     response = generateResponse(json_response)
     response.set_cookie('access_token', access_token)

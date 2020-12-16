@@ -52,6 +52,10 @@ export const login = (name: string, email: string): AppThunk => async (
         name: response.name,
         email: response.email,
         token: response.token,
+        description: response.description,
+        major: response.major,
+        schoolYear: response.schoolYear,
+        phone: response.phone,
       }),
     );
   }

@@ -31,6 +31,10 @@ const userLogIn = async (name: string, email: string) => {
       name: response.data.name,
       email: response.data.email,
       token: response.data.access_token,
+      description: response.data.description,
+      major: response.data.major,
+      schoolYear: response.data.schoolYear,
+      phone: response.data.phone,
     };
 
     return data;
