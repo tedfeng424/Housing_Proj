@@ -13,7 +13,9 @@ export const PostPage5InitialStore: PostPage5Store = {
 const PostPage5: React.FC<WizardFormStep<PostPage5Store>> = ({
   useWizardFormStorage,
 }) => {
-  const [{ leaserIntro }, setStore] = useWizardFormStorage<PostPage5Store>();
+  const [{ leaserIntro }, errors, setStore] = useWizardFormStorage<
+    PostPage5Store
+  >();
 
   return (
     <Container>

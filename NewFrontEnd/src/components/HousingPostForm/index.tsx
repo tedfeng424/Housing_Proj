@@ -7,7 +7,7 @@ import PostPage5, { PostPage5Store } from './PostPage5';
 import PostPage6, { PostPage6Store } from './PostPage6';
 import WizardForm from '../WizardForm';
 
-type WizardFormStorage = PostPage1Store &
+type Store = PostPage1Store &
   PostPage2Store &
   PostPage3Store &
   PostPage4Store &
@@ -21,7 +21,7 @@ interface PathProps {
 
 // TODO only show PostPage1 for first time user
 const HousingPost: React.FC<PathProps> = ({ show, setShow }) => (
-  <WizardForm<WizardFormStorage>
+  <WizardForm<Store>
     show={show}
     setShow={setShow}
     onSubmit={(n) => {

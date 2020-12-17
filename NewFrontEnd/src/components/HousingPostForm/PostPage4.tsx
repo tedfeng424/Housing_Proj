@@ -36,7 +36,7 @@ export const PostPage4InitialStore: PostPage4Store = {
 const PostPage4: React.FC<WizardFormStep<PostPage4Store>> = ({
   useWizardFormStorage,
 }) => {
-  const [{ selectedPreferences }, setStore] = useWizardFormStorage<
+  const [{ selectedPreferences }, errors, setStore] = useWizardFormStorage<
     PostPage4Store
   >();
 

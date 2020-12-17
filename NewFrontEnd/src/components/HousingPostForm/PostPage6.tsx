@@ -15,7 +15,9 @@ const PostPage6: React.FC<WizardFormStep<PostPage6Store>> = ({
   useWizardFormStorage,
   submitForm,
 }) => {
-  const [{ pictures }, setStore] = useWizardFormStorage<PostPage6Store>();
+  const [{ pictures }, errors, setStore] = useWizardFormStorage<
+    PostPage6Store
+  >();
 
   return (
     <Container>

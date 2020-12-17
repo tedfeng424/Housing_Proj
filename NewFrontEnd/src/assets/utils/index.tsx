@@ -7,19 +7,6 @@ import {
 } from '../constants';
 
 /**
- * Use to define at least one of some array type
- */
-export type AtLeastOneArray<T> = { 0: T } & T[];
-
-/**
- * Use to define at least one of some object type
- */
-export type AtLeastOneObject<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<
-  T
-> &
-  U[keyof U];
-
-/**
  * Use to define validation checks for an object T.
  */
 export type ObjectValidationChecks<T> = {

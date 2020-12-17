@@ -5,14 +5,10 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import * as z from 'zod';
-import { ZodSchema, ZodError } from 'zod';
+import { ZodSchema, ZodIssue, ZodObject } from 'zod';
 import { miscIcons } from '../assets/icons/all';
-import { AtLeastOneArray } from '../assets/utils';
 
-type ValidationResult<P> =
-  | { success: true }
-  | { success: false; errors: { [key in keyof P]: ZodError } };
+type ValidationError<P> = Partial<{ [key in keyof P]: ZodIssue }>;
 
 /**
  * Each child component will be given:
@@ -20,28 +16,28 @@ type ValidationResult<P> =
  * - an exit() function to exit the form (i.e. when the user completes the form)
  * - a submitForm() which can be called when you would like to submit the form (it returns T/F based on success of onSubmit and validationChecks)
  */
-type setWizardFormStorageFunction<P> = (value: Partial<P>) => void;
+type SetStore<P> = (value: Partial<P>) => void;
 export interface WizardFormStep<P> {
   exitWizardForm: () => void;
   nextStep: () => void;
   prevStep: () => void;
   useWizardFormStorage: <P extends {}>(
-    initialValue?: Partial<P>,
+    initialValue?: P,
     schema?: ZodSchema<P>,
-  ) => [P, setWizardFormStorageFunction<P>];
-  submitForm: () => Promise<ValidationResult<P> | { success: boolean }>; // returns success or failure
+  ) => [P, ValidationError<P> | undefined, SetStore<P>];
+  submitForm: () => Promise<ValidationError<P> | { success: boolean }>; // TODO returns success or failure
   overrideValidation: (validated: boolean) => void;
 }
 
 // T is whatever is in the store
 interface PathProps<T = {}> {
-  children: AtLeastOneArray<React.ReactElement>; // the steps of the form (needs to be of length at least 0)
+  children: React.ReactElement[]; // the steps of the form (needs to be of length at least 0)
   show: boolean;
   setShow: (show: boolean) => void;
   hideButtons?: boolean;
   onSubmit: (store: T) => boolean;
   validateOnlyAtSubmit?: boolean;
-  initialStorage?: Partial<T>;
+  // TODO initialStorage?: Partial<T>;
 }
 
 /**
@@ -55,29 +51,36 @@ const WizardForm = <T extends {}>({
   hideButtons = false,
   onSubmit,
   validateOnlyAtSubmit = false,
-  initialStorage = {},
-}: PathProps<T>) => {
+}: // TODO initialStorage = {},
+PathProps<T>) => {
   const [index, setIndex] = useState<number>(0);
   const [isFirst, setIsFirst] = useState<boolean>(true);
   const [isLast, setIsLast] = useState<boolean>(index === children.length - 1);
   const [CurStep, setCurStep] = useState<React.ReactElement>(children[0]);
 
-  const [store, setStore] = useState<Partial<T>>(initialStorage);
+  // TODO const [store, setStore] = useState<Partial<T>>(initialStorage);
+  const [store, setStore] = useState<Array<Partial<T>>>(
+    children.map(() => ({})),
+  );
+  // TODO const [curStore, setCurStore] = useState<>
   // need to keep track of when the store is initialized (otherwise, it'll be an infinite loop of reupdating)
-  const [storeInitialized, setStoreInitialized] = useState<
-    AtLeastOneArray<boolean>
-  >(children.map(() => false) as AtLeastOneArray<boolean>);
+  const [storeInitialized, setStoreInitialized] = useState<Array<boolean>>(
+    children.map(() => false),
+  );
 
   const [zodSchemas, setZodSchemas] = useState<
-    AtLeastOneArray<ZodSchema<Partial<T>> | undefined>
-  >(children.map(() => undefined) as AtLeastOneArray<undefined>);
+    Array<ZodSchema<Partial<T>> | undefined>
+  >(children.map(() => undefined));
   // need to keep track of when the store is initialized (otherwise, it'll be an infinite loop of reupdating)
-  const [schemasInitialized, setSchemasInitialized] = useState<
-    AtLeastOneArray<boolean>
-  >(children.map(() => false) as AtLeastOneArray<boolean>);
+  const [schemasInitialized, setSchemasInitialized] = useState<Array<boolean>>(
+    children.map(() => false),
+  );
+  const [errors, setErrors] = useState<
+    Array<ValidationError<Partial<T>> | undefined>
+  >(children.map(() => undefined));
   const [validationsOverride, setValidationsOverride] = useState<
-    AtLeastOneArray<boolean | undefined>
-  >(children.map(() => undefined) as AtLeastOneArray<undefined>);
+    Array<boolean | undefined>
+  >(children.map(() => undefined));
 
   useEffect(() => {
     setCurStep(children[index]);
@@ -118,7 +121,7 @@ const WizardForm = <T extends {}>({
    * if onSubmit returns false, otherwise returns true).
    */
   const submitForm = async (): Promise<
-    ValidationResult<T> | { success: boolean }
+    ValidationError<T> | { success: boolean }
   > => {
     const allValidations = validationsOverride.reduce<boolean>(
       (prev, cur) => prev && (cur === undefined || cur),
@@ -127,7 +130,8 @@ const WizardForm = <T extends {}>({
     if (!allValidations) return { success: false /* errors: {} */ }; // TODO temporary
 
     // Everything should be validated by this point
-    const success = await onSubmit(store as T);
+    const combined = store.reduceRight((pre, cur) => ({ ...pre, ...cur }));
+    const success = await onSubmit(combined as T);
     if (success) exitWizardForm();
     return { success };
   };
@@ -136,41 +140,63 @@ const WizardForm = <T extends {}>({
    * Validates current form step.
    */
   // const validateCurrent = (): ValidationResult<T> => { // TODO temporary "T", should actually be P
-  //   zodSchemas[index]?.safeParse()
+
+  //   if (zodSchemas[index] {
+  //     zodSchemas[index].safeParse()
+  //   })
   // };
+  // need to validate on arrows. need to pass errors
 
   /**
    * Hook to access function to update WizardForm's "local store". It's shared among all children.
    * Works similar to useState, except also can provide zod schema for validation here.
    */
   const useWizardFormStorage = <P extends Partial<T>>(
-    initialValue?: Partial<P>,
+    initialValue: P,
     schema?: ZodSchema<P>,
-  ) =>
-    // initialValue?: Partial<P>, // TODO not working, not sure how to get it working
-    {
-      const setWizardFormStorageWrapper: setWizardFormStorageFunction<P> = (
-        value: Partial<P>,
-      ) => setStore({ ...store, ...value });
+  ) => {
+    const setStoreWrapper: SetStore<P> = (value: Partial<P>) => {
+      const changedValues = { ...store[index], ...value };
+      setStore({ ...store, [index]: changedValues });
 
-      if (!schemasInitialized[index]) {
-        setZodSchemas({ ...zodSchemas, [index]: schema });
-        setSchemasInitialized({ ...schemasInitialized, [index]: true });
+      // every time there's a change, validate it
+      const result = (zodSchemas[index] as
+        | ZodSchema<Partial<P>>
+        | undefined)?.safeParse(changedValues);
+      // TODO .pick(Object.keys(changedValues).map((key) => ({ [key]: true })));
+      let changedErrors: ValidationError<P> | undefined;
+      if (result && !result.success && schema) {
+        changedErrors = (Object.keys(initialValue) as Array<keyof P>).reduce<
+          ValidationError<P>
+        >((pre, cur, i) => {
+          const wasChanged = value[cur] !== undefined;
+          if (!wasChanged) return pre;
+          return { ...pre, [cur]: result.error.issues[i] };
+        }, {});
       }
 
-      if (!storeInitialized[index]) {
-        if (initialValue) {
-          setWizardFormStorageWrapper(initialValue);
-        }
-        setStoreInitialized({ ...storeInitialized, [index]: true });
-      }
-
-      // wizard form storage is limited to the intersection of P and T
-      return [store as P, setWizardFormStorageWrapper] as [
-        Partial<P>,
-        setWizardFormStorageFunction<P>,
-      ];
+      const curErrors = { ...errors[index], ...changedErrors };
+      setErrors({ ...errors, [index]: curErrors });
     };
+
+    if (!schemasInitialized[index]) {
+      setZodSchemas({ ...zodSchemas, [index]: schema });
+      setSchemasInitialized({ ...schemasInitialized, [index]: true });
+    }
+
+    if (!storeInitialized[index]) {
+      if (initialValue) {
+        setStoreWrapper(initialValue);
+      }
+      setStoreInitialized({ ...storeInitialized, [index]: true });
+    }
+
+    return [store[index] as P & T, errors[index], setStoreWrapper] as [
+      Partial<P>,
+      ValidationError<P> | undefined,
+      SetStore<P>,
+    ];
+  };
 
   /**
    * Use this to override if the current step is validated.

@@ -30,6 +30,7 @@ const PostPage2: React.FC<WizardFormStep<PostPage2Store>> = ({
 }) => {
   const [
     { locationSearch, selectedLocation, roomType, price },
+    errors,
     setStore,
   ] = useWizardFormStorage<PostPage2Store>(page2InitialStore, page2StoreSchema);
 

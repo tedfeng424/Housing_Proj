@@ -35,9 +35,11 @@ const page1InitialStore: PostPage1Store = {
 const PostPage1: React.FC<WizardFormStep<PostPage1Store>> = ({
   useWizardFormStorage,
 }) => {
-  const [{ leaserPhone, schoolYear, major }, setStore] = useWizardFormStorage<
-    PostPage1Store
-  >(page1InitialStore, page1StoreSchema);
+  const [
+    { leaserPhone, schoolYear, major },
+    errors,
+    setStore,
+  ] = useWizardFormStorage<PostPage1Store>(page1InitialStore, page1StoreSchema);
 
   return (
     <Container>

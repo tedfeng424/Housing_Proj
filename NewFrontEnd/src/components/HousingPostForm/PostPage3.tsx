@@ -33,6 +33,7 @@ const PostPage3: React.FC<WizardFormStep<PostPage3Store>> = ({
 }) => {
   const [
     { stayPeriod, earlyInterval, earlyMonth, lateInterval, lateMonth },
+    errors,
     setStore,
   ] = useWizardFormStorage<PostPage3Store>();
 

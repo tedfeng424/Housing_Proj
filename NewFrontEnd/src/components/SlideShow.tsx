@@ -1,6 +1,5 @@
 import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
-import { AtLeastOneArray } from '../assets/utils';
 import { carouselIcons } from '../assets/icons/all';
 
 export interface SlideShowItem {
@@ -8,7 +7,7 @@ export interface SlideShowItem {
   alt: string;
 }
 
-export const testSlideShow: AtLeastOneArray<SlideShowItem> = [
+export const testSlideShow: Array<SlideShowItem> = [
   {
     src:
       'https://cdn.vox-cdn.com/thumbor/op7DSI_UdWcXSbVGqA4wKYc2v3E=/0x0:1800x1179/1200x800/filters:focal(676x269:964x557)/cdn.vox-cdn.com/uploads/chorus_image/image/66741310/3zlqxf_copy.0.jpg',
