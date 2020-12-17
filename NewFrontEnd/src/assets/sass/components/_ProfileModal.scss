@@ -53,6 +53,37 @@ $profile-form-middle-height: 90%;
   font-size: $sm-font-size;
   font-weight: bold;
 }
+.profile-word-sub {
+  height: 24px;
+  font-family: Montserrat;
+  font-size: 20px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #d3ab98;
+}
+
+.profile-word-sub-selected {
+  color: white;
+}
+
+.profile-word-sub-bg {
+  padding: 5px 10px 0px 10px;
+  margin-right: 8px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.profile-word-sub-bg-selected {
+  background-color: $primary-input-color;
+}
+
+.profile-year-row {
+  justify-content: space-between;
+}
 
 .profile-form-label {
   width: 100%; // was 160px, TODO: use non-constant widths
@@ -101,4 +132,110 @@ $profile-form-middle-height: 90%;
   border-color: $primary-light-color;
   width: 100px;
   height: 100px;
+}
+
+.profile-posts-list {
+  background-color: $primary-1-color;
+  border-radius: 20px;
+  justify-content: center;
+  height: 300px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.profile-no-posts-text {
+  text-align: left;
+  display: block;
+  width: 100%;
+  font-family: Montserrat;
+  font-size: $lg-font-size;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: $secondary-dark-color;
+}
+
+.profile-mypost {
+  background-color: white;
+  border-radius: 15px;
+  padding: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.profile-mypost-picture {
+  width: 100px;
+  height: 100px;
+  border-radius: 13px;
+}
+
+.profile-mypost-info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  width: 100%;
+}
+
+.profile-mypost-title {
+  font-size: $xs-font-size;
+  color: $secondary-dark-color;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  width: 100%;
+  font-family: Montserrat;
+}
+
+.profile-mypost-details {
+  font-size: $xs-font-size;
+  color: black;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  width: 100%;
+  font-family: Montserrat;
+}
+
+.profile-mypost-actions {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.profile-mypost-edit {
+  font-size: $md-font-size;
+  color: $secondary-dark-color;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  text-decoration: underline;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  width: 100%;
+  font-family: Montserrat;
+}
+
+.profile-form-modal-dialog {
+  @include media-breakpoint-up('md') {
+    max-width: 90%;
+  }
+
+  .modal-content {
+    padding: 0;
+    border: 0;
+  }
 }
