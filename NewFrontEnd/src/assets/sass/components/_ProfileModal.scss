@@ -77,6 +77,11 @@ $profile-form-middle-height: 90%;
   text-decoration: underline;
 }
 
+.profile-cancel {
+  color: $primary-input-color;
+  text-decoration: underline;
+}
+
 .profile-char-check {
   position: absolute;
   right: 15px;
@@ -95,10 +100,26 @@ $profile-form-middle-height: 90%;
   justify-content: center;
 }
 
+.profile-edit-wrap {
+  height: 85px;
+}
+
 .profile-icon {
   border-style: solid;
   border-width: thin;
   border-color: $primary-light-color;
   width: 100px;
   height: 100px;
+}
+
+.profile-drop {
+  background-color: $primary-light-color;
+  width: 55px;
+}
+
+.profile-drop-content {
+  overflow: auto;
+  background-color: $primary-1-color;
+  transform: translate3d(0, 48px, 0px) !important;
+  max-height: 35vh;
 }

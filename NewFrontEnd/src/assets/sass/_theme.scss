@@ -48,6 +48,9 @@ body {
     background-color: $primary-2-color;
     border: 2px solid $primary-light-color;
   }
+  &.form-control[readonly] {
+    background-color: transparent;
+  }
 }
 
 /**
@@ -88,6 +91,7 @@ body {
 .btn-secondary {
   @extend .btn-primary;
   font-size: $md-font-size;
+  height: 50px;
 }
 
 .btn-tertiary {
@@ -95,6 +99,27 @@ body {
   @extend .px-5;
 }
 
+.show > .btn-success.dropdown-toggle {
+  background-color: $primary-light-color;
+  border-color: $primary-light-color;
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+.btn-success {
+  border-color: $primary-light-color;
+  &:focus,
+  &:hover,
+  &:not(:disabled):not(.disabled):active {
+    background-color: $primary-light-color;
+    border-color: $primary-light-color;
+    box-shadow: none;
+    &:focus{
+      box-shadow: none;
+    }
+  }
+}
 // TODO test this
 .toggle-btn {
   &-inactive,

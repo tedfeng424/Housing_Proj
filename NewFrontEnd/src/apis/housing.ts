@@ -3,7 +3,7 @@ import { HousePost } from '../assets/models/PostModels';
 import { FilterModel } from '../assets/models/FilterModel';
 import { backendAPI } from './apiBases';
 
-const getHousingPostsAPI = async (): Promise<HousePost[] | undefined> => {
+const getHousingPostsAPI = async () => {
   try {
     const result = await backendAPI.get<HousePost[]>('/getRoom', {
       withCredentials: true,

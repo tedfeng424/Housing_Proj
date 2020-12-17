@@ -4,7 +4,7 @@ import {
   searchHousingPostsAPI,
   newHousingPostAPI,
 } from './housing';
-import { userLogIn, userLogOut } from './user';
+import { userLogIn, userLogOut, userEditProfile } from './user';
 
 export {
   getDuration,
@@ -13,4 +13,5 @@ export {
   searchHousingPostsAPI,
   newHousingPostAPI,
   userLogOut,
+  userEditProfile,
 };

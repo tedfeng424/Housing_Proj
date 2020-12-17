@@ -1,10 +1,24 @@
-import React from 'react';
-import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
+import React, { useState } from 'react';
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  Modal,
+  Row,
+  Dropdown,
+} from 'react-bootstrap';
+import { majors } from '../assets/constants';
 import { miscIcons, profileIcons } from '../assets/icons/all';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectUser, setUser } from '../redux/slices/auth';
-import { logout } from '../redux/slices/auth';
+import {
+  selectUser,
+  selectUserDraft,
+  setUserDraft,
+} from '../redux/slices/auth';
+import { logout, editProfile } from '../redux/slices/auth';
 import Image from 'react-bootstrap/Image';
+import { User, dummyUser } from '../assets/models/User';
 
 interface PathProps {
   show: boolean;
@@ -44,20 +58,21 @@ const phoneFormat = (phone: string, previousPhone: string) => {
   return charArray.join('');
 };
 
-const dummyUser = {
-  name: '',
-  email: '',
-  token: '',
-  description: '',
-  major: '',
-  schoolYear: '',
-  phone: '',
+// Will only be called during confirmation
+const generateUpdates = (original: User, draft: User) => {
+  const updatePairs: { [k: string]: any } = {};
+  const updateKeys = (Object.keys(original) as Array<keyof User>).filter(
+    (key) => original[key] !== draft[key],
+  );
+  updateKeys.forEach((key) => (updatePairs[key] = draft[key]));
+  return updatePairs;
 };
 
 const ProfileModal: React.FC<PathProps> = ({ show, setShow }) => {
   const userSelected = useSelector(selectUser) || dummyUser;
-  console.log(userSelected);
+  const userSelectedDraft = useSelector(selectUserDraft) || dummyUser;
   const dispatch = useDispatch();
+  const [activeIndicator, setactiveIndicator] = useState(true);
   return (
     <Modal
       dialogClassName="wizard-form-modal-dialog"
@@ -109,6 +124,66 @@ const ProfileModal: React.FC<PathProps> = ({ show, setShow }) => {
                     Log Out
                   </Button>
                 </div>
+                <div className="mt-5 profile-edit-wrap profile-wrap">
+                  {activeIndicator ? (
+                    <Button
+                      variant="secondary"
+                      onClick={() => setactiveIndicator(false)}
+                    >
+                      Edit Profile
+                    </Button>
+                  ) : (
+                    <div>
+                      <div>
+                        <Button
+                          variant="secondary"
+                          onClick={() => {
+                            const updates = generateUpdates(
+                              userSelected,
+                              userSelectedDraft,
+                            );
+                            // if nothing changes upon confirm, no need to send to backend
+                            if (
+                              !(
+                                Object.keys(updates).length === 0 &&
+                                updates.constructor === Object
+                              )
+                            ) {
+                              dispatch(
+                                editProfile(
+                                  userSelected.email,
+                                  userSelectedDraft,
+                                  generateUpdates(
+                                    userSelected,
+                                    userSelectedDraft,
+                                  ),
+                                  setactiveIndicator,
+                                ),
+                              );
+                            } else {
+                              setactiveIndicator(true);
+                            }
+                            // TODO: display error if fails at backend
+                          }}
+                        >
+                          Confirm
+                        </Button>
+                      </div>
+                      <div className="mt-1 profile-wrap">
+                        <Button
+                          className="profile-cancel"
+                          variant="no-show"
+                          onClick={() => {
+                            setactiveIndicator(true);
+                            dispatch(setUserDraft(userSelected));
+                          }}
+                        >
+                          Cancel
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </Col>
               <Col md={8}>
                 <Form.Row className="justify-content-center m-2 my-4">
@@ -120,7 +195,7 @@ const ProfileModal: React.FC<PathProps> = ({ show, setShow }) => {
                       className="single-line-input"
                       type="email"
                       disabled
-                      value={userSelected.email}
+                      value={userSelectedDraft.email}
                     ></Form.Control>
                   </Form.Group>
                   <Form.Group as={Col} controlId="profilePhone">
@@ -128,14 +203,16 @@ const ProfileModal: React.FC<PathProps> = ({ show, setShow }) => {
                       Phone
                     </Form.Label>
                     <Form.Control
+                      readOnly={activeIndicator}
                       className="single-line-input"
                       type="text"
-                      value={userSelected.phone}
+                      value={userSelectedDraft.phone}
                       onChange={(event) => {
-                        const previousPhone = userSelected.phone;
+                        console.log(userSelected, 'hello');
+                        const previousPhone = userSelectedDraft.phone;
                         dispatch(
-                          setUser({
-                            ...userSelected,
+                          setUserDraft({
+                            ...userSelectedDraft,
                             phone: phoneFormat(
                               event.target.value,
                               previousPhone,
@@ -152,18 +229,39 @@ const ProfileModal: React.FC<PathProps> = ({ show, setShow }) => {
                       Major
                     </Form.Label>
                     <Form.Control
-                      className="single-line-input"
+                      as={Dropdown}
+                      readOnly={activeIndicator}
+                      className="single-line-input d-flex py-0 pr-0"
                       type="text"
-                      value={userSelected.major}
-                      onChange={(event) =>
-                        dispatch(
-                          setUser({
-                            ...userSelected,
-                            major: event.target.value,
-                          }),
-                        )
-                      }
-                    ></Form.Control>
+                      value={userSelectedDraft.major}
+                    >
+                      <Button variant="no-show" className="single-line-input">
+                        {userSelectedDraft.major}
+                      </Button>
+                      <Dropdown.Toggle
+                        className="ml-auto h-100 profile-drop"
+                        variant="success"
+                        id="dropdown-major"
+                      />
+                      <Dropdown.Menu className="w-100 profile-drop-content">
+                        {majors.map((major) => (
+                          <Dropdown.Item
+                            active={major === userSelectedDraft.major}
+                            eventKey={major}
+                            onSelect={(event) =>
+                              dispatch(
+                                setUserDraft({
+                                  ...userSelectedDraft,
+                                  major: event || '',
+                                }),
+                              )
+                            }
+                          >
+                            {major}
+                          </Dropdown.Item>
+                        ))}
+                      </Dropdown.Menu>
+                    </Form.Control>
                   </Form.Group>
                 </Form.Row>
                 <Form.Row className="m-2">
@@ -172,21 +270,23 @@ const ProfileModal: React.FC<PathProps> = ({ show, setShow }) => {
                       Tell us about yourself in a short bio
                     </Form.Label>
                     <Form.Control
+                      readOnly={activeIndicator}
                       as="textarea"
                       className="single-line-input profile-bio-text"
                       type="text"
                       maxLength={600}
+                      value={userSelectedDraft.description}
                       onChange={(event) =>
                         dispatch(
-                          setUser({
-                            ...userSelected,
+                          setUserDraft({
+                            ...userSelectedDraft,
                             description: event.target.value,
                           }),
                         )
                       }
                     ></Form.Control>
                     <span className="profile-char-check">
-                      {userSelected.description.length}/600
+                      {userSelectedDraft.description.length}/600
                     </span>
                   </Form.Group>
                 </Form.Row>
