@@ -246,6 +246,8 @@ const majors = [
   'Study of Religion BA',
 ];
 
+const schoolYears = ['First', 'Sophomore', 'Junior', 'Senior', 'Fifth', 'Grad'];
+
 export {
   intervalOptions,
   yearMonths,
@@ -253,4 +255,5 @@ export {
   monthsAbrv,
   monthsUnabrvToAbrv,
   majors,
+  schoolYears,
 };
