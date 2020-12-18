@@ -99,16 +99,35 @@ const ProfileModal: React.FC<PathProps> = ({ show, setShow }) => {
       <div className="h-100 w-100">
         {/* TODO add border-radius to top and bottom rows */}
         {/* TODO <div className="d-flex align-items-center justify-content-around h-100"> */}
+        <Button
+          variant="no-show"
+          className="profile-cross"
+          onClick={() => setShow(false)}
+        >
+          <miscIcons.orangeX />
+        </Button>
+        <Row className="profile-form-top-bar">
+          <div
+            className={'title' + (editPosts ? '' : ' profile-selected')}
+            onClick={() => setEditPosts(false)}
+          >
+            Profile
+            {!editPosts && <div className="element">_____</div>}
+          </div>
+          <div className="title-divider mx-5">|</div>
+          <span
+            className={'title' + (editPosts ? ' profile-selected' : '')}
+            onClick={() => setEditPosts(true)}
+          >
+            Manage my posts
+            {editPosts && <div className="element">_____________</div>}
+          </span>
+        </Row>
         <div className="profile-form-middle">
           <Container fluid className="h-100">
             <Row className="h-100">
-            <div className="align-self-start">
-                  <Button variant="no-show" onClick={() => setShow(false)}>
-                    <miscIcons.orangeX />
-                  </Button>
-                </div>
-              <Col md={4} className="h-100 profile-info align-self-center">
-                <div className="profile-wrap mb-2">
+              <Col md={4} className="align-self-center">
+                <div className="profile-wrap">
                   <Image
                     src={
                       'https://houseit.s3.us-east-2.amazonaws.com/ambar%40ucsd.edu/profile/Mask+Group-1.jpg'
@@ -195,176 +214,158 @@ const ProfileModal: React.FC<PathProps> = ({ show, setShow }) => {
                   )}
                 </div>
               </Col>
-              {!editPosts ? (
-                <Col md={8} className="profile-form-top-bar-right">
-                  <Row className="w-100 justify-content-center">
-                    <div
-                      className={
-                        'title' + (editPosts ? '' : ' profile-selected')
-                      }
-                      onClick={() => setEditPosts(false)}
-                    >
-                      Profile
-                      {!editPosts && <div className="element">_____</div>}
-                    </div>
-                    <div className="title-divider mx-5">|</div>
-                    <span
-                      className={
-                        'title' + (editPosts ? ' profile-selected' : '')
-                      }
-                      onClick={() => setEditPosts(true)}
-                    >
-                      Manage my posts
-                      {editPosts && (
-                        <div className="element">_____________</div>
-                      )}
-                    </span>
-                  </Row>
-                  <Form.Row className="justify-content-center m-2 my-4">
-                    <Form.Group as={Col} controlId="profileEmail">
-                      <Form.Label className="profile-form-label">
-                        School Email
-                      </Form.Label>
-                      <Form.Control
-                        className="single-line-input"
-                        type="email"
-                        disabled
-                        value={userSelectedDraft.email}
-                      ></Form.Control>
-                    </Form.Group>
-                    <Form.Group as={Col} controlId="profilePhone">
-                      <Form.Label className="profile-form-label">
-                        Phone
-                      </Form.Label>
-                      <Form.Control
-                        readOnly={activeIndicator}
-                        className="single-line-input"
-                        type="text"
-                        value={userSelectedDraft.phone}
-                        onChange={(event) => {
-                          console.log(userSelected, 'hello');
-                          const previousPhone = userSelectedDraft.phone;
-                          dispatch(
-                            setUserDraft({
-                              ...userSelectedDraft,
-                              phone: phoneFormat(
-                                event.target.value,
-                                previousPhone,
-                              ),
-                            }),
-                          );
-                        }}
-                      ></Form.Control>
-                    </Form.Group>
-                  </Form.Row>
-                  <Form.Row className="m-2">
-                    <Form.Group as={Col} controlId="profileMajor">
-                      <Form.Label className="profile-form-label">
-                        Major
-                      </Form.Label>
-                      <Form.Control
-                        as={Dropdown}
-                        readOnly={activeIndicator}
-                        className="single-line-input d-flex py-0 pr-0"
-                        type="text"
-                        value={userSelectedDraft.major}
-                      >
-                        <Button variant="no-show" className="single-line-input">
-                          {userSelectedDraft.major}
-                        </Button>
-                        <Dropdown.Toggle
-                          className="ml-auto h-100 profile-drop"
-                          variant="success"
-                          id="dropdown-major"
-                        />
-                        <Dropdown.Menu className="w-100 profile-drop-content">
-                          {majors.map((major) => (
-                            <Dropdown.Item
-                              active={major === userSelectedDraft.major}
-                              eventKey={major}
-                              onSelect={(event) =>
-                                dispatch(
-                                  setUserDraft({
-                                    ...userSelectedDraft,
-                                    major: event || '',
-                                  }),
-                                )
-                              }
-                            >
-                              {major}
-                            </Dropdown.Item>
-                          ))}
-                        </Dropdown.Menu>
-                      </Form.Control>
-                    </Form.Group>
-                  </Form.Row>
-                  <Form.Row className="m-2">
-                    <Form.Group as={Col} controlId="profileBio">
-                      <Form.Label className="profile-form-bio">
-                        Tell us about yourself in a short bio
-                      </Form.Label>
-                      <Form.Control
-                        readOnly={activeIndicator}
-                        as="textarea"
-                        className="single-line-input profile-bio-text"
-                        type="text"
-                        maxLength={600}
-                        value={userSelectedDraft.description}
-                        onChange={(event) =>
-                          dispatch(
-                            setUserDraft({
-                              ...userSelectedDraft,
-                              description: event.target.value,
-                            }),
-                          )
-                        }
-                      ></Form.Control>
-                      <span className="profile-char-check">
-                        {userSelectedDraft.description.length}/600
-                      </span>
-                    </Form.Group>
-                  </Form.Row>
-                </Col>
-              ) : (
-                <Col md={8} className="profile-posts-list">
-                  {dummyPosts.length == 0 ? (
-                    <div className="profile-no-posts-text">
-                      You don't have any housing posts yet.
-                      <br />
-                      Are you looking for your Bookmarks instead?
-                    </div>
-                  ) : (
-                    dummyPosts.map((post) => (
-                      <div className="m-2 profile-mypost">
-                        <Image
-                          src={
-                            'https://houseit.s3.us-east-2.amazonaws.com/test0.png'
+              <Col md={8} className={editPosts ? 'profile-posts-list' : ''}>
+                {!editPosts ? (
+                  <React.Fragment>
+                    <Form.Row className="justify-content-center m-2 my-4">
+                      <Form.Group as={Col} controlId="profileEmail">
+                        <Form.Label className="profile-form-label">
+                          School Email
+                        </Form.Label>
+                        <Form.Control
+                          className="single-line-input"
+                          type="email"
+                          disabled
+                          value={userSelectedDraft.email}
+                        ></Form.Control>
+                      </Form.Group>
+                      <Form.Group as={Col} controlId="profilePhone">
+                        <Form.Label className="profile-form-label">
+                          Phone
+                        </Form.Label>
+                        <Form.Control
+                          readOnly={activeIndicator}
+                          className="single-line-input"
+                          type="text"
+                          value={userSelectedDraft.phone}
+                          onChange={(event) => {
+                            console.log(userSelected, 'hello');
+                            const previousPhone = userSelectedDraft.phone;
+                            dispatch(
+                              setUserDraft({
+                                ...userSelectedDraft,
+                                phone: phoneFormat(
+                                  event.target.value,
+                                  previousPhone,
+                                ),
+                              }),
+                            );
+                          }}
+                        ></Form.Control>
+                      </Form.Group>
+                    </Form.Row>
+                    <Form.Row className="m-2">
+                      <Form.Group as={Col} controlId="profileMajor">
+                        <Form.Label className="profile-form-label">
+                          Major
+                        </Form.Label>
+                        <Form.Control
+                          as={Dropdown}
+                          readOnly={activeIndicator}
+                          className="single-line-input d-flex py-0 pr-0"
+                          type="text"
+                          value={userSelectedDraft.major}
+                        >
+                          <Button
+                            variant="no-show"
+                            className="single-line-input"
+                          >
+                            {userSelectedDraft.major}
+                          </Button>
+                          <Dropdown.Toggle
+                            className="ml-auto h-100 profile-drop"
+                            variant="success"
+                            id="dropdown-major"
+                          />
+                          <Dropdown.Menu className="w-100 profile-drop-content">
+                            {majors.map((major) => (
+                              <Dropdown.Item
+                                active={major === userSelectedDraft.major}
+                                eventKey={major}
+                                onSelect={(event) =>
+                                  dispatch(
+                                    setUserDraft({
+                                      ...userSelectedDraft,
+                                      major: event || '',
+                                    }),
+                                  )
+                                }
+                              >
+                                {major}
+                              </Dropdown.Item>
+                            ))}
+                          </Dropdown.Menu>
+                        </Form.Control>
+                      </Form.Group>
+                    </Form.Row>
+                    <Form.Row className="m-2">
+                      <Form.Group as={Col} controlId="profileBio">
+                        <Form.Label className="profile-form-bio">
+                          Tell us about yourself in a short bio
+                        </Form.Label>
+                        <Form.Control
+                          readOnly={activeIndicator}
+                          as="textarea"
+                          className="single-line-input profile-bio-text"
+                          type="text"
+                          maxLength={600}
+                          value={userSelectedDraft.description}
+                          onChange={(event) =>
+                            dispatch(
+                              setUserDraft({
+                                ...userSelectedDraft,
+                                description: event.target.value,
+                              }),
+                            )
                           }
-                          className="profile-mypost-picture"
-                        />
+                        ></Form.Control>
+                        <span className="profile-char-check">
+                          {userSelectedDraft.description.length}/600
+                        </span>
+                      </Form.Group>
+                    </Form.Row>
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    {dummyPosts.length == 0 ? (
+                      <div className="profile-no-posts-text">
+                        You don't have any housing posts yet.
+                        <br />
+                        Are you looking for your Bookmarks instead?
+                      </div>
+                    ) : (
+                      dummyPosts.map((post) => (
+                        <div className="m-2 profile-mypost">
+                          <Image
+                            src={
+                              'https://houseit.s3.us-east-2.amazonaws.com/test0.png'
+                            }
+                            className="profile-mypost-picture"
+                          />
 
-                        <div className="profile-mypost-info">
-                          <div className="profile-mypost-title">
-                            {post.name}
-                          </div>
-                          <div className="profile-mypost-details mt-1">
-                            {post.roomType} | {post.price}
-                          </div>
+                          <div className="profile-mypost-info">
+                            <div className="profile-mypost-title">
+                              {post.name}
+                            </div>
+                            <div className="profile-mypost-details mt-1">
+                              {post.roomType} | {post.price}
+                            </div>
 
-                          <div className="mt-auto profile-mypost-actions">
-                            <Button variant="secondary" className="w-90">
-                              Mark as occupied
-                            </Button>
-                            <div className="ml-auto profile-mypost-edit">
-                              Edit this post
+                            <div className="mt-auto profile-mypost-actions">
+                              <Button variant="secondary" className="w-90">
+                                Mark as occupied
+                              </Button>
+                              <div className="ml-auto profile-mypost-edit">
+                                Edit this post
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    ))
-                  )}
-                </Col>
-              )}
+                      ))
+                    )}
+                  </React.Fragment>
+                )}
+              </Col>
             </Row>
           </Container>
         </div>

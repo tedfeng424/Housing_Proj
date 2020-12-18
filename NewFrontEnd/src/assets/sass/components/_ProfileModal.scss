@@ -9,8 +9,8 @@ $profile-form-middle-height: 90%;
   height: (100% - $wizard-form-middle-height) / 2;
   display: flex;
   border-radius: $lg-border-radius $lg-border-radius 0 0;
-  align-items: center;
-  margin-top: 1vh;
+  justify-content: center;
+  margin-top: 2vh;
 
   .title {
     @include font-type('secondary-title');
@@ -31,24 +31,10 @@ $profile-form-middle-height: 90%;
   }
 }
 
-.profile-form-top-bar-right {
-  .title {
-    @include font-type('secondary-title');
-    font-weight: $regular-font-weight; // TODO make a font type for this
-    color: $secondary-dark-color;
-    .element {
-      width: 100%;
-      text-align: center;
-      position: relative;
-      top: -30px;
-      color: $secondary-1-color;
-      font-size: x-large;
-    }
-  }
-  .title-divider {
-    color: $secondary-1-color;
-    font-size: x-large;
-  }
+.profile-cross {
+  position: absolute;
+  top: 26px;
+  left: 42px;
 }
 
 .profile-selected {
