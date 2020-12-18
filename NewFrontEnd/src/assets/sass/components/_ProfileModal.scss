@@ -108,6 +108,10 @@ $profile-form-middle-height: 90%;
   text-align: center;
 }
 
+.profile-button{
+  overflow: auto;
+}
+
 .profile-word-sub-bg-selected {
   background-color: $primary-input-color;
 }

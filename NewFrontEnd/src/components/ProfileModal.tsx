@@ -268,7 +268,7 @@ const ProfileModal: React.FC<PathProps> = ({ show, setShow }) => {
                         >
                           <Button
                             variant="no-show"
-                            className="single-line-input"
+                            className="profile-button single-line-input"
                           >
                             {userSelectedDraft.major}
                           </Button>
