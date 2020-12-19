@@ -254,6 +254,52 @@ const ProfileModal: React.FC<PathProps> = ({ show, setShow }) => {
                         ></Form.Control>
                       </Form.Group>
                     </Form.Row>
+
+                    <Form.Row className="m-2 px-0">
+                      <Form.Group as={Col} controlId="profileSchoolYear">
+                        <Form.Label className="profile-form-label">
+                          School Year
+                        </Form.Label>
+                        <Form.Row className="profile-year-row pl-1">
+                          {[
+                            'First',
+                            'Sophomore',
+                            'Junior',
+                            'Senior',
+                            'Fifth',
+                            'Grad',
+                          ].map((year) => (
+                            <Form.Group
+                              controlId={`profileSchoolYear${year}`}
+                              className={
+                                userSelectedDraft.schoolYear === year
+                                  ? SelectBg
+                                  : nonSelectBg
+                              }
+                            >
+                              <Form.Label
+                                className={
+                                  userSelectedDraft.schoolYear === year
+                                    ? selectStyle
+                                    : nonSelectStyle
+                                }
+                                onClick={() => {
+                                  dispatch(
+                                    setUserDraft({
+                                      ...userSelectedDraft,
+                                      schoolYear: year,
+                                    }),
+                                  );
+                                }}
+                              >
+                                {year}
+                              </Form.Label>
+                            </Form.Group>
+                          ))}
+                        </Form.Row>
+                      </Form.Group>
+                    </Form.Row>
+
                     <Form.Row className="m-2">
                       <Form.Group as={Col} controlId="profileMajor">
                         <Form.Label className="profile-form-label">
