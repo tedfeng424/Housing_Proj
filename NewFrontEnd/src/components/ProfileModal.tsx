@@ -9,16 +9,18 @@ import {
   Dropdown,
   FormCheck,
 } from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import Image from 'react-bootstrap/Image';
 import { majors } from '../assets/constants';
 import { miscIcons, profileIcons } from '../assets/icons/all';
-import { useSelector, useDispatch } from 'react-redux';
 import {
   selectUser,
   selectUserDraft,
   setUserDraft,
+  logout,
+  editProfile,
 } from '../redux/slices/auth';
-import { logout, editProfile } from '../redux/slices/auth';
-import Image from 'react-bootstrap/Image';
+
 import { User, dummyUser } from '../assets/models/User';
 
 const nonSelectStyle = 'profile-word-sub';
@@ -35,7 +37,7 @@ const phoneFormat = (phone: string, previousPhone: string) => {
   const phoneRegex = /\d+/;
   const charArray = [];
   const limit = 14;
-  var i;
+  let i;
   for (i = 0; i < Math.min(phone.length, limit); i++) {
     if (phone[i].match(phoneRegex)) {
       charArray.push(phone[i]);
@@ -108,7 +110,7 @@ const ProfileModal: React.FC<PathProps> = ({ show, setShow }) => {
         </Button>
         <Row className="profile-form-top-bar">
           <div
-            className={'title' + (editPosts ? '' : ' profile-selected')}
+            className={`title${editPosts ? '' : ' profile-selected'}`}
             onClick={() => setEditPosts(false)}
           >
             Profile
@@ -116,7 +118,7 @@ const ProfileModal: React.FC<PathProps> = ({ show, setShow }) => {
           </div>
           <div className="title-divider mx-5">|</div>
           <span
-            className={'title' + (editPosts ? ' profile-selected' : '')}
+            className={`title${editPosts ? ' profile-selected' : ''}`}
             onClick={() => setEditPosts(true)}
           >
             Manage my posts
@@ -129,9 +131,7 @@ const ProfileModal: React.FC<PathProps> = ({ show, setShow }) => {
               <Col md={4} className="align-self-center">
                 <div className="profile-wrap">
                   <Image
-                    src={
-                      'https://houseit.s3.us-east-2.amazonaws.com/ambar%40ucsd.edu/profile/Mask+Group-1.jpg'
-                    }
+                    src="https://houseit.s3.us-east-2.amazonaws.com/ambar%40ucsd.edu/profile/Mask+Group-1.jpg"
                     roundedCircle
                     className="profile-icon"
                   />
@@ -216,8 +216,8 @@ const ProfileModal: React.FC<PathProps> = ({ show, setShow }) => {
               </Col>
               <Col md={8} className={editPosts ? 'profile-posts-list' : ''}>
                 {!editPosts ? (
-                  <React.Fragment>
-                    <Form.Row className="justify-content-center m-2 my-4">
+                  <>
+                    <Form.Row className="justify-content-center m-2">
                       <Form.Group as={Col} controlId="profileEmail">
                         <Form.Label className="profile-form-label">
                           School Email
@@ -227,7 +227,7 @@ const ProfileModal: React.FC<PathProps> = ({ show, setShow }) => {
                           type="email"
                           disabled
                           value={userSelectedDraft.email}
-                        ></Form.Control>
+                        />
                       </Form.Group>
                       <Form.Group as={Col} controlId="profilePhone">
                         <Form.Label className="profile-form-label">
@@ -251,7 +251,7 @@ const ProfileModal: React.FC<PathProps> = ({ show, setShow }) => {
                               }),
                             );
                           }}
-                        ></Form.Control>
+                        />
                       </Form.Group>
                     </Form.Row>
 
@@ -364,15 +364,15 @@ const ProfileModal: React.FC<PathProps> = ({ show, setShow }) => {
                               }),
                             )
                           }
-                        ></Form.Control>
+                        />
                         <span className="profile-char-check">
                           {userSelectedDraft.description.length}/600
                         </span>
                       </Form.Group>
                     </Form.Row>
-                  </React.Fragment>
+                  </>
                 ) : (
-                  <React.Fragment>
+                  <>
                     {dummyPosts.length == 0 ? (
                       <div className="profile-no-posts-text">
                         You don't have any housing posts yet.
@@ -383,9 +383,7 @@ const ProfileModal: React.FC<PathProps> = ({ show, setShow }) => {
                       dummyPosts.map((post) => (
                         <div className="m-2 profile-mypost">
                           <Image
-                            src={
-                              'https://houseit.s3.us-east-2.amazonaws.com/test0.png'
-                            }
+                            src="https://houseit.s3.us-east-2.amazonaws.com/test0.png"
                             className="profile-mypost-picture"
                           />
 
@@ -409,7 +407,7 @@ const ProfileModal: React.FC<PathProps> = ({ show, setShow }) => {
                         </div>
                       ))
                     )}
-                  </React.Fragment>
+                  </>
                 )}
               </Col>
             </Row>
