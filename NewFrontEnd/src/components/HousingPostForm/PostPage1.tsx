@@ -50,8 +50,8 @@ const PostPage1: React.FC<WizardFormStep<PostPage1Store>> = ({
           type="text"
           value={leaserPhone}
           onChange={(e) => setStore({ leaserPhone: e.target.value })}
-          isValid={leaserPhone?.length > 0}
-          isInvalid={leaserPhone?.length === 0}
+          isValid={errors !== undefined && errors.leaserPhone === undefined}
+          isInvalid={errors !== undefined && errors.leaserPhone !== undefined}
           placeholder="Phone number"
         />
       </Form.Row>

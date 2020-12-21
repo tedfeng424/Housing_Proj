@@ -1,3 +1,4 @@
+// TODO eventually separate the zod stuff in this into a separate
 /* Documentation of this component is at the bottom */
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
@@ -5,7 +6,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import { ZodSchema, ZodIssue, ZodObject } from 'zod';
+import { ZodSchema, ZodIssue } from 'zod';
 import { miscIcons } from '../assets/icons/all';
 
 type ValidationError<P> = Partial<{ [key in keyof P]: ZodIssue }>;
@@ -16,7 +17,7 @@ type ValidationError<P> = Partial<{ [key in keyof P]: ZodIssue }>;
  * - an exit() function to exit the form (i.e. when the user completes the form)
  * - a submitForm() which can be called when you would like to submit the form (it returns T/F based on success of onSubmit and validationChecks)
  */
-type SetStore<P> = (value: Partial<P>) => void;
+type SetStore<P> = (value: Partial<P>, shouldValidate?: boolean) => void;
 export interface WizardFormStep<P> {
   exitWizardForm: () => void;
   nextStep: () => void;
@@ -58,7 +59,6 @@ PathProps<T>) => {
   const [isLast, setIsLast] = useState<boolean>(index === children.length - 1);
   const [CurStep, setCurStep] = useState<React.ReactElement>(children[0]);
 
-  // TODO const [store, setStore] = useState<Partial<T>>(initialStorage);
   const [store, setStore] = useState<Array<Partial<T>>>(
     children.map(() => ({})),
   );
@@ -75,9 +75,15 @@ PathProps<T>) => {
   const [schemasInitialized, setSchemasInitialized] = useState<Array<boolean>>(
     children.map(() => false),
   );
+  // keeps track of the errors for each field
   const [errors, setErrors] = useState<
     Array<ValidationError<Partial<T>> | undefined>
   >(children.map(() => undefined));
+  // used to keep track of which fields have been edited
+  const [editedFields, setEditedFields] = useState<
+    Array<Partial<{ [key in keyof T]: boolean }>>
+  >(children.map(() => ({})));
+  // TODO used to override validations if necessary
   const [validationsOverride, setValidationsOverride] = useState<
     Array<boolean | undefined>
   >(children.map(() => undefined));
@@ -147,6 +153,35 @@ PathProps<T>) => {
   // };
   // need to validate on arrows. need to pass errors
 
+  // const validatePicked = <P extends {}>(
+  //   schema: ZodSchema<P>,
+  //   toParse: Partial<P>,
+  //   toValidate: Array<keyof P>,
+  // ) => {
+  //   const result = schema.safeParse(toParse);
+  //   let changedErrors: ValidationError<P> | undefined;
+  //   if (result && !result.success) {
+  //     // console.log(result.error.isEmpty); // TODO use this to check if errors exist
+  //     const { fieldErrors } = result.error.formErrors;
+  //     changedErrors = Object.keys(toValidate).reduce<
+  //       Partial<{ [key in keyof P]: ZodIssue }>
+  //     >(
+  //       (pre, key) => {
+  //         if (fieldErrors[key]) {
+  //           return { ...pre, [key]: fieldErrors[key][0] };
+  //         }
+  //         // delete previous error if there's no error now
+  //         if (pre[key as keyof P]) {
+  //           delete pre[key as keyof P];
+  //         }
+  //         return pre;
+  //       },
+  //       { ...errors[index] } as Partial<{ [key in keyof P]: ZodIssue }>,
+  //     );
+  //     console.log(changedErrors);
+  //   }
+  // };
+
   /**
    * Hook to access function to update WizardForm's "local store". It's shared among all children.
    * Works similar to useState, except also can provide zod schema for validation here.
@@ -155,28 +190,51 @@ PathProps<T>) => {
     initialValue: P,
     schema?: ZodSchema<P>,
   ) => {
-    const setStoreWrapper: SetStore<P> = (value: Partial<P>) => {
+    const setStoreWrapper: SetStore<P> = (
+      value: Partial<P>,
+      shouldValidate = true,
+    ) => {
       const changedValues = { ...store[index], ...value };
       setStore({ ...store, [index]: changedValues });
 
+      // get the changed edited fields and set that they were changed
+      const changedEditedFields = (Object.keys(value) as Array<keyof P>).reduce<
+        Partial<{ [key in keyof P]: boolean }>
+      >((prev, key) => {
+        prev[key] = true;
+        return prev;
+      }, {});
+      setEditedFields({
+        ...editedFields,
+        [index]: { ...editedFields[index], changedEditedFields },
+      });
+
       // every time there's a change, validate it
-      const result = (zodSchemas[index] as
-        | ZodSchema<Partial<P>>
-        | undefined)?.safeParse(changedValues);
-      // TODO .pick(Object.keys(changedValues).map((key) => ({ [key]: true })));
+      const result = schema?.safeParse(changedValues);
       let changedErrors: ValidationError<P> | undefined;
-      if (result && !result.success && schema) {
-        changedErrors = (Object.keys(initialValue) as Array<keyof P>).reduce<
-          ValidationError<P>
-        >((pre, cur, i) => {
-          const wasChanged = value[cur] !== undefined;
-          if (!wasChanged) return pre;
-          return { ...pre, [cur]: result.error.issues[i] };
-        }, {});
+      if (result && !result.success && schema && shouldValidate) {
+        // console.log(result.error.isEmpty); // TODO use this to check if errors exist
+        const { fieldErrors } = result.error.formErrors;
+        changedErrors = Object.keys(changedEditedFields).reduce<
+          Partial<{ [key in keyof P]: ZodIssue }>
+        >(
+          (pre, key) => {
+            if (fieldErrors[key]) {
+              return { ...pre, [key]: fieldErrors[key][0] };
+            }
+            // delete previous error if there's no error now
+            if (pre[key as keyof P]) {
+              delete pre[key as keyof P];
+            }
+            return pre;
+          },
+          { ...errors[index] } as Partial<{ [key in keyof P]: ZodIssue }>,
+        );
+        console.log(changedErrors);
       }
 
-      const curErrors = { ...errors[index], ...changedErrors };
-      setErrors({ ...errors, [index]: curErrors });
+      console.log(changedErrors);
+      setErrors({ ...errors, [index]: changedErrors });
     };
 
     if (!schemasInitialized[index]) {
@@ -186,7 +244,7 @@ PathProps<T>) => {
 
     if (!storeInitialized[index]) {
       if (initialValue) {
-        setStoreWrapper(initialValue);
+        setStoreWrapper(initialValue, false);
       }
       setStoreInitialized({ ...storeInitialized, [index]: true });
     }
