@@ -6,7 +6,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import { ZodSchema, ZodIssue } from 'zod';
+import z, { ZodSchema, ZodIssue } from 'zod';
 import { miscIcons } from '../assets/icons/all';
 
 type ValidationError<P> = Partial<{ [key in keyof P]: ZodIssue }>;
@@ -142,45 +142,53 @@ PathProps<T>) => {
     return { success };
   };
 
+  const validatePickedValues = <P extends {} | unknown = unknown>(
+    schema: ZodSchema<P>,
+    toParse: Partial<P>,
+    toValidate: Array<keyof P>,
+  ) => {
+    const result = schema.safeParse(toParse);
+    let changedErrors: ValidationError<P> | undefined;
+    if (result && !result.success) {
+      // console.log(result.error.isEmpty); // TODO use this to check if errors exist
+      const { fieldErrors } = result.error.formErrors;
+      changedErrors = toValidate.reduce(
+        (pre, key) => {
+          if (fieldErrors[key as string]) {
+            return { ...pre, [key]: fieldErrors[key as string][0] };
+          }
+          // delete previous error if there's no error now
+          if (pre[key as keyof P]) {
+            delete pre[key as keyof P];
+          }
+          return pre;
+        },
+        { ...errors[index] } as Partial<{ [key in keyof P]: ZodIssue }>,
+      );
+    }
+    return changedErrors;
+  };
+
   /**
    * Validates current form step.
    */
-  // const validateCurrent = (): ValidationResult<T> => { // TODO temporary "T", should actually be P
-
-  //   if (zodSchemas[index] {
-  //     zodSchemas[index].safeParse()
-  //   })
-  // };
+  const validateCurrent = () => {
+    // TODO temporary "T", should actually be P
+    // validate everything that hasn't been validated yet
+    let changedErrors: ValidationError<Partial<T>> | undefined;
+    const schema = zodSchemas[index];
+    if (schema) {
+      changedErrors = validatePickedValues<Partial<T>>(
+        schema,
+        store[index],
+        Object.keys(store[index]) as (keyof T)[],
+      );
+    }
+    console.log(changedErrors);
+    setErrors({ ...errors, [index]: changedErrors });
+    return changedErrors;
+  };
   // need to validate on arrows. need to pass errors
-
-  // const validatePicked = <P extends {}>(
-  //   schema: ZodSchema<P>,
-  //   toParse: Partial<P>,
-  //   toValidate: Array<keyof P>,
-  // ) => {
-  //   const result = schema.safeParse(toParse);
-  //   let changedErrors: ValidationError<P> | undefined;
-  //   if (result && !result.success) {
-  //     // console.log(result.error.isEmpty); // TODO use this to check if errors exist
-  //     const { fieldErrors } = result.error.formErrors;
-  //     changedErrors = Object.keys(toValidate).reduce<
-  //       Partial<{ [key in keyof P]: ZodIssue }>
-  //     >(
-  //       (pre, key) => {
-  //         if (fieldErrors[key]) {
-  //           return { ...pre, [key]: fieldErrors[key][0] };
-  //         }
-  //         // delete previous error if there's no error now
-  //         if (pre[key as keyof P]) {
-  //           delete pre[key as keyof P];
-  //         }
-  //         return pre;
-  //       },
-  //       { ...errors[index] } as Partial<{ [key in keyof P]: ZodIssue }>,
-  //     );
-  //     console.log(changedErrors);
-  //   }
-  // };
 
   /**
    * Hook to access function to update WizardForm's "local store". It's shared among all children.
@@ -210,27 +218,13 @@ PathProps<T>) => {
       });
 
       // every time there's a change, validate it
-      const result = schema?.safeParse(changedValues);
       let changedErrors: ValidationError<P> | undefined;
-      if (result && !result.success && schema && shouldValidate) {
-        // console.log(result.error.isEmpty); // TODO use this to check if errors exist
-        const { fieldErrors } = result.error.formErrors;
-        changedErrors = Object.keys(changedEditedFields).reduce<
-          Partial<{ [key in keyof P]: ZodIssue }>
-        >(
-          (pre, key) => {
-            if (fieldErrors[key]) {
-              return { ...pre, [key]: fieldErrors[key][0] };
-            }
-            // delete previous error if there's no error now
-            if (pre[key as keyof P]) {
-              delete pre[key as keyof P];
-            }
-            return pre;
-          },
-          { ...errors[index] } as Partial<{ [key in keyof P]: ZodIssue }>,
+      if (schema && shouldValidate) {
+        changedErrors = validatePickedValues<P>(
+          schema,
+          changedValues,
+          Object.keys(changedEditedFields) as (keyof P)[],
         );
-        console.log(changedErrors);
       }
 
       console.log(changedErrors);
