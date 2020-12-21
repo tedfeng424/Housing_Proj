@@ -12,3 +12,11 @@
     max-width: 90%;
   }
 }
+
+.wizard-form-invalid-feedback {
+  @extend .pt-1;
+  color: #b62c3a;
+  width: 100%;
+  text-align: left;
+  font-size: 80%;
+}

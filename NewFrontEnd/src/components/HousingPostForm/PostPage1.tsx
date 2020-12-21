@@ -13,7 +13,7 @@ const nonSelectBg = 'post-word-sub-bg';
 const SelectBg = 'post-word-sub-bg post-word-sub-bg-selected';
 
 // TODO put in constants
-const phoneRegex = /([ ]*\+?[ ]*[0-9]{0,4}[ ]*(-|\()?[0-9]{3}[ ]*(-|\))?[ ]*[0-9]{3}[ ]*-?[ ]*[0-9]{4}[ ]*)/;
+const phoneRegex = /^([ ]*\+?[ ]*[0-9]{0,4}[ ]*(-|\()?[0-9]{3}[ ]*(-|\))?[ ]*[0-9]{3}[ ]*-?[ ]*[0-9]{4}[ ]*)$/;
 
 const page1StoreSchema = z.object({
   leaserPhone: z
@@ -37,7 +37,7 @@ const PostPage1: React.FC<WizardFormStep<PostPage1Store>> = ({
 }) => {
   const [
     { leaserPhone, schoolYear, major },
-    errors,
+    validations,
     setStore,
   ] = useWizardFormStorage<PostPage1Store>(page1InitialStore, page1StoreSchema);
 
@@ -50,10 +50,13 @@ const PostPage1: React.FC<WizardFormStep<PostPage1Store>> = ({
           type="text"
           value={leaserPhone}
           onChange={(e) => setStore({ leaserPhone: e.target.value })}
-          isValid={errors !== undefined && errors.leaserPhone === undefined}
-          isInvalid={errors !== undefined && errors.leaserPhone !== undefined}
+          isValid={validations?.leaserPhone?.success}
           placeholder="Phone number"
         />
+        <div className="wizard-form-invalid-feedback">
+          {!validations?.leaserPhone?.success &&
+            validations?.leaserPhone?.error}
+        </div>
       </Form.Row>
       <br />
       <Row>
@@ -160,10 +163,12 @@ const PostPage1: React.FC<WizardFormStep<PostPage1Store>> = ({
           type="text"
           value={major}
           onChange={(e) => setStore({ major: e.target.value })}
-          isValid={major?.length > 0}
-          isInvalid={major?.length === 0}
+          isValid={validations?.major?.success}
           placeholder="Major"
         />
+        <div className="wizard-form-invalid-feedback">
+          {!validations?.major?.success && validations?.major?.error}
+        </div>
       </Form.Row>
     </Container>
   );

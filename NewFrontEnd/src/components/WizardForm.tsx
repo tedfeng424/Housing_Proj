@@ -9,7 +9,13 @@ import Button from 'react-bootstrap/Button';
 import z, { ZodSchema, ZodIssue } from 'zod';
 import { miscIcons } from '../assets/icons/all';
 
-type ValidationError<P> = Partial<{ [key in keyof P]: ZodIssue }>;
+type ValidationError<P> = Partial<
+  {
+    [key in keyof P]:
+      | { success: true; error: undefined }
+      | { success: false; error: ZodIssue };
+  }
+>;
 
 /**
  * Each child component will be given:
@@ -155,15 +161,15 @@ PathProps<T>) => {
       changedErrors = toValidate.reduce(
         (pre, key) => {
           if (fieldErrors[key as string]) {
-            return { ...pre, [key]: fieldErrors[key as string][0] };
+            return {
+              ...pre,
+              [key]: { success: false, error: fieldErrors[key as string][0] },
+            };
           }
-          // delete previous error if there's no error now
-          if (pre[key as keyof P]) {
-            delete pre[key as keyof P];
-          }
+          pre[key] = { success: true, error: undefined };
           return pre;
         },
-        { ...errors[index] } as Partial<{ [key in keyof P]: ZodIssue }>,
+        { ...errors[index] } as ValidationError<P>,
       );
     }
     return changedErrors;
