@@ -37,7 +37,7 @@ interface PathProps<T = {}> {
   setShow: (show: boolean) => void;
   hideButtons?: boolean;
   onSubmit: (store: T) => boolean;
-  validateOnlyAtSubmit?: boolean;
+  // TODO validateOnlyAtSubmit?: boolean;
   // TODO initialStorage?: Partial<T>;
 }
 
@@ -51,8 +51,8 @@ const WizardForm = <T extends {}>({
   setShow,
   hideButtons = false,
   onSubmit,
-  validateOnlyAtSubmit = false,
-}: // TODO initialStorage = {},
+}: // TODO validateOnlyAtSubmit = false,
+// TODO initialStorage = {},
 PathProps<T>) => {
   const [index, setIndex] = useState<number>(0);
   const [isFirst, setIsFirst] = useState<boolean>(true);
@@ -84,9 +84,9 @@ PathProps<T>) => {
     Array<Partial<{ [key in keyof T]: boolean }>>
   >(children.map(() => ({})));
   // TODO used to override validations if necessary
-  const [validationsOverride, setValidationsOverride] = useState<
-    Array<boolean | undefined>
-  >(children.map(() => undefined));
+  // const [validationsOverride, setValidationsOverride] = useState<
+  //   Array<boolean | undefined>
+  // >(children.map(() => undefined));
 
   useEffect(() => {
     setCurStep(children[index]);
@@ -108,7 +108,7 @@ PathProps<T>) => {
    */
   const nextStep = () => {
     // validate if needed
-    if (!validateOnlyAtSubmit && !validationsOverride[index]) return;
+    // TODO if (!validateOnlyAtSubmit && !validationsOverride[index]) return;
 
     if (index + 1 < children.length) setIndex(index + 1);
   };
@@ -129,11 +129,11 @@ PathProps<T>) => {
   const submitForm = async (): Promise<
     ValidationError<T> | { success: boolean }
   > => {
-    const allValidations = validationsOverride.reduce<boolean>(
-      (prev, cur) => prev && (cur === undefined || cur),
-      true,
-    );
-    if (!allValidations) return { success: false /* errors: {} */ }; // TODO temporary
+    // TODO const allValidations = validationsOverride.reduce<boolean>(
+    //   (prev, cur) => prev && (cur === undefined || cur),
+    //   true,
+    // );
+    // if (!allValidations) return { success: false /* errors: {} */ }; // TODO temporary
 
     // Everything should be validated by this point
     const combined = store.reduceRight((pre, cur) => ({ ...pre, ...cur }));
@@ -252,13 +252,13 @@ PathProps<T>) => {
    * Use this to override if the current step is validated.
    * NOTE: you can only set isValidated in the current page.
    */
-  const overrideValidation = (validated: boolean) => {
-    const updatedValidations = [
-      ...validationsOverride,
-    ] as typeof validationsOverride;
-    updatedValidations[index] = validated;
-    setValidationsOverride(updatedValidations);
-  };
+  // TODO const overrideValidation = (validated: boolean) => {
+  //   const updatedValidations = [
+  //     ...validationsOverride,
+  //   ] as typeof validationsOverride;
+  //   updatedValidations[index] = validated;
+  //   setValidationsOverride(updatedValidations);
+  // };
 
   // TODO need to figure out how to have loading thing on top
   return (
@@ -287,7 +287,7 @@ PathProps<T>) => {
               exitWizardForm,
               submitForm,
               useWizardFormStorage,
-              overrideValidation,
+              // TODO overrideValidation,
             })}
           </Col>
 

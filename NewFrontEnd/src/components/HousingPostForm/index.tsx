@@ -32,7 +32,7 @@ const HousingPost: React.FC<PathProps> = ({ show, setShow }) => (
       // ); // TODO
       return true;
     }}
-    validateOnlyAtSubmit // TODO temporary
+    // validateOnlyAtSubmit // TODO temporary
   >
     <PostPage1 />
     <PostPage2 />
