@@ -184,8 +184,6 @@ PathProps<T>) => {
         Object.keys(store[index]) as (keyof T)[],
       );
     }
-    console.log(changedErrors);
-    setErrors({ ...errors, [index]: changedErrors });
     return changedErrors;
   };
   // need to validate on arrows. need to pass errors
@@ -283,14 +281,6 @@ PathProps<T>) => {
           </Col>
 
           <Col xs={10} className="d-flex">
-            {/* TODO {CurStep({
-              nextStep,
-              prevStep,
-              exitWizardForm,
-              submitForm,
-              useWizardFormStorage,
-              setIsValidated,
-            })} */}
             {React.cloneElement(CurStep, {
               nextStep,
               prevStep,
@@ -305,7 +295,18 @@ PathProps<T>) => {
           <Col xs={1} className="d-flex arrow-icon justify-content-center">
             {!isLast && !hideButtons && (
               <div>
-                <Button variant="no-show" onClick={nextStep}>
+                <Button
+                  variant="no-show"
+                  onClick={() => {
+                    const curErrors = validateCurrent();
+                    if (curErrors) {
+                      console.log(curErrors);
+                      setErrors({ ...errors, [index]: curErrors });
+                    } else {
+                      nextStep();
+                    }
+                  }}
+                >
                   <miscIcons.rightArrow />
                 </Button>
               </div>
