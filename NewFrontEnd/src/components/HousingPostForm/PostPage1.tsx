@@ -156,20 +156,22 @@ const PostPage1: React.FC<WizardFormStep<PostPage1Store>> = ({
         </Col>
       </Row>
       <br />
-      <Form.Row className="justify-content-center m-2">
-        <Form.Label className="post-word">Major</Form.Label>
-        <Form.Control
-          className="single-line-input"
-          type="text"
-          value={major}
-          onChange={(e) => setStore({ major: e.target.value })}
-          isValid={validations?.major?.success}
-          placeholder="Major"
-        />
-        <div className="wizard-form-invalid-feedback">
-          {!validations?.major?.success && validations?.major?.error}
-        </div>
-      </Form.Row>
+      <Form.Group>
+        <Form.Row className="justify-content-center m-2">
+          <Form.Label className="post-word">Major</Form.Label>
+          <Form.Control
+            className="single-line-input"
+            type="text"
+            value={major}
+            onChange={(e) => setStore({ major: e.target.value })}
+            isValid={validations?.major?.success}
+            placeholder="Major"
+          />
+          <div className="wizard-form-invalid-feedback">
+            {!validations?.major?.success && validations?.major?.error}
+          </div>
+        </Form.Row>
+      </Form.Group>
     </Container>
   );
 };

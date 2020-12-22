@@ -166,8 +166,7 @@ PathProps<T>) => {
               [key]: { success: false, error: fieldErrors[key as string][0] },
             };
           }
-          pre[key] = { success: true, error: undefined };
-          return pre;
+          return { ...pre, [key]: { success: true, error: undefined } };
         },
         { ...errors[index] } as ValidationError<P>,
       );
@@ -182,6 +181,7 @@ PathProps<T>) => {
     // TODO temporary "T", should actually be P
     // validate everything that hasn't been validated yet
     let changedErrors: ValidationError<Partial<T>> | undefined;
+    console.log(index);
     const schema = zodSchemas[index];
     if (schema) {
       changedErrors = validatePickedValues<Partial<T>>(
@@ -231,8 +231,7 @@ PathProps<T>) => {
         );
       }
 
-      console.log(changedErrors);
-      setErrors({ ...errors, [index]: changedErrors });
+      setErrors({ ...errors, [index]: { ...errors[index], ...changedErrors } });
     };
 
     if (!schemasInitialized[index]) {
@@ -307,7 +306,10 @@ PathProps<T>) => {
                     const curErrors = validateCurrent();
                     if (curErrors) {
                       console.log(curErrors);
-                      setErrors({ ...errors, [index]: curErrors });
+                      setErrors({
+                        ...errors,
+                        [index]: { ...errors[index], ...curErrors },
+                      });
                     } else {
                       nextStep();
                     }

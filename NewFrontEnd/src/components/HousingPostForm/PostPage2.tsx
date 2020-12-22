@@ -30,7 +30,7 @@ const PostPage2: React.FC<WizardFormStep<PostPage2Store>> = ({
 }) => {
   const [
     { locationSearch, selectedLocation, roomType, price },
-    errors,
+    validations,
     setStore,
   ] = useWizardFormStorage<PostPage2Store>(page2InitialStore, page2StoreSchema);
 
@@ -55,9 +55,12 @@ const PostPage2: React.FC<WizardFormStep<PostPage2Store>> = ({
           onSelect={(value) => {
             setStore({ locationSearch: value, selectedLocation: value });
           }}
-          isValid={selectedLocation !== ''}
-          isInvalid={selectedLocation === ''}
+          isValid={validations?.selectedLocation?.success}
         />
+        <div className="wizard-form-invalid-feedback">
+          {!validations?.selectedLocation?.success &&
+            validations?.selectedLocation?.error}
+        </div>
       </Form.Row>
 
       <Row className="justify-content-center">
@@ -121,12 +124,14 @@ const PostPage2: React.FC<WizardFormStep<PostPage2Store>> = ({
                     setStore({ price: undefined }); // force it to be invalid
                   }
                 }}
-                isValid={price !== undefined && price > 0} // TODO set the max of the price
-                isInvalid={!price || price <= 0}
+                isValid={validations?.price?.success}
                 placeholder="Price"
               />
             </Col>
           </Form.Row>
+          <div className="wizard-form-invalid-feedback">
+            {!validations?.price?.success && validations?.price?.error}
+          </div>
         </Col>
         <Col lg={1} />
       </Row>
