@@ -33,17 +33,17 @@ const moveInSelect = (
 ): boolean => {
   if (yearMonths.indexOf(earlyMonth) > yearMonths.indexOf(lateMonth)) {
     // neither has anytime as the option
-    if (![earlyMonth, lateMonth].includes(yearMonths[0])) {
+    if (![earlyMonth, lateMonth].includes(Month.Anytime)) {
       return false;
     }
   }
   if (
     yearMonths.indexOf(earlyMonth) === yearMonths.indexOf(lateMonth) &&
-    ![earlyMonth, lateMonth].includes(yearMonths[0])
+    ![earlyMonth, lateMonth].includes(Month.Anytime)
   ) {
     // neither has anytime as the option
     if (
-      ![earlyInterval, lateInterval].includes(intervalOptions[0]) &&
+      ![earlyInterval, lateInterval].includes(Month.Anytime) &&
       intervalOptions.indexOf(earlyInterval) >
         intervalOptions.indexOf(lateInterval)
     ) {

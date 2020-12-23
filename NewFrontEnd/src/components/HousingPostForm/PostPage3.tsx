@@ -5,13 +5,24 @@ import { Month, Interval } from '../../assets/constants';
 import { moveInSelect } from '../../assets/utils/index';
 import { WizardFormStep } from '../WizardForm';
 
-export const page3Schema = z.object({
-  stayPeriod: z.number().min(1, 'Minimum number of months is 1'),
-  earlyInterval: z.nativeEnum(Interval),
-  earlyMonth: z.nativeEnum(Month),
-  lateInterval: z.nativeEnum(Interval),
-  lateMonth: z.nativeEnum(Month),
-});
+export const page3Schema = z
+  .object({
+    stayPeriod: z.number().min(1, 'Minimum number of months is 1'),
+    earlyInterval: z.nativeEnum(Interval),
+    earlyMonth: z.nativeEnum(Month),
+    lateInterval: z.nativeEnum(Interval),
+    lateMonth: z.nativeEnum(Month),
+  })
+  .refine(
+    (data) =>
+      moveInSelect(
+        data.earlyInterval,
+        data.earlyMonth,
+        data.lateInterval,
+        data.lateMonth,
+      ),
+    'Choose a valid date range',
+  );
 
 export type Page3Store = z.infer<typeof page3Schema>;
 
@@ -66,20 +77,7 @@ const Page3: React.FC<WizardFormStep<Page3Store>> = ({
               <Form.Control
                 className="clear-border"
                 as={Dropdown}
-                isValid={moveInSelect(
-                  earlyMonth,
-                  earlyInterval,
-                  lateMonth,
-                  lateInterval,
-                )}
-                isInvalid={
-                  !moveInSelect(
-                    earlyMonth,
-                    earlyInterval,
-                    lateMonth,
-                    lateInterval,
-                  )
-                }
+                isValid={validations?.earlyInterval?.success}
               >
                 <Dropdown.Toggle
                   className="form-dropdown ml-0"
@@ -100,9 +98,9 @@ const Page3: React.FC<WizardFormStep<Page3Store>> = ({
                   ))}
                 </Dropdown.Menu>
               </Form.Control>
-              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               <Form.Control.Feedback type="invalid">
-                Invalid value!
+                {!validations?.earlyInterval?.success &&
+                  validations?.earlyInterval?.error}
               </Form.Control.Feedback>
             </Form.Group>
           </Row>

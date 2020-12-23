@@ -27,6 +27,7 @@ export const page2InitialStore: Page2Store = {
 
 const Page2: React.FC<WizardFormStep<Page2Store>> = ({
   locationSearch,
+  selectedLocation,
   roomType,
   price,
   validations,
@@ -48,7 +49,8 @@ const Page2: React.FC<WizardFormStep<Page2Store>> = ({
           className="single-line-input w-100"
           initialAddress={locationSearch}
           onChange={(value) => {
-            setStore({ locationSearch: value, selectedLocation: '' });
+            if (selectedLocation === '') setStore({ locationSearch: value });
+            else setStore({ locationSearch: value, selectedLocation: '' });
           }}
           onSelect={(value) => {
             setStore({ locationSearch: value, selectedLocation: value });
