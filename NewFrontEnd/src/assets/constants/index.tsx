@@ -47,7 +47,7 @@ enum Month {
 /**
  * Months in the year, abbreviated
  */
-enum MonthsAbrv {
+enum MonthAbrv {
   Anytime = 'Anytime',
   January = 'Jan',
   February = 'Feb',
@@ -67,19 +67,19 @@ enum MonthsAbrv {
  * object of month (unabbreviated) to month (abbreviated)
  */
 const monthsUnabrvToAbrv = {
-  [Month.Anytime]: MonthsAbrv.Anytime,
-  [Month.January]: MonthsAbrv.January,
-  [Month.February]: MonthsAbrv.February,
-  [Month.March]: MonthsAbrv.March,
-  [Month.April]: MonthsAbrv.April,
-  [Month.May]: MonthsAbrv.May,
-  [Month.June]: MonthsAbrv.June,
-  [Month.July]: MonthsAbrv.July,
-  [Month.August]: MonthsAbrv.August,
-  [Month.September]: MonthsAbrv.September,
-  [Month.October]: MonthsAbrv.October,
-  [Month.November]: MonthsAbrv.November,
-  [Month.December]: MonthsAbrv.December,
+  [Month.Anytime]: MonthAbrv.Anytime,
+  [Month.January]: MonthAbrv.January,
+  [Month.February]: MonthAbrv.February,
+  [Month.March]: MonthAbrv.March,
+  [Month.April]: MonthAbrv.April,
+  [Month.May]: MonthAbrv.May,
+  [Month.June]: MonthAbrv.June,
+  [Month.July]: MonthAbrv.July,
+  [Month.August]: MonthAbrv.August,
+  [Month.September]: MonthAbrv.September,
+  [Month.October]: MonthAbrv.October,
+  [Month.November]: MonthAbrv.November,
+  [Month.December]: MonthAbrv.December,
 };
 
 enum SchoolYear {
@@ -104,7 +104,7 @@ export {
   intervalOptions,
   yearMonths,
   Month,
-  MonthsAbrv,
+  MonthAbrv,
   monthsUnabrvToAbrv,
   SchoolYear,
   RoomType,

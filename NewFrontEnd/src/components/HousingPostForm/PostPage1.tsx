@@ -160,7 +160,7 @@ const Page1: React.FC<WizardFormStep<Page1Store>> = ({
           <Form.Control
             className="single-line-input"
             type="text"
-            value={major}
+            value={major || ''}
             onChange={(e) => setStore({ major: e.target.value })}
             isValid={validations?.major?.success}
             placeholder="Major"

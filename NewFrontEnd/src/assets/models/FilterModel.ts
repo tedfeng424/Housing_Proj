@@ -23,6 +23,28 @@ export interface Preferences {
   privateBath: boolean;
   _420: boolean;
 }
+// TODO the version you should use
+// interface Preferences {
+//   female: boolean;
+//   male: boolean;
+//   LGBTQ: boolean;
+//   parking: boolean;
+//   pets: boolean;
+//   privateBath: boolean;
+//   _420: boolean;
+//   earlyBird: boolean;
+//   elevator: boolean;
+//   furnished: boolean;
+//   grocery: boolean;
+//   gym: boolean;
+//   hardwood: boolean;
+//   livingRoomPeople: boolean;
+//   nightOwl: boolean;
+//   noSmoke: boolean;
+//   patio: boolean;
+//   pool: boolean;
+//   washerDryer: boolean;
+// }
 
 export type RoomLiteralType = keyof typeof RoomType;
 export type PreferenceLiteralType = keyof Preferences;

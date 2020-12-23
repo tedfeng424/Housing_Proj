@@ -1,22 +1,26 @@
 import React from 'react';
-import { Container, Form, Row, Col } from 'react-bootstrap';
+import * as z from 'zod';
+import { Container, Form, Row } from 'react-bootstrap';
 import { WizardFormStep } from '../WizardForm';
 
-export interface PostPage5Store {
-  leaserIntro: string;
-}
+export const page5Schema = z.object({
+  leaserIntro: z
+    .string()
+    .min(1, 'You need to provide an introduction for others!')
+    .max(500, 'Your introduction can only have maximum of 500 characters'),
+});
 
-export const PostPage5InitialStore: PostPage5Store = {
+export type Page5Store = z.infer<typeof page5Schema>;
+
+export const page5InitialStore: Page5Store = {
   leaserIntro: '',
 };
 
-const PostPage5: React.FC<WizardFormStep<PostPage5Store>> = ({
-  useWizardFormStorage,
+const PostPage5: React.FC<WizardFormStep<Page5Store>> = ({
+  leaserIntro,
+  validations,
+  setStore,
 }) => {
-  const [{ leaserIntro }, errors, setStore] = useWizardFormStorage<
-    PostPage5Store
-  >();
-
   return (
     <Container>
       <Row>

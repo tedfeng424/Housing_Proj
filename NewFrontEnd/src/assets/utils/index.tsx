@@ -1,9 +1,9 @@
 import {
   intervalOptions,
-  monthsAbrv,
+  MonthAbrv,
   monthsUnabrvToAbrv,
   yearMonths,
-  months,
+  Month,
 } from '../constants';
 
 /**
@@ -57,8 +57,7 @@ const moveInSelect = (
  * Use to abbreviate a month
  * @param month - the month to abbreviate (must be in the enum 'months')
  */
-const abbreviateMonth = (month: months): monthsAbrv =>
-  monthsUnabrvToAbrv[month];
+const abbreviateMonth = (month: Month): MonthAbrv => monthsUnabrvToAbrv[month];
 
 /**
  * Use to abbreviate address to only everything before the first comma

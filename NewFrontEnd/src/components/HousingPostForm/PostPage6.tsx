@@ -1,24 +1,26 @@
 import React from 'react';
+import * as z from 'zod';
 import { Container, Row, Button } from 'react-bootstrap';
 import ImageUploader from 'react-images-upload';
 import { WizardFormStep } from '../WizardForm';
 
-export interface PostPage6Store {
+export const page6Schema = z.object({
+  pictures: z.array(z.any()).min(1, 'You need to add some pictures!'),
+});
+
+export interface Page6Store {
   pictures: File[];
 }
 
-export const PostPage6InitialStore: PostPage6Store = {
+export const page6InitialStore: Page6Store = {
   pictures: [],
 };
 
-const PostPage6: React.FC<WizardFormStep<PostPage6Store>> = ({
-  useWizardFormStorage,
+const PostPage6: React.FC<WizardFormStep<Page6Store>> = ({
+  validations,
+  setStore,
   submitForm,
 }) => {
-  const [{ pictures }, errors, setStore] = useWizardFormStorage<
-    PostPage6Store
-  >();
-
   return (
     <Container>
       <Row>

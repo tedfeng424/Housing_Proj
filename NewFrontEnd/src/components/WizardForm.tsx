@@ -47,7 +47,7 @@ interface PathProps<T = {}> {
   hideButtons?: boolean;
   onSubmit: (store: T) => boolean;
   initialStore: Partial<T>[];
-  schemas: ZodSchema<T>[];
+  schemas: ZodSchema<Partial<T>>[];
 }
 
 /**
@@ -130,13 +130,16 @@ const WizardForm = <T extends {}>({
     toParse: Partial<P>,
     toValidate: Array<keyof P>,
   ) => {
+    console.log('Parsing the following:');
+    console.log(toParse);
     const result = schema.safeParse(toParse);
     let changedErrors: ValidationError<P> | undefined;
-    if (result && !result.success) {
-      // console.log(result.error.isEmpty); // TODO use this to check if errors exist
+    if (!result.success) {
       const { fieldErrors } = result.error.formErrors;
       changedErrors = toValidate.reduce(
         (pre, key) => {
+          console.log(key);
+          console.log(fieldErrors[key as string]);
           if (fieldErrors[key as string]) {
             return {
               ...pre,
@@ -145,6 +148,11 @@ const WizardForm = <T extends {}>({
           }
           return { ...pre, [key]: { success: true, error: undefined } };
         },
+        { ...validations[index] } as ValidationError<P>,
+      );
+    } else {
+      changedErrors = toValidate.reduce(
+        (pre, key) => ({ ...pre, [key]: { success: true, error: undefined } }),
         { ...validations[index] } as ValidationError<P>,
       );
     }
@@ -156,16 +164,11 @@ const WizardForm = <T extends {}>({
    */
   const validateCurrent = () => {
     // validate everything that hasn't been validated yet
-    let changedErrors: ValidationError<Partial<T>> | undefined;
-    console.log(index);
-    const schema = schemas[index];
-    if (schema) {
-      changedErrors = validatePickedValues<Partial<T>>(
-        schema,
-        store[index],
-        Object.keys(store[index]) as (keyof T)[],
-      );
-    }
+    const changedErrors = validatePickedValues<Partial<T>>(
+      schemas[index],
+      store[index],
+      Object.keys(store[index]) as (keyof T)[],
+    );
     return changedErrors;
   };
   // need to validate on arrows. need to pass errors
@@ -174,6 +177,8 @@ const WizardForm = <T extends {}>({
     const changedValues = { ...store[index], ...value };
     setCompleteStore({ ...store, [index]: changedValues });
 
+    console.log('Changes being made:');
+    console.log(value);
     // get the changed edited fields and set that they were changed
     const changedEditedFields = (Object.keys(value) as Array<keyof T>).reduce<
       Partial<{ [key in keyof T]: boolean }>
@@ -183,20 +188,21 @@ const WizardForm = <T extends {}>({
     }, {});
 
     // every time there's a change, validate it
-    let changedErrors: ValidationError<T> | undefined;
-    const schema = schemas[index];
-    if (schema) {
-      changedErrors = validatePickedValues<Partial<T>>(
-        schema,
-        changedValues,
-        Object.keys(changedEditedFields) as (keyof T)[],
-      );
-    }
+    const changedErrors = validatePickedValues<Partial<T>>(
+      schemas[index],
+      changedValues,
+      Object.keys(changedEditedFields) as (keyof T)[],
+    );
+
+    console.log('Changed errors:');
+    console.log(changedErrors);
 
     setValidations({
       ...validations,
       [index]: { ...validations[index], ...changedErrors },
     });
+
+    console.log('\n\n');
   };
 
   // TODO const setSchema: SetSchema = <P extends Partial<T>>(schema: ZodSchema<P>) => {

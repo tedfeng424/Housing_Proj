@@ -2,9 +2,9 @@ import React from 'react';
 import Page1, { Page1Store, page1InitialStore, page1Schema } from './PostPage1';
 import Page2, { Page2Store, page2InitialStore, page2Schema } from './PostPage2';
 import Page3, { Page3Store, page3InitialStore, page3Schema } from './PostPage3';
-import Page4, { PostPage4Store } from './PostPage4';
-import Page5, { PostPage5Store } from './PostPage5';
-import Page6, { PostPage6Store } from './PostPage6';
+import Page4, { Page4Store, page4InitialStore, page4Schema } from './PostPage4';
+import Page5, { Page5Store, page5InitialStore, page5Schema } from './PostPage5';
+import Page6, { Page6Store, page6InitialStore, page6Schema } from './PostPage6';
 import WizardForm from '../WizardForm';
 
 type Store = Page1Store &
@@ -50,8 +50,8 @@ const HousingPost: React.FC<HousingPostProps> = ({ show, setShow }) => (
       // ); // TODO
       return true;
     }}
-    initialStore={[{}]}
-    schemas={[]}
+    initialStore={initialStore}
+    schemas={schemas}
   >
     <Page1 />
     <Page2 />

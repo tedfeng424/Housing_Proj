@@ -1,51 +1,49 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Button from 'react-bootstrap/Button';
+import * as z from 'zod';
 import { preferencesIcons } from '../../assets/icons/all';
 import { WizardFormStep } from '../WizardForm';
 
-interface Preferences {
-  female: boolean;
-  male: boolean;
-  LGBTQ: boolean;
-  parking: boolean;
-  pets: boolean;
-  privateBath: boolean;
-  _420: boolean;
-  earlyBird: boolean;
-  elevator: boolean;
-  furnished: boolean;
-  grocery: boolean;
-  gym: boolean;
-  hardwood: boolean;
-  livingRoomPeople: boolean;
-  nightOwl: boolean;
-  noSmoke: boolean;
-  patio: boolean;
-  pool: boolean;
-  washerDryer: boolean;
-}
+// TODO eventually copy this over to the FilterModel file
+const partialPreferences = z.object({
+  female: z.boolean(),
+  male: z.boolean(),
+  LGBTQ: z.boolean(),
+  parking: z.boolean(),
+  pets: z.boolean(),
+  privateBath: z.boolean(),
+  _420: z.boolean(),
+  earlyBird: z.boolean(),
+  elevator: z.boolean(),
+  furnished: z.boolean(),
+  grocery: z.boolean(),
+  gym: z.boolean(),
+  hardwood: z.boolean(),
+  livingRoomPeople: z.boolean(),
+  nightOwl: z.boolean(),
+  noSmoke: z.boolean(),
+  patio: z.boolean(),
+  pool: z.boolean(),
+  washerDryer: z.boolean(),
+});
 
-export interface PostPage4Store {
-  selectedPreferences: Partial<Preferences>;
-}
+type Preferences = z.infer<typeof partialPreferences>;
 
-export const PostPage4InitialStore: PostPage4Store = {
+export const page4Schema = z.object({
+  selectedPreferences: partialPreferences.partial(),
+});
+
+export type Page4Store = z.infer<typeof page4Schema>;
+
+export const page4InitialStore: Page4Store = {
   selectedPreferences: {},
 };
 
-const PostPage4: React.FC<WizardFormStep<PostPage4Store>> = ({
-  useWizardFormStorage,
+const PostPage4: React.FC<WizardFormStep<Page4Store>> = ({
+  selectedPreferences,
+  validations,
+  setStore,
 }) => {
-  const [{ selectedPreferences }, errors, setStore] = useWizardFormStorage<
-    PostPage4Store
-  >();
-
-  // TODO temporary
-  useEffect(() => {
-    if (!selectedPreferences) setStore({ selectedPreferences: {} });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const objs: Array<keyof Preferences> = [
     'female',
     'male',
