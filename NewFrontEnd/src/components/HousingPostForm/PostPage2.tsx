@@ -45,6 +45,7 @@ const Page2: React.FC<WizardFormStep<Page2Store>> = ({
 
       <Form.Row className="justify-content-center m-2 my-4">
         <Form.Label className="post-word">Location</Form.Label>
+        {/* TODO need to check if the address is valid! Currently, if the user types something in and then clicks enter, it marks it as ok. This issue stems from an issue in PlaceAutoComplete.tsx */}
         <AutoComplete
           className="single-line-input w-100"
           initialAddress={locationSearch}

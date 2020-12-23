@@ -35,6 +35,7 @@ const AutoComplete: React.FC<PathProps> = ({
         if (onChange) onChange(value);
       }}
       onSelect={(value) => {
+        // TODO this gets called even when a user doesn't select one of the dropdown suggestions
         setAddress(value);
         if (onSelect) onSelect(value);
       }}
@@ -68,7 +69,7 @@ const AutoComplete: React.FC<PathProps> = ({
                 }
                 key={suggestion.description}
               >
-                <span>{suggestion.description}</span>
+                {suggestion.description}
               </div>
             ))}
           </div>

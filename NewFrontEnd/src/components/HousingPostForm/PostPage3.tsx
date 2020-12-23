@@ -21,7 +21,7 @@ export const page3Schema = z
         data.lateInterval,
         data.lateMonth,
       ),
-    'Choose a valid date range',
+    { message: 'Choose a valid date range', path: ['earlyInterval'] },
   );
 
 export type Page3Store = z.infer<typeof page3Schema>;
@@ -147,10 +147,10 @@ const Page3: React.FC<WizardFormStep<Page3Store>> = ({
                   ))}
                 </Dropdown.Menu>
               </Form.Control>
-              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-              <Form.Control.Feedback type="invalid">
-                Invalid Value!
-              </Form.Control.Feedback>
+              <div className="wizard-form-invalid-feedback">
+                {!validations?.earlyInterval?.success &&
+                  validations?.earlyInterval?.error}
+              </div>
             </Form.Group>
           </Row>
         </Col>
@@ -171,11 +171,11 @@ const Page3: React.FC<WizardFormStep<Page3Store>> = ({
                     className="single-line-input"
                     value={stayPeriod}
                     onChange={(e) => {
-                      if (e.target.value) {
-                        setStore({ stayPeriod: parseInt(e.target.value) });
-                      } else {
-                        setStore({ stayPeriod: undefined }); // force it to be invalid
-                      }
+                      setStore({
+                        stayPeriod: e.target.value
+                          ? parseInt(e.target.value)
+                          : undefined,
+                      });
                     }}
                     type="number"
                     placeholder="# of Months"
