@@ -1,15 +1,22 @@
 import {
   intervalOptions,
-  monthsAbrv,
+  MonthAbrv,
   monthsUnabrvToAbrv,
   yearMonths,
-  months,
+  Month,
 } from '../constants';
 
 /**
- * Use to define at least one of some type
+ * Use to define validation checks for an object T.
  */
-export type AtLeastOne<T> = { 0: T } & T[];
+export type ObjectValidationChecks<T> = {
+  [key in keyof T]: (value: T[key]) => boolean;
+};
+
+/**
+ * Use as a type for "one of the variables from P".
+ */
+export type OneFrom<P> = { [K in keyof P]: Pick<P, K> };
 
 /**
  * Function used to validate move in select form
@@ -26,17 +33,17 @@ const moveInSelect = (
 ): boolean => {
   if (yearMonths.indexOf(earlyMonth) > yearMonths.indexOf(lateMonth)) {
     // neither has anytime as the option
-    if (![earlyMonth, lateMonth].includes(yearMonths[0])) {
+    if (![earlyMonth, lateMonth].includes(Month.Anytime)) {
       return false;
     }
   }
   if (
     yearMonths.indexOf(earlyMonth) === yearMonths.indexOf(lateMonth) &&
-    ![earlyMonth, lateMonth].includes(yearMonths[0])
+    ![earlyMonth, lateMonth].includes(Month.Anytime)
   ) {
     // neither has anytime as the option
     if (
-      ![earlyInterval, lateInterval].includes(intervalOptions[0]) &&
+      ![earlyInterval, lateInterval].includes(Month.Anytime) &&
       intervalOptions.indexOf(earlyInterval) >
         intervalOptions.indexOf(lateInterval)
     ) {
@@ -50,8 +57,7 @@ const moveInSelect = (
  * Use to abbreviate a month
  * @param month - the month to abbreviate (must be in the enum 'months')
  */
-const abbreviateMonth = (month: months): monthsAbrv =>
-  monthsUnabrvToAbrv[month];
+const abbreviateMonth = (month: Month): MonthAbrv => monthsUnabrvToAbrv[month];
 
 /**
  * Use to abbreviate address to only everything before the first comma

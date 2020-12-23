@@ -6,7 +6,7 @@ import Card from 'react-bootstrap/Card';
 import SlideShow, { SlideShowItem } from './SlideShow';
 import HouseProfile from './HouseProfile';
 import { abbreviateMonth, removeParentheses } from '../assets/utils';
-import { months } from '../assets/constants';
+import { Month } from '../assets/constants';
 import { HousePost } from '../assets/models/PostModels';
 
 // change this to PathProps extends HousePost {} to include other props
@@ -50,8 +50,8 @@ const HouseCard: React.FC<PathProps> = ({
 
   // abbreviate the move in date
   useEffect(() => {
-    const [earlyInt, earlyMonth] = early.split(' ') as [string, months];
-    const [lateInt, lateMonth] = late.split(' ') as [string, months];
+    const [earlyInt, earlyMonth] = early.split(' ') as [string, Month];
+    const [lateInt, lateMonth] = late.split(' ') as [string, Month];
 
     // TODO temporary, 'anytime' should not be in the database (same with the removeParentheses)
     const earlyIntDisplayed =

@@ -19,7 +19,7 @@ import { SlideShowItem } from './SlideShow';
 import { contactIcons, miscIcons, facilityIcons } from '../assets/icons/all';
 import { LOGIN_TO_VIEW } from '../assets/constants/messages';
 import { HousePost } from '../assets/models/PostModels';
-import { months } from '../assets/constants';
+import { Month } from '../assets/constants';
 import { removeParentheses, abbreviateMonth } from '../assets/utils';
 import { selectUser } from '../redux/slices/auth';
 
@@ -91,8 +91,8 @@ const HouseProfile: React.FC<PathProps> = ({
 
   // abbreviate the move in date
   useEffect(() => {
-    const [earlyInt, earlyMonth] = early.split(' ') as [string, months];
-    const [lateInt, lateMonth] = late.split(' ') as [string, months];
+    const [earlyInt, earlyMonth] = early.split(' ') as [string, Month];
+    const [lateInt, lateMonth] = late.split(' ') as [string, Month];
 
     // TODO temporary, 'anytime' should not be in the database (same with the removeParentheses)
     const earlyIntDisplayed =

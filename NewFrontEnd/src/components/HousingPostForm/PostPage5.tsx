@@ -1,18 +1,28 @@
 import React from 'react';
-import { Container, Button, Form, Row, Col } from 'react-bootstrap';
-import { setPost, selectPost } from '../../redux/slices/posting';
-import { useSelector, useDispatch } from 'react-redux';
+import * as z from 'zod';
+import { Container, Form, Row } from 'react-bootstrap';
+import { WizardFormStep } from '../WizardForm';
 
-const PostPage5: React.FC<{}> = () => {
-  const dispatch = useDispatch();
+export const page5Schema = z.object({
+  leaserIntro: z
+    .string()
+    .min(1, 'You need to provide an introduction for others!')
+    .max(500, 'Your introduction can only have maximum of 500 characters'),
+});
+
+export type Page5Store = z.infer<typeof page5Schema>;
+
+export const page5InitialStore: Page5Store = {
+  leaserIntro: '',
+};
+
+const PostPage5: React.FC<WizardFormStep<Page5Store>> = ({
+  leaserIntro,
+  validations,
+  setStore,
+}) => {
   return (
     <Container>
-      <Row>
-        <Col>
-          <span className="post-title">Now add something more personal~</span>
-        </Col>
-      </Row>
-
       <Row>
         <Form.Group className="w-100">
           <Form.Label className="post-word">
@@ -21,11 +31,10 @@ const PostPage5: React.FC<{}> = () => {
           <Form.Control
             className="post-text"
             as="textarea"
-            placeholder="a little self intro would be great for your future roommates"
+            value={leaserIntro}
+            placeholder="Introduce yourself to your potential roommates!"
             rows={5}
-            onChange={(event) =>
-              dispatch(setPost(['leaserIntro', event.target.value]))
-            }
+            onChange={(e) => setStore({ leaserIntro: e.target.value })}
           />
         </Form.Group>
       </Row>
@@ -33,4 +42,4 @@ const PostPage5: React.FC<{}> = () => {
   );
 };
 
-export default PostPage5;
+export default PostPage5 as React.FC;

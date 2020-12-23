@@ -1,82 +1,49 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Button from 'react-bootstrap/Button';
+import * as z from 'zod';
 import { preferencesIcons } from '../../assets/icons/all';
-import { Container, Row, Col } from 'react-bootstrap';
-import { setPost, selectPost } from '../../redux/slices/posting';
-import { useSelector, useDispatch } from 'react-redux';
+import { WizardFormStep } from '../WizardForm';
 
-interface Preferences {
-  female: boolean;
-  male: boolean;
-  LGBTQ: boolean;
-  parking: boolean;
-  pets: boolean;
-  privateBath: boolean;
-  _420: boolean;
-  earlyBird: boolean;
-  elevator: boolean;
-  furnished: boolean;
-  grocery: boolean;
-  gym: boolean;
-  hardwood: boolean;
-  livingRoomPeople: boolean;
-  nightOwl: boolean;
-  noSmoke: boolean;
-  patio: boolean;
-  pool: boolean;
-  washerDryer: boolean;
-}
+// TODO eventually copy this over to the FilterModel file
+const partialPreferences = z.object({
+  female: z.boolean(),
+  male: z.boolean(),
+  LGBTQ: z.boolean(),
+  parking: z.boolean(),
+  pets: z.boolean(),
+  privateBath: z.boolean(),
+  _420: z.boolean(),
+  earlyBird: z.boolean(),
+  elevator: z.boolean(),
+  furnished: z.boolean(),
+  grocery: z.boolean(),
+  gym: z.boolean(),
+  hardwood: z.boolean(),
+  livingRoomPeople: z.boolean(),
+  nightOwl: z.boolean(),
+  noSmoke: z.boolean(),
+  patio: z.boolean(),
+  pool: z.boolean(),
+  washerDryer: z.boolean(),
+});
 
-const facilties: Array<keyof Preferences> = [
-  'parking',
-  'privateBath',
-  'elevator',
-  'gym',
-  'hardwood',
-  'grocery',
-  'patio',
-  'pool',
-  'washerDryer',
-  'furnished',
-];
+type Preferences = z.infer<typeof partialPreferences>;
 
-const other: Array<keyof Preferences> = [
-  'female',
-  'male',
-  'pets',
-  'LGBTQ',
-  '_420',
-  'earlyBird',
-  'livingRoomPeople',
-  'nightOwl',
-  'noSmoke',
-];
+export const page4Schema = z.object({
+  selectedPreferences: partialPreferences.partial(),
+});
 
-const OtherOptions: React.FC<{}> = () => {
-  const currentPost = useSelector(selectPost);
-  const dispatch = useDispatch();
-  const [preferences, setPreferences] = useState<Preferences>({
-    female: false,
-    male: false,
-    LGBTQ: false,
-    parking: false,
-    pets: false,
-    privateBath: false,
-    _420: false,
-    earlyBird: false,
-    elevator: false,
-    furnished: false,
-    grocery: false,
-    gym: false,
-    hardwood: false,
-    livingRoomPeople: false,
-    nightOwl: false,
-    noSmoke: false,
-    patio: false,
-    pool: false,
-    washerDryer: false,
-  });
+export type Page4Store = z.infer<typeof page4Schema>;
 
+export const page4InitialStore: Page4Store = {
+  selectedPreferences: {},
+};
+
+const PostPage4: React.FC<WizardFormStep<Page4Store>> = ({
+  selectedPreferences,
+  validations,
+  setStore,
+}) => {
   const objs: Array<keyof Preferences> = [
     'female',
     'male',
@@ -98,23 +65,11 @@ const OtherOptions: React.FC<{}> = () => {
     'pool',
     'washerDryer',
   ];
-  // dispatch preferences to store
-  useEffect(() => {
-    dispatch(
-      setPost(['facilities', facilties.filter((pref) => preferences[pref])]),
-    );
-    dispatch(setPost(['other', other.filter((pref) => preferences[pref])]));
-  }, [preferences]);
 
   return (
-    <Container>
-      <Row>
-        <Col>
-          <span className="post-title">..other requests~</span>
-        </Col>
-      </Row>
-      <Row>
-        {objs.map((key: keyof Preferences) => {
+    <div className="d-flex flex-wrap justify-content-center mx-3">
+      {selectedPreferences &&
+        objs.map((key: keyof Preferences) => {
           // Typescript bullshit
           const PreferencesChosenIconKey: keyof typeof preferencesIcons = `${key}Chosen` as keyof typeof preferencesIcons;
           const PreferencesNotChosenIconKey: keyof typeof preferencesIcons = key as keyof typeof preferencesIcons;
@@ -129,30 +84,30 @@ const OtherOptions: React.FC<{}> = () => {
             }
           > = preferencesIcons[PreferencesNotChosenIconKey];
 
-          // ripped from Filter
           return (
-            <Col md={5}>
-              <Button
-                className="btn-filter"
-                onClick={() => {
-                  setPreferences({
-                    ...preferences,
-                    [key]: !preferences[key],
-                  });
-                }}
-              >
-                {preferences[key] ? (
-                  <PreferenceIconChosenTagName className="d-block" />
-                ) : (
-                  <PreferenceIconNotChosenTagName className="d-block" />
-                )}
-              </Button>
-            </Col>
+            <Button
+              variant="no-show"
+              onClick={() => {
+                setStore({
+                  selectedPreferences: {
+                    ...selectedPreferences,
+                    [key]: selectedPreferences
+                      ? !selectedPreferences[key]
+                      : true,
+                  },
+                });
+              }}
+            >
+              {selectedPreferences[key] ? (
+                <PreferenceIconChosenTagName className="d-block" />
+              ) : (
+                <PreferenceIconNotChosenTagName className="d-block" />
+              )}
+            </Button>
           );
         })}
-      </Row>
-    </Container>
+    </div>
   );
 };
 
-export default OtherOptions;
+export default PostPage4 as React.FC;

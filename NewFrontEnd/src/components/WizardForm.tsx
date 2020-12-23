@@ -1,66 +1,242 @@
-/* Documentation of this component is at the bottom */
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import { ZodSchema, ZodIssue } from 'zod';
 import { miscIcons } from '../assets/icons/all';
 
+type ValidationError<P> = Partial<
+  {
+    [key in keyof P]:
+      | { success: true; error: undefined }
+      | { success: false; error: ZodIssue };
+  }
+>;
+
 /**
- * Each child component will be given a nextStep()/prevStep() function to navigate the form,
- * and an exit() function to exit the form (i.e. when the user completes the form)
+ * Each child component will be given:
+ * - nextStep()/prevStep() function to navigate the form
+ * - an exit() function to exit the form (i.e. when the user completes the form)
+ * - a submitForm() which can be called when you would like to submit the form (it returns T/F based on success of onSubmit and validationChecks)
+ * // TODO
  */
-export interface WizardFormStep {
+type SubmitForm = () => Promise<{ success: boolean; message?: string }>;
+type SetStore<P> = (value: Partial<P>) => void;
+export type WizardFormStep<P> = P & {
   exitWizardForm: () => void;
   nextStep: () => void;
   prevStep: () => void;
   setStep: (i: number) => void;
-  // TODO add this: submitForm: () => boolean;
-}
+  submitForm: SubmitForm; // returns success or failure with a message
+  validations: ValidationError<P> | undefined; // validation errors
+  setStore: SetStore<P>;
+};
 
-interface PathProps {
-  children: { 0: React.ReactElement } & React.ReactElement[]; // the steps of the form (needs to be of length at least 0)
+// T is whatever is in the store
+interface PathProps<T = {}> {
+  children: React.ReactElement[]; // the steps of the form (needs to be of length at least 0)
   show: boolean;
   setShow: (show: boolean) => void;
   title: string;
-  // TODO also add this (not in the interface though):
-  // WizardForm storage - place to store everything filled out in the form
-  // validationChecks - checks in the WizardForm storage thing to validate everything that needs to be validated
-  // onSubmit function that first checks the validationChecks and then calls whatever they pass into onSubmit
+  hideButtons?: boolean;
+  onSubmit: (store: T) => boolean;
+  initialStore: Partial<T>[];
+  schemas: ZodSchema<Partial<T>>[];
 }
 
-const WizardForm: React.FC<PathProps> = ({
+/**
+ * Not using React.FC as a work around to allow for generics for Wizard Form.
+ * Do not do this normally. I will try to find a better way to do this
+ */
+const WizardForm = <T extends {}>({
   children,
   show,
   setShow,
   title,
-}) => {
-  const [index, setIndex] = useState<number>(0);
+  hideButtons = false,
+  onSubmit,
+  initialStore,
+  schemas,
+}: PathProps<T>) => {
+  const [curIndex, setCurIndex] = useState<number>(0);
   const [isFirst, setIsFirst] = useState<boolean>(true);
-  const [isLast, setIsLast] = useState<boolean>(index === children.length - 1);
+  const [isLast, setIsLast] = useState<boolean>(
+    curIndex === children.length - 1,
+  );
   const [CurStep, setCurStep] = useState<React.ReactElement>(children[0]);
 
-  useEffect(() => {
-    setCurStep(children[index]);
-    setIsFirst(index === 0);
-    setIsLast(index === children.length - 1);
-  }, [index, children]);
+  const [store, setCompleteStore] = useState<Array<Partial<T>>>(initialStore);
+  // TODO const [curStore, setCurStore] = useState<>
 
+  // keeps track of the errors for each field
+  const [validations, setValidations] = useState<
+    Array<ValidationError<Partial<T>> | undefined>
+  >(children.map(() => undefined));
+  // TODO maybe add a thing to keep track of whether or not an entire step is validated. Then use this in the dots to display which have errors? (i.e. make them red dots)
+
+  useEffect(() => {
+    setCurStep(children[curIndex]);
+    setIsFirst(curIndex === 0);
+    setIsLast(curIndex === children.length - 1);
+  }, [curIndex, children]);
+
+  /**
+   * Use this to exit the wizard form without submitting.
+   */
   const exitWizardForm = () => {
     setShow(false);
   };
 
-  const setStep = (i: number) => {
-    if (i >= 0 && i < children.length) setIndex(i);
+  const validatePickedValues = <P extends {} | unknown = unknown>(
+    schema: ZodSchema<P>,
+    toParse: Partial<P>,
+    toValidate: Array<keyof P>,
+  ) => {
+    const result = schema.safeParse(toParse);
+    let changedErrors: ValidationError<P> | undefined;
+    if (!result.success) {
+      const { fieldErrors } = result.error.formErrors;
+      changedErrors = toValidate.reduce(
+        (pre, key) => {
+          if (fieldErrors[key as string]) {
+            return {
+              ...pre,
+              [key]: { success: false, error: fieldErrors[key as string][0] },
+            };
+          }
+          return { ...pre, [key]: { success: true, error: undefined } };
+        },
+        { ...validations[curIndex] } as ValidationError<P>,
+      );
+    } else {
+      changedErrors = toValidate.reduce(
+        (pre, key) => ({ ...pre, [key]: { success: true, error: undefined } }),
+        { ...validations[curIndex] } as ValidationError<P>,
+      );
+    }
+    return changedErrors;
   };
 
+  /**
+   * Validates and updates current step.
+   * @param i The step to validate.
+   * @return If the data is all valid.
+   */
+  const validateStep = (i: number): boolean => {
+    const stepValidations = validatePickedValues<Partial<T>>(
+      schemas[i],
+      store[i],
+      Object.keys(store[i]) as (keyof T)[],
+    );
+
+    setValidations({
+      ...validations,
+      [i]: { ...validations[i], ...stepValidations },
+    });
+
+    // TODO const noErrors = (Object.values(stepValidations) as Array<
+    //   { success: true; error: undefined } | { success: false; error: ZodIssue }
+    // >).reduce((pre, cur) => pre && cur.success, true);
+    const validationWithError = (Object.values(stepValidations) as Array<
+      { success: true; error: undefined } | { success: false; error: ZodIssue }
+    >).find((data) => !data.success);
+
+    return validationWithError === undefined;
+  };
+
+  /**
+   * Validates current form step.
+   * @return If the data is all valid.
+   */
+  const validateCurrent = (): boolean => {
+    // validate everything that hasn't been validated yet
+    return validateStep(curIndex);
+  };
+
+  /**
+   * Use this to navigate the wizard form to a specific step.
+   * This will validate all the steps from the current step
+   * to the selected step and navigate to either the first
+   * step that is invalid or to the selected step.
+   * @param step The step to change to.
+   */
+  const setStep = (step: number) => {
+    // if clicked a later step, validate all steps from current to the selected step
+    if (step > curIndex) {
+      for (let i = curIndex; i < Math.min(step, children.length); i++) {
+        if (!validateStep(i)) {
+          setCurIndex(i);
+          return;
+        }
+      }
+    }
+
+    // if reached here, all previous steps are valid
+    if (step <= 0) setCurIndex(0);
+    if (step >= children.length) setCurIndex(children.length - 1);
+    setCurIndex(step);
+  };
+
+  /**
+   * Use this to navigate the wizard form to the next step.
+   * This will first validate the current step and will
+   * move to the next one if possible.
+   */
   const nextStep = () => {
-    if (index + 1 < children.length) setIndex(index + 1);
+    // first validate
+    const dataIsValid = validateCurrent();
+
+    if (dataIsValid && curIndex + 1 < children.length) {
+      setCurIndex(curIndex + 1);
+    }
   };
 
+  /**
+   * Use this to navigate the wizard form to the previous step.
+   */
   const prevStep = () => {
-    if (index - 1 >= 0) setIndex(index - 1);
+    if (curIndex - 1 >= 0) setCurIndex(curIndex - 1);
+  };
+
+  /**
+   * Use this to submit the form (it checks validation values first).
+   * Returns T/F based on success of validation values and onSubmit.
+   * (i.e. returns false if any validations are false, returns false
+   * if onSubmit returns false, otherwise returns true).
+   */
+  const submitForm: SubmitForm = async () => {
+    // validateCurrent // TODO handle this case
+    // if (validate errors exist) return; // TODO
+
+    // Everything should be validated by this point
+    const combined = store.reduceRight((pre, cur) => ({ ...pre, ...cur }));
+    const success = await onSubmit(combined as T);
+    if (success) exitWizardForm();
+    return { success };
+  };
+
+  const setStore: SetStore<T> = (value: Partial<T>) => {
+    const changedValues = { ...store[curIndex], ...value };
+    setCompleteStore({ ...store, [curIndex]: changedValues });
+
+    // get the changed edited fields and set that they were changed
+    const changedEditedFields = (Object.keys(value) as Array<keyof T>).reduce<
+      Partial<{ [key in keyof T]: boolean }>
+    >((prev, key) => {
+      prev[key] = true;
+      return prev;
+    }, {});
+
+    // every time there's a change, validate it
+    const changedErrors = validatePickedValues<Partial<T>>(
+      schemas[curIndex],
+      changedValues,
+      Object.keys(changedEditedFields) as (keyof T)[],
+    );
+
+    setValidations({
+      ...validations,
+      [curIndex]: { ...validations[curIndex], ...changedErrors },
+    });
   };
 
   // TODO need to figure out how to have loading thing on top
@@ -88,6 +264,10 @@ const WizardForm: React.FC<PathProps> = ({
             prevStep,
             setStep,
             exitWizardForm,
+            submitForm,
+            setStore,
+            validations: validations[curIndex],
+            ...store[curIndex],
           })}
         </div>
 
@@ -96,7 +276,7 @@ const WizardForm: React.FC<PathProps> = ({
             {children.map((c, i) => (
               <div className="mx-1">
                 <Button variant="no-show" onClick={() => setStep(i)}>
-                  {i === index ? (
+                  {i === curIndex ? (
                     <miscIcons.smallEllipseActive />
                   ) : (
                     <miscIcons.smallEllipseInactive />
@@ -146,118 +326,3 @@ const WizardForm: React.FC<PathProps> = ({
 };
 
 export default WizardForm;
-
-/**
- * DOCUMENTATED EXAMPLES
- */
-
-/* Basic example (each form step as a component):
-<WizardForm show={show} setShow={setShow}>
-  <FakeStepTest1 />
-  <FakeStepTest2 />
-  <FakeStepTest3 />
-  <FakeStepTest4 />
-</WizardForm>;
-*/
-
-/* Basic example with hidden buttons:
-<WizardForm show={show} setShow={setShow}>
-  <FakeStepTest1 />
-  <FakeStepTest2 />
-  <FakeStepTest3 />
-  <FakeStepTest4 />
-</WizardForm>;
-*/
-
-/* Basic example (each form step as a container)
-    (NOTE: if you need to use nextStep(), prevStep(), or exit(), then you should NOT use this):
-<WizardForm show={show} setShow={setShow}>
-  <Container>
-    <Row>
-      <Col>HELLO</Col>
-    </Row>
-  </Container>
-  <Container>
-    <Row>
-      <Col>HELLO</Col>
-    </Row>
-  </Container>
-  <Container>
-    <Row>
-      <Col>HELLO</Col>
-    </Row>
-  </Container>
-  <Container>
-    <Row>
-      <Col>HELLO</Col>
-    </Row>
-  </Container>
-</WizardForm>
-*/
-
-// TODO the below is used for testing and should be deleted when this form has been finalized
-
-export const FakeStepTest1: React.FC = () => (
-  <Container>
-    <Row>
-      <Col>HELLO</Col>
-    </Row>
-  </Container>
-);
-
-export const FakeStepTest2: React.FC = () => (
-  <Container>
-    <Row>
-      <Col>HELLO</Col>
-      <Col>HELLO</Col>
-    </Row>
-  </Container>
-);
-
-export const FakeStepTest3: React.FC = () => (
-  <Container>
-    <Row>
-      <Col>HELLO</Col>
-      <Col>HELLO</Col>
-      <Col>HELLO</Col>
-      <Col>HELLO</Col>
-      <Col>HELLO</Col>
-      <Col>HELLO</Col>
-      <Col>HELLO</Col>
-      <Col>HELLO</Col>
-      <Col>HELLO</Col>
-      <Col>HELLO</Col>
-      <Col>HELLO</Col>
-      <Col>HELLO</Col>
-    </Row>
-    <Row>
-      <Col>HELLO</Col>
-      <Col>HELLO</Col>
-      <Col>HELLO</Col>
-    </Row>
-    <Row>
-      <Col>HELLO</Col>
-      <Col>HELLO</Col>
-      <Col>HELLO</Col>
-    </Row>
-    <Row>
-      <Col>HELLO</Col>
-      <Col>HELLO</Col>
-      <Col>HELLO</Col>
-    </Row>
-    <Row>
-      <Col>HELLO</Col>
-      <Col>HELLO</Col>
-      <Col>HELLO</Col>
-    </Row>
-  </Container>
-);
-
-export const FakeStepTest4: React.FC = () => (
-  <Container>
-    <Row>
-      <Col>HELLO</Col>
-      <Col>HELLO</Col>
-    </Row>
-  </Container>
-);

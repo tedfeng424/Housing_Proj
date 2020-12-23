@@ -13,24 +13,6 @@ import { ReactComponent as suiteChosen } from './suiteChosen.svg';
 import { ReactComponent as triple } from './triple.svg';
 import { ReactComponent as tripleChosen } from './tripleChosen.svg';
 
-export const roomTypeUnchosen = {
-  double,
-  livingRoom,
-  single,
-  studio,
-  suite,
-  triple,
-};
-
-export const roomTypeChosen = {
-  doubleChosen,
-  livingRoomChosen,
-  singleChosen,
-  studioChosen,
-  suiteChosen,
-  tripleChosen,
-};
-
 export default {
   double,
   doubleChosen,

@@ -52,3 +52,11 @@ $wizard-form-middle-height: 90%;
     border: 0;
   }
 }
+
+.wizard-form-invalid-feedback {
+  @extend .pt-1;
+  color: #b62c3a;
+  width: 100%;
+  text-align: left;
+  font-size: 80%;
+}

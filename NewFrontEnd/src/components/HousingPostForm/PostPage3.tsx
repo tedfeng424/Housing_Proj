@@ -1,24 +1,55 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Container, Row, Col, Dropdown, Form } from 'react-bootstrap';
-import { intervalOptions, yearMonths } from '../../assets/constants';
+import * as z from 'zod';
+import { Month, Interval } from '../../assets/constants';
 import { moveInSelect } from '../../assets/utils/index';
-import { setPost, selectPost } from '../../redux/slices/posting';
-import { useSelector, useDispatch } from 'react-redux';
+import { WizardFormStep } from '../WizardForm';
 
-const PostPage3: React.FC<{}> = () => {
-  const stayPeriod = useSelector(selectPost).stayPeriod;
-  const earlyInterval = useSelector(selectPost).earlyInterval;
-  const earlyMonth = useSelector(selectPost).earlyMonth;
-  const lateInterval = useSelector(selectPost).lateInterval;
-  const lateMonth = useSelector(selectPost).lateMonth;
-  const dispatch = useDispatch();
+export const page3Schema = z
+  .object({
+    stayPeriod: z.number().min(1, 'Minimum number of months is 1'),
+    earlyInterval: z.nativeEnum(Interval),
+    earlyMonth: z.nativeEnum(Month),
+    lateInterval: z.nativeEnum(Interval),
+    lateMonth: z.nativeEnum(Month),
+  })
+  .refine(
+    (data) =>
+      moveInSelect(
+        data.earlyInterval,
+        data.earlyMonth,
+        data.lateInterval,
+        data.lateMonth,
+      ),
+    'Choose a valid date range',
+  );
+
+export type Page3Store = z.infer<typeof page3Schema>;
+
+export const page3InitialStore: Page3Store = {
+  stayPeriod: 12,
+  earlyInterval: Interval.Anytime,
+  earlyMonth: Month.Anytime,
+  lateInterval: Interval.Anytime,
+  lateMonth: Month.Anytime,
+};
+
+const Page3: React.FC<WizardFormStep<Page3Store>> = ({
+  stayPeriod,
+  earlyInterval,
+  earlyMonth,
+  lateInterval,
+  lateMonth,
+  validations,
+  setStore,
+}) => {
   return (
     <Container>
       <Row className="justify-content-center">
         {/* Move in time */}
         <Col md={12} lg={6} className="justify-content-center">
           <Row className="justify-content-center">
-            <div className="title">Move in time</div>
+            <div className="post-word">Move in time</div>
           </Row>
 
           <Row>
@@ -30,11 +61,11 @@ const PostPage3: React.FC<{}> = () => {
                 {earlyInterval}
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                {intervalOptions.map((interval) => (
+                {Object.values(Interval).map((interval) => (
                   <Dropdown.Item
                     eventKey={interval}
-                    onSelect={(event) =>
-                      dispatch(setPost(['earlyInterval', event]))
+                    onSelect={(s) =>
+                      setStore({ earlyInterval: (s as Interval) || undefined })
                     }
                   >
                     {interval}
@@ -46,20 +77,7 @@ const PostPage3: React.FC<{}> = () => {
               <Form.Control
                 className="clear-border"
                 as={Dropdown}
-                isValid={moveInSelect(
-                  earlyMonth,
-                  earlyInterval,
-                  lateMonth,
-                  lateInterval,
-                )}
-                isInvalid={
-                  !moveInSelect(
-                    earlyMonth,
-                    earlyInterval,
-                    lateMonth,
-                    lateInterval,
-                  )
-                }
+                isValid={validations?.earlyInterval?.success}
               >
                 <Dropdown.Toggle
                   className="form-dropdown ml-0"
@@ -68,11 +86,11 @@ const PostPage3: React.FC<{}> = () => {
                   {earlyMonth}
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="menu">
-                  {yearMonths.map((month) => (
+                  {Object.values(Month).map((month) => (
                     <Dropdown.Item
                       eventKey={month}
-                      onSelect={(event) =>
-                        dispatch(setPost(['earlyMonth', event]))
+                      onSelect={(s) =>
+                        setStore({ earlyMonth: (s as Month) || undefined })
                       }
                     >
                       {month}
@@ -80,9 +98,9 @@ const PostPage3: React.FC<{}> = () => {
                   ))}
                 </Dropdown.Menu>
               </Form.Control>
-              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               <Form.Control.Feedback type="invalid">
-                Invalid value!
+                {!validations?.earlyInterval?.success &&
+                  validations?.earlyInterval?.error}
               </Form.Control.Feedback>
             </Form.Group>
           </Row>
@@ -96,11 +114,11 @@ const PostPage3: React.FC<{}> = () => {
                 {lateInterval}
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                {intervalOptions.map((interval) => (
+                {Object.values(Interval).map((interval) => (
                   <Dropdown.Item
                     eventKey={interval}
-                    onSelect={(event) =>
-                      dispatch(setPost(['lateInterval', event]))
+                    onSelect={(s) =>
+                      setStore({ lateInterval: (s as Interval) || undefined })
                     }
                   >
                     {interval}
@@ -117,11 +135,11 @@ const PostPage3: React.FC<{}> = () => {
                   {lateMonth}
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="menu">
-                  {yearMonths.map((month) => (
+                  {Object.values(Month).map((month) => (
                     <Dropdown.Item
                       eventKey={month}
-                      onSelect={(event) =>
-                        dispatch(setPost(['lateMonth', event]))
+                      onSelect={(s) =>
+                        setStore({ lateMonth: (s as Month) || undefined })
                       }
                     >
                       {month}
@@ -143,7 +161,7 @@ const PostPage3: React.FC<{}> = () => {
           className="justify-content-center"
         >
           <Row className="justify-content-center">
-            <div className="title">Stay period</div>
+            <div className="post-word">Stay period</div>
           </Row>
           <Row className="justify-content-center">
             <Col>
@@ -152,15 +170,19 @@ const PostPage3: React.FC<{}> = () => {
                   <Form.Control
                     className="single-line-input"
                     value={stayPeriod}
-                    onChange={(event) =>
-                      dispatch(
-                        setPost(['stayPeriod', parseInt(event.target.value)]),
-                      )
-                    }
+                    onChange={(e) => {
+                      if (e.target.value) {
+                        setStore({ stayPeriod: parseInt(e.target.value) });
+                      } else {
+                        setStore({ stayPeriod: undefined }); // force it to be invalid
+                      }
+                    }}
                     type="number"
                     placeholder="# of Months"
-                    isValid={stayPeriod > 0 && stayPeriod <= 12}
-                    isInvalid={stayPeriod <= 0 || stayPeriod > 12}
+                    isValid={stayPeriod > 0 && stayPeriod <= 12} // TODO what if someone wants to stay for 2 years?
+                    isInvalid={
+                      !stayPeriod || stayPeriod <= 0 || stayPeriod > 12
+                    }
                   />
                 </Col>
                 <span className="word">Month(s)</span>
@@ -173,4 +195,4 @@ const PostPage3: React.FC<{}> = () => {
   );
 };
 
-export default PostPage3;
+export default Page3 as React.FC;

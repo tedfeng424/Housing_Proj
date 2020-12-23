@@ -1,22 +1,38 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Container, Row, Col, Button, Form } from 'react-bootstrap';
-import { roomTypeIcons, roomTypeUnchosen } from '../../assets/icons/all';
+import * as z from 'zod';
+import { roomTypeIcons } from '../../assets/icons/all';
 import AutoComplete from '../PlacesAutoComplete';
-import { setPost, selectPost } from '../../redux/slices/posting';
-import { useSelector, useDispatch } from 'react-redux';
+import { RoomType } from '../../assets/constants';
+import { WizardFormStep } from '../WizardForm';
 
-type RoomType = { [P in keyof typeof roomTypeUnchosen]: boolean };
-const PostPage2: React.FC<{}> = () => {
-  const dispatch = useDispatch();
-  const [roomType, setRoomType] = useState<RoomType>({
-    single: false,
-    double: false,
-    triple: false,
-    livingRoom: false,
-    suite: false,
-    studio: false,
-  });
-  const price = useSelector(selectPost).price;
+export const page2Schema = z.object({
+  locationSearch: z.string(),
+  selectedLocation: z.string().nonempty('Make sure to select an address.'),
+  roomType: z.nativeEnum(RoomType),
+  price: z
+    .number()
+    .positive('Make sure the price is positive.')
+    .max(5000, 'The price is unreasonably high for college students!'),
+});
+
+export type Page2Store = z.infer<typeof page2Schema>;
+
+export const page2InitialStore: Page2Store = {
+  locationSearch: '',
+  selectedLocation: '',
+  roomType: RoomType.single,
+  price: 800,
+};
+
+const Page2: React.FC<WizardFormStep<Page2Store>> = ({
+  locationSearch,
+  selectedLocation,
+  roomType,
+  price,
+  validations,
+  setStore,
+}) => {
   return (
     <Container>
       <Row>
@@ -28,8 +44,23 @@ const PostPage2: React.FC<{}> = () => {
       </Row>
 
       <Form.Row className="justify-content-center m-2 my-4">
-        <Form.Label className="title">Location</Form.Label>
-        <AutoComplete className="single-line-input w-100" />
+        <Form.Label className="post-word">Location</Form.Label>
+        <AutoComplete
+          className="single-line-input w-100"
+          initialAddress={locationSearch}
+          onChange={(value) => {
+            if (selectedLocation === '') setStore({ locationSearch: value });
+            else setStore({ locationSearch: value, selectedLocation: '' });
+          }}
+          onSelect={(value) => {
+            setStore({ locationSearch: value, selectedLocation: value });
+          }}
+          isValid={validations?.selectedLocation?.success}
+        />
+        <div className="wizard-form-invalid-feedback">
+          {!validations?.selectedLocation?.success &&
+            validations?.selectedLocation?.error}
+        </div>
       </Form.Row>
 
       <Row className="justify-content-center">
@@ -40,63 +71,67 @@ const PostPage2: React.FC<{}> = () => {
           className="justify-content-center"
         >
           <Row className="justify-content-center">
-            <div className="title">Room Type</div>
+            <div className="post-word">Room Type</div>
           </Row>
+          {/* TODO update the filter to be like below */}
           <Row className="justify-content-center">
-            {(Object.keys(roomType) as Array<keyof typeof roomType>).map(
-              (key) => {
-                const RoomTypeUnchosen = roomTypeIcons[key];
-                const RoomTypeChosen =
-                  roomTypeIcons[`${key}Chosen` as keyof typeof roomTypeIcons];
-                return (
-                  <Button
-                    className="btn-filter"
-                    onClick={() => {
-                      const changed = { ...roomType };
-                      changed[key] = !roomType[key];
-                      if (changed[key]) {
-                        dispatch(setPost(['roomType', key]));
-                      }
-                      setRoomType({
-                        ...changed,
-                      });
-                    }}
-                  >
-                    {roomType[key] ? <RoomTypeChosen /> : <RoomTypeUnchosen />}
-                  </Button>
-                );
-              },
-            )}
+            {(Object.entries(RoomType) as Array<
+              [keyof typeof RoomType, RoomType]
+            >).map(([key, value]) => {
+              const RoomTypeUnchosen = roomTypeIcons[key];
+              const RoomTypeChosen =
+                roomTypeIcons[`${key}Chosen` as keyof typeof roomTypeIcons];
+              return (
+                <Button
+                  variant="no-show"
+                  className="btn-filter"
+                  key={key}
+                  onClick={() => {
+                    setStore({ roomType: value });
+                  }}
+                >
+                  {roomType === value ? (
+                    <RoomTypeChosen />
+                  ) : (
+                    <RoomTypeUnchosen />
+                  )}
+                </Button>
+              );
+            })}
           </Row>
         </Col>
 
-        {/* Price Range. TODO: only use one price */}
         <Col
           md={12}
           lg={{ span: 5, offset: 1 }}
           className="justify-content-center"
         >
           <Row className="justify-content-center">
-            <div className="title">Price</div>
+            <div className="post-word">Price</div>
           </Row>
 
           <Form.Row className="justify-content-center m-2">
-            <Form.Label className="word mr-3">$USD</Form.Label>
+            <Form.Label className="word mr-3">$</Form.Label>
             <Col>
               <Form.Control
                 className="single-line-input"
                 type="number"
-                min={0}
                 value={price}
-                onChange={(event) => {
-                  dispatch(setPost(['price', parseInt(event.target.value)]));
+                onChange={(e) => {
+                  if (e.target.value) {
+                    setStore({ price: parseInt(e.target.value) });
+                  } else {
+                    setStore({ price: undefined }); // force it to be invalid
+                  }
                 }}
-                isValid={price !== undefined && price > 0}
-                isInvalid={price === undefined || price <= 0}
-                placeholder="price"
+                isValid={validations?.price?.success}
+                placeholder="Price"
               />
             </Col>
           </Form.Row>
+          <div className="wizard-form-invalid-feedback">
+            {!validations?.price?.success && validations?.price?.error}
+          </div>
         </Col>
         <Col lg={1} />
       </Row>
@@ -104,4 +139,4 @@ const PostPage2: React.FC<{}> = () => {
   );
 };
 
-export default PostPage2;
+export default Page2 as React.FC;
