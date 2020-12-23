@@ -130,16 +130,12 @@ const WizardForm = <T extends {}>({
     toParse: Partial<P>,
     toValidate: Array<keyof P>,
   ) => {
-    console.log('Parsing the following:');
-    console.log(toParse);
     const result = schema.safeParse(toParse);
     let changedErrors: ValidationError<P> | undefined;
     if (!result.success) {
       const { fieldErrors } = result.error.formErrors;
       changedErrors = toValidate.reduce(
         (pre, key) => {
-          console.log(key);
-          console.log(fieldErrors[key as string]);
           if (fieldErrors[key as string]) {
             return {
               ...pre,
@@ -177,8 +173,6 @@ const WizardForm = <T extends {}>({
     const changedValues = { ...store[index], ...value };
     setCompleteStore({ ...store, [index]: changedValues });
 
-    console.log('Changes being made:');
-    console.log(value);
     // get the changed edited fields and set that they were changed
     const changedEditedFields = (Object.keys(value) as Array<keyof T>).reduce<
       Partial<{ [key in keyof T]: boolean }>
@@ -194,15 +188,10 @@ const WizardForm = <T extends {}>({
       Object.keys(changedEditedFields) as (keyof T)[],
     );
 
-    console.log('Changed errors:');
-    console.log(changedErrors);
-
     setValidations({
       ...validations,
       [index]: { ...validations[index], ...changedErrors },
     });
-
-    console.log('\n\n');
   };
 
   // TODO const setSchema: SetSchema = <P extends Partial<T>>(schema: ZodSchema<P>) => {
@@ -263,8 +252,12 @@ const WizardForm = <T extends {}>({
                   variant="no-show"
                   onClick={() => {
                     const curErrors = validateCurrent();
-                    if (curErrors) {
-                      console.log(curErrors);
+                    // TODO need to reduce the curErrors to get if they all succeeded or if any of them failed
+                    const noErrors = (Object.values(curErrors) as Array<
+                      | { success: true; error: undefined }
+                      | { success: false; error: ZodIssue }
+                    >).reduce((pre, cur) => pre && cur.success, true);
+                    if (!noErrors) {
                       setValidations({
                         ...validations,
                         [index]: { ...validations[index], ...curErrors },
