@@ -38,16 +38,6 @@ interface HousingPostProps {
 }
 
 // TODO only show PostPage1 for first time user
-<<<<<<< HEAD
-const HousingPost: React.FC<PathProps> = ({ show, setShow }) => (
-  <WizardForm show={show} setShow={setShow} title="Find your place">
-    <PostPage1 />
-    <PostPage2 />
-    <PostPage3 />
-    <PostPage4 />
-    <PostPage5 />
-    <PostPage6 setShow={setShow} />
-=======
 const HousingPost: React.FC<HousingPostProps> = ({ show, setShow }) => (
   <WizardForm<Store>
     show={show}
@@ -60,6 +50,7 @@ const HousingPost: React.FC<HousingPostProps> = ({ show, setShow }) => (
       // ); // TODO
       return true;
     }}
+    title="Find your place"
     initialStore={initialStore}
     schemas={schemas}
   >
@@ -69,7 +60,6 @@ const HousingPost: React.FC<HousingPostProps> = ({ show, setShow }) => (
     <Page4 />
     <Page5 />
     <Page6 />
->>>>>>> recovered
   </WizardForm>
 );
 

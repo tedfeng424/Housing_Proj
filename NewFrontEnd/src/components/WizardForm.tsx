@@ -4,11 +4,13 @@ import Button from 'react-bootstrap/Button';
 import { ZodSchema, ZodIssue } from 'zod';
 import { miscIcons } from '../assets/icons/all';
 
-type ValidationError<P> = Partial<
+type ValidationError =
+  | { success: true; error: undefined; data?: string }
+  | { success: false; error: ZodIssue; data?: string }; // TODO maybe make data just undefined here
+
+type ValidationErrors<P> = Partial<
   {
-    [key in keyof P]:
-      | { success: true; error: undefined }
-      | { success: false; error: ZodIssue };
+    [key in keyof P]: ValidationError;
   }
 >;
 
@@ -27,17 +29,16 @@ export type WizardFormStep<P> = P & {
   prevStep: () => void;
   setStep: (i: number) => void;
   submitForm: SubmitForm; // returns success or failure with a message
-  validations: ValidationError<P> | undefined; // validation errors
+  validations: ValidationErrors<P> | undefined; // validation errors
   setStore: SetStore<P>;
 };
 
 // T is whatever is in the store
-interface PathProps<T = {}> {
+interface WizardFormProps<T = {}> {
   children: React.ReactElement[]; // the steps of the form (needs to be of length at least 0)
   show: boolean;
   setShow: (show: boolean) => void;
   title: string;
-  hideButtons?: boolean;
   onSubmit: (store: T) => boolean;
   initialStore: Partial<T>[];
   schemas: ZodSchema<Partial<T>>[];
@@ -47,16 +48,18 @@ interface PathProps<T = {}> {
  * Not using React.FC as a work around to allow for generics for Wizard Form.
  * Do not do this normally. I will try to find a better way to do this
  */
+/**
+ * Wizard Form React Component.
+ */
 const WizardForm = <T extends {}>({
   children,
   show,
   setShow,
   title,
-  hideButtons = false,
   onSubmit,
   initialStore,
   schemas,
-}: PathProps<T>) => {
+}: WizardFormProps<T>) => {
   const [curIndex, setCurIndex] = useState<number>(0);
   const [isFirst, setIsFirst] = useState<boolean>(true);
   const [isLast, setIsLast] = useState<boolean>(
@@ -69,15 +72,24 @@ const WizardForm = <T extends {}>({
 
   // keeps track of the errors for each field
   const [validations, setValidations] = useState<
-    Array<ValidationError<Partial<T>> | undefined>
+    Array<ValidationErrors<Partial<T>> | undefined>
   >(children.map(() => undefined));
   // TODO maybe add a thing to keep track of whether or not an entire step is validated. Then use this in the dots to display which have errors? (i.e. make them red dots)
+  // const [validSteps, setValidSteps] = useState<boolean[]>(
+  //   children.map(() => false),
+  // );
+  // TODO const [isCurStepValid, setIsCurStepValid] = useState<boolean>();
 
   useEffect(() => {
     setCurStep(children[curIndex]);
     setIsFirst(curIndex === 0);
     setIsLast(curIndex === children.length - 1);
   }, [curIndex, children]);
+
+  // update if the current one is updated each time validations is updated
+  // TODO useEffect(() => {
+
+  // }, [validations, setIsCurStepValid]);
 
   /**
    * Use this to exit the wizard form without submitting.
@@ -86,13 +98,21 @@ const WizardForm = <T extends {}>({
     setShow(false);
   };
 
+  const combineSuccesses = (v: ValidationErrors<Partial<T>>): boolean => {
+    return (
+      (Object.values(v) as Array<ValidationError>).find(
+        (data) => !data.success,
+      ) === undefined
+    );
+  };
+
   const validatePickedValues = <P extends {} | unknown = unknown>(
     schema: ZodSchema<P>,
     toParse: Partial<P>,
     toValidate: Array<keyof P>,
   ) => {
     const result = schema.safeParse(toParse);
-    let changedErrors: ValidationError<P> | undefined;
+    let changedErrors: ValidationErrors<P> | undefined;
     if (!result.success) {
       const { fieldErrors } = result.error.formErrors;
       changedErrors = toValidate.reduce(
@@ -105,12 +125,12 @@ const WizardForm = <T extends {}>({
           }
           return { ...pre, [key]: { success: true, error: undefined } };
         },
-        { ...validations[curIndex] } as ValidationError<P>,
+        { ...validations[curIndex] } as ValidationErrors<P>,
       );
     } else {
       changedErrors = toValidate.reduce(
         (pre, key) => ({ ...pre, [key]: { success: true, error: undefined } }),
-        { ...validations[curIndex] } as ValidationError<P>,
+        { ...validations[curIndex] } as ValidationErrors<P>,
       );
     }
     return changedErrors;
@@ -136,11 +156,11 @@ const WizardForm = <T extends {}>({
     // TODO const noErrors = (Object.values(stepValidations) as Array<
     //   { success: true; error: undefined } | { success: false; error: ZodIssue }
     // >).reduce((pre, cur) => pre && cur.success, true);
-    const validationWithError = (Object.values(stepValidations) as Array<
-      { success: true; error: undefined } | { success: false; error: ZodIssue }
-    >).find((data) => !data.success);
+    const stepValidation: boolean = combineSuccesses(stepValidations);
 
-    return validationWithError === undefined;
+    // TODO setValidSteps({ ...validSteps, [i]: stepValidation });
+
+    return stepValidation;
   };
 
   /**

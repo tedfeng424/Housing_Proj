@@ -2,15 +2,10 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-<<<<<<< HEAD
-import { useSelector, useDispatch } from 'react-redux';
-import { setPost, selectPost } from '../../redux/slices/posting';
-=======
 import * as z from 'zod';
 import { Form } from 'react-bootstrap';
 import { WizardFormStep } from '../WizardForm';
 import { SchoolYear, NON_EMPTY_ERR_MSG } from '../../assets/constants';
->>>>>>> recovered
 
 const nonSelectStyle = 'post-word-sub';
 const selectStyle = 'post-word-sub post-word-sub-selected';
