@@ -6,7 +6,7 @@ import AutoComplete from '../PlacesAutoComplete';
 import { RoomType } from '../../assets/constants';
 import { WizardFormStep } from '../WizardForm';
 
-const page2StoreSchema = z.object({
+export const page2Schema = z.object({
   locationSearch: z.string(),
   selectedLocation: z.string().nonempty('Make sure to select an address.'),
   roomType: z.nativeEnum(RoomType),
@@ -16,24 +16,22 @@ const page2StoreSchema = z.object({
     .max(5000, 'The price is unreasonably high for college students!'),
 });
 
-export type PostPage2Store = z.infer<typeof page2StoreSchema>;
+export type Page2Store = z.infer<typeof page2Schema>;
 
-const page2InitialStore: PostPage2Store = {
+export const page2InitialStore: Page2Store = {
   locationSearch: '',
   selectedLocation: '',
   roomType: RoomType.single,
   price: 800,
 };
 
-const PostPage2: React.FC<WizardFormStep<PostPage2Store>> = ({
-  useWizardFormStorage,
+const Page2: React.FC<WizardFormStep<Page2Store>> = ({
+  locationSearch,
+  roomType,
+  price,
+  validations,
+  setStore,
 }) => {
-  const [
-    { locationSearch, selectedLocation, roomType, price },
-    validations,
-    setStore,
-  ] = useWizardFormStorage<PostPage2Store>(page2InitialStore, page2StoreSchema);
-
   return (
     <Container>
       <Row>
@@ -139,4 +137,4 @@ const PostPage2: React.FC<WizardFormStep<PostPage2Store>> = ({
   );
 };
 
-export default PostPage2 as React.FC;
+export default Page2 as React.FC;

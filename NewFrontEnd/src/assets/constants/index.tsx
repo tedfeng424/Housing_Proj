@@ -28,7 +28,7 @@ const yearMonths = [
  * Months in the year
  */
 // TODO make everything PascalCase
-enum months {
+enum Month {
   Anytime = 'Anytime',
   January = 'January',
   February = 'February',
@@ -47,7 +47,7 @@ enum months {
 /**
  * Months in the year, abbreviated
  */
-enum monthsAbrv {
+enum MonthsAbrv {
   Anytime = 'Anytime',
   January = 'Jan',
   February = 'Feb',
@@ -67,19 +67,19 @@ enum monthsAbrv {
  * object of month (unabbreviated) to month (abbreviated)
  */
 const monthsUnabrvToAbrv = {
-  [months.Anytime]: monthsAbrv.Anytime,
-  [months.January]: monthsAbrv.January,
-  [months.February]: monthsAbrv.February,
-  [months.March]: monthsAbrv.March,
-  [months.April]: monthsAbrv.April,
-  [months.May]: monthsAbrv.May,
-  [months.June]: monthsAbrv.June,
-  [months.July]: monthsAbrv.July,
-  [months.August]: monthsAbrv.August,
-  [months.September]: monthsAbrv.September,
-  [months.October]: monthsAbrv.October,
-  [months.November]: monthsAbrv.November,
-  [months.December]: monthsAbrv.December,
+  [Month.Anytime]: MonthsAbrv.Anytime,
+  [Month.January]: MonthsAbrv.January,
+  [Month.February]: MonthsAbrv.February,
+  [Month.March]: MonthsAbrv.March,
+  [Month.April]: MonthsAbrv.April,
+  [Month.May]: MonthsAbrv.May,
+  [Month.June]: MonthsAbrv.June,
+  [Month.July]: MonthsAbrv.July,
+  [Month.August]: MonthsAbrv.August,
+  [Month.September]: MonthsAbrv.September,
+  [Month.October]: MonthsAbrv.October,
+  [Month.November]: MonthsAbrv.November,
+  [Month.December]: MonthsAbrv.December,
 };
 
 enum SchoolYear {
@@ -103,8 +103,8 @@ enum RoomType {
 export {
   intervalOptions,
   yearMonths,
-  months,
-  monthsAbrv,
+  Month,
+  MonthsAbrv,
   monthsUnabrvToAbrv,
   SchoolYear,
   RoomType,

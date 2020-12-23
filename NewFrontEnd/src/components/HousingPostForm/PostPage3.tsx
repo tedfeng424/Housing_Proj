@@ -1,42 +1,37 @@
 import React from 'react';
 import { Container, Row, Col, Dropdown, Form } from 'react-bootstrap';
-import {
-  intervalOptions,
-  months,
-  yearMonths,
-  Interval,
-} from '../../assets/constants';
+import * as z from 'zod';
+import { Month, Interval } from '../../assets/constants';
 import { moveInSelect } from '../../assets/utils/index';
 import { WizardFormStep } from '../WizardForm';
 
-export interface PostPage3Store {
-  stayPeriod: number;
-  earlyInterval: string;
-  earlyMonth: string;
-  lateInterval: string;
-  lateMonth: string;
-}
-// const page3StoreSchema = z.object({
-//   stayPeriod: z.number()
-// })
+export const page3Schema = z.object({
+  stayPeriod: z.number().min(1, 'Minimum number of months is 1'),
+  earlyInterval: z.nativeEnum(Interval),
+  earlyMonth: z.nativeEnum(Month),
+  lateInterval: z.nativeEnum(Interval),
+  lateMonth: z.nativeEnum(Month),
+});
 
-export const PostPage3InitialStore: PostPage3Store = {
+export type Page3Store = z.infer<typeof page3Schema>;
+
+export const page3InitialStore: Page3Store = {
   stayPeriod: 12,
   earlyInterval: Interval.Anytime,
-  earlyMonth: months.Anytime,
+  earlyMonth: Month.Anytime,
   lateInterval: Interval.Anytime,
-  lateMonth: months.Anytime,
+  lateMonth: Month.Anytime,
 };
 
-const PostPage3: React.FC<WizardFormStep<PostPage3Store>> = ({
-  useWizardFormStorage,
+const Page3: React.FC<WizardFormStep<Page3Store>> = ({
+  stayPeriod,
+  earlyInterval,
+  earlyMonth,
+  lateInterval,
+  lateMonth,
+  validations,
+  setStore,
 }) => {
-  const [
-    { stayPeriod, earlyInterval, earlyMonth, lateInterval, lateMonth },
-    errors,
-    setStore,
-  ] = useWizardFormStorage<PostPage3Store>();
-
   return (
     <Container>
       <Row className="justify-content-center">
@@ -55,11 +50,11 @@ const PostPage3: React.FC<WizardFormStep<PostPage3Store>> = ({
                 {earlyInterval}
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                {intervalOptions.map((interval) => (
+                {Object.values(Interval).map((interval) => (
                   <Dropdown.Item
                     eventKey={interval}
                     onSelect={(s) =>
-                      setStore({ earlyInterval: s || undefined })
+                      setStore({ earlyInterval: (s as Interval) || undefined })
                     }
                   >
                     {interval}
@@ -93,10 +88,12 @@ const PostPage3: React.FC<WizardFormStep<PostPage3Store>> = ({
                   {earlyMonth}
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="menu">
-                  {yearMonths.map((month) => (
+                  {Object.values(Month).map((month) => (
                     <Dropdown.Item
                       eventKey={month}
-                      onSelect={(s) => setStore({ earlyMonth: s || undefined })}
+                      onSelect={(s) =>
+                        setStore({ earlyMonth: (s as Month) || undefined })
+                      }
                     >
                       {month}
                     </Dropdown.Item>
@@ -119,10 +116,12 @@ const PostPage3: React.FC<WizardFormStep<PostPage3Store>> = ({
                 {lateInterval}
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                {intervalOptions.map((interval) => (
+                {Object.values(Interval).map((interval) => (
                   <Dropdown.Item
                     eventKey={interval}
-                    onSelect={(s) => setStore({ lateInterval: s || undefined })}
+                    onSelect={(s) =>
+                      setStore({ lateInterval: (s as Interval) || undefined })
+                    }
                   >
                     {interval}
                   </Dropdown.Item>
@@ -138,10 +137,12 @@ const PostPage3: React.FC<WizardFormStep<PostPage3Store>> = ({
                   {lateMonth}
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="menu">
-                  {yearMonths.map((month) => (
+                  {Object.values(Month).map((month) => (
                     <Dropdown.Item
                       eventKey={month}
-                      onSelect={(s) => setStore({ lateMonth: s || undefined })}
+                      onSelect={(s) =>
+                        setStore({ lateMonth: (s as Month) || undefined })
+                      }
                     >
                       {month}
                     </Dropdown.Item>
@@ -196,4 +197,4 @@ const PostPage3: React.FC<WizardFormStep<PostPage3Store>> = ({
   );
 };
 
-export default PostPage3 as React.FC;
+export default Page3 as React.FC;

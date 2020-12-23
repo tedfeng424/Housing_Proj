@@ -33,10 +33,10 @@ export type WizardFormStep<P> = P & {
   nextStep: () => void;
   prevStep: () => void;
   submitForm: SubmitForm; // returns success or failure with a message
-  errors: ValidationError<P> | undefined; // validation errors
+  validations: ValidationError<P> | undefined; // validation errors
   setStore: SetStore<P>;
-  setSchema: SetSchema;
-  setInitialStore: SetInitialStore;
+  // setSchema: SetSchema;
+  // setInitialStore: SetInitialStore;
 };
 
 // T is whatever is in the store
@@ -46,7 +46,8 @@ interface PathProps<T = {}> {
   setShow: (show: boolean) => void;
   hideButtons?: boolean;
   onSubmit: (store: T) => boolean;
-  // TODO initialStore?: Partial<T>;
+  initialStore: Partial<T>[];
+  schemas: ZodSchema<T>[];
 }
 
 /**
@@ -59,30 +60,19 @@ const WizardForm = <T extends {}>({
   setShow,
   hideButtons = false,
   onSubmit,
-}: // TODO initialStore,
-PathProps<T>) => {
+  initialStore,
+  schemas,
+}: PathProps<T>) => {
   const [index, setIndex] = useState<number>(0);
   const [isFirst, setIsFirst] = useState<boolean>(true);
   const [isLast, setIsLast] = useState<boolean>(index === children.length - 1);
   const [CurStep, setCurStep] = useState<React.ReactElement>(children[0]);
 
-  const [store, setCompleteStore] = useState<Array<Partial<T>>>(
-    children.map(() => ({})),
-  );
+  const [store, setCompleteStore] = useState<Array<Partial<T>>>(initialStore);
   // TODO const [curStore, setCurStore] = useState<>
 
-  const [zodSchemas, setZodSchemas] = useState<
-    Array<ZodSchema<Partial<T>> | undefined>
-  >(children.map(() => undefined));
-  // need to keep track of when the store is initialized (otherwise, it'll be an infinite loop of reupdating)
-  const [storeInitialized, setStoreInitialized] = useState<Array<boolean>>(
-    children.map(() => false),
-  );
-  const [schemasInitialized, setSchemasInitialized] = useState<Array<boolean>>(
-    children.map(() => false),
-  );
   // keeps track of the errors for each field
-  const [errors, setErrors] = useState<
+  const [validations, setValidations] = useState<
     Array<ValidationError<Partial<T>> | undefined>
   >(children.map(() => undefined));
 
@@ -155,7 +145,7 @@ PathProps<T>) => {
           }
           return { ...pre, [key]: { success: true, error: undefined } };
         },
-        { ...errors[index] } as ValidationError<P>,
+        { ...validations[index] } as ValidationError<P>,
       );
     }
     return changedErrors;
@@ -168,7 +158,7 @@ PathProps<T>) => {
     // validate everything that hasn't been validated yet
     let changedErrors: ValidationError<Partial<T>> | undefined;
     console.log(index);
-    const schema = zodSchemas[index];
+    const schema = schemas[index];
     if (schema) {
       changedErrors = validatePickedValues<Partial<T>>(
         schema,
@@ -194,7 +184,7 @@ PathProps<T>) => {
 
     // every time there's a change, validate it
     let changedErrors: ValidationError<T> | undefined;
-    const schema = zodSchemas[index];
+    const schema = schemas[index];
     if (schema) {
       changedErrors = validatePickedValues<Partial<T>>(
         schema,
@@ -203,24 +193,27 @@ PathProps<T>) => {
       );
     }
 
-    setErrors({ ...errors, [index]: { ...errors[index], ...changedErrors } });
+    setValidations({
+      ...validations,
+      [index]: { ...validations[index], ...changedErrors },
+    });
   };
 
-  const setSchema: SetSchema = <P extends Partial<T>>(schema: ZodSchema<P>) => {
-    if (!schemasInitialized[index]) {
-      setZodSchemas({ ...zodSchemas, [index]: schema });
-      setSchemasInitialized({ ...schemasInitialized, [index]: true });
-    }
-  };
+  // TODO const setSchema: SetSchema = <P extends Partial<T>>(schema: ZodSchema<P>) => {
+  //   if (!schemasInitialized[index]) {
+  //     setZodSchemas({ ...zodSchemas, [index]: schema });
+  //     setSchemasInitialized({ ...schemasInitialized, [index]: true });
+  //   }
+  // };
 
-  const setInitialStore: SetInitialStore = <P extends Partial<T>>(
-    value: Partial<P>,
-  ) => {
-    if (!storeInitialized[index]) {
-      setCompleteStore({ ...store, [index]: { ...value } as Partial<T> });
-      setStoreInitialized({ ...storeInitialized, [index]: true });
-    }
-  };
+  // TODO const setInitialStore: SetInitialStore = <P extends Partial<T>>(
+  //   value: Partial<P>,
+  // ) => {
+  //   if (!storeInitialized[index]) {
+  //     setCompleteStore({ ...store, [index]: { ...value } as Partial<T> });
+  //     setStoreInitialized({ ...storeInitialized, [index]: true });
+  //   }
+  // };
 
   // TODO need to figure out how to have loading thing on top
   return (
@@ -249,8 +242,9 @@ PathProps<T>) => {
               exitWizardForm,
               submitForm,
               setStore,
-              setSchema,
-              setInitialStore,
+              // TODO setSchema,
+              // TODO setInitialStore,
+              validations: validations[index],
               ...store[index],
             })}
           </Col>
@@ -265,9 +259,9 @@ PathProps<T>) => {
                     const curErrors = validateCurrent();
                     if (curErrors) {
                       console.log(curErrors);
-                      setErrors({
-                        ...errors,
-                        [index]: { ...errors[index], ...curErrors },
+                      setValidations({
+                        ...validations,
+                        [index]: { ...validations[index], ...curErrors },
                       });
                     } else {
                       nextStep();

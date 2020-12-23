@@ -15,7 +15,7 @@ const SelectBg = 'post-word-sub-bg post-word-sub-bg-selected';
 // TODO put in constants
 const phoneRegex = /^([ ]*\+?[ ]*[0-9]{0,4}[ ]*(-|\()?[0-9]{3}[ ]*(-|\))?[ ]*[0-9]{3}[ ]*-?[ ]*[0-9]{4}[ ]*)$/;
 
-const page1StoreSchema = z.object({
+export const page1Schema = z.object({
   leaserPhone: z
     .string()
     .nonempty(NON_EMPTY_ERR_MSG)
@@ -24,23 +24,21 @@ const page1StoreSchema = z.object({
   major: z.string().nonempty(NON_EMPTY_ERR_MSG).min(1, 'Not long enough.'),
 });
 
-export type PostPage1Store = z.infer<typeof page1StoreSchema>;
+export type Page1Store = z.infer<typeof page1Schema>;
 
-const page1InitialStore: PostPage1Store = {
+export const page1InitialStore: Page1Store = {
   leaserPhone: '',
   schoolYear: SchoolYear.First,
   major: '',
 };
 
-const PostPage1: React.FC<WizardFormStep<PostPage1Store>> = ({
-  useWizardFormStorage,
+const Page1: React.FC<WizardFormStep<Page1Store>> = ({
+  leaserPhone,
+  schoolYear,
+  major,
+  validations,
+  setStore,
 }) => {
-  const [
-    { leaserPhone, schoolYear, major },
-    validations,
-    setStore,
-  ] = useWizardFormStorage<PostPage1Store>(page1InitialStore, page1StoreSchema);
-
   return (
     <Container>
       <Form.Row className="justify-content-center m-2">
@@ -178,4 +176,4 @@ const PostPage1: React.FC<WizardFormStep<PostPage1Store>> = ({
 
 // NOTE: need the "as React.FC" since typescript doesn't know that WizardForm parent component will
 // provide the WizardFormStep props
-export default PostPage1 as React.FC;
+export default Page1 as React.FC;
