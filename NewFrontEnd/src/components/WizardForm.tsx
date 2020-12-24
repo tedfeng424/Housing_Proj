@@ -37,7 +37,7 @@ export type WizardFormStep<P> = P & {
 interface WizardFormProps<T = {}> {
   children: React.ReactElement[]; // the steps of the form (needs to be of length at least 0)
   show: boolean;
-  setShow: (show: boolean) => void;
+  setShow: (show: boolean) => void; // TODO this should be onHide! No need for the setShow(true)
   title: string;
   onSubmit: (store: T) => boolean;
   initialStore: Partial<T>[];

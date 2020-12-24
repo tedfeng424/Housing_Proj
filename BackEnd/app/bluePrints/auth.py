@@ -26,15 +26,15 @@ def login():
     user = check_exist(User, session, **{'email': requested_json['email']})
     if not user:
         # User doesn't exist
-        message, status = 'Continue with the setup', 100
-        response = generateResponse(elem=message, status=status)
+        json_response = {'newUser': True}
+        response = generateResponse(json_response)
         response.set_cookie('access_token', access_token)
         print(access_token)
         return response
 
     login_session["user_id"] = user.id
     print(user.serialize)
-    json_response = {'user': requested_json['name'],
+    json_response = {'name': requested_json['name'],
                      'email': requested_json['email'],
                      'access_token': access_token,
                      'message': 'Successfully created room.',
@@ -61,7 +61,7 @@ def logout():
     return generateResponse(elem=message, status=status)
 
 
-@authetication.route("/create_user", methods=["POST", "OPTIONS"])
+@authetication.route("/createUser", methods=["POST", "OPTIONS"])
 def create_user():
     session = current_app.config['DB_CONNECTION']
     if request.method == 'OPTIONS':
@@ -86,7 +86,7 @@ def create_user():
                           'profile', selected_icon])
     upload_file_wname(icon_path+selected_icon, 'houseit', path_name)
 
-    json_response = {'user': requested_json['name'],
+    json_response = {'name': requested_json['name'],
                      'email': requested_json['email'],
                      'access_token': login_session["access_token"],
                      'message': 'Successfully created room.',

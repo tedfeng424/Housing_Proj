@@ -4,15 +4,18 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import { selectUser } from '../redux/slices/auth';
+import { selectShowNewUserPopup, selectUser } from '../redux/slices/auth';
 import HousingList from './HouseCardList';
 import Filter from './Filter';
 import TV from './TV';
 import Login from './Login';
 import HousingPost from './HousingPostForm';
 import BookmarksList from './BookmarksList';
+import NewUserSetup from './NewUserSetup';
 
 const Home: React.FC = () => {
+  const showNewUserPopup = useSelector(selectShowNewUserPopup);
+
   const [showLogin, setShowLogin] = useState<boolean>(false);
   const handleCloseLogin = () => setShowLogin(false);
   const handleShowLogin = () => setShowLogin(true);
@@ -26,6 +29,14 @@ const Home: React.FC = () => {
       {/* Modals */}
       <Login show={showLogin} handleClose={handleCloseLogin} />
       <HousingPost show={showHousingPost} setShow={setShowHousingPost} />
+      <NewUserSetup
+        show={showNewUserPopup}
+        setShow={(value: boolean) => {
+          console.log(
+            'uhhh no clicking out of this form buddy! we gotta make the x look disabled in the future.',
+          );
+        }}
+      />
 
       {/* The actual home page */}
       <Row>
