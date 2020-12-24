@@ -1,3 +1,6 @@
+import os
+from datetime import datetime
+from db.database_setup import Base, User
 import random
 from flask import Flask, render_template, request, redirect,\
     jsonify, url_for, flash, make_response, Response
@@ -11,10 +14,8 @@ from app.db.database_setup import Bookmark, Room
 from flask_sqlalchemy import SQLAlchemy
 from app.util.util import generateResponse
 import json
-from db.crud import room_json, read_rooms, write_room, add_bookmark, remove_bookmark
-from db.database_setup import Base
-from datetime import datetime
-import os
+from db.crud import room_json, read_rooms, write_room, add_bookmark, \
+    remove_bookmark, update_field
 
 password = os.environ["DBPASSWORD"]
 app = Flask(__name__)
@@ -26,6 +27,20 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 session = db.create_scoped_session()
 app.config['DB_CONNECTION'] = session
 CORS(app, supports_credentials=True)
+
+
+@ app.route('/profile', methods=['POST', 'OPTIONS'])
+def editProfile():
+    if request.method == 'OPTIONS':
+        return generateResponse()
+    requested_json = request.json
+    update_field(
+        User, session, {'email': requested_json['email']},
+        requested_json['updates']
+    )
+    message, status = 'Successfully edited profile.', 201
+    print(message)
+    return generateResponse(elem=message, status=status)
 
 
 @ app.route('/getRoom', methods=['GET'])

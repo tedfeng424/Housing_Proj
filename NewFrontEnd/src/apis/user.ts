@@ -31,6 +31,10 @@ const userLogIn = async (name: string, email: string) => {
       name: response.data.name,
       email: response.data.email,
       token: response.data.access_token,
+      description: response.data.description,
+      major: response.data.major,
+      schoolYear: response.data.schoolYear,
+      phone: response.data.phone,
     };
 
     return data;
@@ -72,4 +76,31 @@ const userLogOut = async (token: string) => {
   }
 };
 
-export { userLogIn, userLogOut };
+/**
+ * Echo the edit of profile to backend.
+ * @param kvPairs - key value pair for updates
+ * @returns - undefined if error occured, otherwise UserLoginResponse, which includes an access token,
+ *            email, message, user, imageUrl
+ */
+const userEditProfile = async (email: string, kvPairs: any) => {
+  try {
+    const response = await backendAPI.post(
+      '/profile',
+      JSON.stringify({ email: email, updates: kvPairs }),
+      {
+        headers: {
+          'content-type': 'application/json',
+        },
+        withCredentials: true,
+      },
+    );
+    if (response.request?.status !== 201) throw Error('Bad request');
+
+    return response.data;
+  } catch (err) {
+    console.error(err,"user edit profile fail");
+    return undefined;
+  }
+};
+
+export { userLogIn, userLogOut, userEditProfile };

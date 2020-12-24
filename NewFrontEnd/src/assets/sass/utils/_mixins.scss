@@ -32,7 +32,7 @@
   } @else if $type == 'primary-input-text' {
     font-weight: $bold-font-weight;
     font-size: $sm-font-size;
-    color: $primary-dark-color;
+    color: $primary-input-color;
   } @else if $type == 'title' {
     font-weight: $bold-font-weight;
     font-size: $lg-font-size;

@@ -19,26 +19,37 @@ body {
 .single-line-input {
   @include font-type('primary-input-text');
   // TODO
-  // border: 2px solid $darker-background-color;
-  // border-radius: $sm-border-radius;
+  border: 2px solid $primary-3-color;
+  border-radius: 8px;
   // box-shadow: none;
   // outline: none;
-  border: 0;
-  border-bottom: 3px solid theme-color('primary');
-  border-radius: 0;
+  // border: 2 solid theme-color('primary');
+  // border-bottom: 3px solid theme-color('primary');
+  // border-radius: 0;
   box-shadow: none;
   outline: none;
+  height: 50px;
+  font-size: 20px;
+  padding-left: 18px;
 
-  :focus,
-  :active,
+  &:active,
   &.was-validated,
   &.form-control:valid,
   &.form-control.is-valid {
     color: theme-color('primary');
-    border: 0;
-    border-bottom: 3px solid theme-color('primary');
-    border-radius: 0;
+    // border-bottom: 3px solid theme-color('primary');
+    border-radius: 8px;
     box-shadow: none;
+  }
+  &:focus {
+    border: 2px solid $primary-light-color;
+  }
+  &.form-control:disabled {
+    background-color: $primary-2-color;
+    border: 2px solid $primary-light-color;
+  }
+  &.form-control[readonly] {
+    background-color: transparent;
   }
 }
 
@@ -80,6 +91,7 @@ body {
 .btn-secondary {
   @extend .btn-primary;
   font-size: $md-font-size;
+  height: 50px;
 }
 
 .btn-tertiary {
@@ -87,6 +99,27 @@ body {
   @extend .px-5;
 }
 
+.show > .btn-success.dropdown-toggle {
+  background-color: $primary-light-color;
+  border-color: $primary-light-color;
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+.btn-success {
+  border-color: $primary-light-color;
+  &:focus,
+  &:hover,
+  &:not(:disabled):not(.disabled):active {
+    background-color: $primary-light-color;
+    border-color: $primary-light-color;
+    box-shadow: none;
+    &:focus{
+      box-shadow: none;
+    }
+  }
+}
 // TODO test this
 .toggle-btn {
   &-inactive,

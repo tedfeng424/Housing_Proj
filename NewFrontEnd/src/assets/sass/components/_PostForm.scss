@@ -5,21 +5,23 @@
 
 .post-text {
   background: $primary-color-light;
-  border-radius: 24px;
+  // border-color:
+  border-radius: 8px;
+  // color: $primary-dark-color;
 }
 
 .post-word {
   width: 100%; // was 160px, TODO: use non-constant widths
   height: 23px;
   font-family: Montserrat;
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 20px;
+  font-weight: normal;
   font-stretch: normal;
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
   text-align: left;
-  color: #a6623f;
+  color: $primary-dark-color;
 }
 
 .post-word-sub {
@@ -46,7 +48,7 @@
 }
 
 .post-word-sub-bg-selected {
-  background-color: #e7936d;
+  background-color: $primary-input-color;
 }
 
 .post-title {
@@ -54,14 +56,13 @@
   display: block;
   width: 100%;
   height: 25px;
-  font-family: RobotoSlab;
-  font-size: 20px;
-  font-weight: normal;
+  font-family: Montserrat;
+  font-size: 24px;
+  font-weight: bold;
   font-stretch: normal;
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  text-align: left;
   color: #a6623f;
 }
 
