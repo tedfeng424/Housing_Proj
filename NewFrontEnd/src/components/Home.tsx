@@ -41,6 +41,9 @@ const Home: React.FC = () => {
             <Input readOnly />
             <Input isValid />
             <Input isInvalid />
+            <Input isValid isInvalid />
+            <Input value="I'm okay!" />
+            {/* <Input value="I'm okay!" /> */}
             <Input readOnly isValid value="I'm okay!" />
             <Input readOnly isInvalid value="I'm nokay" />
             {/* <Input /> */}

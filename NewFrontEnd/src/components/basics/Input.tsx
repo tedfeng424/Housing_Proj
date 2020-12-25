@@ -17,7 +17,8 @@ const Input: React.FC<PathProps> = ({
   className = '',
   readOnly,
   onChange,
-  // isValid,
+  isInvalid,
+  isValid,
   value,
   ...formControlProps
 }) => {
@@ -30,12 +31,12 @@ const Input: React.FC<PathProps> = ({
         {...formControlProps}
         value={value}
         className={
-          (isEmpty ? 'input-unfilled ' : 'input-filled ') +
+          (isEmpty && !readOnly ? 'input-unfilled ' : 'input-filled ') +
           (readOnly ? 'input-readonly' : '') +
-          // (isInvalid ? 'input-invalid' : '') +
+          (isInvalid && !readOnly ? 'input-invalid' : '') +
           className
         }
-        // isValid={isValid || false}
+        isValid={!readOnly && isValid}
         readOnly={readOnly}
         onChange={(e) => {
           setIsEmpty(!e.target.value || e.target.value === '');
