@@ -1,0 +1,32 @@
+.input-unfilled {
+  @include font-type('primary-input-text');
+  // height: 80px;
+  border: 2px solid $primary-3-color;
+  border-radius: 8px;
+  box-shadow: none !important;
+  // padding: ; work this out later
+
+  &:valid {
+    border-color: $primary-light-color;
+  }
+
+  &:invalid {
+    border: 3px solid #e16161 !important;
+    color: #e16161 !important;
+  }
+
+  &:focus {
+    @include font-type('primary-input-text');
+    border-color: $primary-light-color;
+  }
+}
+
+.input-filled {
+  @extend .input-unfilled;
+  border-color: $primary-light-color;
+}
+
+.input-readonly {
+  @extend .input-filled;
+  background-color: $primary-2-color !important;
+}

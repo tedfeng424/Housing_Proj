@@ -11,6 +11,7 @@ import TV from './TV';
 import Login from './Login';
 import HousingPost from './HousingPostForm';
 import BookmarksList from './BookmarksList';
+import Input from './basics/Input';
 
 const Home: React.FC = () => {
   const [showLogin, setShowLogin] = useState<boolean>(false);
@@ -32,6 +33,17 @@ const Home: React.FC = () => {
         <Col md={{ span: 8, offset: 1 }} className="my-auto">
           <div className="mb-5">
             <Filter />
+          </div>
+
+          {/* temp */}
+          <div>
+            <Input />
+            <Input readOnly />
+            <Input isValid />
+            <Input isInvalid />
+            <Input readOnly isValid value="I'm okay!" />
+            <Input readOnly isInvalid value="I'm nokay" />
+            {/* <Input /> */}
           </div>
 
           <div>
