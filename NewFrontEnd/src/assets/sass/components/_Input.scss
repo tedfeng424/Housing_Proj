@@ -1,3 +1,5 @@
+// TODO clean this up by combining a lot of things
+
 .input-unfilled {
   @include font-type('primary-input-text');
   border: 2px solid $primary-3-color;
@@ -41,4 +43,12 @@
 .input-readonly {
   @extend .input-filled;
   background-color: $primary-2-color !important;
+}
+
+.input-label {
+  @include font-type('label-text');
+}
+
+.input-error {
+  @include font-type('error-label-text');
 }

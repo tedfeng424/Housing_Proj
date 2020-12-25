@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Form, FormControlProps } from 'react-bootstrap';
 
 interface PathProps extends FormControlProps {
   label?: string;
   labelClassName?: string;
+  error?: string; // Will only show the error if isInvalid is true
+  errorClassName?: string;
 }
-
-// override class:
-// 1. inspect component when it's valid
-// 2. override className for relevant components when valid/invalid
-// check online for error message
 
 const Input: React.FC<PathProps> = ({
   label,
   labelClassName,
+  error,
+  errorClassName,
   className = '',
   readOnly,
   onChange,
@@ -26,7 +25,11 @@ const Input: React.FC<PathProps> = ({
 
   return (
     <Form.Group>
-      {label && <Form.Label className={labelClassName}>{label}</Form.Label>}
+      {label && (
+        <Form.Label className={labelClassName || 'input-label'}>
+          {label}
+        </Form.Label>
+      )}
       <Form.Control
         {...formControlProps}
         value={value}
@@ -45,6 +48,11 @@ const Input: React.FC<PathProps> = ({
           }
         }}
       />
+      {isInvalid && error && (
+        <Form.Label className={errorClassName || 'input-error'}>
+          {error}
+        </Form.Label>
+      )}
     </Form.Group>
   );
 };

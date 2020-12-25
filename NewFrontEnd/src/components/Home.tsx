@@ -35,20 +35,6 @@ const Home: React.FC = () => {
             <Filter />
           </div>
 
-          {/* temp */}
-          <div>
-            <Input />
-            <Input readOnly />
-            <Input isValid />
-            <Input isInvalid />
-            <Input isValid isInvalid />
-            <Input value="I'm okay!" />
-            {/* <Input value="I'm okay!" /> */}
-            <Input readOnly isValid value="I'm okay!" />
-            <Input readOnly isInvalid value="I'm nokay" />
-            {/* <Input /> */}
-          </div>
-
           <div>
             <HousingList />
           </div>
