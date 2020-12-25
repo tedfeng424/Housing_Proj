@@ -11,6 +11,7 @@ import TV from './TV';
 import Login from './Login';
 import HousingPost from './HousingPostForm';
 import BookmarksList from './BookmarksList';
+import Input from './basics/Input';
 
 const Home: React.FC = () => {
   const [showLogin, setShowLogin] = useState<boolean>(false);

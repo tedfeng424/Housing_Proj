@@ -49,6 +49,14 @@
     font-weight: $regular-font-weight;
     font-size: $sm-font-size;
     color: $secondary-dark-color;
+  } @else if $type == 'label-text' {
+    font-weight: $regular-font-weight;
+    font-size: $sm-font-size;
+    color: $primary-dark-color;
+  } @else if $type == 'error-label-text' {
+    font-weight: $regular-font-weight;
+    font-size: $xs-font-size;
+    color: $error-color;
   } @else if $type == 'subtitle' {
     font-weight: $regular-font-weight;
     font-size: $xs-font-size;
