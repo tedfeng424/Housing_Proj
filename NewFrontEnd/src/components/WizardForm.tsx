@@ -67,7 +67,7 @@ const WizardForm = <T extends {}>({
   );
   const [CurStep, setCurStep] = useState<React.ReactElement>(children[0]);
 
-  const [store, setCompleteStore] = useState<Array<Partial<T>>>(initialStore);
+  const [store, setCompleteStore] = useState<Array<Partial<T>>>(initialStore); // TODO maybe add useEffect so that whenever the initialStore changes, it updates the store (might cause issues tho, if the user makes changes and then we change the initialState, it'll override the changes). maybe what you should do is just not display the modal unless the show is true -- then you could have a useeffect on the show, and whenever the show becomes true, you should update the intialState with the current value?
   // TODO const [curStore, setCurStore] = useState<>
 
   // keeps track of the errors for each field

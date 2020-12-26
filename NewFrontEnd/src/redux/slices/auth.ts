@@ -7,14 +7,14 @@ import {
   userEditProfile,
   createNewUserApi,
 } from '../../apis/index';
-import { User } from '../../assets/models/User';
+import { User, UserNameEmail } from '../../assets/models/User';
 
 const cookies = new Cookies();
 
 interface AuthState {
   user?: User;
   userDraft?: User; // TODO change this to not be stored in redux and cookies
-  showNewUserPopup: boolean;
+  showNewUserPopup?: UserNameEmail;
 }
 
 const initialState: AuthState = {
@@ -26,7 +26,7 @@ const initialState: AuthState = {
   //   imageUrl: 'image',
   //   token: 'fake',
   // },
-  showNewUserPopup: false,
+  showNewUserPopup: undefined,
 };
 
 export const authSlice = createSlice({
@@ -55,11 +55,14 @@ export const authSlice = createSlice({
         cookies.remove('userDraft');
       }
     },
-    startNewUserFlow: (state) => {
-      state.showNewUserPopup = true;
+    startNewUserFlow: (
+      state,
+      action: PayloadAction<UserNameEmail | undefined>,
+    ) => {
+      state.showNewUserPopup = action.payload;
     },
     endNewUserFlow: (state) => {
-      state.showNewUserPopup = true;
+      state.showNewUserPopup = undefined;
     },
   },
 });
@@ -81,7 +84,7 @@ export const login = (name: string, email: string): AppThunk => async (
     console.log('HERE');
     if ('newUser' in response) {
       console.log('HERE CONTINUED');
-      dispatch(startNewUserFlow());
+      dispatch(startNewUserFlow({ name, email }));
     } else {
       dispatch(
         setUser({

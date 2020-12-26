@@ -29,14 +29,18 @@ const Home: React.FC = () => {
       {/* Modals */}
       <Login show={showLogin} handleClose={handleCloseLogin} />
       <HousingPost show={showHousingPost} setShow={setShowHousingPost} />
-      <NewUserSetup
-        show={showNewUserPopup}
-        setShow={(value: boolean) => {
-          console.log(
-            'uhhh no clicking out of this form buddy! we gotta make the x look disabled in the future.',
-          );
-        }}
-      />
+      {showNewUserPopup !== undefined && ( // TODO temporary. Should handle in the wizard form i think
+        <NewUserSetup
+          show={showNewUserPopup !== undefined}
+          setShow={(value: boolean) => {
+            console.log(
+              'uhhh no clicking out of this form buddy! we gotta make the x look disabled in the future.',
+            );
+          }}
+          name={showNewUserPopup?.name}
+          email={showNewUserPopup?.email}
+        />
+      )}
 
       {/* The actual home page */}
       <Row>
