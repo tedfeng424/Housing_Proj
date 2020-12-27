@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import { selectShowNewUserPopup, selectUser } from '../redux/slices/auth';
+import { selectShowNewUserPopup } from '../redux/slices/auth';
 import HousingList from './HouseCardList';
 import Filter from './Filter';
 import TV from './TV';
@@ -22,7 +22,6 @@ const Home: React.FC = () => {
 
   const [showHousingPost, setShowHousingPost] = useState<boolean>(false);
   const handleShowHousingPost = () => setShowHousingPost(true);
-  const user = useSelector(selectUser);
 
   return (
     <Container fluid>
