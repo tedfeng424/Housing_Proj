@@ -56,7 +56,8 @@ const Home: React.FC = () => {
         <div className="home-sidebar d-flex flex-column">
           <div className="mb-3">
             <TV>
-              {!user ? (
+              {/* TODO !user will be hardcoded to false while new-user-popup is being worked on */}
+              {false ? (
                 <>
                   <div className="special-text mt-3">Hello</div>
                   <div className="tv-separator" />
