@@ -5,35 +5,45 @@ import WizardForm from '../WizardForm';
 
 type Store = Page1Store & Page2Store;
 
-const initialStore = [page1InitialStore, page2InitialStore];
-
 const schemas = [page1Schema, page2Schema];
 
 interface NewUserSetupProps {
   show: boolean;
   setShow: (show: boolean) => void;
+  name?: string;
+  email?: string;
 }
 
 // TODO only show PostPage1 for first time user
-const NewUserSetup: React.FC<NewUserSetupProps> = ({ show, setShow }) => (
-  <WizardForm<Store>
-    show={show}
-    setShow={setShow}
-    onSubmit={(n) => {
-      console.log('clicked');
-      console.log(n);
+const NewUserSetup: React.FC<NewUserSetupProps> = ({
+  show,
+  setShow,
+  name,
+  email,
+}) => {
+  console.log('hereeee');
+  console.log(name);
+  console.log(email);
+  return (
+    <WizardForm<Store>
+      show={show}
+      setShow={setShow}
+      onSubmit={(n) => {
+        console.log('clicked');
+        console.log(n);
 
-      // TODO query the create_user endpoint
+        // TODO query the create_user endpoint
 
-      return true;
-    }}
-    title="Set up your account"
-    initialStore={initialStore}
-    schemas={schemas}
-  >
-    <Page1 />
-    <Page2 />
-  </WizardForm>
-);
+        return true;
+      }}
+      title="Set up your account"
+      initialStore={[{ ...page1InitialStore, name, email }, page2InitialStore]}
+      schemas={schemas}
+    >
+      <Page1 />
+      <Page2 />
+    </WizardForm>
+  );
+};
 
 export default NewUserSetup;

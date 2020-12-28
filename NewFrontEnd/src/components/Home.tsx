@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import { selectShowNewUserPopup, selectUser } from '../redux/slices/auth';
+import { selectShowNewUserPopup } from '../redux/slices/auth';
 import HousingList from './HouseCardList';
 import Filter from './Filter';
 import TV from './TV';
@@ -22,21 +22,24 @@ const Home: React.FC = () => {
 
   const [showHousingPost, setShowHousingPost] = useState<boolean>(false);
   const handleShowHousingPost = () => setShowHousingPost(true);
-  const user = useSelector(selectUser);
 
   return (
     <Container fluid>
       {/* Modals */}
       <Login show={showLogin} handleClose={handleCloseLogin} />
       <HousingPost show={showHousingPost} setShow={setShowHousingPost} />
-      <NewUserSetup
-        show={showNewUserPopup}
-        setShow={(value: boolean) => {
-          console.log(
-            'uhhh no clicking out of this form buddy! we gotta make the x look disabled in the future.',
-          );
-        }}
-      />
+      {showNewUserPopup !== undefined && ( // TODO temporary. Should handle in the wizard form i think
+        <NewUserSetup
+          show={showNewUserPopup !== undefined}
+          setShow={(value: boolean) => {
+            console.log(
+              'uhhh no clicking out of this form buddy! we gotta make the x look disabled in the future.',
+            );
+          }}
+          name={showNewUserPopup?.name}
+          email={showNewUserPopup?.email}
+        />
+      )}
 
       {/* The actual home page */}
       <Row>

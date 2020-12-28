@@ -6,6 +6,7 @@ import * as z from 'zod';
 import { Form } from 'react-bootstrap';
 import { WizardFormStep } from '../WizardForm';
 import { SchoolYear, NON_EMPTY_ERR_MSG } from '../../assets/constants';
+import Input from '../basics/Input';
 
 const nonSelectStyle = 'post-word-sub';
 const selectStyle = 'post-word-sub post-word-sub-selected';
@@ -16,6 +17,8 @@ const SelectBg = 'post-word-sub-bg post-word-sub-bg-selected';
 const phoneRegex = /^([ ]*\+?[ ]*[0-9]{0,4}[ ]*(-|\()?[0-9]{3}[ ]*(-|\))?[ ]*[0-9]{3}[ ]*-?[ ]*[0-9]{4}[ ]*)$/;
 
 export const page1Schema = z.object({
+  name: z.string().nonempty(NON_EMPTY_ERR_MSG),
+  email: z.string().email('Email is not in a valid format.'),
   leaserPhone: z
     .string()
     .nonempty(NON_EMPTY_ERR_MSG)
@@ -27,12 +30,16 @@ export const page1Schema = z.object({
 export type Page1Store = z.infer<typeof page1Schema>;
 
 export const page1InitialStore: Page1Store = {
+  name: '',
+  email: '',
   leaserPhone: '',
   schoolYear: SchoolYear.First,
   major: '',
 };
 
 const Page1: React.FC<WizardFormStep<Page1Store>> = ({
+  name,
+  email,
   leaserPhone,
   schoolYear,
   major,
@@ -41,21 +48,35 @@ const Page1: React.FC<WizardFormStep<Page1Store>> = ({
 }) => {
   return (
     <Container>
-      <Form.Row className="justify-content-center m-2">
-        <Form.Label className="post-word">Phone</Form.Label>
-        <Form.Control
-          className="single-line-input"
-          type="text"
-          value={leaserPhone}
-          onChange={(e) => setStore({ leaserPhone: e.target.value })}
-          isValid={validations?.leaserPhone?.success}
-          placeholder="Phone number"
-        />
-        <div className="wizard-form-invalid-feedback">
-          {!validations?.leaserPhone?.success &&
-            validations?.leaserPhone?.error}
-        </div>
-      </Form.Row>
+      <Row className="justify-content-center m-2">
+        <Col md={12}>
+          <Input
+            label="Name"
+            type="text"
+            value={name}
+            onChange={(e) => setStore({ name: e.target.value })}
+            placeholder="Name"
+            isValid={validations?.name?.success}
+            error={validations?.name?.error}
+          />
+        </Col>
+
+        <Col sm={12} md={6}>
+          <Input label="Email" type="text" value={email} readOnly />
+        </Col>
+
+        <Col sm={12} md={6}>
+          <Input
+            label="Phone"
+            type="text"
+            value={leaserPhone}
+            onChange={(e) => setStore({ leaserPhone: e.target.value })}
+            placeholder="Phone number"
+            isValid={validations?.leaserPhone?.success}
+            error={validations?.leaserPhone?.error}
+          />
+        </Col>
+      </Row>
       <br />
       <Row>
         <Col>

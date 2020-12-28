@@ -30,6 +30,8 @@ const Login: React.FC<PathProps> = ({ handleClose, show }) => {
   ) => {
     if (isOnline(response)) {
       const profile = response.profileObj;
+      console.log(profile); // TODO
+      console.log(response);
       dispatch(login(profile.name, profile.email));
     } else {
       console.log('User is offline');

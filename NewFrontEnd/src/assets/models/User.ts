@@ -1,6 +1,9 @@
-export interface User {
+export interface UserNameEmail {
   name: string;
   email: string;
+}
+
+export interface User extends UserNameEmail {
   token: string;
   description: string;
   major: string;
