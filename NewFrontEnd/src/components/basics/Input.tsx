@@ -26,7 +26,11 @@ const Input: React.FC<PathProps> = ({
   return (
     <Form.Group>
       {label && (
-        <Form.Label className={labelClassName || 'input-label'}>
+        <Form.Label
+          className={
+            labelClassName ? `${labelClassName} input-label` : 'input-label'
+          }
+        >
           {label}
         </Form.Label>
       )}
@@ -35,8 +39,8 @@ const Input: React.FC<PathProps> = ({
         value={value}
         className={
           (isEmpty && !readOnly ? 'input-unfilled ' : 'input-filled ') +
-          (readOnly ? 'input-readonly' : '') +
-          (isInvalid && !readOnly ? 'input-invalid' : '') +
+          (readOnly ? 'input-readonly ' : '') +
+          (isInvalid && !readOnly ? 'input-invalid ' : '') +
           className
         }
         isValid={!readOnly && isValid}
