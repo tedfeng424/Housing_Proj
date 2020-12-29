@@ -70,16 +70,11 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [filter, setFilter] = useState<string | undefined>();
   const [filteredOptions, setFilteredOptions] = useState<string[]>(options);
 
-  const n = useRef<number>(1);
-
   const dropdownRef = useRef<HTMLElement>();
   const dropdownMenuRef = useRef<HTMLDivElement>(null);
   useClickAwayListener(
     [dropdownRef, dropdownMenuRef],
-    () => {
-      console.log('clicked away');
-      setFilter(undefined);
-    },
+    () => setFilter(undefined),
     !noFilter,
   );
 
@@ -89,12 +84,10 @@ const Dropdown: React.FC<DropdownProps> = ({
   };
 
   useEffect(() => {
-    console.log('HI', n.current++);
-    setFilteredOptions(
-      options.filter((option) =>
-        option.toLowerCase().includes(filter?.toLowerCase() || ''),
-      ),
+    const filtered = options.filter(
+      (option) => option.toLowerCase().includes(filter?.toLowerCase() || ''), // TODO for some reason filtering with a space causes issues?
     );
+    setFilteredOptions(filtered);
   }, [filter, options]);
 
   return (
@@ -118,7 +111,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         className={`homehub-dropdown ${className}`}
         {...dropdownProps}
       >
-        <BootstrapDropdown.Toggle
+        <BootstrapDropdown.Toggle // TODO need to get rid of the toggle since html can't have a button within another button
           variant="no-show"
           className="dropdown-toggle"
           onFocus={() => {
@@ -146,8 +139,7 @@ const Dropdown: React.FC<DropdownProps> = ({
               }}
             />
 
-            <Button
-              variant="" // TODO temporary, fix
+            <div
               className={
                 (isEmpty && !isFocused
                   ? 'dropdown-drop-btn-unfilled '
@@ -156,7 +148,7 @@ const Dropdown: React.FC<DropdownProps> = ({
               }
             >
               <div className="dropdown-drop-btn-arrow" />
-            </Button>
+            </div>
           </div>
         </BootstrapDropdown.Toggle>
 

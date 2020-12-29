@@ -59,8 +59,11 @@
 }
 
 .dropdown-drop-btn {
+  @extend .btn;
+
   border-radius: 0 $input-border-radius $input-border-radius 0;
   box-shadow: none !important;
+  display: flex;
 
   &-unfilled {
     @extend .dropdown-drop-btn;
@@ -78,6 +81,7 @@
   }
 
   &-arrow {
+    align-self: center;
     height: 4px;
     width: 0px;
     border: 8.5px transparent solid;
