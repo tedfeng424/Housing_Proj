@@ -111,12 +111,10 @@ const Dropdown: React.FC<DropdownProps> = ({
         className={`homehub-dropdown ${className}`}
         {...dropdownProps}
       >
-        <BootstrapDropdown.Toggle // TODO need to get rid of the toggle since html can't have a button within another button
+        <BootstrapDropdown.Toggle
           variant="no-show"
           className="dropdown-toggle"
-          onFocus={() => {
-            setIsFocused(true);
-          }}
+          onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
         >
           <div className="d-flex flex-nowrap">

@@ -92,6 +92,8 @@
 }
 
 .dropdown-toggle {
+  width: 100%;
+
   input, .form-control:disabled, .form-control[readonly] {
     cursor: pointer;
     background-color: white;
@@ -114,6 +116,10 @@
     .dropdown-item {
       background-color: $primary-1-color;
       color: $primary-dark-color;
+
+      &:active, &.active, &:hover, &:focus {
+        background-color: $primary-2-color;
+      }
     }
   }
 }
