@@ -51,6 +51,10 @@ const Home: React.FC = () => {
             <Filter />
           </div>
 
+          <Dropdown
+            options={['hello', 'hello there', 'why hello there sir', 'ganga']}
+          />
+
           <div>
             <HousingList />
           </div>

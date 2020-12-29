@@ -1,7 +1,38 @@
-import React, { useState } from 'react';
+// TODO add ability to type and filter what is being shown. Add option to not make it typeable too
+
+import { ClickAwayListener, Portal } from '@material-ui/core'; // TODO uninstall
+import React, { useState, useEffect, useRef, MutableRefObject } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import BootstrapDropdown, * as BootstrapDropdownMetadata from 'react-bootstrap/Dropdown';
 import * as z from 'zod';
+
+const useClickAwayListener = (
+  refs: MutableRefObject<HTMLElement | undefined | null>[],
+  onClickAway: (e: MouseEvent) => any,
+  active = true,
+) => {
+  useEffect(() => {
+    const handleClickAway = (e: MouseEvent) => {
+      if (
+        active &&
+        e.target !== null &&
+        !refs.find(
+          (ref) =>
+            ref && ref.current && ref.current.contains(e.target as Element),
+        )
+      ) {
+        onClickAway(e);
+      }
+    };
+
+    // Bind the event listener
+    document.addEventListener('click', handleClickAway);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener('click', handleClickAway);
+    };
+  }, [refs, onClickAway, active]);
+};
 
 interface DropdownProps extends BootstrapDropdownMetadata.DropdownProps {
   options: string[];
@@ -14,6 +45,7 @@ interface DropdownProps extends BootstrapDropdownMetadata.DropdownProps {
   isInvalid?: boolean;
   isValid?: boolean;
   required?: boolean;
+  noFilter?: boolean; // Will make the user unable to filter through the options by typing in the dropdown's input
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -26,6 +58,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   isInvalid,
   isValid, // only provide this if you want a green checkmark. Should only be provided when multiple dropdowns are working in unison
   required,
+  noFilter,
   className = '',
   options,
   onSelect,
@@ -34,12 +67,41 @@ const Dropdown: React.FC<DropdownProps> = ({
   const [selected, setSelected] = useState<string | undefined>(initialSelected);
   const [isEmpty, setIsEmpty] = useState<boolean>(!selected || selected === '');
   const [isFocused, setIsFocused] = useState<boolean>(false);
+  const [filter, setFilter] = useState<string | undefined>();
+  const [filteredOptions, setFilteredOptions] = useState<string[]>(options);
+
+  const n = useRef<number>(1);
+
+  const dropdownRef = useRef<HTMLElement>();
+  const dropdownMenuRef = useRef<HTMLDivElement>(null);
+  useClickAwayListener(
+    [dropdownRef, dropdownMenuRef],
+    () => {
+      console.log('clicked away');
+      setFilter(undefined);
+    },
+    !noFilter,
+  );
+
+  const updateIsEmpty = (s?: string | null) => {
+    if (s) setIsEmpty(!s || s === '');
+    else setIsEmpty(!selected || selected === '');
+  };
+
+  useEffect(() => {
+    console.log('HI', n.current++);
+    setFilteredOptions(
+      options.filter((option) =>
+        option.toLowerCase().includes(filter?.toLowerCase() || ''),
+      ),
+    );
+  }, [filter, options]);
 
   return (
     <Form.Group>
       {(label || required) && (
         <Form.Label className={labelClassName}>
-          {label}{' '}
+          {label}
           {required && <span className="input-required-asterisk"> *</span>}
         </Form.Label>
       )}
@@ -47,10 +109,12 @@ const Dropdown: React.FC<DropdownProps> = ({
       <BootstrapDropdown
         onSelect={(s, e) => {
           setSelected(s || undefined);
-          setIsEmpty(!s || s === '');
+          updateIsEmpty(s);
+          setFilter(undefined);
 
           if (onSelect) onSelect(s, e);
         }}
+        ref={dropdownRef}
         className={`homehub-dropdown ${className}`}
         {...dropdownProps}
       >
@@ -60,13 +124,11 @@ const Dropdown: React.FC<DropdownProps> = ({
           onFocus={() => {
             setIsFocused(true);
           }}
-          onBlur={() => {
-            setIsFocused(false);
-          }}
+          onBlur={() => setIsFocused(false)}
         >
           <div className="d-flex flex-nowrap">
             <Form.Control
-              value={selected || ''}
+              value={filter !== undefined ? filter : selected || ''}
               placeholder={placeholder}
               className={`${
                 (isEmpty && !isFocused
@@ -75,11 +137,17 @@ const Dropdown: React.FC<DropdownProps> = ({
                 (isInvalid || error ? 'dropdown-invalid ' : '')
               } dropdown-straighten-right`}
               isValid={isValid}
-              readOnly
+              readOnly={noFilter}
+              onChange={(e) => {
+                if (!noFilter) setFilter(e.target.value);
+              }}
+              onFocus={() => {
+                if (!noFilter) setFilter('');
+              }}
             />
 
             <Button
-              variant="" // TODO temporary fix
+              variant="" // TODO temporary, fix
               className={
                 (isEmpty && !isFocused
                   ? 'dropdown-drop-btn-unfilled '
@@ -92,8 +160,8 @@ const Dropdown: React.FC<DropdownProps> = ({
           </div>
         </BootstrapDropdown.Toggle>
 
-        <BootstrapDropdown.Menu>
-          {options.map((option) => (
+        <BootstrapDropdown.Menu ref={dropdownMenuRef}>
+          {filteredOptions.map((option) => (
             <BootstrapDropdown.Item eventKey={option}>
               {option}
             </BootstrapDropdown.Item>
