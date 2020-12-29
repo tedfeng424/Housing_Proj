@@ -13,6 +13,7 @@ interface DropdownProps extends BootstrapDropdownMetadata.DropdownProps {
   placeholder?: string;
   isInvalid?: boolean;
   isValid?: boolean;
+  required?: boolean;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -24,6 +25,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   placeholder,
   isInvalid,
   isValid, // only provide this if you want a green checkmark. Should only be provided when multiple dropdowns are working in unison
+  required,
   className = '',
   options,
   onSelect,
@@ -35,7 +37,12 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   return (
     <Form.Group>
-      <Form.Label className={labelClassName}>{label}</Form.Label>
+      {(label || required) && (
+        <Form.Label className={labelClassName}>
+          {label}{' '}
+          {required && <span className="input-required-asterisk"> *</span>}
+        </Form.Label>
+      )}
 
       <BootstrapDropdown
         onSelect={(s, e) => {
@@ -44,6 +51,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
           if (onSelect) onSelect(s, e);
         }}
+        className={`homehub-dropdown ${className}`}
         {...dropdownProps}
       >
         <BootstrapDropdown.Toggle
@@ -64,8 +72,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                 (isEmpty && !isFocused
                   ? 'dropdown-unfilled '
                   : 'dropdown-filled ') +
-                (isInvalid || error ? 'dropdown-invalid ' : '') +
-                className
+                (isInvalid || error ? 'dropdown-invalid ' : '')
               } dropdown-straighten-right`}
               isValid={isValid}
               readOnly

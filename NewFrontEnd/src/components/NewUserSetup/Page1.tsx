@@ -5,8 +5,9 @@ import Col from 'react-bootstrap/Col';
 import * as z from 'zod';
 import { Form } from 'react-bootstrap';
 import { WizardFormStep } from '../WizardForm';
-import { SchoolYear, NON_EMPTY_ERR_MSG } from '../../assets/constants';
+import { SchoolYear, NON_EMPTY_ERR_MSG, majors } from '../../assets/constants';
 import Input from '../basics/Input';
+import Dropdown from '../basics/Dropdown';
 
 const nonSelectStyle = 'post-word-sub';
 const selectStyle = 'post-word-sub post-word-sub-selected';
@@ -54,6 +55,7 @@ const Page1: React.FC<WizardFormStep<Page1Store>> = ({
             label="Name"
             type="text"
             value={name}
+            required
             onChange={(e) => setStore({ name: e.target.value })}
             placeholder="Name"
             isValid={validations?.name?.success}
@@ -70,16 +72,15 @@ const Page1: React.FC<WizardFormStep<Page1Store>> = ({
             label="Phone"
             type="text"
             value={leaserPhone}
+            required
             onChange={(e) => setStore({ leaserPhone: e.target.value })}
             placeholder="Phone number"
             isValid={validations?.leaserPhone?.success}
             error={validations?.leaserPhone?.error}
           />
         </Col>
-      </Row>
-      <br />
-      <Row>
-        <Col>
+
+        <Col md={12}>
           <Row className="post-word">School year</Row>
           <br />
           <Row>
@@ -173,24 +174,20 @@ const Page1: React.FC<WizardFormStep<Page1Store>> = ({
             </div>
           </Row>
         </Col>
-      </Row>
-      <br />
-      <Form.Group>
-        <Form.Row className="justify-content-center m-2">
-          <Form.Label className="post-word">Major</Form.Label>
-          <Form.Control
-            className="single-line-input"
-            type="text"
-            value={major || ''}
-            onChange={(e) => setStore({ major: e.target.value })}
-            isValid={validations?.major?.success}
+
+        <Col md={12}>
+          <Dropdown
+            options={majors}
+            label="Major"
+            onSelect={(s) => setStore({ major: s || undefined })}
+            initialSelected={major}
             placeholder="Major"
+            isValid={validations?.major?.success}
+            error={validations?.major?.error}
+            required
           />
-          <div className="wizard-form-invalid-feedback">
-            {!validations?.major?.success && validations?.major?.error}
-          </div>
-        </Form.Row>
-      </Form.Group>
+        </Col>
+      </Row>
     </Container>
   );
 };

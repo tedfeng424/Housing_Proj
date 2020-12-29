@@ -2,6 +2,7 @@ import React from 'react';
 import * as z from 'zod';
 import { Container, Form, Row } from 'react-bootstrap';
 import { WizardFormStep } from '../WizardForm';
+import Input from '../basics/Input';
 
 export const page2Schema = z.object({
   leaserIntro: z
@@ -23,21 +24,17 @@ const PostPage2: React.FC<WizardFormStep<Page2Store>> = ({
 }) => {
   return (
     <Container>
-      <Row>
-        <Form.Group className="w-100">
-          <Form.Label className="post-word">
-            What's your lifestyle like?
-          </Form.Label>
-          <Form.Control
-            className="post-text"
-            as="textarea"
-            value={leaserIntro}
-            placeholder="Introduce yourself to your potential roommates!"
-            rows={10}
-            onChange={(e) => setStore({ leaserIntro: e.target.value })}
-          />
-        </Form.Group>
-      </Row>
+      <Input
+        label="What's your lifestyle like?"
+        as="textarea"
+        value={leaserIntro}
+        placeholder="Introduce yourself to your potential roommates!"
+        rows={10}
+        onChange={(e) => setStore({ leaserIntro: e.target.value })}
+        isValid={validations?.leaserIntro?.success}
+        error={validations?.leaserIntro?.error}
+        required
+      />
     </Container>
   );
 };

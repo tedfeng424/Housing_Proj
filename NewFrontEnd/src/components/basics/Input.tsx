@@ -2,13 +2,18 @@ import React, { useState } from 'react';
 import { Form, FormControlProps } from 'react-bootstrap';
 import * as z from 'zod';
 
-export interface InputProps extends FormControlProps {
-  // TODO try extending from React.RefAttributes<HTMLInputElement> also to fix placeholder
+export interface InputProps
+  extends FormControlProps,
+    Omit<
+      React.HTMLAttributes<HTMLInputElement | HTMLTextAreaElement>,
+      'onChange'
+    > {
   label?: string;
   labelClassName?: string;
   error?: string | z.ZodIssue; // Will make the input border red as well
   errorClassName?: string;
-  placeholder?: string; // TODO should be in the FormControlProps???
+  required?: boolean;
+  rows?: number; // TODO should be in the html attributes of htmltextareaelement???
 }
 
 const Input: React.FC<InputProps> = ({
@@ -16,6 +21,7 @@ const Input: React.FC<InputProps> = ({
   labelClassName = 'input-label',
   error,
   errorClassName = 'input-error',
+  required,
   className = '',
   readOnly,
   onChange,
@@ -28,7 +34,12 @@ const Input: React.FC<InputProps> = ({
 
   return (
     <Form.Group>
-      {label && <Form.Label className={labelClassName}>{label}</Form.Label>}
+      {(label || required) && (
+        <Form.Label className={labelClassName}>
+          {label}
+          {required && <span className="input-required-asterisk"> *</span>}
+        </Form.Label>
+      )}
       <Form.Control
         {...formControlProps}
         value={value}

@@ -53,3 +53,7 @@
 .input-error {
   @include font-type('error-label-text');
 }
+
+.input-required-asterisk {
+  @include font-type('primary-input-text');
+}
