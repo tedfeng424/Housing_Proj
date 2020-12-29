@@ -4,6 +4,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+// import { Dropdown, DropdownButton, InputGroup } from 'react-bootstrap';
 import { selectShowNewUserPopup } from '../redux/slices/auth';
 import HousingList from './HouseCardList';
 import Filter from './Filter';
@@ -12,6 +13,8 @@ import Login from './Login';
 import HousingPost from './HousingPostForm';
 import BookmarksList from './BookmarksList';
 import NewUserSetup from './NewUserSetup';
+import Input from './basics/Input';
+import Dropdown from './basics/Dropdown';
 
 const Home: React.FC = () => {
   const showNewUserPopup = useSelector(selectShowNewUserPopup);

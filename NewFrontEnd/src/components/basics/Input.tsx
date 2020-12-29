@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Form, FormControlProps } from 'react-bootstrap';
 import * as z from 'zod';
 
-interface PathProps extends FormControlProps {
+export interface InputProps extends FormControlProps {
+  // TODO try extending from React.RefAttributes<HTMLInputElement> also to fix placeholder
   label?: string;
   labelClassName?: string;
   error?: string | z.ZodIssue; // Will make the input border red as well
@@ -10,11 +11,11 @@ interface PathProps extends FormControlProps {
   placeholder?: string; // TODO should be in the FormControlProps???
 }
 
-const Input: React.FC<PathProps> = ({
+const Input: React.FC<InputProps> = ({
   label,
-  labelClassName,
+  labelClassName = 'input-label',
   error,
-  errorClassName,
+  errorClassName = 'input-error',
   className = '',
   readOnly,
   onChange,
@@ -27,18 +28,14 @@ const Input: React.FC<PathProps> = ({
 
   return (
     <Form.Group>
-      {label && (
-        <Form.Label className={labelClassName || 'input-label'}>
-          {label}
-        </Form.Label>
-      )}
+      {label && <Form.Label className={labelClassName}>{label}</Form.Label>}
       <Form.Control
         {...formControlProps}
         value={value}
         className={
           (isEmpty && !readOnly ? 'input-unfilled ' : 'input-filled ') +
           (readOnly ? 'input-readonly' : '') +
-          ((isInvalid || error) && !readOnly ? 'input-invalid' : '') +
+          ((isInvalid || error) && !readOnly ? 'input-invalid ' : '') +
           className
         }
         isValid={!readOnly && isValid}
@@ -50,11 +47,7 @@ const Input: React.FC<PathProps> = ({
           }
         }}
       />
-      {error && (
-        <Form.Label className={errorClassName || 'input-error'}>
-          {error}
-        </Form.Label>
-      )}
+      {error && <Form.Label className={errorClassName}>{error}</Form.Label>}
     </Form.Group>
   );
 };
