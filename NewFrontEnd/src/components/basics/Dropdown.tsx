@@ -1,11 +1,9 @@
-// TODO add ability to type and filter what is being shown. Add option to not make it typeable too
-
-import { ClickAwayListener, Portal } from '@material-ui/core'; // TODO uninstall
 import React, { useState, useEffect, useRef, MutableRefObject } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import BootstrapDropdown, * as BootstrapDropdownMetadata from 'react-bootstrap/Dropdown';
 import * as z from 'zod';
 
+// TODO make this its own component/file
 const useClickAwayListener = (
   refs: MutableRefObject<HTMLElement | undefined | null>[],
   onClickAway: (e: MouseEvent) => any,
