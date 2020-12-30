@@ -7,7 +7,6 @@ import {
   Modal,
   Row,
   Dropdown,
-  FormCheck,
 } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import Image from 'react-bootstrap/Image';

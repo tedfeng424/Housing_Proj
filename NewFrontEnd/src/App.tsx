@@ -3,7 +3,9 @@ import Cookies from 'universal-cookie';
 import { useDispatch } from 'react-redux';
 import NavBar from './components/NavBar';
 import Home from './components/Home';
+import Landing from './components/Landing';
 import { setUser } from './redux/slices/auth';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 function App() {
   // const cookies = new Cookies();
@@ -16,10 +18,15 @@ function App() {
   // }, [cookies, dispatch]);
 
   return (
-    <div className="App">
-      <NavBar />
-      <Home />
-    </div>
+    <Router>
+      <div className="App">
+        <NavBar />
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/landing" component={Landing} />
+        </Switch>
+      </div>
+    </Router>
   );
 }
 

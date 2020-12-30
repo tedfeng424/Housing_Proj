@@ -6,14 +6,15 @@ import { logout, selectUser } from '../redux/slices/auth';
 import Login from './Login';
 import ProfileModal from './ProfileModal';
 import { navIcons } from '../assets/icons/all';
+import { useLocation } from 'react-router-dom';
 
 const NavBar: React.FC = () => {
   const [showLogin, setShowLogin] = useState<boolean>(false);
   const [showProfile, setShowProfile] = useState<boolean>(false);
-
+  const location = useLocation();
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
-
+  console.log(location.pathname, 'ggggg');
   return (
     <>
       <Login show={showLogin} handleClose={() => setShowLogin(false)} />
@@ -27,32 +28,33 @@ const NavBar: React.FC = () => {
           </div>
 
           <div>
-            {!user ? (
-              <Button
-                variant="no-show"
-                className="g-sign-in"
-                onClick={() => setShowLogin(true)}
-              >
-                Sign In
-              </Button>
-            ) : (
-              <>
+            {location.pathname !== '/landing' &&
+              (!user ? (
                 <Button
                   variant="no-show"
                   className="g-sign-in"
-                  onClick={() => setShowProfile(true)}
+                  onClick={() => setShowLogin(true)}
                 >
-                  Profile
+                  Sign In
                 </Button>
-                <Button
-                  variant="no-show"
-                  className="g-sign-out"
-                  onClick={() => dispatch(logout())}
-                >
-                  Log Out
-                </Button>
-              </>
-            )}
+              ) : (
+                <>
+                  <Button
+                    variant="no-show"
+                    className="g-sign-in"
+                    onClick={() => setShowProfile(true)}
+                  >
+                    Profile
+                  </Button>
+                  <Button
+                    variant="no-show"
+                    className="g-sign-out"
+                    onClick={() => dispatch(logout())}
+                  >
+                    Log Out
+                  </Button>
+                </>
+              ))}
           </div>
         </Container>
       </Navbar>
