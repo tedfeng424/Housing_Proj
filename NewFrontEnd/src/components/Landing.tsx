@@ -80,7 +80,7 @@ export default function Landing() {
         </Col>
       </Row>
       <Row className="justify-content-center">
-        <Button variant="secondary" href="https://www.google.com/">
+        <Button variant="secondary" href="https://forms.gle/jxmNTJE6L2dZBsug9">
           <div className="landing-button-inner">Sign up FOR FREE</div>
         </Button>
       </Row>
