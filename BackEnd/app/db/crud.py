@@ -113,8 +113,6 @@ def room_json(room, session):
         'early': house_move_in.early_interval + " " + house_move_in.early_month,
         'late': house_move_in.late_interval + " " + house_move_in.late_month,
         'roomType': r_json['room_type'],
-        'noRooms': r_json['no_rooms'],
-        'noBathrooms': r_json['no_bathrooms'],
         'other': other_map['other'],
         'facilities': other_map['facilities'],
         'leaserName': house_user.name,
@@ -127,7 +125,9 @@ def room_json(room, session):
         'profilePhoto': 'https://houseit.s3.us-east-2.amazonaws.com/' +
         get_images(house_user.email, category="profile")[0],
         'roomId': r_json['id'],
-        'negotiable': r_json['negotiable']
+        'negotiable': r_json['negotiable'],
+        'numBaths': r_json['no_bathrooms'],
+        'numBeds': r_json['no_rooms']
     }
     return return_json
 

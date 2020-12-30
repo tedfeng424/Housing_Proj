@@ -72,6 +72,8 @@ const HouseProfile: React.FC<PathProps> = ({
   show,
   setShow,
   negotiable,
+  numBaths,
+  numBeds,
 }) => {
   const favorites = useSelector(selectHousingFavorites);
   const user = useSelector(selectUser);
@@ -212,6 +214,8 @@ const HouseProfile: React.FC<PathProps> = ({
                     leaserIntro,
                     roomId,
                     negotiable,
+                    numBaths,
+                    numBeds,
                   };
                   if (favorites && favorites[roomId]) {
                     // need to remove from the favorites
