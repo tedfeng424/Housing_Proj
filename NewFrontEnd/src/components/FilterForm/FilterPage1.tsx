@@ -1,9 +1,6 @@
 import React from 'react';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { Container, Row, Col, Form } from 'react-bootstrap';
 import * as z from 'zod';
-import { Form } from 'react-bootstrap';
 import { WizardFormStep } from '../WizardForm';
 import Input from '../basics/Input';
 
@@ -27,6 +24,12 @@ const Page1: React.FC<WizardFormStep<Page1Store>> = ({
 }) => {
   return (
     <Container>
+      <Row>
+        <Col>
+          <span className="post-title">Distance to School</span>
+        </Col>
+      </Row>
+
       <Form.Row className="justify-content-center m-2">
         <Col>
           <Input

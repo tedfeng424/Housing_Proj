@@ -15,6 +15,7 @@ import BookmarksList from './BookmarksList';
 import NewUserSetup from './NewUserSetup';
 import Input from './basics/Input';
 import Dropdown from './basics/Dropdown';
+import FilterForm from './FilterForm';
 
 const Home: React.FC = () => {
   const showNewUserPopup = useSelector(selectShowNewUserPopup);
@@ -26,11 +27,18 @@ const Home: React.FC = () => {
   const [showHousingPost, setShowHousingPost] = useState<boolean>(false);
   const handleShowHousingPost = () => setShowHousingPost(true);
 
+  const [showFilterForm, setShowFilterForm] = useState<boolean>(false);
+  const handleShowFilterForm = () => setShowFilterForm(true);
+
   return (
     <Container fluid>
       {/* Modals */}
       <Login show={showLogin} handleClose={handleCloseLogin} />
       <HousingPost show={showHousingPost} setShow={setShowHousingPost} />
+
+      {/* temp */}
+      <FilterForm show={showFilterForm} setShow={setShowFilterForm} />
+
       {showNewUserPopup !== undefined && ( // TODO temporary. Should handle in the wizard form i think
         <NewUserSetup
           show={showNewUserPopup !== undefined}
@@ -54,6 +62,7 @@ const Home: React.FC = () => {
           <Dropdown
             options={['hello', 'hello there', 'why hello there sir', 'ganga']}
           />
+          <Button onClick={(e) => handleShowFilterForm()}>filter</Button>
 
           <div>
             <HousingList />

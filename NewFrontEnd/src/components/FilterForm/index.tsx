@@ -4,11 +4,11 @@ import Page1, {
   page1InitialStore,
   page1Schema,
 } from './FilterPage1';
-// import Page2, {
-//   Page2Store,
-//   page2InitialStore,
-//   page2Schema,
-// } from './FilterPage2';
+import Page2, {
+  Page2Store,
+  page2InitialStore,
+  page2Schema,
+} from './FilterPage2';
 // import Page3, {
 //   Page3Store,
 //   page3InitialStore,
@@ -31,8 +31,7 @@ import Page1, {
 // } from './FilterPage6';
 import WizardForm from '../WizardForm';
 
-type Store = Page1Store; // &
-// Page2Store &
+type Store = Page1Store & Page2Store;
 // Page3Store &
 // Page4Store &
 // Page5Store &
@@ -40,7 +39,7 @@ type Store = Page1Store; // &
 
 const initialStore = [
   page1InitialStore,
-  // page2InitialStore,
+  page2InitialStore,
   // page3InitialStore,
   // page4InitialStore,
   // page5InitialStore,
@@ -49,7 +48,7 @@ const initialStore = [
 
 const schemas = [
   page1Schema,
-  // page2Schema,
+  page2Schema,
   // page3Schema,
   // page4Schema,
   // page5Schema,
@@ -73,13 +72,13 @@ const FilterForm: React.FC<FilterFormProps> = ({ show, setShow }) => (
       // ); // TODO
       return true;
     }}
-    title="Find your place"
+    title="Filter & Match"
     initialStore={initialStore}
     schemas={schemas}
   >
     <Page1 />
-    <Page1 />
-    {/* <Page2 />
+    <Page2 />
+    {/*
     <Page3 />
     <Page4 />
     <Page5 />
