@@ -28,6 +28,7 @@ const Input: React.FC<InputProps> = ({
   isInvalid,
   isValid,
   value,
+  children,
   ...formControlProps
 }) => {
   const [isEmpty, setIsEmpty] = useState<boolean>(!value || value === '');
@@ -58,6 +59,7 @@ const Input: React.FC<InputProps> = ({
           }
         }}
       />
+      {children}
       {error && <Form.Label className={errorClassName}>{error}</Form.Label>}
     </Form.Group>
   );
