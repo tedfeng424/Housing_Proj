@@ -5,10 +5,16 @@ import { roomTypeIcons } from '../../assets/icons/all';
 import AutoComplete from '../PlacesAutoComplete';
 import { RoomType } from '../../assets/constants';
 import { WizardFormStep } from '../WizardForm';
+import Input from '../basics/Input';
+import Dropdown from '../basics/Dropdown';
 
 export const page2Schema = z.object({
   locationSearch: z.string(),
   selectedLocation: z.string().nonempty('Make sure to select an address.'),
+  // propertyType: z.string().nonempty('Make sure to select a property type.'),
+  // apartmentName: z.string(),
+  numBeds: z.string(),
+  numBaths: z.string(),
   roomType: z.nativeEnum(RoomType),
   price: z
     .number()
@@ -21,6 +27,10 @@ export type Page2Store = z.infer<typeof page2Schema>;
 export const page2InitialStore: Page2Store = {
   locationSearch: '',
   selectedLocation: '',
+  // propertyType: '',
+  // apartmentName: '',
+  numBeds: '0',
+  numBaths: '0',
   roomType: RoomType.single,
   price: 800,
 };
@@ -28,6 +38,10 @@ export const page2InitialStore: Page2Store = {
 const Page2: React.FC<WizardFormStep<Page2Store>> = ({
   locationSearch,
   selectedLocation,
+  // propertyType,
+  // apartmentName,
+  numBeds,
+  numBaths,
   roomType,
   price,
   validations,
@@ -37,45 +51,128 @@ const Page2: React.FC<WizardFormStep<Page2Store>> = ({
     <Container>
       <Row>
         <Col>
-          <span className="post-title">
-            ...about the room, time & stay period
-          </span>
+          <span className="post-title">Room Information</span>
         </Col>
       </Row>
 
-      <Form.Row className="justify-content-center m-2 my-4">
-        <Form.Label className="post-word">Location</Form.Label>
-        {/* TODO need to check if the address is valid! Currently, if the user types something in and then clicks enter, it marks it as ok. This issue stems from an issue in PlaceAutoComplete.tsx */}
-        <AutoComplete
-          className="single-line-input w-100"
-          initialAddress={locationSearch}
-          onChange={(value) => {
-            if (selectedLocation === '') setStore({ locationSearch: value });
-            else setStore({ locationSearch: value, selectedLocation: '' });
-          }}
-          onSelect={(value) => {
-            setStore({ locationSearch: value, selectedLocation: value });
-          }}
-          isValid={validations?.selectedLocation?.success}
-        />
-        <div className="wizard-form-invalid-feedback">
-          {!validations?.selectedLocation?.success &&
-            validations?.selectedLocation?.error}
-        </div>
+      <Form.Row className="justify-content-center m-2">
+        <Col>
+          {/* TODO need to check if the address is valid! Currently, if the user types something in and then clicks enter, it marks it as ok. This issue stems from an issue in PlaceAutoComplete.tsx */}
+          <AutoComplete
+            label="Location"
+            className="w-100"
+            initialAddress={locationSearch}
+            onChange={(value) => {
+              if (selectedLocation === '') setStore({ locationSearch: value });
+              else setStore({ locationSearch: value, selectedLocation: '' });
+            }}
+            onSelect={(value) => {
+              setStore({ locationSearch: value, selectedLocation: value });
+            }}
+            isValid={validations?.selectedLocation?.success}
+            error={validations?.selectedLocation?.error}
+          />
+          {/* <div className="wizard-form-invalid-feedback">
+            {!validations?.selectedLocation?.success &&
+              validations?.selectedLocation?.error}
+          </div> */}
+        </Col>
       </Form.Row>
 
-      <Row className="justify-content-center">
-        {/* Room Type */}
-        <Col
+      {/* <Form.Row className="m-2">
+        <Col md={5}>
+          <Dropdown
+            options={['Townhouse', 'Flat']}
+            label="Property Type"
+            labelClassName="post-dropdown-label"
+            className="post-dropdown"
+            placeholder="Choose..."
+            isValid={validations?.propertyType?.success}
+            error={validations?.propertyType?.error}
+            onSelect={(s, e) =>
+              setStore({ propertyType: s !== null ? s : undefined })
+            }
+          />
+        </Col>
+        <Col md={{ span: 5, offset: 2 }}>
+          <Input
+            label="Apartment Name"
+            labelClassName="post-input-label"
+            value={apartmentName}
+            className="post-dropdown"
+            onChange={(e) => setStore({ apartmentName: e.target.value })}
+          />
+        </Col>
+      </Form.Row> */}
+
+      <Form.Row className="m-2 align-bottom">
+        <Col md={3}>
+          <Dropdown
+            label="Bedrooms"
+            options={['0', '1', '2', '3', '4', '5']}
+            isValid={validations?.numBeds?.success}
+            error={validations?.numBeds?.error}
+            onSelect={(s, e) =>
+              setStore({ numBeds: s !== null ? s : undefined })
+            }
+          />
+        </Col>
+        <Col md={{ span: 3, offset: 3 }}>
+          <Dropdown
+            label="Bathrooms"
+            options={['0', '0.5', '1', '1.5', '2', '2.5', '3']}
+            isValid={validations?.numBaths?.success}
+            error={validations?.numBaths?.error}
+            onSelect={(s, e) =>
+              setStore({ numBaths: s !== null ? s : undefined })
+            }
+          />
+        </Col>
+      </Form.Row>
+
+      <Form.Row className="justify-content-center m-2">
+        <Form.Group as={Col}>
+          <Form.Label className="post-word">Room Type</Form.Label>
+          {(Object.entries(RoomType) as Array<
+            [keyof typeof RoomType, RoomType]
+          >).map(([key, value]) => {
+            const RoomTypeUnchosen = roomTypeIcons[key];
+            const RoomTypeChosen =
+              roomTypeIcons[`${key}Chosen` as keyof typeof roomTypeIcons];
+            return (
+              <span className="mr-4">
+                <Button
+                  variant="no-show"
+                  className="btn-filter"
+                  key={key}
+                  onClick={() => {
+                    setStore({ roomType: value });
+                  }}
+                >
+                  {roomType === value ? (
+                    <RoomTypeChosen />
+                  ) : (
+                    <RoomTypeUnchosen />
+                  )}
+                </Button>
+              </span>
+            );
+          })}
+        </Form.Group>
+      </Form.Row>
+
+      {/* <Row className="justify-content-center"> */}
+      {/* Room Type */}
+      {/* <Col
           md={12}
           lg={{ span: 5, offset: 1 }}
           className="justify-content-center"
         >
           <Row className="justify-content-center">
             <div className="post-word">Room Type</div>
-          </Row>
-          {/* TODO update the filter to be like below */}
-          <Row className="justify-content-center">
+          </Row> */}
+      {/* TODO update the filter to be like below */}
+      {/* <Row className="justify-content-center">
             {(Object.entries(RoomType) as Array<
               [keyof typeof RoomType, RoomType]
             >).map(([key, value]) => {
@@ -135,7 +232,7 @@ const Page2: React.FC<WizardFormStep<Page2Store>> = ({
           </div>
         </Col>
         <Col lg={1} />
-      </Row>
+      </Row> */}
     </Container>
   );
 };
