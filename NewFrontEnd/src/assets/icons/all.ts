@@ -14,6 +14,8 @@ import bookmarkIcons from './bookmarks/all';
 import loading from './loading/all';
 import profileIcons from './profile/all';
 
+export type Icon = typeof navIcons.logo;
+
 export {
   navIcons,
   preferencesIcons,

@@ -1,0 +1,17 @@
+.homehub-toggle {
+  @extend .primary-btn;
+  border-radius: $sm-border-radius;
+  word-break: keep-all; // TODO
+
+  &-selected {
+    border-color: $primary-input-color;
+    background-color: $primary-input-color;
+    color: white;
+  }
+
+  &-unselected {
+    border-color: $primary-5-color;
+    background-color: white;
+    color: $primary-5-color;
+  }
+}

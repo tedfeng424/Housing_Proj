@@ -13,8 +13,9 @@ import Login from './Login';
 import HousingPost from './HousingPostForm';
 import BookmarksList from './BookmarksList';
 import NewUserSetup from './NewUserSetup';
-import Input from './basics/Input';
-import Dropdown from './basics/Dropdown';
+import Input from './basics/Input'; // TODO delete once done testing
+import Dropdown from './basics/Dropdown'; // TODO delete once done testing
+import ToggleGroup from './basics/ToggleGroup'; // TODO delete once done testing
 
 const Home: React.FC = () => {
   const showNewUserPopup = useSelector(selectShowNewUserPopup);
@@ -51,8 +52,8 @@ const Home: React.FC = () => {
             <Filter />
           </div>
 
-          <Dropdown
-            options={['hello', 'hello there', 'why hello there sir', 'ganga']}
+          <ToggleGroup
+            content={['hello', 'hello there', 'why hello there sir', 'ganga']}
           />
 
           <div>
