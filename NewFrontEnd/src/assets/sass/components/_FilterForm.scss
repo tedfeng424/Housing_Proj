@@ -1,0 +1,14 @@
+.filterform-word {
+  @include font-type('label-text');
+  font-size: 25px;
+}
+
+.filterform-title-bg {
+  background-image: url('../../icons/misc/wordBubble.svg');
+  background-size: cover;
+}
+
+.filterform-short-input {
+  width: 120px !important;
+  font-size: 25px !important;
+}

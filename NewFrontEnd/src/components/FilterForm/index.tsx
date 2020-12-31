@@ -9,11 +9,11 @@ import Page2, {
   page2InitialStore,
   page2Schema,
 } from './FilterPage2';
-// import Page3, {
-//   Page3Store,
-//   page3InitialStore,
-//   page3Schema,
-// } from './FilterPage3';
+import Page3, {
+  Page3Store,
+  page3InitialStore,
+  page3Schema,
+} from './FilterPage3';
 // import Page4, {
 //   Page4Store,
 //   page4InitialStore,
@@ -31,8 +31,7 @@ import Page2, {
 // } from './FilterPage6';
 import WizardForm from '../WizardForm';
 
-type Store = Page1Store & Page2Store;
-// Page3Store &
+type Store = Page1Store & Page2Store & Page3Store; // &
 // Page4Store &
 // Page5Store &
 // Page6Store;
@@ -40,7 +39,7 @@ type Store = Page1Store & Page2Store;
 const initialStore = [
   page1InitialStore,
   page2InitialStore,
-  // page3InitialStore,
+  page3InitialStore,
   // page4InitialStore,
   // page5InitialStore,
   // page6InitialStore,
@@ -49,7 +48,7 @@ const initialStore = [
 const schemas = [
   page1Schema,
   page2Schema,
-  // page3Schema,
+  page3Schema,
   // page4Schema,
   // page5Schema,
   // page6Schema,
@@ -78,8 +77,8 @@ const FilterForm: React.FC<FilterFormProps> = ({ show, setShow }) => (
   >
     <Page1 />
     <Page2 />
-    {/*
     <Page3 />
+    {/*
     <Page4 />
     <Page5 />
     <Page6 /> */}

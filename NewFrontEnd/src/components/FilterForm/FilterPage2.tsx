@@ -29,10 +29,8 @@ const Page2: React.FC<WizardFormStep<Page2Store>> = ({
 }) => {
   return (
     <Container>
-      <Row>
-        <Col>
-          <span className="post-title">Distance to School</span>
-        </Col>
+      <Row className="justify-content-center m-2 my-4">
+        <div className="post-title">Unit / Room Type</div>
       </Row>
 
       <Form.Row className="m-2 align-bottom">

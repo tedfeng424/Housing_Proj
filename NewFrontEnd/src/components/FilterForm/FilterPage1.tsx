@@ -14,7 +14,7 @@ export const page1Schema = z.object({
 export type Page1Store = z.infer<typeof page1Schema>;
 
 export const page1InitialStore: Page1Store = {
-  distance: 0,
+  distance: 20, // 0
 };
 
 const Page1: React.FC<WizardFormStep<Page1Store>> = ({
@@ -24,27 +24,42 @@ const Page1: React.FC<WizardFormStep<Page1Store>> = ({
 }) => {
   return (
     <Container>
-      <Row>
-        <Col>
-          <span className="post-title">Distance to School</span>
-        </Col>
+      <Row className="justify-content-center m-2 my-4">
+        <div className="post-title">Distance to School</div>
       </Row>
 
-      <Form.Row className="justify-content-center m-2">
+      <br />
+
+      <Row className="m-2">
         <Col>
-          <Input
-            label="Distance (in mins.)"
-            value={distance}
-            onChange={(e) =>
-              setStore({
-                distance: e.target.value ? parseInt(e.target.value) : undefined,
-              })
-            }
-            isValid={validations?.distance?.success}
-            error={validations?.distance?.error}
-          />
+          <Form inline className="justify-content-center">
+            <Form.Label className="filterform-word mb-2">
+              Less than&nbsp;
+            </Form.Label>
+            <Input
+              // label="Distance (in mins.)"
+              value={distance}
+              onChange={(e) =>
+                setStore({
+                  distance: e.target.value
+                    ? parseInt(e.target.value)
+                    : undefined,
+                })
+              }
+              className="filterform-short-input mb-2"
+              isValid={validations?.distance?.success}
+              error={validations?.distance?.error}
+              errorClassName="d-none"
+            />
+            <Form.Label className="filterform-word mb-2">
+              &nbsp;mins.
+            </Form.Label>
+            <Form.Label className="filterform-word mb-2">
+              &nbsp;public transportation to Price Center
+            </Form.Label>
+          </Form>
         </Col>
-      </Form.Row>
+      </Row>
     </Container>
   );
 };
