@@ -1,6 +1,6 @@
 .filterform-word {
   @include font-type('label-text');
-  font-size: 25px;
+  font-size: 20px;
 }
 
 .filterform-title-bg {
@@ -9,6 +9,16 @@
 }
 
 .filterform-short-input {
-  width: 120px !important;
-  font-size: 25px !important;
+  width: 140px !important;
+  // font-size: 25px !important;
+}
+
+.filterform-short-dropdown {
+  width: 140px !important;
+  // div {
+  //   font-size: 25px;
+  // }
+  // .dropdown-filled {
+  //   font-size: 25px;
+  // }
 }

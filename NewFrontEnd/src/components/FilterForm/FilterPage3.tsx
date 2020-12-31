@@ -21,7 +21,7 @@ export const page3Schema = z
 export type Page3Store = z.infer<typeof page3Schema>;
 
 export const page3InitialStore: Page3Store = {
-  minPrice: 0,
+  minPrice: 1,
   maxPrice: 5000,
 };
 
@@ -36,6 +36,8 @@ const Page3: React.FC<WizardFormStep<Page3Store>> = ({
       <Row className="justify-content-center m-2 my-4">
         <div className="post-title">Price Range</div>
       </Row>
+
+      <br />
 
       <Row className="m-2">
         <Col>

@@ -33,11 +33,18 @@ const Page2: React.FC<WizardFormStep<Page2Store>> = ({
         <div className="post-title">Unit / Room Type</div>
       </Row>
 
-      <Form.Row className="m-2 align-bottom">
-        <Col md={3}>
+      <br />
+
+      <Row className="m-2">
+        <Col>
+          <Form.Label className="filterform-word">Unit Size</Form.Label>
+        </Col>
+      </Row>
+      <Row className="m-2">
+        <Col md={2}>
           <Dropdown
-            label="Bedrooms"
             options={['0', '1', '2', '3', '4', '5']}
+            // className="filterform-short-dropdown"
             isValid={validations?.numBeds?.success}
             error={validations?.numBeds?.error}
             onSelect={(s, e) =>
@@ -45,10 +52,13 @@ const Page2: React.FC<WizardFormStep<Page2Store>> = ({
             }
           />
         </Col>
-        <Col md={{ span: 3, offset: 3 }}>
+        <Col md={2}>
+          <Form.Label className="filterform-word m-2">Bedrooms</Form.Label>
+        </Col>
+        <Col md={2}>
           <Dropdown
-            label="Bathrooms"
             options={['0', '0.5', '1', '1.5', '2', '2.5', '3']}
+            // className="filterform-short-dropdown"
             isValid={validations?.numBaths?.success}
             error={validations?.numBaths?.error}
             onSelect={(s, e) =>
@@ -56,11 +66,18 @@ const Page2: React.FC<WizardFormStep<Page2Store>> = ({
             }
           />
         </Col>
-      </Form.Row>
+        <Col md={2}>
+          <Form.Label className="filterform-word m-2">Bathrooms</Form.Label>
+        </Col>
+      </Row>
 
-      <Form.Row className="justify-content-center m-2">
-        <Form.Group as={Col}>
-          <Form.Label className="post-word">Room Type</Form.Label>
+      <Row className="m-2 mt-5">
+        <Col>
+          <Form.Label className="filterform-word">Room Type</Form.Label>
+        </Col>
+      </Row>
+      <Row className="justify-content-center m-2">
+        <Col>
           {(Object.entries(RoomType) as Array<
             [keyof typeof RoomType, RoomType]
           >).map(([key, value]) => {
@@ -86,8 +103,8 @@ const Page2: React.FC<WizardFormStep<Page2Store>> = ({
               </span>
             );
           })}
-        </Form.Group>
-      </Form.Row>
+        </Col>
+      </Row>
     </Container>
   );
 };
