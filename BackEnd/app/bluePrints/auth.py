@@ -26,7 +26,7 @@ def login():
     user = check_exist(User, session, **{'email': requested_json['email']})
     if not user:
         # User doesn't exist
-        add_user(requested_json['name'], requested_json['email'],
+        user = add_user(requested_json['name'], requested_json['email'],
             datetime.now(),
             "", "", "", "",
             session)
