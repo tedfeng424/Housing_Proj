@@ -68,10 +68,30 @@ const Home: React.FC = () => {
             }}
             singleSelect
             hideLabels
+            label="Select a room type"
+            required
+            error="Error! Make sure to fix this"
           />
 
           <ToggleGroup
-            content={['hello', 'hello there', 'why hello there sir', 'ganga']}
+            label="bla blee bloo"
+            content={[
+              { label: 'single', icon: triple },
+              { label: 'double', icon: triple },
+              { label: 'triple', icon: triple },
+              { label: 'single', icon: triple },
+              { label: 'single', icon: triple },
+              { label: 'single', icon: triple },
+              { label: 'single', icon: triple },
+              { label: 'double', icon: triple },
+              { label: 'triple', icon: triple },
+              { label: 'double', icon: triple },
+              { label: 'triple', icon: triple },
+              { label: 'double', icon: triple },
+              { label: 'triple', icon: triple },
+              { label: 'double', icon: triple },
+              { label: 'triple', icon: triple },
+            ]}
             onSelect={(a, b) => {
               console.log();
               console.log(a);
@@ -79,6 +99,51 @@ const Home: React.FC = () => {
               console.log();
             }}
             singleSelect
+            hideLabels
+            center
+          />
+
+          <ToggleGroup
+            content={[
+              'hello',
+              'hello there',
+              'why hello there sir',
+              'ganga',
+              'hello there',
+              'why hello there sir',
+              'ganga',
+              'hello there',
+              'why hello there sir',
+              'ganga',
+              'hello there',
+              'why hello there sir',
+              'ganga',
+              'hello there',
+              'why hello there sir',
+              'ganga',
+              'hello there',
+              'why hello there sir',
+              'ganga',
+              'hello there',
+              'why hello there sir',
+              'ganga',
+              'hello there',
+              'why hello there sir',
+              'ganga',
+              'hello there',
+              'why hello there sir',
+              'ganga',
+              'hello there',
+              'why hello there sir',
+              'ganga',
+            ]}
+            onSelect={(a, b) => {
+              console.log();
+              console.log(a);
+              console.log(b);
+              console.log();
+            }}
+            center
           />
 
           <div>

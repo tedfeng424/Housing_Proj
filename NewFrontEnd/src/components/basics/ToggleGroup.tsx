@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Form } from 'react-bootstrap';
+import * as z from 'zod';
 import Toggle from './Toggle';
 import { Icon } from '../../assets/icons/all';
 
@@ -14,10 +16,17 @@ interface ToggleGroupProps
   initialSelected?: boolean[]; // TODO define this to be the same length as content somehow? Also allow this to be an array of strings
   singleSelect?: boolean; // makes it so only one toggle will be selected
   hideLabels?: boolean;
+  center?: boolean; // determines whether or not to center the toggles
   onSelect?: (
     newlySelected: { label: string; selected: boolean },
     allSelected: boolean[],
   ) => any;
+  label?: string;
+  labelClassName?: string;
+  error?: string | z.ZodIssue; // Will make the input border red as well
+  errorClassName?: string;
+  toggleClassName?: string;
+  required?: boolean;
 }
 
 const ToggleGroup: React.FC<ToggleGroupProps> = ({
@@ -26,7 +35,14 @@ const ToggleGroup: React.FC<ToggleGroupProps> = ({
   initialSelected,
   singleSelect,
   hideLabels,
+  center,
   onSelect,
+  label,
+  labelClassName,
+  error,
+  errorClassName,
+  toggleClassName = '',
+  required,
   className = '',
   ...wrapperProps
 }) => {
@@ -39,36 +55,61 @@ const ToggleGroup: React.FC<ToggleGroupProps> = ({
   }, [selected]);
 
   return (
-    <div
-      {...wrapperProps}
-      className={`homehub-toggle-group-wrapper ${className}`}
-    >
-      {(content as ToggleContent[]).map((c, index) => {
-        const label = typeof c === 'string' ? c : c.label;
-        const icon = typeof c !== 'string' ? c.icon : undefined;
+    <Form.Group className="toggle-group">
+      {(label || required) && (
+        <Form.Label className={`toggle-group-label ${labelClassName}`}>
+          {label}
+          {required && (
+            <span className="toggle-group-required-asterisk"> *</span>
+          )}
+        </Form.Label>
+      )}
 
-        return (
-          <Toggle
-            label={label}
-            icon={icon}
-            hideLabel={hideLabels}
-            initialSelected={initialSelected && initialSelected[index]}
-            selected={areSelected[index]}
-            onClick={(newSelected) => {
-              const updatedSelected = singleSelect
-                ? areSelected.map((s, i) => index === i)
-                : { ...areSelected, [index]: newSelected };
-              setAreSelected(updatedSelected);
+      <div
+        {...wrapperProps}
+        className={`toggle-group-wrapper ${
+          center && 'toggle-group-center'
+        } ${className}`}
+      >
+        {(content as ToggleContent[]).map((c, index) => {
+          const curLabel = typeof c === 'string' ? c : c.label;
+          const icon = typeof c !== 'string' ? c.icon : undefined;
 
-              if (onSelect) {
-                onSelect({ label, selected: newSelected }, updatedSelected);
+          return (
+            <Toggle
+              label={curLabel}
+              icon={icon}
+              hideLabel={hideLabels}
+              initialSelected={initialSelected && initialSelected[index]}
+              selected={areSelected[index]}
+              onClick={(newSelected) => {
+                const updatedSelected = singleSelect
+                  ? areSelected.map((s, i) => index === i)
+                  : { ...areSelected, [index]: newSelected };
+                setAreSelected(updatedSelected);
+
+                if (onSelect) {
+                  onSelect(
+                    { label: curLabel, selected: newSelected },
+                    updatedSelected,
+                  );
+                }
+              }}
+              key={curLabel}
+              className={
+                toggleClassName + !center ? ' toggle-group-line-up-toggle' : ''
               }
-            }}
-            key={label}
-          />
-        );
-      })}
-    </div>
+            />
+          );
+        })}
+      </div>
+
+      {error && (
+        <Form.Label className={`toggle-group-error ${errorClassName}`}>
+          {error}
+        </Form.Label>
+      )}
+    </Form.Group>
   );
 };
 

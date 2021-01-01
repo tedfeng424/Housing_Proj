@@ -48,9 +48,9 @@ interface DropdownProps extends BootstrapDropdownMetadata.DropdownProps {
 
 const Dropdown: React.FC<DropdownProps> = ({
   label,
-  labelClassName = 'dropdown-label',
+  labelClassName = '',
   error,
-  errorClassName = 'dropdown-error',
+  errorClassName = '',
   initialSelected,
   placeholder,
   isInvalid,
@@ -91,7 +91,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   return (
     <Form.Group>
       {(label || required) && (
-        <Form.Label className={labelClassName}>
+        <Form.Label className={`dropdown-label ${labelClassName}`}>
           {label}
           {required && <span className="input-required-asterisk"> *</span>}
         </Form.Label>
@@ -157,7 +157,11 @@ const Dropdown: React.FC<DropdownProps> = ({
         </BootstrapDropdown.Menu>
       </BootstrapDropdown>
 
-      {error && <Form.Label className={errorClassName}>{error}</Form.Label>}
+      {error && (
+        <Form.Label className={`dropdown-error ${errorClassName}`}>
+          {error}
+        </Form.Label>
+      )}
     </Form.Group>
   );
 };

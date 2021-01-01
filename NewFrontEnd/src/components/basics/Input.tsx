@@ -18,9 +18,9 @@ export interface InputProps
 
 const Input: React.FC<InputProps> = ({
   label,
-  labelClassName = 'input-label',
+  labelClassName = '',
   error,
-  errorClassName = 'input-error',
+  errorClassName = '',
   required,
   className = '',
   readOnly,
@@ -35,7 +35,7 @@ const Input: React.FC<InputProps> = ({
   return (
     <Form.Group>
       {(label || required) && (
-        <Form.Label className={labelClassName}>
+        <Form.Label className={`input-label ${labelClassName}`}>
           {label}
           {required && <span className="input-required-asterisk"> *</span>}
         </Form.Label>
@@ -58,7 +58,11 @@ const Input: React.FC<InputProps> = ({
           }
         }}
       />
-      {error && <Form.Label className={errorClassName}>{error}</Form.Label>}
+      {error && (
+        <Form.Label className={`input-error ${errorClassName}`}>
+          {error}
+        </Form.Label>
+      )}
     </Form.Group>
   );
 };
