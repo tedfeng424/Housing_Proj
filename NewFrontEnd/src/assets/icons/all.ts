@@ -15,6 +15,7 @@ import loading from './loading/all';
 import profileIcons from './profile/all';
 
 export type Icon = typeof navIcons.logo;
+export type IconProps = React.SVGProps<SVGSVGElement>;
 
 export {
   navIcons,

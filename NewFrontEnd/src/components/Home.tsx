@@ -16,6 +16,8 @@ import NewUserSetup from './NewUserSetup';
 import Input from './basics/Input'; // TODO delete once done testing
 import Dropdown from './basics/Dropdown'; // TODO delete once done testing
 import ToggleGroup from './basics/ToggleGroup'; // TODO delete once done testing
+import { roomTypeIcons } from '../assets/icons/all';
+import triple from '../assets/icons/test/all';
 
 const Home: React.FC = () => {
   const showNewUserPopup = useSelector(selectShowNewUserPopup);
@@ -53,7 +55,30 @@ const Home: React.FC = () => {
           </div>
 
           <ToggleGroup
+            content={[
+              { label: 'single', icon: triple },
+              { label: 'double', icon: triple },
+              { label: 'triple', icon: triple },
+            ]}
+            onSelect={(a, b) => {
+              console.log();
+              console.log(a);
+              console.log(b);
+              console.log();
+            }}
+            singleSelect
+            hideLabels
+          />
+
+          <ToggleGroup
             content={['hello', 'hello there', 'why hello there sir', 'ganga']}
+            onSelect={(a, b) => {
+              console.log();
+              console.log(a);
+              console.log(b);
+              console.log();
+            }}
+            singleSelect
           />
 
           <div>
