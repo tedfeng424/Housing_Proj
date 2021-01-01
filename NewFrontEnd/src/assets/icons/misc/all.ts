@@ -10,6 +10,7 @@ import { ReactComponent as smallLeftArrow } from './smallLeftArrow.svg';
 import { ReactComponent as smallLeftArrowDisabled } from './smallLeftArrowDisabled.svg';
 import { ReactComponent as smallRightArrow } from './smallRightArrow.svg';
 import { ReactComponent as smallRightArrowDisabled } from './smallRightArrowDisabled.svg';
+import { ReactComponent as dash } from './dash.svg';
 
 export default {
   ellipse,
@@ -24,4 +25,5 @@ export default {
   smallLeftArrowDisabled,
   smallRightArrow,
   smallRightArrowDisabled,
+  dash,
 };

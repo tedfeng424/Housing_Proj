@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import PlacesAutocomplete from 'react-places-autocomplete';
 import { Form } from 'react-bootstrap';
+import Input, { InputProps } from './basics/Input';
 
-interface PathProps {
-  className?: string;
+interface PathProps extends Omit<InputProps, 'onChange' | 'onSelect'> {
   onChange?: (value: string) => void;
   onSelect?: (value: string) => void;
   initialAddress?: string;
-  isValid?: boolean;
-  isInvalid?: boolean;
 }
 
 const AutoComplete: React.FC<PathProps> = ({
@@ -16,8 +14,7 @@ const AutoComplete: React.FC<PathProps> = ({
   onChange,
   onSelect,
   initialAddress = '',
-  isValid,
-  isInvalid,
+  ...inputProps
 }) => {
   const [address, setAddress] = useState<string>(initialAddress);
   // TODO
@@ -42,7 +39,7 @@ const AutoComplete: React.FC<PathProps> = ({
     >
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
         <>
-          <Form.Control
+          {/* <Form.Control
             // TODO fix prop spread is forbidden
             {...getInputProps({
               placeholder: 'Search Places ...',
@@ -50,29 +47,35 @@ const AutoComplete: React.FC<PathProps> = ({
             })}
             isValid={isValid}
             isInvalid={isInvalid}
-          />
-          <div>
-            {loading && <div>Loading...</div>}
-            {suggestions.map((suggestion) => (
-              // TODO: Missing "key" prop for element in iterator
-              <div
-                {
-                  /* TODO fix 'Prop spreading is forbidden' */
-                  ...getSuggestionItemProps(suggestion, {
-                    className: suggestion.active
-                      ? 'suggestion-item--active'
-                      : 'suggestion-item',
-                    style: suggestion.active
-                      ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                      : { backgroundColor: '#ffffff', cursor: 'pointer' },
-                  })
-                }
-                key={suggestion.description}
-              >
-                {suggestion.description}
-              </div>
-            ))}
-          </div>
+          /> */}
+          <Input
+            {...getInputProps({
+              placeholder: 'Search Places ...',
+              className,
+            })}
+            {...inputProps}
+          >
+            <div>
+              {loading && <div>Loading...</div>}
+              {suggestions.map((suggestion) => (
+                // TODO: Missing "key" prop for element in iterator
+                <div
+                  {
+                    /* TODO fix 'Prop spreading is forbidden' */
+                    ...getSuggestionItemProps(suggestion, {
+                      className: 'suggestion-item',
+                      // style: suggestion.active
+                      //   ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                      //   : { backgroundColor: '#ffffff', cursor: 'pointer' },
+                    })
+                  }
+                  key={suggestion.description}
+                >
+                  {suggestion.description}
+                </div>
+              ))}
+            </div>
+          </Input>
         </>
       )}
     </PlacesAutocomplete>

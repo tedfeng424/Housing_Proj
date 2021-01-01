@@ -13,10 +13,8 @@ import Login from './Login';
 import HousingPost from './HousingPostForm';
 import BookmarksList from './BookmarksList';
 import NewUserSetup from './NewUserSetup';
-import Input from './basics/Input'; // TODO delete once done testing
-import Dropdown from './basics/Dropdown'; // TODO delete once done testing
+import FilterForm from './FilterForm';
 import ToggleGroup from './basics/ToggleGroup'; // TODO delete once done testing
-import { roomTypeIcons } from '../assets/icons/all';
 import triple from '../assets/icons/test/all';
 
 const Home: React.FC = () => {
@@ -29,11 +27,18 @@ const Home: React.FC = () => {
   const [showHousingPost, setShowHousingPost] = useState<boolean>(false);
   const handleShowHousingPost = () => setShowHousingPost(true);
 
+  const [showFilterForm, setShowFilterForm] = useState<boolean>(false);
+  const handleShowFilterForm = () => setShowFilterForm(true);
+
   return (
     <Container fluid>
       {/* Modals */}
       <Login show={showLogin} handleClose={handleCloseLogin} />
       <HousingPost show={showHousingPost} setShow={setShowHousingPost} />
+
+      {/* temp */}
+      <FilterForm show={showFilterForm} setShow={setShowFilterForm} />
+
       {showNewUserPopup !== undefined && ( // TODO temporary. Should handle in the wizard form i think
         <NewUserSetup
           show={showNewUserPopup !== undefined}
@@ -145,6 +150,7 @@ const Home: React.FC = () => {
             }}
             center
           />
+          <Button onClick={(e) => handleShowFilterForm()}>filter</Button>
 
           <div>
             <HousingList />

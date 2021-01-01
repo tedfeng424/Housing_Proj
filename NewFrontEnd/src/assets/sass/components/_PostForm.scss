@@ -1,7 +1,7 @@
-.post-input {
-  margin-top: 10px;
-  border-bottom: 0;
-}
+// .post-input {
+//   margin-top: 10px;
+//   border-bottom: 0;
+// }
 
 .post-text {
   background: $primary-color-light;
@@ -78,3 +78,16 @@
 //     height: 725px;
 //   }
 // }
+
+.post-input,
+.post-dropdown {
+  height: 50px;
+  font-size: 20px !important;
+}
+
+.post-input-label,
+.post-dropdown-label {
+  @include font-type('label-text');
+  margin-bottom: 10px;
+  font-size: 20px !important;
+}
