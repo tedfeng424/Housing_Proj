@@ -16,7 +16,7 @@ interface ToggleGroupProps
   initialSelected?: boolean[]; // TODO define this to be the same length as content somehow? Also allow this to be an array of strings
   singleSelect?: boolean; // makes it so only one toggle will be selected
   hideLabels?: boolean;
-  center?: boolean; // determines whether or not to center the toggles
+  center?: boolean; // determines whether or not to center the toggles/labels/errors
   onSelect?: (
     newlySelected: { label: string; selected: boolean },
     allSelected: boolean[],
@@ -55,7 +55,7 @@ const ToggleGroup: React.FC<ToggleGroupProps> = ({
   }, [selected]);
 
   return (
-    <Form.Group className="toggle-group">
+    <Form.Group className={`toggle-group ${center && 'toggle-group-center'}`}>
       {(label || required) && (
         <Form.Label className={`toggle-group-label ${labelClassName}`}>
           {label}
@@ -96,9 +96,9 @@ const ToggleGroup: React.FC<ToggleGroupProps> = ({
                 }
               }}
               key={curLabel}
-              className={
-                toggleClassName + !center ? ' toggle-group-line-up-toggle' : ''
-              }
+              className={`${toggleClassName} + ${
+                !center && ' toggle-group-line-up-toggle'
+              }`}
             />
           );
         })}
