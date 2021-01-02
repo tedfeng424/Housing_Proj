@@ -1,3 +1,4 @@
+// TODO not sure if this is needed yet
 import React from 'react';
 import { Icon as IconType } from '../../assets/icons/all';
 

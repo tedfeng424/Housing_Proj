@@ -14,6 +14,8 @@ import bookmarkIcons from './bookmarks/all';
 import loading from './loading/all';
 import profileIcons from './profile/all';
 
+import * as roomTypeIconsTemp from './roomTypeCorrect/all'; // TODO rename correctly
+
 export type Icon = typeof navIcons.logo;
 export type IconProps = React.SVGProps<SVGSVGElement>;
 
@@ -23,6 +25,7 @@ export {
   preferencesChosen,
   preferencesUnchosen,
   roomTypeIcons,
+  roomTypeIconsTemp,
   contactIcons,
   miscIcons,
   facilityIcons,

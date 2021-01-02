@@ -273,8 +273,9 @@ const WizardForm = <T extends {}>({
           <Button variant="no-show" onClick={() => setShow(false)}>
             <miscIcons.orangeX />
           </Button>
-          <span className="title">{title}</span>
-          <span className="reset">Reset</span>
+          <div className="title">{title}</div>
+          {/* <span className="reset">Reset</span> */}
+          <div />
         </div>
 
         {/* TODO <div className="d-flex align-items-center justify-content-around h-100"> */}

@@ -100,6 +100,12 @@ enum RoomType {
   livingRoom = 'Living room',
 }
 
+enum RoomTypeCorrect { // TODO rename once complete
+  Single = 'Single',
+  Double = 'Double',
+  Triple = 'Triple',
+}
+
 /**
  * list of majors offered in UCSD/ need to extract from API endpoints in the future for other schools
  */
