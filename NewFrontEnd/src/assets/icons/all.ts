@@ -13,8 +13,8 @@ import mapIcons from './map/all';
 import bookmarkIcons from './bookmarks/all';
 import loading from './loading/all';
 import profileIcons from './profile/all';
-
 import * as roomTypeIconsTemp from './roomTypeCorrect/all'; // TODO rename correctly
+import { smallAmenitiesIcons, largeAmenitiesIcons } from './amenities/all';
 
 export type Icon = typeof navIcons.logo;
 export type IconProps = React.SVGProps<SVGSVGElement>;
@@ -35,4 +35,6 @@ export {
   bookmarkIcons,
   loading,
   profileIcons,
+  smallAmenitiesIcons,
+  largeAmenitiesIcons,
 };

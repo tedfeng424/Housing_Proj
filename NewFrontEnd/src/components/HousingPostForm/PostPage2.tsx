@@ -1,7 +1,7 @@
 import React from 'react';
-import { Container, Row, Col, Button, Form } from 'react-bootstrap';
+import { Container, Row, Col, Form } from 'react-bootstrap';
 import * as z from 'zod';
-import { roomTypeIcons, roomTypeIconsTemp } from '../../assets/icons/all';
+import { roomTypeIconsTemp } from '../../assets/icons/all';
 import AutoComplete from '../PlacesAutoComplete';
 import { RoomType } from '../../assets/constants';
 import { WizardFormStep } from '../WizardForm';
