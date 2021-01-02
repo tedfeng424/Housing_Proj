@@ -50,11 +50,11 @@ const PostPage6: React.FC<WizardFormStep<Page6Store>> = ({
         {validations?.pictures?.error}
       </div>
 
-      {/* <div className="text-center">
+      <div className="text-center">
         <Button variant="primary" onClick={() => submitForm()}>
           Submit
         </Button>
-      </div> */}
+      </div>
     </Container>
   );
 };

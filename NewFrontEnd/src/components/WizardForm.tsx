@@ -224,11 +224,18 @@ const WizardForm = <T extends {}>({
    * if onSubmit returns false, otherwise returns true).
    */
   const submitForm: SubmitForm = async () => {
-    // validateCurrent // TODO handle this case
-    // if (validate errors exist) return; // TODO
+    for (let i = curIndex; i < children.length; i++) {
+      if (!validateStep(i)) {
+        setCurIndex(i);
+        return { success: false, message: "Didn't pass validation." };
+      }
+    }
 
     // Everything should be validated by this point
-    const combined = store.reduceRight((pre, cur) => ({ ...pre, ...cur }));
+    const combined = Object.values(store).reduce((pre, cur) => ({
+      ...pre,
+      ...cur,
+    }));
     const success = await onSubmit(combined as T);
     if (success) exitWizardForm();
     return { success };

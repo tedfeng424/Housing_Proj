@@ -68,7 +68,7 @@ const Page3: React.FC<WizardFormStep<Page3Store>> = ({
         <Col md={2}>
           <Form.Label className="post-word my-2">From</Form.Label>
         </Col>
-        <Col md={3}>
+        <Col md={5}>
           <Dropdown
             options={Object.keys(Interval)}
             initialSelected={earlyInterval}
@@ -84,7 +84,7 @@ const Page3: React.FC<WizardFormStep<Page3Store>> = ({
             }
           />
         </Col>
-        <Col>
+        <Col md={5}>
           <Dropdown
             options={Object.keys(Month)}
             initialSelected={earlyMonth}
@@ -105,7 +105,7 @@ const Page3: React.FC<WizardFormStep<Page3Store>> = ({
         <Col md={2}>
           <Form.Label className="post-word my-2">To</Form.Label>
         </Col>
-        <Col md={3}>
+        <Col md={5}>
           <Dropdown
             options={Object.keys(Interval)}
             initialSelected={lateInterval}
@@ -121,7 +121,7 @@ const Page3: React.FC<WizardFormStep<Page3Store>> = ({
             }
           />
         </Col>
-        <Col>
+        <Col md={5}>
           <Dropdown
             options={Object.keys(Month)}
             initialSelected={lateMonth}
@@ -165,6 +165,7 @@ const Page3: React.FC<WizardFormStep<Page3Store>> = ({
               setStore({ stayPeriod: s !== null ? parseInt(s) : undefined })
             }
             inlineText="Months"
+            required
           />
         </Col>
       </Form.Row>
