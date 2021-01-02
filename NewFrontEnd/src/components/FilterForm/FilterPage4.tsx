@@ -39,7 +39,7 @@ export const page4InitialStore: Page4Store = {
   stayPeriod: 0,
 };
 
-const Page4: React.FC<WizardFormStep<Page4Store>> = ({
+const FilterPage4: React.FC<WizardFormStep<Page4Store>> = ({
   earlyInterval,
   earlyMonth,
   lateInterval,
@@ -56,18 +56,20 @@ const Page4: React.FC<WizardFormStep<Page4Store>> = ({
 
       <br />
 
-      <Row className="m-2">
+      <Form.Row className="m-2">
         <Col>
           <Form.Label className="filterform-word">Move-In Timeframe</Form.Label>
         </Col>
-      </Row>
-      <Row className="m-2">
+      </Form.Row>
+      <Form.Row className="m-2">
         <Col md={2}>
           <Form.Label className="filterform-word my-2">From</Form.Label>
         </Col>
         <Col md={3}>
           <Dropdown
             options={Object.keys(Interval)}
+            initialSelected={earlyInterval}
+            placeholder="Date"
             // className="filterform-short-dropdown"
             isValid={validations?.earlyInterval?.success}
             error={validations?.earlyInterval?.error}
@@ -82,6 +84,8 @@ const Page4: React.FC<WizardFormStep<Page4Store>> = ({
         <Col>
           <Dropdown
             options={Object.keys(Month)}
+            initialSelected={earlyMonth}
+            placeholder="Month"
             // className="filterform-short-dropdown"
             isValid={validations?.earlyMonth?.success}
             error={validations?.earlyMonth?.error}
@@ -93,14 +97,16 @@ const Page4: React.FC<WizardFormStep<Page4Store>> = ({
             }
           />
         </Col>
-      </Row>
-      <Row className="m-2">
+      </Form.Row>
+      <Form.Row className="m-2">
         <Col md={2}>
           <Form.Label className="filterform-word my-2">To</Form.Label>
         </Col>
         <Col md={3}>
           <Dropdown
             options={Object.keys(Interval)}
+            initialSelected={lateInterval}
+            placeholder="Date"
             // className="filterform-short-dropdown"
             isValid={validations?.lateInterval?.success}
             error={validations?.lateInterval?.error}
@@ -115,6 +121,8 @@ const Page4: React.FC<WizardFormStep<Page4Store>> = ({
         <Col>
           <Dropdown
             options={Object.keys(Month)}
+            initialSelected={lateMonth}
+            placeholder="Month"
             // className="filterform-short-dropdown"
             isValid={validations?.lateMonth?.success}
             error={validations?.lateMonth?.error}
@@ -126,16 +134,12 @@ const Page4: React.FC<WizardFormStep<Page4Store>> = ({
             }
           />
         </Col>
-      </Row>
+      </Form.Row>
 
-      <Row className="m-2 mt-5">
-        <Col>
-          <Form.Label className="filterform-word">Stay Period</Form.Label>
-        </Col>
-      </Row>
-      <Row className="m-2">
-        <Col md={2}>
+      <Form.Row className="m-2 mt-4">
+        <Col md={12}>
           <Dropdown
+            label="Stay Period"
             options={[
               '1',
               '2',
@@ -150,7 +154,9 @@ const Page4: React.FC<WizardFormStep<Page4Store>> = ({
               '11',
               '12',
             ]}
+            initialSelected={stayPeriod?.toString()}
             // className="filterform-short-dropdown"
+            inlineText="Months"
             isValid={validations?.stayPeriod?.success}
             error={validations?.stayPeriod?.error}
             onSelect={(s, e) =>
@@ -158,12 +164,9 @@ const Page4: React.FC<WizardFormStep<Page4Store>> = ({
             }
           />
         </Col>
-        <Col md={2}>
-          <Form.Label className="filterform-word m-2">Months</Form.Label>
-        </Col>
-      </Row>
+      </Form.Row>
     </Container>
   );
 };
 
-export default Page4 as React.FC;
+export default FilterPage4 as React.FC;

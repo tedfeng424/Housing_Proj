@@ -5,19 +5,17 @@ import { WizardFormStep } from '../WizardForm';
 import Input from '../basics/Input';
 
 export const page1Schema = z.object({
-  distance: z
-    .number()
-    .positive('Make sure distance is positive.')
-    .min(1, 'Too fast!'),
+  distance: z.number().positive('Make sure distance is positive.'),
+  // .min(1, 'That is not feasible!'),
 });
 
 export type Page1Store = z.infer<typeof page1Schema>;
 
 export const page1InitialStore: Page1Store = {
-  distance: 20, // 0
+  distance: 20, // 0,
 };
 
-const Page1: React.FC<WizardFormStep<Page1Store>> = ({
+const FilterPage1: React.FC<WizardFormStep<Page1Store>> = ({
   distance,
   validations,
   setStore,
@@ -30,7 +28,7 @@ const Page1: React.FC<WizardFormStep<Page1Store>> = ({
 
       <br />
 
-      <Row className="m-2">
+      <Form.Row className="m-2">
         <Col>
           <Form inline className="justify-content-center">
             <Form.Label className="filterform-word mb-2">
@@ -60,9 +58,9 @@ const Page1: React.FC<WizardFormStep<Page1Store>> = ({
             </Form.Label>
           </Form>
         </Col>
-      </Row>
+      </Form.Row>
     </Container>
   );
 };
 
-export default Page1 as React.FC;
+export default FilterPage1 as React.FC;
