@@ -71,7 +71,8 @@ const Home: React.FC = () => {
               console.log(b);
               console.log();
             }}
-            singleSelect
+            initialSelected={['single', 'double']}
+            // singleSelect
             hideLabels
             label="Select a room type"
             required
