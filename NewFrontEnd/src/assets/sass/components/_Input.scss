@@ -50,6 +50,13 @@
   @include font-type('label-text');
 }
 
+.input-inline-text {
+  @include font-type('label-text');
+
+  margin-left: 15px;
+  align-self: center;
+}
+
 .input-error {
   @include font-type('error-label-text');
 }

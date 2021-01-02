@@ -44,6 +44,8 @@ interface DropdownProps extends BootstrapDropdownMetadata.DropdownProps {
   isValid?: boolean;
   required?: boolean;
   noFilter?: boolean; // Will make the user unable to filter through the options by typing in the dropdown's input
+  inlinePostText?: string;
+  postTextClassName?: string;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -57,6 +59,8 @@ const Dropdown: React.FC<DropdownProps> = ({
   isValid, // only provide this if you want a green checkmark. Should only be provided when multiple dropdowns are working in unison
   required,
   noFilter,
+  inlinePostText,
+  postTextClassName = '',
   className = '',
   options,
   onSelect,
@@ -97,65 +101,73 @@ const Dropdown: React.FC<DropdownProps> = ({
         </Form.Label>
       )}
 
-      <BootstrapDropdown
-        onSelect={(s, e) => {
-          setSelected(s || undefined);
-          updateIsEmpty(s);
-          setFilter(undefined);
+      <div className="d-flex">
+        <BootstrapDropdown
+          onSelect={(s, e) => {
+            setSelected(s || undefined);
+            updateIsEmpty(s);
+            setFilter(undefined);
 
-          if (onSelect) onSelect(s, e);
-        }}
-        ref={dropdownRef}
-        className={`homehub-dropdown ${className}`}
-        {...dropdownProps}
-      >
-        <BootstrapDropdown.Toggle
-          variant="no-show"
-          className="dropdown-toggle"
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
+            if (onSelect) onSelect(s, e);
+          }}
+          ref={dropdownRef}
+          className={`homehub-dropdown ${className}`}
+          {...dropdownProps}
         >
-          <div className="d-flex flex-nowrap">
-            <Form.Control
-              value={filter !== undefined ? filter : selected || ''}
-              placeholder={placeholder}
-              className={`${
-                (isEmpty && !isFocused
-                  ? 'dropdown-unfilled '
-                  : 'dropdown-filled ') +
-                (isInvalid || error ? 'dropdown-invalid ' : '')
-              } dropdown-straighten-right`}
-              isValid={isValid}
-              readOnly={noFilter}
-              onChange={(e) => {
-                if (!noFilter) setFilter(e.target.value);
-              }}
-              onFocus={() => {
-                if (!noFilter) setFilter('');
-              }}
-            />
+          <BootstrapDropdown.Toggle
+            variant="no-show"
+            className="dropdown-toggle"
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+          >
+            <div className="d-flex flex-nowrap">
+              <Form.Control
+                value={filter !== undefined ? filter : selected || ''}
+                placeholder={placeholder}
+                className={`${
+                  (isEmpty && !isFocused
+                    ? 'dropdown-unfilled '
+                    : 'dropdown-filled ') +
+                  (isInvalid || error ? 'dropdown-invalid ' : '')
+                } dropdown-straighten-right`}
+                isValid={isValid}
+                readOnly={noFilter}
+                onChange={(e) => {
+                  if (!noFilter) setFilter(e.target.value);
+                }}
+                onFocus={() => {
+                  if (!noFilter) setFilter('');
+                }}
+              />
 
-            <div
-              className={
-                (isEmpty && !isFocused
-                  ? 'dropdown-drop-btn-unfilled '
-                  : 'dropdown-drop-btn-filled ') +
-                (isInvalid || error ? 'dropdown-drop-btn-invalid ' : '')
-              }
-            >
-              <div className="dropdown-drop-btn-arrow" />
+              <div
+                className={
+                  (isEmpty && !isFocused
+                    ? 'dropdown-drop-btn-unfilled '
+                    : 'dropdown-drop-btn-filled ') +
+                  (isInvalid || error ? 'dropdown-drop-btn-invalid ' : '')
+                }
+              >
+                <div className="dropdown-drop-btn-arrow" />
+              </div>
             </div>
-          </div>
-        </BootstrapDropdown.Toggle>
+          </BootstrapDropdown.Toggle>
 
-        <BootstrapDropdown.Menu ref={dropdownMenuRef}>
-          {filteredOptions.map((option) => (
-            <BootstrapDropdown.Item eventKey={option}>
-              {option}
-            </BootstrapDropdown.Item>
-          ))}
-        </BootstrapDropdown.Menu>
-      </BootstrapDropdown>
+          <BootstrapDropdown.Menu ref={dropdownMenuRef}>
+            {filteredOptions.map((option) => (
+              <BootstrapDropdown.Item eventKey={option}>
+                {option}
+              </BootstrapDropdown.Item>
+            ))}
+          </BootstrapDropdown.Menu>
+        </BootstrapDropdown>
+
+        {inlinePostText && (
+          <div className={`dropdown-inline-text ${postTextClassName}`}>
+            {inlinePostText}
+          </div>
+        )}
+      </div>
 
       {error && (
         <Form.Label className={`dropdown-error ${errorClassName}`}>

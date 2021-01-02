@@ -51,7 +51,7 @@
     color: $secondary-dark-color;
   } @else if $type == 'label-text' {
     font-weight: $regular-font-weight;
-    font-size: $sm-font-size;
+    font-size: $md-font-size;
     color: $primary-dark-color;
   } @else if $type == 'error-label-text' {
     font-weight: $regular-font-weight;

@@ -12,6 +12,8 @@ export interface InputProps
   labelClassName?: string;
   error?: string | z.ZodIssue; // Will make the input border red as well
   errorClassName?: string;
+  inlinePostText?: string;
+  postTextClassName?: string;
   required?: boolean;
   rows?: number; // TODO should be in the html attributes of htmltextareaelement???
 }
@@ -21,6 +23,8 @@ const Input: React.FC<InputProps> = ({
   labelClassName = '',
   error,
   errorClassName = '',
+  inlinePostText,
+  postTextClassName = '',
   required,
   className = '',
   readOnly,
@@ -41,24 +45,32 @@ const Input: React.FC<InputProps> = ({
           {required && <span className="input-required-asterisk"> *</span>}
         </Form.Label>
       )}
-      <Form.Control
-        {...formControlProps}
-        value={value}
-        className={
-          (isEmpty && !readOnly ? 'input-unfilled ' : 'input-filled ') +
-          (readOnly ? 'input-readonly' : '') +
-          ((isInvalid || error) && !readOnly ? 'input-invalid ' : '') +
-          className
-        }
-        isValid={!readOnly && isValid}
-        readOnly={readOnly}
-        onChange={(e) => {
-          setIsEmpty(!e.target.value || e.target.value === '');
-          if (onChange) {
-            onChange(e);
+      <div className="d-flex">
+        <Form.Control
+          {...formControlProps}
+          value={value}
+          className={
+            (isEmpty && !readOnly ? 'input-unfilled ' : 'input-filled ') +
+            (readOnly ? 'input-readonly' : '') +
+            ((isInvalid || error) && !readOnly ? 'input-invalid ' : '') +
+            className
           }
-        }}
-      />
+          isValid={!readOnly && isValid}
+          readOnly={readOnly}
+          onChange={(e) => {
+            setIsEmpty(!e.target.value || e.target.value === '');
+            if (onChange) {
+              onChange(e);
+            }
+          }}
+        />
+
+        {inlinePostText && (
+          <div className={`input-inline-text ${postTextClassName}`}>
+            {inlinePostText}
+          </div>
+        )}
+      </div>
 
       {children}
 

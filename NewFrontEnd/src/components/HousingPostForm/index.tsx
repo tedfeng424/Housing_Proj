@@ -1,5 +1,5 @@
 import React from 'react';
-import Page1, { Page1Store, page1InitialStore, page1Schema } from './PostPage1';
+// import Page1, { Page1Store, page1InitialStore, page1Schema } from './PostPage1';
 import Page2, { Page2Store, page2InitialStore, page2Schema } from './PostPage2';
 import Page3, { Page3Store, page3InitialStore, page3Schema } from './PostPage3';
 import Page4, { Page4Store, page4InitialStore, page4Schema } from './PostPage4';
@@ -7,15 +7,10 @@ import Page5, { Page5Store, page5InitialStore, page5Schema } from './PostPage5';
 import Page6, { Page6Store, page6InitialStore, page6Schema } from './PostPage6';
 import WizardForm from '../WizardForm';
 
-type Store = Page1Store &
-  Page2Store &
-  Page3Store &
-  Page4Store &
-  Page5Store &
-  Page6Store;
+type Store = Page2Store & Page3Store & Page4Store & Page5Store & Page6Store; // Page1Store &
 
 const initialStore = [
-  page1InitialStore,
+  // page1InitialStore,
   page2InitialStore,
   page3InitialStore,
   page4InitialStore,
@@ -24,7 +19,7 @@ const initialStore = [
 ];
 
 const schemas = [
-  page1Schema,
+  // page1Schema,
   page2Schema,
   page3Schema,
   page4Schema,
@@ -50,11 +45,11 @@ const HousingPost: React.FC<HousingPostProps> = ({ show, setShow }) => (
       // ); // TODO
       return true;
     }}
-    title="Find your place"
+    title="Make your post"
     initialStore={initialStore}
     schemas={schemas}
   >
-    <Page1 />
+    {/* <Page1 /> */}
     <Page2 />
     <Page3 />
     <Page4 />

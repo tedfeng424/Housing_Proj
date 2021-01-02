@@ -13,8 +13,8 @@ export const page2Schema = z.object({
   selectedLocation: z.string().nonempty('Make sure to select an address.'),
   // propertyType: z.string().nonempty('Make sure to select a property type.'),
   // apartmentName: z.string(),
-  numBeds: z.string(),
-  numBaths: z.string(),
+  numBeds: z.string().nonempty('Please enter number of bedrooms.'),
+  numBaths: z.string().nonempty('Please enter number of bathrooms.'),
   roomType: z.nativeEnum(RoomType),
   price: z
     .number()
@@ -29,8 +29,8 @@ export const page2InitialStore: Page2Store = {
   selectedLocation: '',
   // propertyType: '',
   // apartmentName: '',
-  numBeds: '0',
-  numBaths: '0',
+  numBeds: '',
+  numBaths: '',
   roomType: RoomType.single,
   price: 800,
 };
@@ -71,6 +71,7 @@ const Page2: React.FC<WizardFormStep<Page2Store>> = ({
             }}
             isValid={validations?.selectedLocation?.success}
             error={validations?.selectedLocation?.error}
+            required
           />
           {/* <div className="wizard-form-invalid-feedback">
             {!validations?.selectedLocation?.success &&
@@ -110,29 +111,33 @@ const Page2: React.FC<WizardFormStep<Page2Store>> = ({
           <Dropdown
             label="Bedrooms"
             options={['0', '1', '2', '3', '4', '5']}
+            initialSelected={numBeds}
             isValid={validations?.numBeds?.success}
             error={validations?.numBeds?.error}
             onSelect={(s, e) =>
               setStore({ numBeds: s !== null ? s : undefined })
             }
+            required
           />
         </Col>
         <Col md={{ span: 3, offset: 3 }}>
           <Dropdown
             label="Bathrooms"
             options={['0', '0.5', '1', '1.5', '2', '2.5', '3']}
+            initialSelected={numBaths}
             isValid={validations?.numBaths?.success}
             error={validations?.numBaths?.error}
             onSelect={(s, e) =>
               setStore({ numBaths: s !== null ? s : undefined })
             }
+            required
           />
         </Col>
       </Form.Row>
 
       <Form.Row className="justify-content-center m-2">
         <Form.Group as={Col}>
-          <Form.Label className="post-word">Room Type</Form.Label>
+          <Form.Label className="post-word mb-2">Room Type</Form.Label>
           {(Object.entries(RoomType) as Array<
             [keyof typeof RoomType, RoomType]
           >).map(([key, value]) => {

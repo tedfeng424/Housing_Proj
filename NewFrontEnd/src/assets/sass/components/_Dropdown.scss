@@ -11,7 +11,8 @@
     border-color: $primary-light-color;
   }
 
-  &:valid, &.is-valid {
+  &:valid,
+  &.is-valid {
     border-color: $primary-3-color;
     &:focus {
       border-color: $primary-light-color;
@@ -21,14 +22,15 @@
 
 .dropdown-invalid {
   border: 3px solid $error-color !important;
-  color: $error-color!important;
+  color: $error-color !important;
 }
 
 .dropdown-filled {
   @extend .dropdown-unfilled;
   border-color: $primary-light-color;
 
-  &:valid, &.is-valid {
+  &:valid,
+  &.is-valid {
     border-color: $primary-light-color;
     &:focus {
       border-color: $primary-light-color;
@@ -43,6 +45,13 @@
 
 .dropdown-label {
   @include font-type('label-text');
+}
+
+.dropdown-inline-text {
+  @include font-type('label-text');
+
+  margin-left: 15px;
+  align-self: center;
 }
 
 .dropdown-error {
@@ -94,12 +103,15 @@
 .dropdown-toggle {
   width: 100%;
 
-  input, .form-control:disabled, .form-control[readonly] {
+  input,
+  .form-control:disabled,
+  .form-control[readonly] {
     cursor: pointer;
     background-color: white;
   }
 
-  &::after { // the default dropdown button
+  &::after {
+    // the default dropdown button
     content: none;
     width: 0;
     padding: 0;
@@ -108,6 +120,8 @@
 }
 
 .homehub-dropdown {
+  flex-grow: 1;
+
   .dropdown-menu {
     max-height: 200px;
     overflow-y: auto;
@@ -117,7 +131,10 @@
       background-color: $primary-1-color;
       color: $primary-dark-color;
 
-      &:active, &.active, &:hover, &:focus {
+      &:active,
+      &.active,
+      &:hover,
+      &:focus {
         background-color: $primary-2-color;
       }
     }

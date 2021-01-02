@@ -37,8 +37,8 @@ const Page1: React.FC<WizardFormStep<Page1Store>> = ({
               Less than&nbsp;
             </Form.Label>
             <Input
-              // label="Distance (in mins.)"
               value={distance}
+              type="number"
               onChange={(e) =>
                 setStore({
                   distance: e.target.value
@@ -48,8 +48,9 @@ const Page1: React.FC<WizardFormStep<Page1Store>> = ({
               }
               className="filterform-short-input mb-2"
               isValid={validations?.distance?.success}
-              error={validations?.distance?.error}
-              errorClassName="d-none"
+              isInvalid={
+                validations?.distance && !validations?.distance?.success
+              }
             />
             <Form.Label className="filterform-word mb-2">
               &nbsp;mins.

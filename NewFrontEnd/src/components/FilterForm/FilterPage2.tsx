@@ -44,6 +44,7 @@ const Page2: React.FC<WizardFormStep<Page2Store>> = ({
         <Col md={2}>
           <Dropdown
             options={['0', '1', '2', '3', '4', '5']}
+            initialSelected={numBeds}
             // className="filterform-short-dropdown"
             isValid={validations?.numBeds?.success}
             error={validations?.numBeds?.error}
@@ -58,6 +59,7 @@ const Page2: React.FC<WizardFormStep<Page2Store>> = ({
         <Col md={2}>
           <Dropdown
             options={['0', '0.5', '1', '1.5', '2', '2.5', '3']}
+            initialSelected={numBaths}
             // className="filterform-short-dropdown"
             isValid={validations?.numBaths?.success}
             error={validations?.numBaths?.error}

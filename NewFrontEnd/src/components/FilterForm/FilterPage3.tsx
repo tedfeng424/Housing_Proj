@@ -45,6 +45,7 @@ const Page3: React.FC<WizardFormStep<Page3Store>> = ({
             <Form.Label className="filterform-word m-2">$</Form.Label>
             <Input
               value={minPrice}
+              type="number"
               onChange={(e) =>
                 setStore({
                   minPrice: e.target.value
@@ -54,13 +55,15 @@ const Page3: React.FC<WizardFormStep<Page3Store>> = ({
               }
               className="filterform-short-input m-2 mr-5"
               isValid={validations?.minPrice?.success}
-              error={validations?.minPrice?.error}
-              errorClassName="d-none"
+              isInvalid={
+                validations?.minPrice && !validations?.minPrice?.success
+              }
             />
             <miscIcons.dash />
             <Form.Label className="filterform-word m-2 ml-5">$</Form.Label>
             <Input
               value={maxPrice}
+              type="number"
               onChange={(e) =>
                 setStore({
                   maxPrice: e.target.value
@@ -70,7 +73,9 @@ const Page3: React.FC<WizardFormStep<Page3Store>> = ({
               }
               className="filterform-short-input m-2"
               isValid={validations?.maxPrice?.success}
-              error={validations?.maxPrice?.error}
+              isInvalid={
+                validations?.maxPrice && !validations?.maxPrice?.success
+              }
               errorClassName="d-none"
             />
           </Form>

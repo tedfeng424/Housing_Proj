@@ -14,7 +14,7 @@
   width: 100%; // was 160px, TODO: use non-constant widths
   height: 23px;
   font-family: Montserrat;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
@@ -27,7 +27,7 @@
 .post-word-sub {
   height: 24px;
   font-family: Montserrat;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   font-stretch: normal;
   font-style: normal;
@@ -82,12 +82,12 @@
 .post-input,
 .post-dropdown {
   height: 50px;
-  font-size: 20px !important;
+  font-size: 18px !important;
 }
 
 .post-input-label,
 .post-dropdown-label {
   @include font-type('label-text');
   margin-bottom: 10px;
-  font-size: 20px !important;
+  font-size: 18px !important;
 }
