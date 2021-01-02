@@ -114,7 +114,7 @@ const userEditProfile = async (email: string, kvPairs: any) => {
  * @returns - undefined if error occured, otherwise UserLoginResponse, which includes an access token,
  *            email, message, user, imageUrl
  */
-const createNewUserApi = async (user: User) => {
+const createNewUserApi = async (user: Omit<User, 'token'>) => {
   try {
     const response = await backendAPI.post<UserLoginResponse>(
       '/createUser',

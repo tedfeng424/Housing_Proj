@@ -1,7 +1,9 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import Page1, { Page1Store, page1InitialStore, page1Schema } from './Page1';
 import Page2, { Page2Store, page2InitialStore, page2Schema } from './Page2';
 import WizardForm from '../WizardForm';
+import { createNewUser } from '../../redux/slices/auth';
 
 type Store = Page1Store & Page2Store;
 
@@ -21,19 +23,17 @@ const NewUserSetup: React.FC<NewUserSetupProps> = ({
   name,
   email,
 }) => {
-  console.log('hereeee');
-  console.log(name);
-  console.log(email);
+  const dispatch = useDispatch();
+
   return (
     <WizardForm<Store>
       show={show}
       setShow={setShow}
-      onSubmit={(n) => {
+      onSubmit={(data) => {
         console.log('clicked');
-        console.log(n);
+        console.log(data);
 
-        // TODO query the create_user endpoint
-
+        dispatch(createNewUser(data));
         return true;
       }}
       title="Set up your account"

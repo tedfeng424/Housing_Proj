@@ -20,7 +20,7 @@ const phoneRegex = /^([ ]*\+?[ ]*[0-9]{0,4}[ ]*(-|\()?[0-9]{3}[ ]*(-|\))?[ ]*[0-
 export const page1Schema = z.object({
   name: z.string().nonempty(NON_EMPTY_ERR_MSG),
   email: z.string().email('Email is not in a valid format.'),
-  leaserPhone: z
+  phone: z
     .string()
     .nonempty(NON_EMPTY_ERR_MSG)
     .regex(phoneRegex, 'Phone number is not a valid format.'),
@@ -33,7 +33,7 @@ export type Page1Store = z.infer<typeof page1Schema>;
 export const page1InitialStore: Page1Store = {
   name: '',
   email: '',
-  leaserPhone: '',
+  phone: '',
   schoolYear: SchoolYear.First,
   major: '',
 };
@@ -41,7 +41,7 @@ export const page1InitialStore: Page1Store = {
 const Page1: React.FC<WizardFormStep<Page1Store>> = ({
   name,
   email,
-  leaserPhone,
+  phone,
   schoolYear,
   major,
   validations,
@@ -71,12 +71,12 @@ const Page1: React.FC<WizardFormStep<Page1Store>> = ({
           <Input
             label="Phone"
             type="text"
-            value={leaserPhone}
+            value={phone}
             required
-            onChange={(e) => setStore({ leaserPhone: e.target.value })}
+            onChange={(e) => setStore({ phone: e.target.value })}
             placeholder="Phone number"
-            isValid={validations?.leaserPhone?.success}
-            error={validations?.leaserPhone?.error}
+            isValid={validations?.phone?.success}
+            error={validations?.phone?.error}
           />
         </Col>
 

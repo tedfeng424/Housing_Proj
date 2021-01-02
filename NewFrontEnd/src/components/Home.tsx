@@ -68,7 +68,7 @@ const Home: React.FC = () => {
           <div className="mb-3">
             <TV>
               {/* TODO !user will be hardcoded to false while new-user-popup is being worked on */}
-              {false ? (
+              {!user ? (
                 <>
                   <div className="special-text mt-3">Hello</div>
                   <div className="tv-separator" />

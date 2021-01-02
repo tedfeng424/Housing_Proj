@@ -81,9 +81,9 @@ export const login = (name: string, email: string): AppThunk => async (
 ) => {
   const response = await userLogIn(name, email);
   if (response) {
-    console.log('HERE');
     if ('newUser' in response) {
-      console.log('HERE CONTINUED');
+      console.log('HERE');
+      console.log(response);
       dispatch(startNewUserFlow({ name, email }));
     } else {
       dispatch(
@@ -129,10 +129,14 @@ export const createNewUser = (user: Omit<User, 'token'>): AppThunk => async (
   dispatch,
   getState,
 ) => {
-  const token = getState().auth.user?.token;
-  if (!token) return;
+  console.log('creating new user');
+  // TODO const token = getState().auth.user?.token;
+  // if (!token) return;
+  // console.log('token exists');
 
-  const response = await createNewUserApi({ ...user, token });
+  const response = await createNewUserApi(user); // TODO , token
+  console.log('response');
+  console.log(response);
 
   if (response) {
     dispatch(setUser(response));
