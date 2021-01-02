@@ -44,8 +44,8 @@ interface DropdownProps extends BootstrapDropdownMetadata.DropdownProps {
   isValid?: boolean;
   required?: boolean;
   noFilter?: boolean; // Will make the user unable to filter through the options by typing in the dropdown's input
-  inlinePostText?: string;
-  postTextClassName?: string;
+  inlineText?: string;
+  inlineTextClassName?: string;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -59,8 +59,8 @@ const Dropdown: React.FC<DropdownProps> = ({
   isValid, // only provide this if you want a green checkmark. Should only be provided when multiple dropdowns are working in unison
   required,
   noFilter,
-  inlinePostText,
-  postTextClassName = '',
+  inlineText,
+  inlineTextClassName = '',
   className = '',
   options,
   onSelect,
@@ -162,9 +162,9 @@ const Dropdown: React.FC<DropdownProps> = ({
           </BootstrapDropdown.Menu>
         </BootstrapDropdown>
 
-        {inlinePostText && (
-          <div className={`dropdown-inline-text ${postTextClassName}`}>
-            {inlinePostText}
+        {inlineText && (
+          <div className={`dropdown-inline-text ${inlineTextClassName}`}>
+            {inlineText}
           </div>
         )}
       </div>

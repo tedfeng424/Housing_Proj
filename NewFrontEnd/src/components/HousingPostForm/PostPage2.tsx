@@ -74,28 +74,29 @@ const Page2: React.FC<WizardFormStep<Page2Store>> = ({
       </Form.Row>
 
       <Form.Row className="m-2 align-bottom">
-        <Col md={3}>
+        <Form.Label className="post-word">
+          Unit Size<span className="required-asterisk"> *</span>
+        </Form.Label>
+        <Col md={5}>
           <Dropdown
-            label="Bedrooms"
+            inlineText="Bedrooms"
             options={['1', '2', '3', '4', '5', '6+']}
             initialSelected={numBeds}
             isValid={validations?.numBeds?.success}
             error={validations?.numBeds?.error}
             onSelect={(s) => setStore({ numBeds: s !== null ? s : undefined })}
             noFilter
-            required
           />
         </Col>
-        <Col md={{ span: 3, offset: 3 }}>
+        <Col md={{ span: 5, offset: 1 }}>
           <Dropdown
-            label="Bathrooms"
+            inlineText="Bathrooms"
             options={['0', '0.5', '1', '1.5', '2', '2.5', '3', '3.5', '4']}
             initialSelected={numBaths}
             isValid={validations?.numBaths?.success}
             error={validations?.numBaths?.error}
             onSelect={(s) => setStore({ numBaths: s !== null ? s : undefined })}
             noFilter
-            required
           />
         </Col>
       </Form.Row>
