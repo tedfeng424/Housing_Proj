@@ -18,7 +18,7 @@ interface ToggleGroupProps
   center?: boolean; // determines whether or not to center the toggles/labels/errors
   onSelect?: (
     newlySelected: { label: string; selected: boolean },
-    allSelected: boolean[],
+    allSelected: boolean[], // TODO change this to be { label: string; selected: boolean }, and change toggle group to keep track of which are selected with label instead of array of booleans
   ) => any;
   label?: string;
   labelClassName?: string;
@@ -39,7 +39,7 @@ const selectedAsBoolArr = (
   selected: boolean[] | string[] | string,
 ): boolean[] => {
   if (Array.isArray(selected)) {
-    if (typeof content[0] === 'string') {
+    if (typeof selected[0] === 'string') {
       return getLabels(content).map((label) =>
         (selected as string[]).includes(label),
       );

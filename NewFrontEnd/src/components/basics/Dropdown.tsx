@@ -155,7 +155,7 @@ const Dropdown: React.FC<DropdownProps> = ({
 
           <BootstrapDropdown.Menu ref={dropdownMenuRef}>
             {filteredOptions.map((option) => (
-              <BootstrapDropdown.Item eventKey={option}>
+              <BootstrapDropdown.Item key={option} eventKey={option}>
                 {option}
               </BootstrapDropdown.Item>
             ))}

@@ -1,44 +1,66 @@
 import React from 'react';
+import Button from 'react-bootstrap/Button';
 import * as z from 'zod';
-import { Container, Form, Row } from 'react-bootstrap';
+import {
+  largeAmenitiesIcons,
+  amenitiesTranslations,
+} from '../../assets/icons/all';
 import { WizardFormStep } from '../WizardForm';
+import ToggleGroup from '../basics/ToggleGroup';
+import { translations } from '../../assets/icons/amenities/all';
+
+// TODO eventually copy this over to the FilterModel file
+// const partialPreferences = z.object();
+
+// type Preferences = z.infer<typeof partialPreferences>;
+
+type Amenity = keyof typeof largeAmenitiesIcons;
 
 export const page5Schema = z.object({
-  leaserIntro: z
-    .string()
-    .min(1, 'You need to provide an introduction for others!')
-    .max(500, 'Your introduction can only have maximum of 500 characters'),
+  amenities: z.string().array(),
 });
 
 export type Page5Store = z.infer<typeof page5Schema>;
 
-export const page5InitialStore: Page5Store = {
-  leaserIntro: '',
+type Page5TypedStore = {
+  amenities: Array<Amenity>; // { [key: number]: keyof typeof largeAmenitiesIcons }
 };
 
-const PostPage5: React.FC<WizardFormStep<Page5Store>> = ({
-  leaserIntro,
-  validations,
+export const page5InitialStore: Page5TypedStore = {
+  amenities: [],
+};
+
+const PostPage5: React.FC<WizardFormStep<Page5TypedStore>> = ({
+  amenities,
   setStore,
 }) => {
   return (
-    <Container>
-      <Row>
-        <Form.Group className="w-100">
-          <Form.Label className="post-word">
-            What's your lifestyle like?
-          </Form.Label>
-          <Form.Control
-            className="post-text"
-            as="textarea"
-            value={leaserIntro}
-            placeholder="Introduce yourself to your potential roommates!"
-            rows={5}
-            onChange={(e) => setStore({ leaserIntro: e.target.value })}
-          />
-        </Form.Group>
-      </Row>
-    </Container>
+    <ToggleGroup
+      toggleClassName="house-post-amenities-toggle"
+      label="Please select all the amenities your place offers"
+      content={(Object.keys(largeAmenitiesIcons) as [Amenity]).map((key) => ({
+        label: amenitiesTranslations[key],
+        icon: largeAmenitiesIcons[key],
+      }))}
+      initialSelected={amenities?.map(
+        (amenity) => amenitiesTranslations[amenity],
+      )}
+      onSelect={({ label, selected }) => {
+        const amenityKey = Object.keys(amenitiesTranslations).find(
+          (key) => amenitiesTranslations[key as Amenity] === label,
+        ) as Amenity;
+
+        if (selected) {
+          amenities.push(amenityKey);
+          setStore({ amenities: [...amenities] });
+        } else {
+          setStore({
+            amenities: amenities.filter((amenity) => amenity !== amenityKey),
+          });
+        }
+      }}
+      center
+    />
   );
 };
 
