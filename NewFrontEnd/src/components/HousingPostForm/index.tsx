@@ -10,19 +10,19 @@ import WizardForm from '../WizardForm';
 type Store = Page2Store & Page3Store & Page4Store & Page5Store & Page6Store; // Page1Store &
 
 const initialStore = [
+  page6InitialStore,
   page2InitialStore,
   page3InitialStore,
   page4InitialStore,
   page5InitialStore,
-  page6InitialStore,
 ];
 
 const schemas = [
+  page6Schema,
   page2Schema,
   page3Schema,
   page4Schema,
   page5Schema,
-  page6Schema,
 ];
 
 interface HousingPostProps {
@@ -47,11 +47,11 @@ const HousingPost: React.FC<HousingPostProps> = ({ show, setShow }) => (
     initialStore={initialStore}
     schemas={schemas}
   >
+    <Page6 />
     <Page2 />
     <Page3 />
     <Page4 />
     <Page5 />
-    <Page6 />
   </WizardForm>
 );
 

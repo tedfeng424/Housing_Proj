@@ -1,6 +1,6 @@
 import React from 'react';
 import * as z from 'zod';
-import { Container, Row, Button } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import ImageUploader from 'react-images-upload';
 import { WizardFormStep } from '../WizardForm';
 
@@ -17,6 +17,7 @@ export const page6InitialStore: Page6Store = {
 };
 
 const PostPage6: React.FC<WizardFormStep<Page6Store>> = ({
+  pictures,
   validations,
   setStore,
   submitForm,
@@ -24,20 +25,36 @@ const PostPage6: React.FC<WizardFormStep<Page6Store>> = ({
   return (
     <Container>
       <Row>
+        <Col>
+          <span className="post-title">Upload photos of your place</span>
+        </Col>
+      </Row>
+
+      <Row>
         <ImageUploader
           withIcon
           withPreview
-          label="Upload images of your home!"
-          onChange={(p) => setStore({ pictures: p })}
+          label=""
+          onChange={(p) => {
+            setStore({ pictures: [...pictures, ...p] });
+          }}
           imgExtension={['.jpg', '.png', '.jpeg']}
           maxFileSize={5242880}
+          className="house-post-image-uploader"
+          buttonText="+"
+          buttonClassName="house-post-image-uploader-btn"
+          errorClass="house-post-error-label"
         />
       </Row>
-      <div className="text-center">
+      <div className="house-post-error-label">
+        {validations?.pictures?.error}
+      </div>
+
+      {/* <div className="text-center">
         <Button variant="primary" onClick={() => submitForm()}>
           Submit
         </Button>
-      </div>
+      </div> */}
     </Container>
   );
 };
