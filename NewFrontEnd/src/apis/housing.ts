@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { HousePost } from '../assets/models/PostModels';
+import {
+  CreateHousePostProperties,
+  HousePost,
+} from '../assets/models/PostModels';
 import { FilterModel } from '../assets/models/FilterModel';
 import { backendAPI } from './apiBases';
 
@@ -67,7 +70,7 @@ const searchHousingPostsAPI = async ({
 };
 
 const newHousingPostAPI = async (
-  roomForm: HousePost, // TODO
+  roomForm: CreateHousePostProperties, // TODO double check that this is the correct type for param, and you need to type the promise
 ): Promise<any[] | undefined> => {
   try {
     const result = await backendAPI.post('/postRoom', roomForm, {

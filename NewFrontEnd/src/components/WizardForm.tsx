@@ -43,7 +43,8 @@ interface WizardFormProps<T = {}> {
   initialStore: Partial<T>[];
   schemas: ZodSchema<Partial<T>>[];
   lastButtonAsInactiveArrow?: boolean;
-  customLastButton?: React.ReactElement<HTMLButtonElement>;
+  // TODO customLastButton?: React.ReactElement<HTMLButtonElement>;
+  lastButtonText?: string;
 }
 
 /**
@@ -62,7 +63,8 @@ const WizardForm = <T extends {}>({
   initialStore,
   schemas,
   lastButtonAsInactiveArrow,
-  customLastButton,
+  // TODO customLastButton,
+  lastButtonText = 'Submit',
 }: WizardFormProps<T>) => {
   const [curIndex, setCurIndex] = useState<number>(0);
   const [isFirst, setIsFirst] = useState<boolean>(true);
@@ -333,7 +335,7 @@ const WizardForm = <T extends {}>({
 
             <div className="ml-2 align-self-center">
               {isLast ? (
-                customLastButton ||
+                // TODO customLastButton ||
                 (lastButtonAsInactiveArrow && (
                   <Button variant="no-show">
                     <miscIcons.smallRightArrowDisabled />
@@ -344,7 +346,7 @@ const WizardForm = <T extends {}>({
                     className="m-0"
                     onClick={submitForm}
                   >
-                    Submit
+                    {lastButtonText}
                   </Button>
                 )
               ) : (

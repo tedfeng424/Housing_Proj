@@ -30,9 +30,10 @@ export const page3Schema = z
     { message: 'Choose a valid date range', path: ['earlyInterval'] },
   );
 
-export type Page3Store = Partial<z.infer<typeof page3Schema>>;
+export type Page3Store = z.infer<typeof page3Schema>;
+type Page3CorrectlyTypedStore = Partial<Page3Store>;
 
-export const page3InitialStore: Page3Store = {
+export const page3InitialStore: Page3CorrectlyTypedStore = {
   stayPeriod: 12,
   earlyInterval: Interval.Anytime,
   earlyMonth: Month.Anytime,
@@ -41,7 +42,7 @@ export const page3InitialStore: Page3Store = {
   price: undefined,
 };
 
-const Page3: React.FC<WizardFormStep<Page3Store>> = ({
+const Page3: React.FC<WizardFormStep<Page3CorrectlyTypedStore>> = ({
   stayPeriod,
   earlyInterval,
   earlyMonth,

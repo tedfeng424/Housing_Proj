@@ -16,7 +16,12 @@ import {
 import GoogleMap from './GoogleMap';
 import PreviewSlideShow from './PreviewSlideShow';
 import { SlideShowItem } from './SlideShow';
-import { contactIcons, miscIcons, facilityIcons } from '../assets/icons/all';
+import {
+  contactIcons,
+  miscIcons,
+  facilityIcons,
+  amenitiesTranslations,
+} from '../assets/icons/all';
 import { LOGIN_TO_VIEW } from '../assets/constants/messages';
 import { HousePost } from '../assets/models/PostModels';
 import { Month } from '../assets/constants';
@@ -38,18 +43,33 @@ export const facilityToIcon = {
   'Swimming pool': <facilityIcons.swimmingPool />,
   'Pets friendly': <facilityIcons.petsFriendly />,
   'Indoor washer': <facilityIcons.indoorWasher />,
+
+  // TODO need to edit above icons in new format and make actual icons for the below ones
+  'Pets Friendly': undefined,
+  'Common Area': undefined,
+  Furnished: undefined,
+  'A/C': undefined,
+  'No Smoking': undefined,
+  'Indoor Laundry': undefined,
+  'Outdoor Parking': undefined,
+  'Indoor Parking': undefined,
+  'Swimming Pool': undefined,
+  'Hardwood Floor': undefined,
+  // Elevator: undefined,
+  Gym: undefined,
 };
 
 const GetIcon: React.FC<{ str: keyof typeof facilityToIcon }> = ({ str }) => (
   <div className="mt-2">{facilityToIcon[str]}</div>
 );
 
-interface PathProps extends HousePost {
+export interface HouseProfileProps extends Omit<HousePost, 'roomId'> {
+  roomId?: number;
   show: boolean;
-  setShow: (show: boolean) => void;
+  onHide: () => any;
 }
 
-const HouseProfile: React.FC<PathProps> = ({
+const HouseProfile: React.FC<HouseProfileProps> = ({
   name,
   pricePerMonth,
   roomType,
@@ -70,7 +90,7 @@ const HouseProfile: React.FC<PathProps> = ({
   other,
   facilities,
   show,
-  setShow,
+  onHide,
   negotiable,
 }) => {
   const favorites = useSelector(selectHousingFavorites);
@@ -110,7 +130,7 @@ const HouseProfile: React.FC<PathProps> = ({
   return (
     <Modal
       show={show}
-      onHide={() => setShow(false)}
+      onHide={onHide}
       size="xl"
       centered
       className="house-profile-modal"
@@ -190,6 +210,8 @@ const HouseProfile: React.FC<PathProps> = ({
               <Button
                 variant="tertiary"
                 onClick={() => {
+                  if (!roomId) return;
+
                   const housePost = {
                     // TODO change the prop vars to be the same name as HouseCard
                     photos,
@@ -222,7 +244,7 @@ const HouseProfile: React.FC<PathProps> = ({
                   }
                 }}
               >
-                {favorites && favorites[roomId]
+                {favorites && roomId && favorites[roomId]
                   ? 'Remove bookmark!'
                   : 'Add bookmark!'}
               </Button>

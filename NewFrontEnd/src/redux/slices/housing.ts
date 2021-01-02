@@ -1,6 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getHousingPostsAPI, searchHousingPostsAPI } from '../../apis';
-import { HousePost } from '../../assets/models/PostModels';
+import {
+  CreateHousePostProperties,
+  HousePost,
+} from '../../assets/models/PostModels';
 import { FilterModel } from '../../assets/models/FilterModel';
 import { AppThunk, RootState } from '../store';
 import {
@@ -113,9 +116,10 @@ export const searchHousingPosts = (housePost: FilterModel): AppThunk => async (
   }
 };
 
-export const newHousingPost = (housePost: HousePost): AppThunk => async (
-  dispatch,
-) => {
+// TODO double check that CreateHousePostProperties works. it was HousePost previously
+export const newHousingPost = (
+  housePost: CreateHousePostProperties,
+): AppThunk => async (dispatch) => {
   const result = await newHousingPostAPI(housePost);
   if (result) {
     // dispatch(appendToHousingPosts([housePost]));

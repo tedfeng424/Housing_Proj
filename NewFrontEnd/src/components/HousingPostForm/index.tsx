@@ -1,11 +1,20 @@
-import React from 'react';
-// import Page1, { Page1Store, page1InitialStore, page1Schema } from './PostPage1';
+import React, { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../redux/slices/auth';
+import { dummyUser, User } from '../../assets/models/User';
+import HouseProfile, { facilityToIcon } from '../HouseProfile';
 import Page2, { Page2Store, page2InitialStore, page2Schema } from './PostPage2';
 import Page3, { Page3Store, page3InitialStore, page3Schema } from './PostPage3';
 import Page4, { Page4Store, page4InitialStore, page4Schema } from './PostPage4';
 import Page5, { Page5Store, page5InitialStore, page5Schema } from './PostPage5';
 import Page6, { Page6Store, page6InitialStore, page6Schema } from './PostPage6';
 import WizardForm from '../WizardForm';
+import {
+  CreateHousePostProperties,
+  HousePostUserData,
+} from '../../assets/models/PostModels';
+import { Interval, Month, RoomType } from '../../assets/constants';
 
 type Store = Page2Store & Page3Store & Page4Store & Page5Store & Page6Store; // Page1Store &
 
@@ -30,29 +39,124 @@ interface HousingPostProps {
   setShow: (show: boolean) => void;
 }
 
-// TODO only show PostPage1 for first time user
-const HousingPost: React.FC<HousingPostProps> = ({ show, setShow }) => (
-  <WizardForm<Store>
-    show={show}
-    setShow={setShow}
-    onSubmit={(n) => {
-      console.log('clicked');
-      console.log(n);
-      // dispatch(
-      //   userPost(() => postHousing(FormMation(pictures, posts))),
-      // ); // TODO
-      return true;
-    }}
-    title="Make your post"
-    initialStore={initialStore}
-    schemas={schemas}
-  >
-    <Page2 />
-    <Page3 />
-    <Page4 />
-    <Page5 />
-    <Page6 />
-  </WizardForm>
-);
+const tempEmptyHouseData: Omit<CreateHousePostProperties, 'photos'> & {
+  photos: string[];
+} = {
+  // TODO temporary. shouldn't need this eventually
+  name: 'Loading...',
+  location: 'Loading...',
+  distance: 'Loading...',
+  pricePerMonth: 0,
+  stayPeriod: 12,
+  early: 'Loading',
+  late: 'Loading',
+  roomType: 'Loading',
+  photos: [],
+  other: [],
+  facilities: [],
+  negotiable: false,
+};
+
+const storeToHouseData = ({
+  propertyType,
+  selectedLocation,
+  price,
+  stayPeriod,
+  earlyInterval,
+  earlyMonth,
+  lateInterval,
+  lateMonth,
+  roomTypes,
+  pictures,
+  preferences,
+  amenities,
+}: Store): Omit<CreateHousePostProperties, 'photos'> & { photos: string[] } => {
+  const distance = 'get distance'; // TODO actually get the distance
+  return {
+    name: propertyType,
+    location: selectedLocation,
+    distance,
+    pricePerMonth: price,
+    stayPeriod,
+    early: `${earlyInterval} ${earlyMonth}`,
+    late: `${lateInterval} ${lateMonth}`,
+    roomType: roomTypes[0], // TODO need to change database to hold array of strings
+    photos: [], // TODO need to change a ton of things to be able to display files as well as strings pictures,
+    other: preferences,
+    facilities: amenities as (keyof typeof facilityToIcon)[],
+    negotiable: false, // TODO not in the house post yet
+  };
+};
+
+const userToHousePostUser = ({
+  name,
+  email,
+  phone,
+  major,
+  schoolYear,
+  description,
+}: User): HousePostUserData => ({
+  leaserName: name,
+  leaserEmail: email,
+  leaserPhone: phone,
+  leaserSchoolYear: schoolYear,
+  leaserIntro: description,
+  leaserMajor: major,
+  profilePhoto: '', // TODO need to actually have profile photo here
+});
+
+const HousingPost: React.FC<HousingPostProps> = ({ show, setShow }) => {
+  const [showPreview, setShowPreview] = useState<boolean>(false);
+  const [previewData, setPreviewData] = useState<Store>();
+  const user = useSelector(selectUser);
+
+  return (
+    <>
+      <HouseProfile
+        show={showPreview}
+        onHide={() => setShowPreview(false)}
+        {...tempEmptyHouseData}
+        {...(previewData ? storeToHouseData(previewData) : undefined)}
+        {...userToHousePostUser(user || dummyUser)}
+      />
+
+      <WizardForm<Store>
+        show={show}
+        setShow={setShow}
+        onSubmit={(data) => {
+          console.log('clicked');
+          console.log(data);
+          setPreviewData(data);
+          setShowPreview(true);
+          // dispatch(
+          //   userPost(() => postHousing(FormMation(pictures, posts))),
+          // ); // TODO
+          return true;
+        }}
+        title="Make your post"
+        initialStore={initialStore}
+        schemas={schemas}
+        lastButtonText="Preview"
+        // TODO customLastButton={
+        //   <Button
+        //     variant="secondary"
+        //     className="m-0"
+        //     onClick={() => {
+        //       setShowPreview(true);
+        //     }}
+        //   >
+        //     Preview
+        //   </Button>
+        // }
+      >
+        <Page2 />
+        <Page3 />
+        <Page4 />
+        <Page5 />
+        <Page6 />
+      </WizardForm>
+    </>
+  );
+};
 
 export default HousingPost;

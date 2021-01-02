@@ -49,12 +49,6 @@ const PostPage6: React.FC<WizardFormStep<Page6Store>> = ({
       <div className="house-post-error-label">
         {validations?.pictures?.error}
       </div>
-
-      <div className="text-center">
-        <Button variant="primary" onClick={() => submitForm()}>
-          Submit
-        </Button>
-      </div>
     </Container>
   );
 };

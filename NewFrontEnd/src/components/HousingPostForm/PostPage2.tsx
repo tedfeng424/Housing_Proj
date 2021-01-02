@@ -12,7 +12,7 @@ import ToggleGroup from '../basics/ToggleGroup';
 export const page2Schema = z.object({
   locationSearch: z.string(),
   selectedLocation: z.string().nonempty('Make sure to select an address.'),
-  // propertyType: z.string().nonempty('Make sure to select a property type.'),
+  propertyType: z.string().nonempty('Make sure to select a property type.'),
   // apartmentName: z.string(),
   numBeds: z.string().nonempty('Please enter number of bedrooms.'),
   numBaths: z.string().nonempty('Please enter number of bathrooms.'),
@@ -27,7 +27,7 @@ export type Page2Store = z.infer<typeof page2Schema>;
 export const page2InitialStore: Page2Store = {
   locationSearch: '',
   selectedLocation: '',
-  // propertyType: '',
+  propertyType: 'Townhouse', // TODO
   // apartmentName: '',
   numBeds: '',
   numBaths: '',
@@ -37,7 +37,7 @@ export const page2InitialStore: Page2Store = {
 const Page2: React.FC<WizardFormStep<Page2Store>> = ({
   locationSearch,
   selectedLocation,
-  // propertyType,
+  propertyType,
   // apartmentName,
   numBeds,
   numBaths,

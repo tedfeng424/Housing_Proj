@@ -89,7 +89,7 @@ const HouseCard: React.FC<PathProps> = ({
         leaserIntro={leaserIntro}
         roomId={roomId}
         show={show}
-        setShow={setShow}
+        onHide={() => setShow(false)}
         negotiable={negotiable}
       />
 

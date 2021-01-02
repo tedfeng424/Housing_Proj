@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 // import { Dropdown, DropdownButton, InputGroup } from 'react-bootstrap';
-import { selectShowNewUserPopup } from '../redux/slices/auth';
+import { selectShowNewUserPopup, selectUser } from '../redux/slices/auth';
 import HousingList from './HouseCardList';
 import Filter from './Filter';
 import TV from './TV';
@@ -17,6 +17,7 @@ import FilterForm from './FilterForm';
 
 const Home: React.FC = () => {
   const showNewUserPopup = useSelector(selectShowNewUserPopup);
+  const user = useSelector(selectUser);
 
   const [showLogin, setShowLogin] = useState<boolean>(false);
   const handleCloseLogin = () => setShowLogin(false);
