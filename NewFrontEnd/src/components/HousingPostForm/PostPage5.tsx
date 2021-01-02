@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
 import * as z from 'zod';
 import {
   largeAmenitiesIcons,
@@ -7,55 +6,52 @@ import {
 } from '../../assets/icons/all';
 import { WizardFormStep } from '../WizardForm';
 import ToggleGroup from '../basics/ToggleGroup';
-import { translations } from '../../assets/icons/amenities/all';
 
-// TODO eventually copy this over to the FilterModel file
-// const partialPreferences = z.object();
-
-// type Preferences = z.infer<typeof partialPreferences>;
-
-type Amenity = keyof typeof largeAmenitiesIcons;
+// TODO put in its own file
+enum Preference {
+  femaleOnly = 'Female only',
+  maleOnly = 'Male only',
+  coed = 'Co-ed',
+  clean = 'Clean',
+  quiet = 'Quiet',
+  partyOk = 'Party OK',
+  noParty = 'No party',
+  extrovert = 'Extrovert',
+  introvert = 'Introvert',
+  nightOwl = 'Night owl',
+  earlyBird = 'Early bird',
+  _420Friendly = '420 friendly',
+  smokeFree = 'Smoke free',
+  lgbtqFriendly = 'LGBTQ+ friendly',
+  overnightGuestOk = 'Overnight guest OK',
+  noOvernightGuest = 'No overnight Guest',
+}
 
 export const page5Schema = z.object({
-  amenities: z.string().array(),
+  preferences: z.string().array(),
 });
 
 export type Page5Store = z.infer<typeof page5Schema>;
 
-type Page5TypedStore = {
-  amenities: Array<Amenity>; // { [key: number]: keyof typeof largeAmenitiesIcons }
+export const page5InitialStore: Page5Store = {
+  preferences: [],
 };
 
-export const page5InitialStore: Page5TypedStore = {
-  amenities: [],
-};
-
-const PostPage5: React.FC<WizardFormStep<Page5TypedStore>> = ({
-  amenities,
+const PostPage5: React.FC<WizardFormStep<Page5Store>> = ({
+  preferences,
   setStore,
 }) => {
   return (
     <ToggleGroup
-      toggleClassName="house-post-amenities-toggle"
-      label="Please select all the amenities your place offers"
-      content={(Object.keys(largeAmenitiesIcons) as [Amenity]).map((key) => ({
-        label: amenitiesTranslations[key],
-        icon: largeAmenitiesIcons[key],
-      }))}
-      initialSelected={amenities?.map(
-        (amenity) => amenitiesTranslations[amenity],
-      )}
+      label="Please select from the following options to promote what type of person you are looking for to apply for this listing."
+      content={Object.values(Preference)}
+      initialSelected={preferences}
       onSelect={({ label, selected }) => {
-        const amenityKey = Object.keys(amenitiesTranslations).find(
-          (key) => amenitiesTranslations[key as Amenity] === label,
-        ) as Amenity;
-
         if (selected) {
-          amenities.push(amenityKey);
-          setStore({ amenities: [...amenities] });
+          setStore({ preferences: [...preferences, label] });
         } else {
           setStore({
-            amenities: amenities.filter((amenity) => amenity !== amenityKey),
+            preferences: preferences.filter((amenity) => amenity !== label),
           });
         }
       }}

@@ -113,8 +113,7 @@ const Page2: React.FC<WizardFormStep<Page2Store>> = ({
           initialSelected={roomTypes}
           onSelect={({ label, selected }) => {
             if (selected) {
-              roomTypes.push(label as RoomType);
-              setStore({ roomTypes: [...roomTypes] });
+              setStore({ roomTypes: [...roomTypes, label as RoomType] });
             } else {
               setStore({
                 roomTypes: roomTypes.filter((roomType) => roomType !== label),

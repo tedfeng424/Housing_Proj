@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import FilterButton from './FilterButton';
 import {
   roomTypeIcons,
@@ -22,7 +22,7 @@ import {
   RoomLiteralType,
 } from '../assets/models/FilterModel';
 import { searchHousingPosts } from '../redux/slices/housing';
-import { useSelector } from 'react-redux';
+
 import { setShow, selectShow } from '../redux/slices/filter';
 
 type RoomType = { [P in RoomLiteralType]: boolean };
@@ -142,13 +142,18 @@ const Filter: React.FC<{}> = () => {
       <div className="filter-launch-pad">
         <filterIcons.hello className="disappear-on-sm" />
         <filterIcons.arrow className="disappear-on-sm" />
-        <FilterButton name={'Find your place'} />
+        <FilterButton name="Find your place" />
         <filterIcons.arrow className="disappear-on-sm" />
         <filterIcons.loveHouse className="disappear-on-sm" />
       </div>
 
       {/* The filter itself */}
-      <Modal show={show} onHide={() => dispatch(setShow(false))} size="xl" centered>
+      <Modal
+        show={show}
+        onHide={() => dispatch(setShow(false))}
+        size="xl"
+        centered
+      >
         <Container>
           <Form>
             <Row className="justify-content-center my-4">

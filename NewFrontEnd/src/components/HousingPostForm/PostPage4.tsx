@@ -15,40 +15,29 @@ export const page4Schema = z.object({
 
 export type Page4Store = z.infer<typeof page4Schema>;
 
-type Page4TypedStore = {
-  amenities: Array<Amenity>;
-};
-
-export const page4InitialStore: Page4TypedStore = {
+export const page4InitialStore: Page4Store = {
   amenities: [],
 };
 
-const PostPage4: React.FC<WizardFormStep<Page4TypedStore>> = ({
+const PostPage4: React.FC<WizardFormStep<Page4Store>> = ({
   amenities,
   setStore,
 }) => {
   return (
     <ToggleGroup
       toggleClassName="house-post-amenities-toggle"
-      label="Please select all the amenities your place offers"
+      label="Please select all the amenities your place offers."
       content={(Object.keys(largeAmenitiesIcons) as [Amenity]).map((key) => ({
         label: amenitiesTranslations[key],
         icon: largeAmenitiesIcons[key],
       }))}
-      initialSelected={amenities?.map(
-        (amenity) => amenitiesTranslations[amenity],
-      )}
+      initialSelected={amenities}
       onSelect={({ label, selected }) => {
-        const amenityKey = Object.keys(amenitiesTranslations).find(
-          (key) => amenitiesTranslations[key as Amenity] === label,
-        ) as Amenity;
-
         if (selected) {
-          amenities.push(amenityKey);
-          setStore({ amenities: [...amenities] });
+          setStore({ amenities: [...amenities, label] });
         } else {
           setStore({
-            amenities: amenities.filter((amenity) => amenity !== amenityKey),
+            amenities: amenities.filter((amenity) => amenity !== label),
           });
         }
       }}
