@@ -42,6 +42,8 @@ interface WizardFormProps<T = {}> {
   onSubmit: (store: T) => boolean;
   initialStore: Partial<T>[];
   schemas: ZodSchema<Partial<T>>[];
+  lastButtonAsInactiveArrow?: boolean;
+  customLastButton?: React.ReactElement<HTMLButtonElement>;
 }
 
 /**
@@ -59,6 +61,8 @@ const WizardForm = <T extends {}>({
   onSubmit,
   initialStore,
   schemas,
+  lastButtonAsInactiveArrow,
+  customLastButton,
 }: WizardFormProps<T>) => {
   const [curIndex, setCurIndex] = useState<number>(0);
   const [isFirst, setIsFirst] = useState<boolean>(true);
@@ -315,35 +319,38 @@ const WizardForm = <T extends {}>({
           </div>
 
           <div className="d-flex">
-            <div className="mr-2">
+            <div className="mr-2 align-self-center">
               {isFirst ? (
-                <div>
-                  <Button variant="no-show" onClick={prevStep}>
-                    <miscIcons.smallLeftArrowDisabled />
-                  </Button>
-                </div>
+                <Button variant="no-show">
+                  <miscIcons.smallLeftArrowDisabled />
+                </Button>
               ) : (
-                <div>
-                  <Button variant="no-show" onClick={prevStep}>
-                    <miscIcons.smallLeftArrow />
-                  </Button>
-                </div>
+                <Button variant="no-show" onClick={prevStep}>
+                  <miscIcons.smallLeftArrow />
+                </Button>
               )}
             </div>
 
-            <div className="ml-2">
+            <div className="ml-2 align-self-center">
               {isLast ? (
-                <div>
-                  <Button variant="no-show" onClick={nextStep}>
+                customLastButton ||
+                (lastButtonAsInactiveArrow && (
+                  <Button variant="no-show">
                     <miscIcons.smallRightArrowDisabled />
                   </Button>
-                </div>
-              ) : (
-                <div>
-                  <Button variant="no-show" onClick={nextStep}>
-                    <miscIcons.smallRightArrow />
+                )) || (
+                  <Button
+                    variant="secondary"
+                    className="m-0"
+                    onClick={submitForm}
+                  >
+                    Submit
                   </Button>
-                </div>
+                )
+              ) : (
+                <Button variant="no-show" onClick={nextStep}>
+                  <miscIcons.smallRightArrow />
+                </Button>
               )}
             </div>
           </div>

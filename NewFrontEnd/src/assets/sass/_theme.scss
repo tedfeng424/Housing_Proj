@@ -61,10 +61,15 @@ body {
 // .btn,
 .btn-primary {
   @extend .rounded-pill;
-  @extend .py-1;
-  @extend .px-4;
-  @extend .mx-4;
-  @extend .my-2;
+  // @extend .py-1;
+  // @extend .px-4;
+  // @extend .mx-4;
+  // @extend .my-2;
+  @include py(1);
+  @include px(4);
+  @include mx(4);
+  @include my(2);
+
   font-weight: $bold-font-weight;
   font-size: $xl-font-size;
   background-color: $primary-light-color;

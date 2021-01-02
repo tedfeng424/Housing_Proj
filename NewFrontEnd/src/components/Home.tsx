@@ -14,8 +14,6 @@ import HousingPost from './HousingPostForm';
 import BookmarksList from './BookmarksList';
 import NewUserSetup from './NewUserSetup';
 import FilterForm from './FilterForm';
-import ToggleGroup from './basics/ToggleGroup'; // TODO delete once done testing
-import triple from '../assets/icons/test/all';
 
 const Home: React.FC = () => {
   const showNewUserPopup = useSelector(selectShowNewUserPopup);
