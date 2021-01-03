@@ -1,17 +1,10 @@
 import React, { useState } from 'react';
-import {
-  Button,
-  Col,
-  Container,
-  Form,
-  Modal,
-  Row,
-  Dropdown,
-  FormCheck,
-} from 'react-bootstrap';
+import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
+import Dropdown from './basics/Dropdown';
 import { useSelector, useDispatch } from 'react-redux';
 import Image from 'react-bootstrap/Image';
 import { majors } from '../assets/constants';
+import Input from './basics/Input';
 import { miscIcons, profileIcons } from '../assets/icons/all';
 import {
   selectUser,
@@ -305,43 +298,29 @@ const ProfileModal: React.FC<PathProps> = ({ show, setShow }) => {
                         <Form.Label className="profile-form-label">
                           Major
                         </Form.Label>
-                        <Form.Control
-                          as={Dropdown}
-                          readOnly={activeIndicator}
-                          className="single-line-input d-flex py-0 pr-0"
-                          type="text"
-                          value={userSelectedDraft.major}
-                        >
-                          <Button
-                            variant="no-show"
-                            className="profile-button single-line-input"
-                          >
-                            {userSelectedDraft.major}
-                          </Button>
-                          <Dropdown.Toggle
-                            className="ml-auto h-100 profile-drop"
-                            variant="success"
-                            id="dropdown-major"
+                        {!activeIndicator ? (
+                          <Dropdown
+                            options={majors}
+                            label=""
+                            onSelect={(s) =>
+                              dispatch(
+                                setUserDraft({
+                                  ...userSelectedDraft,
+                                  major: s || userSelectedDraft.major,
+                                }),
+                              )
+                            }
+                            initialSelected={userSelectedDraft.major}
+                            placeholder="Major"
                           />
-                          <Dropdown.Menu className="w-100 profile-drop-content">
-                            {majors.map((major) => (
-                              <Dropdown.Item
-                                active={major === userSelectedDraft.major}
-                                eventKey={major}
-                                onSelect={(event) =>
-                                  dispatch(
-                                    setUserDraft({
-                                      ...userSelectedDraft,
-                                      major: event || '',
-                                    }),
-                                  )
-                                }
-                              >
-                                {major}
-                              </Dropdown.Item>
-                            ))}
-                          </Dropdown.Menu>
-                        </Form.Control>
+                        ) : (
+                          <Input
+                            type="text"
+                            value={userSelectedDraft.major}
+                            readOnly
+                            placeholder="Major"
+                          />
+                        )}
                       </Form.Group>
                     </Form.Row>
                     <Form.Row className="m-2">
