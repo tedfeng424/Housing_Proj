@@ -35,9 +35,6 @@ const Home: React.FC = () => {
       <Login show={showLogin} handleClose={handleCloseLogin} />
       <HousingPost show={showHousingPost} setShow={setShowHousingPost} />
 
-      {/* temp */}
-      <FilterForm show={showFilterForm} setShow={setShowFilterForm} />
-
       {showNewUserPopup !== undefined && ( // TODO temporary. Should handle in the wizard form i think
         <NewUserSetup
           show={showNewUserPopup !== undefined}
@@ -57,8 +54,6 @@ const Home: React.FC = () => {
           <div className="mb-5">
             <Filter />
           </div>
-
-          <Button onClick={(e) => handleShowFilterForm()}>filter</Button>
 
           <div>
             <HousingList />
