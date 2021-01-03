@@ -1,13 +1,13 @@
 import React from 'react';
-import { Container, Row, Form } from 'react-bootstrap';
+import { Container, Row, Form, Button } from 'react-bootstrap';
 import * as z from 'zod';
 import { WizardFormStep } from '../WizardForm';
 import ToggleGroup from '../basics/ToggleGroup';
 
 // TODO put in its own file
 enum Preference {
-  femaleOnly = 'Female only',
-  maleOnly = 'Male only',
+  female = 'Female only', // femaleOnly
+  male = 'Male only', // maleOnly
   coed = 'Co-ed',
   // clean = 'Clean',
   // quiet = 'Quiet',
@@ -17,9 +17,9 @@ enum Preference {
   // introvert = 'Introvert',
   // nightOwl = 'Night owl',
   // earlyBird = 'Early bird',
-  _420Friendly = '420 friendly',
+  _420 = '420 friendly', // _420Friendly
   smokeFree = 'Smoke free',
-  lgbtqFriendly = 'LGBTQ+ friendly',
+  lgbtq = 'LGBTQ+ friendly', // lgbtqFriendly
   overnightGuestOk = 'Overnight guest OK',
   noOvernightGuest = 'No overnight Guest',
 }
@@ -37,6 +37,7 @@ export const page6InitialStore: Page6Store = {
 const FilterPage6: React.FC<WizardFormStep<Page6Store>> = ({
   preferences,
   setStore,
+  submitForm,
 }) => {
   return (
     <Container>
@@ -61,6 +62,10 @@ const FilterPage6: React.FC<WizardFormStep<Page6Store>> = ({
           }}
           center
         />
+      </Form.Row>
+
+      <Form.Row className="justify-content-center m-2">
+        <Button onClick={() => submitForm()}>Find Best Fit Now!</Button>
       </Form.Row>
     </Container>
   );

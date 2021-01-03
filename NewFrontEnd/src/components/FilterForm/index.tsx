@@ -1,4 +1,6 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { searchHousingPosts } from '../../redux/slices/housing';
 import FilterPage1, {
   Page1Store,
   page1InitialStore,
@@ -30,6 +32,39 @@ import FilterPage6, {
   page6Schema,
 } from './FilterPage6';
 import WizardForm from '../WizardForm';
+import {
+  FilterModel,
+  PreferenceLiteralType,
+  Preferences,
+  RoomLiteralType,
+} from '../../assets/models/FilterModel';
+import { RoomType } from '../../assets/constants';
+
+type enumCheckSuccess<T extends { [index: string]: string }> = {
+  key: keyof T;
+  success: boolean;
+};
+type enumCheckFail = { key: undefined; success: boolean };
+const enumKeyFromStringValue = <T extends { [index: string]: string }>(
+  e: T,
+  v: string,
+): enumCheckSuccess<T> | enumCheckFail => {
+  const keys = Object.keys(e).filter((x) => e[x] === v);
+  return keys.length > 0
+    ? {
+        key: keys[0],
+        success: true,
+      }
+    : {
+        key: undefined,
+        success: false,
+      };
+};
+const checkSuccess = <T extends { [index: string]: string }>(
+  result: enumCheckSuccess<T> | enumCheckFail,
+): result is enumCheckSuccess<T> => {
+  return result.success;
+};
 
 type Store = Page1Store &
   Page2Store &
@@ -56,34 +91,89 @@ const schemas = [
   page6Schema,
 ];
 
+// TODO: this is still the old filter format. update
+// to new one ASAP!
+const formatRequest = (s: Store): FilterModel => {
+  // const roomSelections: RoomLiteralType[] = [
+  //   'single',
+  //   'double',
+  //   'triple',
+  //   'livingRoom',
+  //   'suite',
+  //   'studio',
+  // ];
+  const otherPrefs: PreferenceLiteralType[] = [
+    'female',
+    'male',
+    'lgbtq',
+    'pets',
+    '_420',
+  ];
+  const facilities: PreferenceLiteralType[] = ['parking', 'privateBath'];
+
+  const selectedRooms = s.roomTypes.reduce<RoomLiteralType[]>(
+    (result, type) => {
+      const r = enumKeyFromStringValue(RoomType, type);
+      if (checkSuccess(r)) {
+        result.push(r.key);
+      }
+      return result;
+    },
+    [],
+  );
+
+  // const selectedPrefs = otherPrefs.reduce<PreferenceLiteralType[]>(
+  //   (result, preference) => {
+  //     const r = enumKeyFromStringValue(, type)
+  //   }
+  // );
+
+  return {
+    distance: `${s.distance} mins`,
+    roomType: selectedRooms,
+    stayPeriod: s.stayPeriod,
+    priceMin: s.minPrice,
+    priceMax: s.maxPrice,
+    earlyInterval: s.earlyInterval as string,
+    earlyMonth: s.earlyMonth as string,
+    lateInterval: s.lateInterval as string,
+    lateMonth: s.lateMonth as string,
+    other: [], // TODO fix
+    facilities: [], // TODO fix
+  };
+};
+
 interface FilterFormProps {
   show: boolean;
   setShow: (show: boolean) => void;
 }
 
-const FilterForm: React.FC<FilterFormProps> = ({ show, setShow }) => (
-  <WizardForm<Store>
-    show={show}
-    setShow={setShow}
-    onSubmit={(n) => {
-      console.log('clicked');
-      console.log(n);
-      // dispatch(
-      //   userPost(() => postHousing(FormMation(pictures, posts))),
-      // ); // TODO
-      return true;
-    }}
-    title="Filter & Match"
-    initialStore={initialStore}
-    schemas={schemas}
-  >
-    <FilterPage1 />
-    <FilterPage2 />
-    <FilterPage3 />
-    <FilterPage4 />
-    <FilterPage5 />
-    <FilterPage6 />
-  </WizardForm>
-);
+const FilterForm: React.FC<FilterFormProps> = ({ show, setShow }) => {
+  const dispatch = useDispatch();
+  return (
+    <WizardForm<Store>
+      show={show}
+      setShow={setShow}
+      onSubmit={(n) => {
+        console.log('clicked');
+        console.log(n);
+        const formattedRequest = formatRequest(n);
+        console.log(formattedRequest);
+        dispatch(searchHousingPosts(formattedRequest));
+        return true;
+      }}
+      title="Filter & Match"
+      initialStore={initialStore}
+      schemas={schemas}
+    >
+      <FilterPage1 />
+      <FilterPage2 />
+      <FilterPage3 />
+      <FilterPage4 />
+      <FilterPage5 />
+      <FilterPage6 />
+    </WizardForm>
+  );
+};
 
 export default FilterForm;
