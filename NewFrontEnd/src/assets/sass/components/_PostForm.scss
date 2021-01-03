@@ -159,7 +159,14 @@
     }
   }
 
-  &-preview-modal .modal-dialog {
-    margin-top: $house-post-preview-wrapper-height - 10px;
+  &-preview-modal {
+    $content-margin-top: $house-post-preview-wrapper-height;
+    & .modal-content {
+      // margin-top: $content-margin-top;
+    }
+
+    & .modal-dialog {
+      margin-top: $content-margin-top;
+    }
   }
 }

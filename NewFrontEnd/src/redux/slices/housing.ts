@@ -3,6 +3,7 @@ import { getHousingPostsAPI, searchHousingPostsAPI } from '../../apis';
 import {
   CreateHousePostProperties,
   HousePost,
+  HousePostUserData,
 } from '../../assets/models/PostModels';
 import { FilterModel } from '../../assets/models/FilterModel';
 import { AppThunk, RootState } from '../store';
@@ -119,10 +120,20 @@ export const searchHousingPosts = (housePost: FilterModel): AppThunk => async (
 // TODO double check that CreateHousePostProperties works. it was HousePost previously
 export const newHousingPost = (
   housePost: CreateHousePostProperties,
-): AppThunk => async (dispatch) => {
-  const result = await newHousingPostAPI(housePost);
+): AppThunk => async (dispatch, getState) => {
+  console.log('POSTING');
+  const email = getState().auth.user?.email;
+  if (!email) return;
+  const result = await newHousingPostAPI({ ...housePost, email });
+  console.log('result');
+  console.log(result);
   if (result) {
-    // dispatch(appendToHousingPosts([housePost]));
+    // TODO cannot do the below until the newHousingPostAPI is changed to return roomId
+    // dispatch(
+    //   appendToHousingPosts([
+    //     { ...housePost, ...curUserMappedToHouseProperties },
+    //   ]),
+    // );
   } else {
     // handle the error
   }
