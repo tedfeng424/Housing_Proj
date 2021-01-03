@@ -2,14 +2,15 @@ import React from 'react';
 import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 import * as z from 'zod';
 import { RoomType } from '../../assets/constants';
-import { roomTypeIcons } from '../../assets/icons/all';
+import { roomTypeIconsTemp } from '../../assets/icons/all';
 import { WizardFormStep } from '../WizardForm';
 import Dropdown from '../basics/Dropdown';
+import ToggleGroup from '../basics/ToggleGroup';
 
 export const page2Schema = z.object({
   numBeds: z.string(),
   numBaths: z.string(),
-  roomType: z.nativeEnum(RoomType),
+  roomTypes: z.nativeEnum(RoomType).array(),
 });
 
 export type Page2Store = z.infer<typeof page2Schema>;
@@ -17,13 +18,13 @@ export type Page2Store = z.infer<typeof page2Schema>;
 export const page2InitialStore: Page2Store = {
   numBeds: '0',
   numBaths: '0',
-  roomType: RoomType.single,
+  roomTypes: [],
 };
 
-const Page2: React.FC<WizardFormStep<Page2Store>> = ({
+const FilterPage2: React.FC<WizardFormStep<Page2Store>> = ({
   numBeds,
   numBaths,
-  roomType,
+  roomTypes,
   validations,
   setStore,
 }) => {
@@ -35,80 +36,67 @@ const Page2: React.FC<WizardFormStep<Page2Store>> = ({
 
       <br />
 
-      <Row className="m-2">
+      <Form.Row className="m-2">
         <Col>
           <Form.Label className="filterform-word">Unit Size</Form.Label>
         </Col>
-      </Row>
-      <Row className="m-2">
-        <Col md={2}>
+      </Form.Row>
+      <Form.Row className="m-2">
+        <Col md={5}>
           <Dropdown
             options={['0', '1', '2', '3', '4', '5']}
             initialSelected={numBeds}
             // className="filterform-short-dropdown"
+            inlineText="Bedrooms"
             isValid={validations?.numBeds?.success}
             error={validations?.numBeds?.error}
             onSelect={(s, e) =>
               setStore({ numBeds: s !== null ? s : undefined })
             }
+            noFilter
           />
         </Col>
-        <Col md={2}>
-          <Form.Label className="filterform-word m-2">Bedrooms</Form.Label>
-        </Col>
-        <Col md={2}>
+        <Col md={{ span: 5, offset: 1 }}>
           <Dropdown
             options={['0', '0.5', '1', '1.5', '2', '2.5', '3']}
             initialSelected={numBaths}
             // className="filterform-short-dropdown"
+            inlineText="Bathrooms"
             isValid={validations?.numBaths?.success}
             error={validations?.numBaths?.error}
             onSelect={(s, e) =>
               setStore({ numBaths: s !== null ? s : undefined })
             }
+            noFilter
           />
         </Col>
-        <Col md={2}>
-          <Form.Label className="filterform-word m-2">Bathrooms</Form.Label>
-        </Col>
-      </Row>
+      </Form.Row>
 
-      <Row className="m-2 mt-5">
+      <Form.Row className="m-2 mt-5">
         <Col>
-          <Form.Label className="filterform-word">Room Type</Form.Label>
+          <ToggleGroup
+            content={[
+              { label: RoomType.single, icon: roomTypeIconsTemp.single },
+              { label: RoomType.double, icon: roomTypeIconsTemp.double },
+              { label: RoomType.triple, icon: roomTypeIconsTemp.triple },
+            ]}
+            label="Room Type (select all that apply)"
+            initialSelected={roomTypes}
+            onSelect={({ label, selected }) => {
+              if (selected) {
+                setStore({ roomTypes: [...roomTypes, label as RoomType] });
+              } else {
+                setStore({
+                  roomTypes: roomTypes.filter((roomType) => roomType !== label),
+                });
+              }
+            }}
+            error={validations?.roomTypes?.error}
+          />
         </Col>
-      </Row>
-      <Row className="justify-content-center m-2">
-        <Col>
-          {(Object.entries(RoomType) as Array<
-            [keyof typeof RoomType, RoomType]
-          >).map(([key, value]) => {
-            const RoomTypeUnchosen = roomTypeIcons[key];
-            const RoomTypeChosen =
-              roomTypeIcons[`${key}Chosen` as keyof typeof roomTypeIcons];
-            return (
-              <span className="mr-4">
-                <Button
-                  variant="no-show"
-                  className="btn-filter"
-                  key={key}
-                  onClick={() => {
-                    setStore({ roomType: value });
-                  }}
-                >
-                  {roomType === value ? (
-                    <RoomTypeChosen />
-                  ) : (
-                    <RoomTypeUnchosen />
-                  )}
-                </Button>
-              </span>
-            );
-          })}
-        </Col>
-      </Row>
+      </Form.Row>
     </Container>
   );
 };
 
-export default Page2 as React.FC;
+export default FilterPage2 as React.FC;

@@ -25,7 +25,7 @@ export const page3InitialStore: Page3Store = {
   maxPrice: 5000,
 };
 
-const Page3: React.FC<WizardFormStep<Page3Store>> = ({
+const FilterPage3: React.FC<WizardFormStep<Page3Store>> = ({
   minPrice,
   maxPrice,
   validations,
@@ -39,7 +39,7 @@ const Page3: React.FC<WizardFormStep<Page3Store>> = ({
 
       <br />
 
-      <Row className="m-2">
+      <Form.Row className="m-2">
         <Col>
           <Form inline className="justify-content-center">
             <Form.Label className="filterform-word m-2">$</Form.Label>
@@ -80,9 +80,9 @@ const Page3: React.FC<WizardFormStep<Page3Store>> = ({
             />
           </Form>
         </Col>
-      </Row>
+      </Form.Row>
     </Container>
   );
 };
 
-export default Page3 as React.FC;
+export default FilterPage3 as React.FC;
