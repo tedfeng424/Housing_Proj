@@ -191,7 +191,7 @@ def write_room(room_json, session):
                         room_json['stayPeriod'],
                         room_json['distance'],
                         room_json['location'],
-                        room_owner, new_move_in, session, room_json['noRooms'], room_json['noBathrooms'])
+                        room_owner, new_move_in, room_json['numBeds'], room_json['numBaths'], session)
     write_attr(room_json['other'], 'other', new_room, session)
     write_attr(room_json['facilities'], 'facilities', new_room, session)
     # add photo

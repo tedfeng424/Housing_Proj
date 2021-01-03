@@ -121,12 +121,10 @@ export const searchHousingPosts = (housePost: FilterModel): AppThunk => async (
 export const newHousingPost = (
   housePost: CreateHousePostProperties,
 ): AppThunk => async (dispatch, getState) => {
-  console.log('POSTING');
   const email = getState().auth.user?.email;
   if (!email) return;
+
   const result = await newHousingPostAPI({ ...housePost, email });
-  console.log('result');
-  console.log(result);
   if (result) {
     // TODO cannot do the below until the newHousingPostAPI is changed to return roomId
     // dispatch(
