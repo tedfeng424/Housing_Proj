@@ -40,18 +40,7 @@ export interface CreateHousePostProperties
     | 'roomId'
     | 'photos' // change photos to be of File type
   > {
-  name: string; // TODO not in thouse post current - this is the propertyType
-  location: string;
-  distance: string;
-  pricePerMonth: number;
-  stayPeriod: number;
-  early: string;
-  late: string;
-  roomType: string;
   photos: File[];
-  other: string[];
-  facilities: (keyof typeof facilityToIcon)[];
-  negotiable: boolean; // TODO not in the housepost currently
 }
 
 export type HousePostUserData = Pick<

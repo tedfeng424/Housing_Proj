@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectUser } from '../../redux/slices/auth';
+import { newHousingPost } from '../../redux/slices/housing';
 import { dummyUser, User } from '../../assets/models/User';
 import HouseProfile, { facilityToIcon } from '../HouseProfile';
 import Page2, { Page2Store, page2InitialStore, page2Schema } from './PostPage2';
@@ -14,7 +15,6 @@ import {
   CreateHousePostProperties,
   HousePostUserData,
 } from '../../assets/models/PostModels';
-import { Interval, Month, RoomType } from '../../assets/constants';
 
 type Store = Page2Store & Page3Store & Page4Store & Page5Store & Page6Store; // Page1Store &
 
@@ -48,9 +48,9 @@ const tempEmptyHouseData: Omit<CreateHousePostProperties, 'photos'> & {
   distance: 'Loading...',
   pricePerMonth: 0,
   stayPeriod: 12,
-  early: 'Loading',
-  late: 'Loading',
-  roomType: 'Loading',
+  early: 'Loading...',
+  late: 'Loading...',
+  roomType: 'Loading...',
   photos: [],
   other: [],
   facilities: [],
@@ -75,11 +75,10 @@ const storeToHouseData = ({
   preferences,
   amenities,
 }: Store): Omit<CreateHousePostProperties, 'photos'> & { photos: string[] } => {
-  const distance = 'get distance'; // TODO actually get the distance
   return {
     name: propertyType,
     location: selectedLocation,
-    distance,
+    distance: '___ min', // will calculate the minutes in the API post, showing as '___'
     pricePerMonth: price,
     stayPeriod,
     early: `${earlyInterval} ${earlyMonth}`,
@@ -114,17 +113,61 @@ const userToHousePostUser = ({
 const HousingPost: React.FC<HousingPostProps> = ({ show, setShow }) => {
   const [showPreview, setShowPreview] = useState<boolean>(false);
   const [previewData, setPreviewData] = useState<Store>();
+  const [houseData, setHouseData] = useState<
+    Omit<CreateHousePostProperties, 'photos'> & { photos: string[] }
+  >();
   const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (previewData) setHouseData(storeToHouseData(previewData));
+  }, [previewData]);
 
   return (
     <>
       <HouseProfile
         show={showPreview}
-        onHide={() => setShowPreview(false)}
+        onHide={() => {
+          setShowPreview(false);
+          setShow(true);
+        }}
         {...tempEmptyHouseData}
-        {...(previewData ? storeToHouseData(previewData) : undefined)}
+        {...houseData}
         {...userToHousePostUser(user || dummyUser)}
         localURL
+        aboveModalContent={
+          <div className="house-post-preview-buttons-wrapper">
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setShowPreview(false);
+                setShow(true);
+              }}
+            >
+              Edit Post
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                if (houseData) {
+                  setShowPreview(false);
+                  dispatch(
+                    newHousingPost({
+                      ...houseData,
+                      photos: previewData?.pictures as File[],
+                    }),
+                  );
+                }
+
+                // TODO need to reset the form here
+              }}
+            >
+              Publish Post
+            </Button>
+          </div>
+        }
+        aboveModalContentClassName="house-post-preview-buttons"
+        modalClassName="house-post-preview-modal"
       />
 
       <WizardForm<Store>

@@ -140,4 +140,33 @@
       height: 60px;
     }
   }
+
+  $house-post-preview-wrapper-height: 70px;
+  &-preview-buttons {
+    top: 0 - $house-post-preview-wrapper-height;
+
+    &-wrapper {
+      @include thin-border('md');
+      height: $house-post-preview-wrapper-height;
+      background-color: white;
+      border-top-left-radius: $sm-border-radius;
+      border-top-right-radius: $sm-border-radius;
+    
+      & .btn {
+        @include m(2);
+        font-size: $sm-font-size;
+      }
+    }
+  }
+
+  &-preview-modal {
+    $content-margin-top: $house-post-preview-wrapper-height;
+    & .modal-content {
+      // margin-top: $content-margin-top;
+    }
+
+    & .modal-dialog {
+      margin-top: $content-margin-top;
+    }
+  }
 }

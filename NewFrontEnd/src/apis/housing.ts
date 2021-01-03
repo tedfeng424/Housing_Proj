@@ -5,6 +5,7 @@ import {
 } from '../assets/models/PostModels';
 import { FilterModel } from '../assets/models/FilterModel';
 import { backendAPI } from './apiBases';
+import { getDurationInMinutes } from '.';
 
 const getHousingPostsAPI = async () => {
   try {
@@ -70,15 +71,37 @@ const searchHousingPostsAPI = async ({
 };
 
 const newHousingPostAPI = async (
-  roomForm: CreateHousePostProperties, // TODO double check that this is the correct type for param, and you need to type the promise
+  roomForm: CreateHousePostProperties & { email: string }, // TODO double check that this is the correct type for param, and you need to type the promise
 ): Promise<any[] | undefined> => {
+  console.log('starting the new housing post api');
   try {
-    const result = await backendAPI.post('/postRoom', roomForm, {
-      headers: {
-        'content-type': 'multipart/form-data',
+    // TODO distance calculation not working for some reason
+    // calculate distance to location
+    // const distance = await getDurationInMinutes(roomForm.location);
+    // console.log('distance');
+    // console.log(distance);
+    // if (!distance) {
+    // throw Error("Bad request - can't calculate the distance to the address.");
+    // }
+
+    const formData = new FormData();
+    roomForm.photos.forEach((photo) => formData.append('photos', photo));
+    formData.append(
+      'json',
+      JSON.stringify({ ...roomForm, photos: undefined, distance: '15 min' }),
+    );
+
+    const result = await backendAPI.post(
+      '/postRoom',
+      // TODO { roomForm, distance: '15 min' },
+      formData,
+      {
+        headers: {
+          'content-type': 'multipart/form-data',
+        },
+        withCredentials: true,
       },
-      withCredentials: true,
-    });
+    );
     console.log(result, 'get result');
     // handle errors
     if (result.request?.status !== 201) throw Error('Bad request');

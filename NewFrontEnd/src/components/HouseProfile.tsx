@@ -77,6 +77,9 @@ export interface HouseProfileProps extends Omit<HousePost, 'roomId'> {
   roomId?: number;
   show: boolean;
   onHide: () => any;
+  aboveModalContent?: React.ReactNode;
+  aboveModalContentClassName?: string;
+  modalClassName?: string;
 }
 
 const HouseProfile: React.FC<HouseProfileProps> = ({
@@ -102,6 +105,9 @@ const HouseProfile: React.FC<HouseProfileProps> = ({
   facilities,
   show,
   onHide,
+  aboveModalContent,
+  aboveModalContentClassName = '',
+  modalClassName = '',
   negotiable,
   numBaths,
   numBeds,
@@ -155,10 +161,16 @@ const HouseProfile: React.FC<HouseProfileProps> = ({
       onHide={onHide}
       size="xl"
       centered
-      className="house-profile-modal"
+      className={`house-profile-modal ${modalClassName}`}
     >
-      <Container className="p-0 house-profile-container">
-        <Row className="h-100">
+      <div
+        className={`house-profile-above-modal ${aboveModalContentClassName}`}
+      >
+        {aboveModalContent}
+      </div>
+
+      <Container className="p-0">
+        <Row>
           {/* first column */}
           <Col sm={12} lg={4}>
             {/* Close button overlay */}
