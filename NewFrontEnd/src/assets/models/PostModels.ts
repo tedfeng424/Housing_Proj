@@ -21,6 +21,8 @@ export interface HousePost {
   other: string[];
   facilities: (keyof typeof facilityToIcon)[];
   negotiable: boolean;
+  numBaths: number;
+  numBeds: number;
 }
 
 export type HousePostDisplayedProperties = Omit<HousePost, 'roomId'>;

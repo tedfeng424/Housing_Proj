@@ -48,6 +48,8 @@ class Room(Base):
     distance = Column(String(250), nullable=False)
     address = Column(String(250), nullable=False)
     move_in_id = Column(Integer, ForeignKey("move_in.id"))
+    no_rooms = Column(Integer, nullable = False)
+    no_bathrooms = Column(FLOAT, nullable = False)
     house_attribute = relationship("House_Attribute", backref="room")
     move_in = relationship("Move_In", backref="room")
     bookmark = relationship("Bookmark", backref="room")
@@ -65,6 +67,8 @@ class Room(Base):
             'stay_period': self.stay_period,
             'distance': self.distance,
             'address': self.address,
+            'no_rooms': self.no_rooms,
+            'no_bathrooms': self.no_bathrooms
         }
 
 
@@ -141,7 +145,6 @@ class Bookmark(Base):
 
 
 if __name__ == '__main__':
-    password = os.environ["DBPASSWORD"]
     engine = create_engine('sqlite:///housing.db')
 
     Base.metadata.create_all(engine)

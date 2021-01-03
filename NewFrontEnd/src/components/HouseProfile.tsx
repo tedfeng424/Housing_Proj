@@ -104,6 +104,8 @@ const HouseProfile: React.FC<HouseProfileProps> = ({
   aboveModalContentClassName = '',
   modalClassName = '',
   negotiable,
+  numBaths,
+  numBeds,
 }) => {
   const favorites = useSelector(selectHousingFavorites);
   const user = useSelector(selectUser);
@@ -254,6 +256,8 @@ const HouseProfile: React.FC<HouseProfileProps> = ({
                     leaserIntro,
                     roomId,
                     negotiable,
+                    numBaths,
+                    numBeds,
                   };
                   if (favorites && favorites[roomId]) {
                     // need to remove from the favorites

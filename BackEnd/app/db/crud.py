@@ -23,13 +23,13 @@ def add_user(name, email, date_created, phone, description, school_year, major,
 
 def add_room(date_created, room_type, price, negotiable, description,
              stay_period,
-             distance, address, user, move_in, session):
+             distance, address, user, move_in, no_rooms, no_bathrooms, session):
     Room_to_add = Room(date_created=date_created, room_type=room_type,
                        price=price,
                        negotiable=negotiable,
                        description=description, stay_period=stay_period,
                        distance=distance, address=address,
-                       user=user, move_in=move_in)
+                       user=user, move_in=move_in, no_rooms=no_rooms, no_bathrooms=no_bathrooms)
     add_and_commit(Room_to_add, session)
     return Room_to_add
 
@@ -125,7 +125,9 @@ def room_json(room, session):
         'profilePhoto': 'https://houseit.s3.us-east-2.amazonaws.com/' +
         get_images(house_user.email, category="profile")[0],
         'roomId': r_json['id'],
-        'negotiable': r_json['negotiable']
+        'negotiable': r_json['negotiable'],
+        'numBaths': r_json['no_bathrooms'],
+        'numBeds': r_json['no_rooms']
     }
     return return_json
 
@@ -189,7 +191,7 @@ def write_room(room_json, session):
                         room_json['stayPeriod'],
                         room_json['distance'],
                         room_json['location'],
-                        room_owner, new_move_in, session)
+                        room_owner, new_move_in, session, room_json['noRooms'], room_json['noBathrooms'])
     write_attr(room_json['other'], 'other', new_room, session)
     write_attr(room_json['facilities'], 'facilities', new_room, session)
     # add photo
