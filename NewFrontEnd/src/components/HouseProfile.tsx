@@ -72,6 +72,9 @@ export interface HouseProfileProps extends Omit<HousePost, 'roomId'> {
   roomId?: number;
   show: boolean;
   onHide: () => any;
+  aboveModalContent?: React.ReactNode;
+  aboveModalContentClassName?: string;
+  modalClassName?: string;
 }
 
 const HouseProfile: React.FC<HouseProfileProps> = ({
@@ -97,6 +100,9 @@ const HouseProfile: React.FC<HouseProfileProps> = ({
   facilities,
   show,
   onHide,
+  aboveModalContent,
+  aboveModalContentClassName = '',
+  modalClassName = '',
   negotiable,
 }) => {
   const favorites = useSelector(selectHousingFavorites);
@@ -141,8 +147,14 @@ const HouseProfile: React.FC<HouseProfileProps> = ({
       onHide={onHide}
       size="xl"
       centered
-      className="house-profile-modal"
+      className={`house-profile-modal ${modalClassName}`}
     >
+      <div
+        className={`house-profile-above-modal ${aboveModalContentClassName}`}
+      >
+        {aboveModalContent}
+      </div>
+
       <Container className="p-0">
         <Row>
           {/* first column */}

@@ -119,6 +119,14 @@ const HousingPost: React.FC<HousingPostProps> = ({ show, setShow }) => {
         {...(previewData ? storeToHouseData(previewData) : undefined)}
         {...userToHousePostUser(user || dummyUser)}
         localURL
+        aboveModalContent={
+          <div className="house-post-preview-buttons-wrapper">
+            <Button variant="secondary">Edit Post</Button>
+            <Button variant="secondary">Publish Post</Button>
+          </div>
+        }
+        aboveModalContentClassName="house-post-preview-buttons"
+        modalClassName="house-post-preview-modal"
       />
 
       <WizardForm<Store>
