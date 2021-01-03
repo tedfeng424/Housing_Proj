@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 // import { Dropdown, DropdownButton, InputGroup } from 'react-bootstrap';
 import { selectShowNewUserPopup, selectUser } from '../redux/slices/auth';
-import HousingList from './HouseCardList';
+import HouseCardList from './HouseCardList';
 import Filter from './Filter';
 import TV from './TV';
 import Login from './Login';
@@ -52,7 +52,7 @@ const Home: React.FC = () => {
           </div>
 
           <div>
-            <HousingList />
+            <HouseCardList />
           </div>
         </Col>
         <div className="home-sidebar d-flex flex-column">
