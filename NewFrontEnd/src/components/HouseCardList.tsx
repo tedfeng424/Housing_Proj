@@ -54,6 +54,8 @@ const HousingList: React.FC = () => {
                 other={card.other}
                 facilities={card.facilities}
                 negotiable={card.negotiable}
+                numBaths={card.numBaths}
+                numBeds={card.numBeds}
               />
             </Col>
           ))

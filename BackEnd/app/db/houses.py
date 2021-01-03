@@ -8,7 +8,6 @@ from crud import add_user, \
     add_room, add_move_in, add_house_attribute, add_attribute
 import os
 
-password = os.environ["DBPASSWORD"]
 engine = create_engine('sqlite:///housing.db')
 # Bind the engine to the metadata of the Base class so that the
 # declaratives can be accessed through a DBSession instance
@@ -67,35 +66,35 @@ attr_female = add_attribute('female', 'other', session)
 cris_room = add_room(datetime.now(), "single", 1000, True, "Damn it LOOOOOOL", 2,
                      "16 mins",
                      "Costa Verde Village, Costa Verde Boulevard, San Diego, CA, USA",
-                     cris, cris_move_in, session)
+                     cris, cris_move_in, 4, 4, session)
 amit_room = add_room(datetime.now(), "single", 2000, True, "Damn it LOOOOOOL", 10,
                      "5 mins",
                      "Solazzo Apartment Homes, Villa La Jolla Drive, La Jolla, CA, USA",
-                     amit, amit_move_in, session)
+                     amit, amit_move_in, 2, 2, session)
 keenan_room = add_room(datetime.now(), "single", 3000, False, "Damn it LOOOOOOL", 5,
                        "65 mins",
                        "Regents Court, Regents Road, San Diego, CA, USA",
-                       keenan, keenan_move_in, session)
+                       keenan, keenan_move_in, 2, 2, session)
 adam_room = add_room(datetime.now(), "livingRoom", 5000, False, "Damn it LOOOOOOL", 9,
                      "60 mins",
                      "Towers At Costa Verde, Costa Verde Boulevard, San Diego, CA, USA",
-                     adam, adam_move_in, session)
+                     adam, adam_move_in, 2, 2, session)
 cris_room = add_room(datetime.now(), "single", 1000, True, "Damn it LOOOOOOL", 2,
                      "16 mins",
                      "Costa Verde Village, Costa Verde Boulevard, San Diego, CA, USA",
-                     cris, cris_move_in, session)
+                     cris, cris_move_in, 2, 2, session)
 amit_room = add_room(datetime.now(), "single", 2000, True, "Damn it LOOOOOOL", 10,
                      "5 mins",
                      "Solazzo Apartment Homes, Villa La Jolla Drive, La Jolla, CA, USA",
-                     amit, amit_move_in, session)
+                     amit, amit_move_in, 1, 1, session)
 keenan_room = add_room(datetime.now(), "single", 3000, False, "Damn it LOOOOOOL", 5,
                        "65 mins",
                        "Regents Court, Regents Road, San Diego, CA, USA",
-                       keenan, keenan_move_in, session)
+                       keenan, keenan_move_in, 1, 1, session)
 adam_room = add_room(datetime.now(), "livingRoom", 5000, False, "Damn it LOOOOOOL", 9,
                      "60 mins",
                      "Towers At Costa Verde, Costa Verde Boulevard, San Diego, CA, USA",
-                     adam, adam_move_in, session)
+                     adam, adam_move_in, 3, 3, session)
 
 # Add House_Attribute
 add_house_attribute(cris_room, attr_gym, session)
