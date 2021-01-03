@@ -25,7 +25,12 @@ import {
 import { LOGIN_TO_VIEW } from '../assets/constants/messages';
 import { HousePost } from '../assets/models/PostModels';
 import { Month } from '../assets/constants';
-import { removeParentheses, abbreviateMonth } from '../assets/utils';
+import {
+  removeParentheses,
+  abbreviateAddress,
+  abbreviateMoveIn,
+  formatRoomType,
+} from '../assets/utils';
 import { selectUser } from '../redux/slices/auth';
 
 const Ellipse: React.FC<{}> = () => (
@@ -132,14 +137,21 @@ const HouseProfile: React.FC<HouseProfileProps> = ({
 
     // TODO temporary, 'anytime' should not be in the database (same with the removeParentheses)
     const earlyIntDisplayed =
-      earlyInt.toLowerCase() === 'anytime' ? '' : removeParentheses(earlyInt);
+      earlyInt.toLowerCase() === 'anytime'
+        ? earlyInt
+        : removeParentheses(earlyInt);
     const lateIntDisplayed =
-      lateInt.toLowerCase() === 'anytime' ? '' : removeParentheses(lateInt);
+      lateInt.toLowerCase() === 'anytime'
+        ? lateInt
+        : removeParentheses(lateInt);
 
     setMoveIn(
-      `${earlyIntDisplayed} ${abbreviateMonth(
+      abbreviateMoveIn(
+        earlyIntDisplayed,
         earlyMonth,
-      )} - ${lateIntDisplayed} ${abbreviateMonth(lateMonth)}`,
+        lateIntDisplayed,
+        lateMonth,
+      ),
     );
   }, [early, late]);
 
@@ -161,6 +173,15 @@ const HouseProfile: React.FC<HouseProfileProps> = ({
         <Row>
           {/* first column */}
           <Col sm={12} lg={4}>
+            {/* Close button overlay */}
+            {/* TODO: margins on top and left */}
+            <Button
+              variant="no-show"
+              onClick={() => onHide()}
+              className="house-profile-close"
+            >
+              <miscIcons.greenX />
+            </Button>
             <PreviewSlideShow
               items={slideShowItems}
               className="house-profile-preview-slideshow"
@@ -171,7 +192,7 @@ const HouseProfile: React.FC<HouseProfileProps> = ({
           <Col sm={12} md={6} lg={4}>
             {/* mt-3 mt-lg-5 mt-md-4 */}
             <Container className="d-flex flex-column justify-content-around mx-3 mx-lg-0 h-100">
-              <Row className="justify-content-center flex-grow-0">
+              <Row className="justify-content-left flex-grow-0">
                 <span className="housing-profile-house-type">{name}</span>
               </Row>
 
@@ -183,7 +204,7 @@ const HouseProfile: React.FC<HouseProfileProps> = ({
                 </Col>
                 <Col md={{ span: 5, offset: 2 }}>
                   <Row className="subtitle-text">Room type</Row>
-                  <Row className="primary-text">{roomType}</Row>
+                  <Row className="primary-text">{formatRoomType(roomType)}</Row>
                 </Col>
               </Row>
 
@@ -229,58 +250,64 @@ const HouseProfile: React.FC<HouseProfileProps> = ({
           {/* third column */}
           <Col sm={12} md={6} lg={4} className="d-flex flex-column mt-3">
             <div className="house-profile-top-half">
-              <Button
-                variant="tertiary"
-                onClick={() => {
-                  if (!roomId) return;
+              <div className="d-flex pr-3 align-content-center">
+                <Button
+                  variant="tertiary"
+                  block
+                  onClick={() => {
+                    if (!roomId) return;
 
-                  const housePost = {
-                    // TODO change the prop vars to be the same name as HouseCard
-                    photos,
-                    name,
-                    pricePerMonth,
-                    roomType,
-                    early,
-                    late,
-                    stayPeriod,
-                    facilities,
-                    other,
-                    distance,
-                    location,
-                    leaserName,
-                    leaserSchoolYear,
-                    leaserMajor,
-                    leaserEmail,
-                    leaserPhone,
-                    profilePhoto,
-                    leaserIntro,
-                    roomId,
-                    negotiable,
-                    numBaths,
-                    numBeds,
-                  };
-                  if (favorites && favorites[roomId]) {
-                    // need to remove from the favorites
-                    dispatch(removeHousingFavorite(roomId));
-                  } else {
-                    // need to add to the favorites
-                    dispatch(newHousingFavorite(housePost));
-                  }
-                }}
-              >
-                {favorites && roomId && favorites[roomId]
-                  ? 'Remove bookmark!'
-                  : 'Add bookmark!'}
-              </Button>
+                    const housePost = {
+                      // TODO change the prop vars to be the same name as HouseCard
+                      photos,
+                      name,
+                      pricePerMonth,
+                      roomType,
+                      early,
+                      late,
+                      stayPeriod,
+                      facilities,
+                      other,
+                      distance,
+                      location,
+                      leaserName,
+                      leaserSchoolYear,
+                      leaserMajor,
+                      leaserEmail,
+                      leaserPhone,
+                      profilePhoto,
+                      leaserIntro,
+                      roomId,
+                      negotiable,
+                      numBaths,
+                      numBeds,
+                    };
+                    if (favorites && favorites[roomId]) {
+                      // need to remove from the favorites
+                      dispatch(removeHousingFavorite(roomId));
+                    } else {
+                      // need to add to the favorites
+                      dispatch(newHousingFavorite(housePost));
+                    }
+                  }}
+                >
+                  {roomId && favorites && favorites[roomId] ? '-' : '+'}
+                </Button>
+                <Button variant="no-show">
+                  <contactIcons.share />
+                </Button>
+              </div>
 
               <div className="address-related-text">
-                {distance} public transit to school
+                <b>~ {distance}</b>&nbsp;public transit
               </div>
-              <div className="secondary-text">{location}</div>
-              <GoogleMap address={location} />
+              <div className="secondary-text">
+                {abbreviateAddress(location)}
+              </div>
+              <GoogleMap address={location} className="house-profile-map" />
             </div>
 
-            <Container className="housing-profile-bio h-50">
+            <Container className="housing-profile-bio">
               <Row>
                 <Col xs={8} lg={9} className="text-center">
                   <div className="primary-text">{leaserName}</div>

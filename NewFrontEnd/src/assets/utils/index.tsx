@@ -4,6 +4,7 @@ import {
   monthsUnabrvToAbrv,
   yearMonths,
   Month,
+  RoomType,
 } from '../constants';
 
 /**
@@ -60,6 +61,13 @@ const moveInSelect = (
 const abbreviateMonth = (month: Month): MonthAbrv => monthsUnabrvToAbrv[month];
 
 /**
+ * Use to format roomType string, as returned from BE
+ * @param roomType - roomType to format
+ */
+const formatRoomType = (roomType: string): RoomType =>
+  RoomType[roomType as keyof typeof RoomType];
+
+/**
  * Use to abbreviate address to only everything before the first comma
  */
 const abbreviateAddress = (address: string): string => address.split(',')[0];
@@ -70,4 +78,42 @@ const abbreviateAddress = (address: string): string => address.split(',')[0];
 const removeParentheses = (str: string): string =>
   str.replace(/ *\([^)]*\) */g, '');
 
-export { moveInSelect, abbreviateMonth, abbreviateAddress, removeParentheses };
+/**
+ * Use to abbreviate moveIn string
+ */
+const abbreviateMoveIn = (
+  earlyInt: string,
+  earlyMonth: Month,
+  lateInt: string,
+  lateMonth: Month,
+): string => {
+  // 1st pass: anytime from
+  if (earlyInt === 'Anytime') {
+    earlyInt = 'Early';
+  }
+  // 2nd pass: anytime to
+  if (lateInt === 'Anytime') {
+    lateInt = 'Late';
+  }
+  if (earlyMonth === lateMonth) {
+    // 3rd pass: duplicates, or early - late
+    if (earlyInt === lateInt) {
+      return `${earlyInt} ${abbreviateMonth(earlyMonth)}`;
+    }
+    if (earlyInt === 'Early' && lateInt === 'Late') {
+      return `${abbreviateMonth(earlyMonth)}`;
+    }
+  }
+  return `${earlyInt} ${abbreviateMonth(
+    earlyMonth,
+  )} - ${lateInt} ${abbreviateMonth(lateMonth)}`;
+};
+
+export {
+  moveInSelect,
+  abbreviateMonth,
+  abbreviateAddress,
+  removeParentheses,
+  abbreviateMoveIn,
+  formatRoomType,
+};

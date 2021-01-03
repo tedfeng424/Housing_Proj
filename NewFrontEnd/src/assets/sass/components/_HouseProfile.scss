@@ -23,12 +23,18 @@
   @extend .py-2;
   @extend .mt-2;
   background-color: theme-color('secondary-light');
+  display: flex;
+  flex-direction: column;
   flex: 100%;
   width: auto;
   border-radius: ($rounded-lg / 2) 0 $rounded-lg 0;
 
   @include mobile-and-smaller {
     border-radius: ($rounded-lg / 2) ($rounded-lg / 2) $rounded-lg $rounded-lg;
+  }
+
+  @include lg-and-larger {
+    height: $lg-modal-height/2;
   }
 }
 
@@ -44,6 +50,8 @@
   box-shadow: 3px 3px 4px -2px $gray-400;
   background-color: white;
   word-break: break-word;
+  flex: 100%;
+  overflow-y: auto;
 }
 
 .house-profile-preview-slideshow {
@@ -67,5 +75,41 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+}
+
+.house-profile-container {
+  @include lg-and-larger {
+    height: $lg-modal-height;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+}
+
+.house-profile-distance {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px; // todo: relative
+  line-height: 20px; // ditto
+  color: $primary-dark-color;
+}
+
+.house-profile-close {
+  position: absolute;
+  display: block;
+  width: 41px;
+  height: 41px;
+  background-color: white;
+  border-radius: 50%;
+  z-index: 2;
+  margin: 10px 0px 0px 10px !important;
+}
+
+.house-profile-map {
+  @extend .pr-1;
+  height: 30vh;
+
+  @include lg-and-larger {
+    height: $lg-modal-height/4;
   }
 }

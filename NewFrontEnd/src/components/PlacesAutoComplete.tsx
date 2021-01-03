@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import PlacesAutocomplete from 'react-places-autocomplete';
 import { Form } from 'react-bootstrap';
 import Input, { InputProps } from './basics/Input';
+// import { useSelector, useDispatch } from 'react-redux';
+// import { setPost, selectPost } from '../redux/slices/posting';
+// import { getDurationInMinutes } from '../apis/google';
 
 interface PathProps extends Omit<InputProps, 'onChange' | 'onSelect'> {
   onChange?: (value: string) => void;

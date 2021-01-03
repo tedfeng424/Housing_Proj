@@ -13,9 +13,13 @@ const MapPin: React.FC<Coords> = () => (
 
 interface PathProps {
   address: string;
+  className?: string;
 }
 
-const GoogleMap: React.FC<PathProps> = ({ address }) => {
+const GoogleMap: React.FC<PathProps> = ({
+  address,
+  className = 'google-map-wrapper',
+}) => {
   const [center, setCenter] = useState<Coords>({ lat: 32.8801, lng: -117.234 }); // TODO this is no good. We need to have a loading symbol in the map when this is not set. Solution: Keep track of when the center is set from useEffect (use a var with useState). If it hasn't been set yet, then instead of showing the mapPin, show the loading gif
   const [zoom, setZoom] = useState(12);
 
@@ -39,7 +43,7 @@ const GoogleMap: React.FC<PathProps> = ({ address }) => {
   }, [address, setCenter]);
 
   return (
-    <div className="google-map-wrapper">
+    <div className={className}>
       <GoogleMapReact
         bootstrapURLKeys={{ key: 'AIzaSyDP7ZDv6xGzfVe7y7Sgb3MsYMqCVLNljeY' }} // TODO put key in an .env
         center={center}
