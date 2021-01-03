@@ -63,7 +63,12 @@ const GetIcon: React.FC<{ str: keyof typeof facilityToIcon }> = ({ str }) => (
   <div className="mt-2">{facilityToIcon[str]}</div>
 );
 
+// type Preview = { roomId: undefined; photos: File[] };
+// type NotPreview = { roomId: number; photos: string[] };
+// type ShowProps = { show: boolean; onHide: () => any };
+
 export interface HouseProfileProps extends Omit<HousePost, 'roomId'> {
+  localURL?: boolean;
   roomId?: number;
   show: boolean;
   onHide: () => any;
@@ -86,6 +91,7 @@ const HouseProfile: React.FC<HouseProfileProps> = ({
   leaserIntro,
   leaserEmail,
   leaserPhone,
+  localURL,
   roomId,
   other,
   facilities,
@@ -103,11 +109,13 @@ const HouseProfile: React.FC<HouseProfileProps> = ({
   useEffect(() => {
     setSlideShowItems(
       photos.map((url) => ({
-        src: `https://houseit.s3.us-east-2.amazonaws.com/${url}`,
+        src: localURL
+          ? url
+          : `https://houseit.s3.us-east-2.amazonaws.com/${url}`,
         alt: `${leaserEmail} , ${location}}`,
       })),
     );
-  }, [photos, leaserEmail, location]);
+  }, [photos, leaserEmail, location, localURL]);
 
   // abbreviate the move in date
   useEffect(() => {

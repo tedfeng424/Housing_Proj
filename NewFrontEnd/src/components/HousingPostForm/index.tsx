@@ -81,7 +81,7 @@ const storeToHouseData = ({
     early: `${earlyInterval} ${earlyMonth}`,
     late: `${lateInterval} ${lateMonth}`,
     roomType: roomTypes[0], // TODO need to change database to hold array of strings
-    photos: [], // TODO need to change a ton of things to be able to display files as well as strings pictures,
+    photos: pictures.map((picture) => URL.createObjectURL(picture)), // TODO need to change a ton of things to be able to display files as well as strings pictures,
     other: preferences,
     facilities: amenities as (keyof typeof facilityToIcon)[],
     negotiable: false, // TODO not in the house post yet
@@ -118,6 +118,7 @@ const HousingPost: React.FC<HousingPostProps> = ({ show, setShow }) => {
         {...tempEmptyHouseData}
         {...(previewData ? storeToHouseData(previewData) : undefined)}
         {...userToHousePostUser(user || dummyUser)}
+        localURL
       />
 
       <WizardForm<Store>
