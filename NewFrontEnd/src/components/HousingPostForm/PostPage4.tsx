@@ -7,6 +7,7 @@ import {
 import { WizardFormStep } from '../WizardForm';
 import ToggleGroup from '../basics/ToggleGroup';
 
+// TODO this should be in a different file
 type Amenity = keyof typeof largeAmenitiesIcons;
 
 export const page4Schema = z.object({

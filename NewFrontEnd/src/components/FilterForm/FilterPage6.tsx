@@ -37,7 +37,6 @@ export const page6InitialStore: Page6Store = {
 const FilterPage6: React.FC<WizardFormStep<Page6Store>> = ({
   preferences,
   setStore,
-  submitForm,
 }) => {
   return (
     <Container>
@@ -62,10 +61,6 @@ const FilterPage6: React.FC<WizardFormStep<Page6Store>> = ({
           }}
           center
         />
-      </Form.Row>
-
-      <Form.Row className="justify-content-center m-2">
-        <Button onClick={() => submitForm()}>Find Best Fit Now!</Button>
       </Form.Row>
     </Container>
   );

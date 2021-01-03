@@ -13,7 +13,6 @@ import Login from './Login';
 import HousingPost from './HousingPostForm';
 import BookmarksList from './BookmarksList';
 import NewUserSetup from './NewUserSetup';
-import FilterForm from './FilterForm';
 
 const Home: React.FC = () => {
   const showNewUserPopup = useSelector(selectShowNewUserPopup);
@@ -25,9 +24,6 @@ const Home: React.FC = () => {
 
   const [showHousingPost, setShowHousingPost] = useState<boolean>(false);
   const handleShowHousingPost = () => setShowHousingPost(true);
-
-  const [showFilterForm, setShowFilterForm] = useState<boolean>(false);
-  const handleShowFilterForm = () => setShowFilterForm(true);
 
   return (
     <Container fluid>
