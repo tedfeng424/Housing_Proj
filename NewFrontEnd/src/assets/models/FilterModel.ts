@@ -12,6 +12,8 @@ export interface FilterModel {
   stayPeriod: number;
   other: string[];
   facilities: string[];
+  numBeds: string;
+  numBaths: string;
 }
 
 export interface Preferences {

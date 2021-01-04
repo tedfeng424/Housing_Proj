@@ -22,15 +22,6 @@ intervals = [
 ]
 
 others = [
-    'Female',
-    'Male',
-    'Pets',
-    'LGBTQ',
-    'Private',
-    '420',
-]
-
-othersNew = [
     'Female only',
     'Male only',
     'Co-ed',
@@ -50,27 +41,18 @@ othersNew = [
 ]
 
 facilities = [
-    'Parking',
-    'Elevator',
-    'Gym room',
-    'Swimming pool',
-    'Pets friendly',
-    'Indoor washer'
+    "Pets Friendly",
+    "Common Area",
+    "Furnished",
+    "A/C",
+    "No Smoking",
+    "Indoor Laundry",
+    "Outdoor Parking",
+    "Indoor Parking",
+    "Swimming Pool",
+    "Hardwood Floor",
+    "Elevator",
+    "Gym"
 ]
 
-facilitiesNew = [
-    "petsFriendly",
-    "sharedCommonSpace",
-    "furnished",
-    "airConditioning",
-    "smokeFree",
-    "indoorWasher",
-    "outdoorParking",
-    "indoorParking",
-    "swimmingPool",
-    "hardwoodFloor",
-    "elevator",
-    "gym"
-]
-
-school_years = ['First', 'Sophomore', 'Junior', 'Senior', 'Fifth', 'Grad']
+school_years = ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Grad']

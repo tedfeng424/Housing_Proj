@@ -129,6 +129,8 @@ const formatRequest = (s: Store): FilterModel => {
   // );
 
   return {
+    numBeds: s.numBeds,
+    numBaths: s.numBaths,
     distance: `${s.distance} mins`,
     roomType: selectedRooms,
     stayPeriod: s.stayPeriod,
@@ -138,8 +140,8 @@ const formatRequest = (s: Store): FilterModel => {
     earlyMonth: s.earlyMonth as string,
     lateInterval: s.lateInterval as string,
     lateMonth: s.lateMonth as string,
-    other: [], // TODO fix
-    facilities: [], // TODO fix
+    other: s.preferences,
+    facilities: s.amenities,
   };
 };
 

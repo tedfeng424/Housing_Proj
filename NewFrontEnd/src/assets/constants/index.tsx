@@ -92,18 +92,12 @@ enum SchoolYear {
 }
 
 enum RoomType {
-  single = 'Single',
-  double = 'Double',
-  triple = 'Triple',
-  studio = 'Studio',
-  suite = 'Suite',
-  livingRoom = 'Living room',
-}
-
-enum RoomTypeCorrect { // TODO rename once complete
   Single = 'Single',
   Double = 'Double',
   Triple = 'Triple',
+  Studio = 'Studio',
+  Suite = 'Suite',
+  LivingRoom = 'Living room',
 }
 
 /**

@@ -47,14 +47,16 @@ const formatRequest = (
   monthCount: number,
   minute: number,
   price: Price,
+  numBaths: string,
+  numBeds: string,
 ): FilterModel => {
   const roomSelections: RoomLiteralType[] = [
-    'single',
-    'double',
-    'triple',
-    'livingRoom',
-    'suite',
-    'studio',
+    'Single',
+    'Double',
+    'Triple',
+    'LivingRoom',
+    'Suite',
+    'Studio',
   ];
   const otherPrefs: PreferenceLiteralType[] = [
     'female',
@@ -101,6 +103,8 @@ const formatRequest = (
     priceMax: price.maximum,
     other: selectedOther,
     facilities: selectedFac,
+    numBaths,
+    numBeds,
   };
 };
 

@@ -20,12 +20,6 @@ interface AuthState {
 const initialState: AuthState = {
   user: cookies.get<User>('user'),
   userDraft: cookies.get<User>('userDraft'),
-  // TODO temp for fake logged in user: {
-  //   name: 'Amit Bar',
-  //   email: "'noneofyobusiness@gmail.com",
-  //   imageUrl: 'image',
-  //   token: 'fake',
-  // },
   showNewUserPopup: undefined,
 };
 
@@ -140,6 +134,7 @@ export const createNewUser = (user: Omit<User, 'token'>): AppThunk => async (
 
   if (response) {
     dispatch(setUser(response));
+    dispatch(setUserDraft(response));
     dispatch(endNewUserFlow());
   }
 };

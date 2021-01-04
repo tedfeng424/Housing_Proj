@@ -76,9 +76,9 @@ const FilterPage2: React.FC<WizardFormStep<Page2Store>> = ({
         <Col>
           <ToggleGroup
             content={[
-              { label: RoomType.single, icon: roomTypeIconsTemp.single },
-              { label: RoomType.double, icon: roomTypeIconsTemp.double },
-              { label: RoomType.triple, icon: roomTypeIconsTemp.triple },
+              { label: RoomType.Single, icon: roomTypeIconsTemp.single },
+              { label: RoomType.Double, icon: roomTypeIconsTemp.double },
+              { label: RoomType.Triple, icon: roomTypeIconsTemp.triple },
             ]}
             label="Room Type (select all that apply)"
             initialSelected={roomTypes}

@@ -35,6 +35,8 @@ const searchHousingPostsAPI = async ({
   stayPeriod,
   other,
   facilities,
+  numBeds,
+  numBaths,
 }: FilterModel): Promise<HousePost[] | undefined> => {
   try {
     const result = await backendAPI.post(
@@ -51,6 +53,8 @@ const searchHousingPostsAPI = async ({
         stay_period: stayPeriod,
         other,
         facilities,
+        numBeds,
+        numBaths,
       }),
       {
         headers: {
