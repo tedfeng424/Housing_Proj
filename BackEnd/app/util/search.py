@@ -30,6 +30,8 @@ def search(room_json, session):
                                      Room.price <= room_json['price_max'],
                                      Room.distance < room_json['distance'],
                                      Room.stay_period == room_json['stay_period']
+                                    #  Room.no_rooms >= room_json['no_rooms'],
+                                    #  Room.no_bathrooms >= room_json['no_bathrooms'],
                                      ).all()
     return [convert_room_json(elem, session) for elem in res if
             elem.room_type in room_json['room_type']

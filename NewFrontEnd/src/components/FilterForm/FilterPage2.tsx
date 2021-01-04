@@ -58,7 +58,7 @@ const FilterPage2: React.FC<WizardFormStep<Page2Store>> = ({
         </Col>
         <Col md={{ span: 5, offset: 1 }}>
           <Dropdown
-            options={['0', '0.5', '1', '1.5', '2', '2.5', '3']}
+            options={['0', '0.5', '1', '1.5', '2', '2.5', '3', '3.5', '4']}
             initialSelected={numBaths}
             // className="filterform-short-dropdown"
             inlineText="Bathrooms"
