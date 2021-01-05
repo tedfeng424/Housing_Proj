@@ -4,29 +4,45 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import { selectUser } from '../redux/slices/auth';
+// import { Dropdown, DropdownButton, InputGroup } from 'react-bootstrap';
+import { selectShowNewUserPopup, selectUser } from '../redux/slices/auth';
 import HouseCardList from './HouseCardList';
 import Filter from './Filter';
 import TV from './TV';
 import Login from './Login';
 import HousingPost from './HousingPostForm';
 import BookmarksList from './BookmarksList';
-import Input from './basics/Input';
+import NewUserSetup from './NewUserSetup';
 
 const Home: React.FC = () => {
+  const showNewUserPopup = useSelector(selectShowNewUserPopup);
+  const user = useSelector(selectUser);
+
   const [showLogin, setShowLogin] = useState<boolean>(false);
   const handleCloseLogin = () => setShowLogin(false);
   const handleShowLogin = () => setShowLogin(true);
 
   const [showHousingPost, setShowHousingPost] = useState<boolean>(false);
   const handleShowHousingPost = () => setShowHousingPost(true);
-  const user = useSelector(selectUser);
 
   return (
     <Container fluid>
       {/* Modals */}
       <Login show={showLogin} handleClose={handleCloseLogin} />
       <HousingPost show={showHousingPost} setShow={setShowHousingPost} />
+
+      {showNewUserPopup !== undefined && ( // TODO temporary. Should handle in the wizard form i think
+        <NewUserSetup
+          show={showNewUserPopup !== undefined}
+          setShow={(value: boolean) => {
+            console.log(
+              'uhhh no clicking out of this form buddy! we gotta make the x look disabled in the future.',
+            );
+          }}
+          name={showNewUserPopup?.name}
+          email={showNewUserPopup?.email}
+        />
+      )}
 
       {/* The actual home page */}
       <Row>
@@ -42,6 +58,7 @@ const Home: React.FC = () => {
         <div className="home-sidebar d-flex flex-column">
           <div className="mb-3">
             <TV>
+              {/* TODO !user will be hardcoded to false while new-user-popup is being worked on */}
               {!user ? (
                 <>
                   <div className="special-text mt-3">Hello</div>

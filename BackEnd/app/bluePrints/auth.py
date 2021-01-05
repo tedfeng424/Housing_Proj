@@ -26,18 +26,12 @@ def login():
     user = check_exist(User, session, **{'email': requested_json['email']})
     if not user:
         # User doesn't exist
-        user = add_user(requested_json['name'], requested_json['email'],
-            datetime.now(),
-            "", "", "", "",
-            session)
-        json_response = {'newUser': True}
+        json_response = {'newUser': True} # maybe also do: , 'access_token': access_token
         response = generateResponse(json_response)
         response.set_cookie('access_token', access_token)
-        print(access_token)
         return response
 
     login_session["user_id"] = user.id
-    print(user.serialize)
     json_response = {'name': requested_json['name'],
                      'email': requested_json['email'],
                      'access_token': access_token,
@@ -49,7 +43,6 @@ def login():
                      }
     response = generateResponse(json_response)
     response.set_cookie('access_token', access_token)
-    print(access_token)
     return response
 
 
@@ -80,7 +73,7 @@ def create_user():
                     datetime.now(),
                     requested_json['phone'],
                     requested_json["description"],
-                    requested_json["school_year"],
+                    requested_json["schoolYear"],
                     requested_json["major"],
                     session)
     icon_path = './assets/profile_default_icons/'
@@ -99,8 +92,7 @@ def create_user():
                      'schoolYear': user.school_year,
                      'major': user.major
                      }
-    response = generateResponse(json_response)
+    response = generateResponse(json_response, 201)
     response.set_cookie('access_token', login_session["access_token"])
 
-    message, status = 'Successfully Created', 201
-    return generateResponse(elem=message, status=status)
+    return response

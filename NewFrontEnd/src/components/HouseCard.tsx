@@ -5,7 +5,11 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import SlideShow, { SlideShowItem } from './SlideShow';
 import HouseProfile from './HouseProfile';
-import { removeParentheses, abbreviateMoveIn } from '../assets/utils';
+import {
+  removeParentheses,
+  abbreviateMoveIn,
+  formatRoomType,
+} from '../assets/utils';
 import { Month } from '../assets/constants';
 import { HousePost } from '../assets/models/PostModels';
 
@@ -33,6 +37,8 @@ const HouseCard: React.FC<PathProps> = ({
   other,
   facilities,
   negotiable,
+  numBaths,
+  numBeds,
 }) => {
   const [show, setShow] = useState<boolean>(false);
   const [moveIn, setMoveIn] = useState<string>('');
@@ -99,8 +105,10 @@ const HouseCard: React.FC<PathProps> = ({
         leaserIntro={leaserIntro}
         roomId={roomId}
         show={show}
-        setShow={setShow}
+        onHide={() => setShow(false)}
         negotiable={negotiable}
+        numBaths={numBaths}
+        numBeds={numBeds}
       />
 
       <Card className="house-card">
@@ -123,9 +131,9 @@ const HouseCard: React.FC<PathProps> = ({
               <Col md={6} className="pt-2">
                 <Row>
                   <div className="w-100 text-right secondary-text">
-                    {roomType}
-                    {/* currently doesn't make sense to include this for single room rentals */}
-                    {/* <span className="divider"> | </span> baths */}
+                    {formatRoomType(roomType)}
+                    <span className="divider"> | </span>{' '}
+                    {`${numBeds} B ${numBaths} Ba`}
                   </div>
                 </Row>
               </Col>

@@ -26,10 +26,13 @@ def checkOther(house, request):
 
 
 def search(room_json, session):
+    print(room_json)
     res = session.query(Room).filter(room_json['price_min'] <= Room.price,
-                                     Room.price <= room_json['price_max'],
-                                     Room.distance < room_json['distance'],
-                                     Room.stay_period == room_json['stay_period']
+                                    Room.price <= room_json['price_max'],
+                                    Room.distance < room_json['distance'],
+                                    Room.stay_period == room_json['stay_period'],
+                                    Room.no_rooms >= float(room_json['numBeds']),
+                                    Room.no_bathrooms >= float(room_json['numBaths']),
                                      ).all()
     return [convert_room_json(elem, session) for elem in res if
             elem.room_type in room_json['room_type']

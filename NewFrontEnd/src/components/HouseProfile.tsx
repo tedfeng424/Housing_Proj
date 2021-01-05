@@ -16,15 +16,21 @@ import {
 import GoogleMap from './GoogleMap';
 import PreviewSlideShow from './PreviewSlideShow';
 import { SlideShowItem } from './SlideShow';
-import { contactIcons, miscIcons, facilityIcons } from '../assets/icons/all';
+import {
+  contactIcons,
+  miscIcons,
+  facilityIcons,
+  largeAmenitiesIcons,
+  amenitiesTranslations,
+} from '../assets/icons/all';
 import { LOGIN_TO_VIEW } from '../assets/constants/messages';
 import { HousePost } from '../assets/models/PostModels';
 import { Month } from '../assets/constants';
 import {
   removeParentheses,
   abbreviateAddress,
-  abbreviateMonth,
   abbreviateMoveIn,
+  formatRoomType,
 } from '../assets/utils';
 import { selectUser } from '../redux/slices/auth';
 
@@ -37,24 +43,47 @@ const Ellipse: React.FC<{}> = () => (
 );
 
 export const facilityToIcon = {
-  Parking: <facilityIcons.parking />,
-  Elevator: <facilityIcons.elevator />,
-  'Gym room': <facilityIcons.gym />,
-  'Swimming pool': <facilityIcons.swimmingPool />,
-  'Pets friendly': <facilityIcons.petsFriendly />,
-  'Indoor washer': <facilityIcons.indoorWasher />,
+  // Parking: <facilityIcons.parking />,
+  // Elevator: <facilityIcons.elevator />,
+  // 'Gym room': <facilityIcons.gym />,
+  // 'Swimming pool': <facilityIcons.swimmingPool />,
+  // 'Pets friendly': <facilityIcons.petsFriendly />,
+  // 'Indoor washer': <facilityIcons.indoorWasher />,
+
+  // TODO need to edit above icons in new format and make actual icons for the below ones
+  'Pets Friendly': <largeAmenitiesIcons.petsFriendly />,
+  'Common Area': <largeAmenitiesIcons.sharedCommonSpace />,
+  Furnished: <largeAmenitiesIcons.furnished />,
+  'A/C': <largeAmenitiesIcons.airConditioning />,
+  'No Smoking': <largeAmenitiesIcons.smokeFree />,
+  'Indoor Laundry': <largeAmenitiesIcons.indoorWasher />,
+  'Outdoor Parking': <largeAmenitiesIcons.outdoorParking />,
+  'Indoor Parking': <largeAmenitiesIcons.indoorParking />,
+  'Swimming Pool': <largeAmenitiesIcons.swimmingPool />,
+  'Hardwood Floor': <largeAmenitiesIcons.hardwoodFloor />,
+  Elevator: <largeAmenitiesIcons.elevator />,
+  Gym: <largeAmenitiesIcons.gym />,
 };
 
 const GetIcon: React.FC<{ str: keyof typeof facilityToIcon }> = ({ str }) => (
-  <div className="mt-2">{facilityToIcon[str]}</div>
+  <div className="mt-2 house-profile-amenity-icon">{facilityToIcon[str]}</div>
 );
 
-interface PathProps extends HousePost {
+// type Preview = { roomId: undefined; photos: File[] };
+// type NotPreview = { roomId: number; photos: string[] };
+// type ShowProps = { show: boolean; onHide: () => any };
+
+export interface HouseProfileProps extends Omit<HousePost, 'roomId'> {
+  localURL?: boolean;
+  roomId?: number;
   show: boolean;
-  setShow: (show: boolean) => void;
+  onHide: () => any;
+  aboveModalContent?: React.ReactNode;
+  aboveModalContentClassName?: string;
+  modalClassName?: string;
 }
 
-const HouseProfile: React.FC<PathProps> = ({
+const HouseProfile: React.FC<HouseProfileProps> = ({
   name,
   pricePerMonth,
   roomType,
@@ -71,12 +100,18 @@ const HouseProfile: React.FC<PathProps> = ({
   leaserIntro,
   leaserEmail,
   leaserPhone,
+  localURL,
   roomId,
   other,
   facilities,
   show,
-  setShow,
+  onHide,
+  aboveModalContent,
+  aboveModalContentClassName = '',
+  modalClassName = '',
   negotiable,
+  numBaths,
+  numBeds,
 }) => {
   const favorites = useSelector(selectHousingFavorites);
   const user = useSelector(selectUser);
@@ -88,11 +123,13 @@ const HouseProfile: React.FC<PathProps> = ({
   useEffect(() => {
     setSlideShowItems(
       photos.map((url) => ({
-        src: `https://houseit.s3.us-east-2.amazonaws.com/${url}`,
+        src: localURL
+          ? url
+          : `https://houseit.s3.us-east-2.amazonaws.com/${url}`,
         alt: `${leaserEmail} , ${location}}`,
       })),
     );
-  }, [photos, leaserEmail, location]);
+  }, [photos, leaserEmail, location, localURL]);
 
   // abbreviate the move in date
   useEffect(() => {
@@ -122,19 +159,30 @@ const HouseProfile: React.FC<PathProps> = ({
   return (
     <Modal
       show={show}
-      onHide={() => setShow(false)}
+      onHide={onHide}
       size="xl"
       centered
-      className="house-profile-modal"
+      className={`house-profile-modal ${modalClassName}`}
     >
-      <Container className="p-0 house-profile-container">
-        <Row className="h-100">
+      <div
+        className={`house-profile-above-modal ${aboveModalContentClassName}`}
+      >
+        {aboveModalContent}
+      </div>
+
+      <Container className="p-0">
+        <Row>
           {/* first column */}
           <Col sm={12} lg={4}>
             {/* Close button overlay */}
-            <div onClick={() => setShow(false)} className="house-profile-close">
-              <miscIcons.greenX className="d-block" />
-            </div>
+            {/* TODO: margins on top and left */}
+            <Button
+              variant="no-show"
+              onClick={() => onHide()}
+              className="house-profile-close"
+            >
+              <miscIcons.greenX />
+            </Button>
             <PreviewSlideShow
               items={slideShowItems}
               className="house-profile-preview-slideshow"
@@ -157,7 +205,7 @@ const HouseProfile: React.FC<PathProps> = ({
                 </Col>
                 <Col md={{ span: 5, offset: 2 }}>
                   <Row className="subtitle-text">Room type</Row>
-                  <Row className="primary-text">{roomType}</Row>
+                  <Row className="primary-text">{formatRoomType(roomType)}</Row>
                 </Col>
               </Row>
 
@@ -203,46 +251,58 @@ const HouseProfile: React.FC<PathProps> = ({
           {/* third column */}
           <Col sm={12} md={6} lg={4} className="d-flex flex-column mt-3">
             <div className="house-profile-top-half">
-              <Button
-                variant="tertiary"
-                onClick={() => {
-                  const housePost = {
-                    // TODO change the prop vars to be the same name as HouseCard
-                    photos,
-                    name,
-                    pricePerMonth,
-                    roomType,
-                    early,
-                    late,
-                    stayPeriod,
-                    facilities,
-                    other,
-                    distance,
-                    location,
-                    leaserName,
-                    leaserSchoolYear,
-                    leaserMajor,
-                    leaserEmail,
-                    leaserPhone,
-                    profilePhoto,
-                    leaserIntro,
-                    roomId,
-                    negotiable,
-                  };
-                  if (favorites && favorites[roomId]) {
-                    // need to remove from the favorites
-                    dispatch(removeHousingFavorite(roomId));
-                  } else {
-                    // need to add to the favorites
-                    dispatch(newHousingFavorite(housePost));
-                  }
-                }}
-              >
-                {favorites && favorites[roomId] ? '-' : '+'}
-              </Button>
+              <div className="d-flex pr-3 align-content-center">
+                <Button
+                  variant="tertiary"
+                  block
+                  onClick={() => {
+                    if (!roomId) return;
+
+                    const housePost = {
+                      // TODO change the prop vars to be the same name as HouseCard
+                      photos,
+                      name,
+                      pricePerMonth,
+                      roomType,
+                      early,
+                      late,
+                      stayPeriod,
+                      facilities,
+                      other,
+                      distance,
+                      location,
+                      leaserName,
+                      leaserSchoolYear,
+                      leaserMajor,
+                      leaserEmail,
+                      leaserPhone,
+                      profilePhoto,
+                      leaserIntro,
+                      roomId,
+                      negotiable,
+                      numBaths,
+                      numBeds,
+                    };
+                    if (favorites && favorites[roomId]) {
+                      // need to remove from the favorites
+                      dispatch(removeHousingFavorite(roomId));
+                    } else {
+                      // need to add to the favorites
+                      dispatch(newHousingFavorite(housePost));
+                    }
+                  }}
+                >
+                  {roomId && favorites && favorites[roomId]
+                    ? 'Unfavorite'
+                    : 'Add to favorites'}
+                </Button>
+                <Button variant="no-show">
+                  <contactIcons.share />
+                </Button>
+              </div>
 
               <div className="address-related-text">
-                <b>~ {distance}</b>&nbsp;public transit
+                <b>~ {distance}</b>&nbsp;public transit from Price Center
               </div>
               <div className="secondary-text">
                 {abbreviateAddress(location)}

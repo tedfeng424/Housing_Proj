@@ -3,10 +3,7 @@ import preferencesIcons, {
   preferencesChosen,
   preferencesUnchosen,
 } from './preferences/all';
-import roomTypeIcons, {
-  roomTypeChosen,
-  roomTypeUnchosen,
-} from './roomType/all';
+import roomTypeIcons from './roomType/all';
 import contactIcons from './contact/all';
 import miscIcons from './misc/all';
 import facilityIcons from './facilities/all';
@@ -16,7 +13,15 @@ import mapIcons from './map/all';
 import bookmarkIcons from './bookmarks/all';
 import loading from './loading/all';
 import profileIcons from './profile/all';
-import landingIcons from './landing/all';
+import * as roomTypeIconsTemp from './roomTypeCorrect/all'; // TODO rename correctly
+import {
+  smallAmenitiesIcons,
+  largeAmenitiesIcons,
+  translations as amenitiesTranslations,
+} from './amenities/all';
+
+export type Icon = typeof navIcons.logo;
+export type IconProps = React.SVGProps<SVGSVGElement>;
 
 export {
   navIcons,
@@ -24,8 +29,7 @@ export {
   preferencesChosen,
   preferencesUnchosen,
   roomTypeIcons,
-  roomTypeChosen,
-  roomTypeUnchosen,
+  roomTypeIconsTemp,
   contactIcons,
   miscIcons,
   facilityIcons,
@@ -35,5 +39,11 @@ export {
   bookmarkIcons,
   loading,
   profileIcons,
+<<<<<<< HEAD
   landingIcons,
+=======
+  smallAmenitiesIcons,
+  largeAmenitiesIcons,
+  amenitiesTranslations,
+>>>>>>> new-user-popup
 };

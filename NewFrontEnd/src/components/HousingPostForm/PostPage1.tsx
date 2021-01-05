@@ -2,137 +2,150 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { useSelector, useDispatch } from 'react-redux';
-import { setPost, selectPost } from '../../redux/slices/posting';
+import * as z from 'zod';
+import { Form } from 'react-bootstrap';
+import { WizardFormStep } from '../WizardForm';
+import { SchoolYear, NON_EMPTY_ERR_MSG } from '../../assets/constants';
 
 const nonSelectStyle = 'post-word-sub';
 const selectStyle = 'post-word-sub post-word-sub-selected';
 const nonSelectBg = 'post-word-sub-bg';
 const SelectBg = 'post-word-sub-bg post-word-sub-bg-selected';
 
-const PostPage1: React.FC = () => {
-  const selected = useSelector(selectPost).leaserSchoolYear;
-  const dispatch = useDispatch();
+// TODO put in constants
+const phoneRegex = /^([ ]*\+?[ ]*[0-9]{0,4}[ ]*(-|\()?[0-9]{3}[ ]*(-|\))?[ ]*[0-9]{3}[ ]*-?[ ]*[0-9]{4}[ ]*)$/;
+
+export const page1Schema = z.object({
+  leaserPhone: z
+    .string()
+    .nonempty(NON_EMPTY_ERR_MSG)
+    .regex(phoneRegex, 'Phone number is not a valid format.'),
+  schoolYear: z.nativeEnum(SchoolYear),
+  major: z.string().nonempty(NON_EMPTY_ERR_MSG).min(1, 'Not long enough.'),
+});
+
+export type Page1Store = z.infer<typeof page1Schema>;
+
+export const page1InitialStore: Page1Store = {
+  leaserPhone: '',
+  schoolYear: SchoolYear.First,
+  major: '',
+};
+
+const Page1: React.FC<WizardFormStep<Page1Store>> = ({
+  leaserPhone,
+  schoolYear,
+  major,
+  validations,
+  setStore,
+}) => {
   return (
     <Container>
-      <Row>
-        <Col>
-          <span className="post-title">
-            ~Something personal will make your post more trustworthy~
-          </span>
-        </Col>
-      </Row>
-
-      {/* TODO this is what the inputs should look like */}
-      {/* <Form.Row className="justify-content-center m-2">
-        <Form.Label className="post-word">Your name</Form.Label>
+      <Form.Row className="justify-content-center m-2">
+        <Form.Label className="post-word">Phone</Form.Label>
         <Form.Control
           className="single-line-input"
           type="text"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          isValid={firstName.length > 0}
-          isInvalid={firstName.length === 0}
-          placeholder="Name"
+          value={leaserPhone}
+          onChange={(e) => setStore({ leaserPhone: e.target.value })}
+          isValid={validations?.leaserPhone?.success}
+          placeholder="Phone number"
         />
-      </Form.Row> */}
-
-      <Row>
-        <Col md={{ span: 7, offset: 2 }}>
-          <Row className="post-word"> Your name </Row>
-          <Row>
-            <input
-              className="w-100 single-line-input"
-              onChange={(event) =>
-                dispatch(setPost(['name', event.target.value]))
-              }
-            />
-          </Row>
-        </Col>
-      </Row>
+        <div className="wizard-form-invalid-feedback">
+          {!validations?.leaserPhone?.success &&
+            validations?.leaserPhone?.error}
+        </div>
+      </Form.Row>
       <br />
       <Row>
-        <Col md={{ span: 4, offset: 2 }}>
-          <Row className="post-word"> Phone </Row>
-          <Row>
-            <input
-              className="w-75 single-line-input"
-              onChange={(event) =>
-                dispatch(setPost(['leaserPhone', event.target.value]))
-              }
-            />
-          </Row>
-        </Col>
-        <Col md={4}>
-          <Row className="post-word"> School email </Row>
-          <Row>
-            <input
-              className="w-75 single-line-input"
-              onChange={(event) =>
-                dispatch(setPost(['leaserEmail', event.target.value]))
-              }
-            />
-          </Row>
-        </Col>
-      </Row>
-      <br />
-      <Row>
-        <Col md={{ offset: 2 }}>
-          <Row className="post-word"> School year </Row>
+        <Col>
+          <Row className="post-word">School year</Row>
           <br />
           <Row>
-            <div className={selected === 'First' ? SelectBg : nonSelectBg}>
+            <div
+              className={
+                schoolYear === SchoolYear.First ? SelectBg : nonSelectBg
+              }
+            >
               <span
-                className={selected == 'First' ? selectStyle : nonSelectStyle}
-                onClick={() => dispatch(setPost(['leaserSchoolYear', 'First']))}
+                className={
+                  schoolYear === SchoolYear.First ? selectStyle : nonSelectStyle
+                }
+                onClick={() => setStore({ schoolYear: SchoolYear.First })}
               >
                 First
               </span>
             </div>
-            <div className={selected === 'Sophomore' ? SelectBg : nonSelectBg}>
+            <div
+              className={
+                schoolYear === SchoolYear.Second ? SelectBg : nonSelectBg
+              }
+            >
               <span
                 className={
-                  selected == 'Sophomore' ? selectStyle : nonSelectStyle
+                  schoolYear === SchoolYear.Second
+                    ? selectStyle
+                    : nonSelectStyle
                 }
-                onClick={() =>
-                  dispatch(setPost(['leaserSchoolYear', 'Sophomore']))
-                }
+                onClick={() => setStore({ schoolYear: SchoolYear.Second })}
               >
                 Sophomore
               </span>
             </div>
-            <div className={selected === 'Junior' ? SelectBg : nonSelectBg}>
+            <div
+              className={
+                schoolYear === SchoolYear.Third ? SelectBg : nonSelectBg
+              }
+            >
               <span
-                className={selected == 'Junior' ? selectStyle : nonSelectStyle}
-                onClick={() =>
-                  dispatch(setPost(['leaserSchoolYear', 'Junior']))
+                className={
+                  schoolYear === SchoolYear.Third ? selectStyle : nonSelectStyle
                 }
+                onClick={() => setStore({ schoolYear: SchoolYear.Third })}
               >
                 Junior
               </span>
             </div>
-            <div className={selected === 'Senior' ? SelectBg : nonSelectBg}>
+            <div
+              className={
+                schoolYear === SchoolYear.Fourth ? SelectBg : nonSelectBg
+              }
+            >
               <span
-                className={selected == 'Senior' ? selectStyle : nonSelectStyle}
-                onClick={() =>
-                  dispatch(setPost(['leaserSchoolYear', 'Senior']))
+                className={
+                  schoolYear === SchoolYear.Fourth
+                    ? selectStyle
+                    : nonSelectStyle
                 }
+                onClick={() => setStore({ schoolYear: SchoolYear.Fourth })}
               >
                 Senior
               </span>
             </div>
-            <div className={selected === 'Fifth' ? SelectBg : nonSelectBg}>
+            <div
+              className={
+                schoolYear === SchoolYear.Fifth ? SelectBg : nonSelectBg
+              }
+            >
               <span
-                className={selected == 'Fifth' ? selectStyle : nonSelectStyle}
-                onClick={() => dispatch(setPost(['leaserSchoolYear', 'Fifth']))}
+                className={
+                  schoolYear === SchoolYear.Fifth ? selectStyle : nonSelectStyle
+                }
+                onClick={() => setStore({ schoolYear: SchoolYear.Fifth })}
               >
                 Fifth
               </span>
             </div>
-            <div className={selected === 'Grad' ? SelectBg : nonSelectBg}>
+            <div
+              className={
+                schoolYear === SchoolYear.Grad ? SelectBg : nonSelectBg
+              }
+            >
               <span
-                className={selected == 'Grad' ? selectStyle : nonSelectStyle}
-                onClick={() => dispatch(setPost(['leaserSchoolYear', 'Grad']))}
+                className={
+                  schoolYear === SchoolYear.Grad ? selectStyle : nonSelectStyle
+                }
+                onClick={() => setStore({ schoolYear: SchoolYear.Grad })}
               >
                 Grad
               </span>
@@ -141,21 +154,26 @@ const PostPage1: React.FC = () => {
         </Col>
       </Row>
       <br />
-      <Row>
-        <Col md={{ span: 4, offset: 2 }}>
-          <Row className="post-word"> Major </Row>
-          <Row>
-            <input
-              className="w-75 single-line-input"
-              onChange={(event) =>
-                dispatch(setPost(['leaserMajor', event.target.value]))
-              }
-            />
-          </Row>
-        </Col>
-      </Row>
+      <Form.Group>
+        <Form.Row className="justify-content-center m-2">
+          <Form.Label className="post-word">Major</Form.Label>
+          <Form.Control
+            className="single-line-input"
+            type="text"
+            value={major || ''}
+            onChange={(e) => setStore({ major: e.target.value })}
+            isValid={validations?.major?.success}
+            placeholder="Major"
+          />
+          <div className="wizard-form-invalid-feedback">
+            {!validations?.major?.success && validations?.major?.error}
+          </div>
+        </Form.Row>
+      </Form.Group>
     </Container>
   );
 };
 
-export default PostPage1;
+// NOTE: need the "as React.FC" since typescript doesn't know that WizardForm parent component will
+// provide the WizardFormStep props
+export default Page1 as React.FC;

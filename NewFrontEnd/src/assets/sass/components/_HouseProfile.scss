@@ -68,6 +68,14 @@
     @include thin-border('lg');
     padding: 0;
   }
+
+  & .house-profile-above-modal {
+    width: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .house-profile-container {
@@ -91,10 +99,10 @@
   display: block;
   width: 41px;
   height: 41px;
-  margin: 10px 0px 0px 10px;
   background-color: white;
   border-radius: 50%;
   z-index: 2;
+  margin: 10px 0px 0px 10px !important;
 }
 
 .house-profile-map {
@@ -103,5 +111,12 @@
 
   @include lg-and-larger {
     height: $lg-modal-height/4;
+  }
+}
+
+.house-profile-amenity-icon {
+  & svg {
+    fill: $secondary-color;
+    stroke: none;
   }
 }

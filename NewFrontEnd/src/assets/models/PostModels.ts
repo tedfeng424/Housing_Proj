@@ -12,7 +12,7 @@ export interface HousePost {
   leaserName: string;
   leaserEmail: string;
   leaserPhone: string;
-  leaserSchoolYear: number;
+  leaserSchoolYear: string; // TODO number;
   leaserMajor: string;
   leaserIntro: string;
   photos: string[];
@@ -21,4 +21,35 @@ export interface HousePost {
   other: string[];
   facilities: (keyof typeof facilityToIcon)[];
   negotiable: boolean;
+  numBaths: number;
+  numBeds: number;
 }
+
+export type HousePostDisplayedProperties = Omit<HousePost, 'roomId'>;
+
+export interface CreateHousePostProperties
+  extends Omit<
+    HousePost,
+    | 'leaserName'
+    | 'leaserEmail'
+    | 'leaserPhone'
+    | 'leaserSchoolYear'
+    | 'leaserMajor'
+    | 'leaserIntro'
+    | 'profilePhoto'
+    | 'roomId'
+    | 'photos' // change photos to be of File type
+  > {
+  photos: File[];
+}
+
+export type HousePostUserData = Pick<
+  HousePost,
+  | 'leaserName'
+  | 'leaserEmail'
+  | 'leaserPhone'
+  | 'leaserSchoolYear'
+  | 'leaserMajor'
+  | 'leaserIntro'
+  | 'profilePhoto'
+>;

@@ -15,17 +15,22 @@ export interface UserLoginResponse extends Omit<User, 'token'> {
  */
 const userLogIn = async (name: string, email: string) => {
   try {
-    const response = await backendAPI.post<UserLoginResponse>(
-      '/login',
-      JSON.stringify({ name, email }),
-      {
-        headers: {
-          'content-type': 'application/json',
-        },
-        withCredentials: true,
+    const response = await backendAPI.post<
+      UserLoginResponse | { newUser: boolean }
+    >('/login', JSON.stringify({ name, email }), {
+      headers: {
+        'content-type': 'application/json',
       },
-    );
+      withCredentials: true,
+    });
+
     if (response.request?.status !== 200) throw Error('Bad request');
+
+    if ('newUser' in response.data) {
+      // TODO find another way to do this
+      console.log('NEW USER UH HUH, IN THE API UH HUH');
+      return { newUser: true };
+    }
 
     const data: User = {
       name: response.data.name,
@@ -86,7 +91,7 @@ const userEditProfile = async (email: string, kvPairs: any) => {
   try {
     const response = await backendAPI.post(
       '/profile',
-      JSON.stringify({ email: email, updates: kvPairs }),
+      JSON.stringify({ email, updates: kvPairs }),
       {
         headers: {
           'content-type': 'application/json',
@@ -98,9 +103,46 @@ const userEditProfile = async (email: string, kvPairs: any) => {
 
     return response.data;
   } catch (err) {
-    console.error(err,"user edit profile fail");
+    console.error(err, 'user edit profile fail');
     return undefined;
   }
 };
 
-export { userLogIn, userLogOut, userEditProfile };
+/**
+ * Create a new user.
+ * @param user - the user info to create
+ * @returns - undefined if error occured, otherwise UserLoginResponse, which includes an access token,
+ *            email, message, user, imageUrl
+ */
+const createNewUserApi = async (user: Omit<User, 'token'>) => {
+  try {
+    const response = await backendAPI.post<UserLoginResponse>(
+      '/createUser',
+      // TODO JSON.stringify({ name, email }),
+      user,
+      {
+        headers: {
+          'content-type': 'application/json',
+        },
+        withCredentials: true,
+      },
+    );
+
+    if (response.request?.status !== 201) throw Error('Bad request');
+
+    return {
+      name: response.data.name,
+      email: response.data.email,
+      token: response.data.access_token,
+      description: response.data.description,
+      major: response.data.major,
+      schoolYear: response.data.schoolYear,
+      phone: response.data.phone,
+    } as User;
+  } catch (err) {
+    console.error(err);
+    return undefined;
+  }
+};
+
+export { userLogIn, userLogOut, userEditProfile, createNewUserApi };

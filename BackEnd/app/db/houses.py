@@ -8,7 +8,6 @@ from crud import add_user, \
     add_room, add_move_in, add_house_attribute, add_attribute
 import os
 
-password = os.environ["DBPASSWORD"]
 engine = create_engine('sqlite:///housing.db')
 # Bind the engine to the metadata of the Base class so that the
 # declaratives can be accessed through a DBSession instance
@@ -32,13 +31,13 @@ KEENAN = "keenan"
 
 # Add mock users
 cris = add_user(CRIS, "haha@ucsd.edu", datetime.now(), "858-911",
-                "yo I am Cris. P dope. DAMNNNNNNNNNNNN", 'Senior',
+                "yo I am Cris. P dope. DAMNNNNNNNNNNNN", 'Third',
                 "Data Science", session)
 amit = add_user(AMIT, "amit@ucsd.edu", datetime.now(), "858-911989",
-                "yo I am Amit. P dope. DAMNNNNNNNNNNNN",  'Senior',
+                "yo I am Amit. P dope. DAMNNNNNNNNNNNN",  'Third',
                 "Data Science", session)
 adam = add_user(ADAM, "adam@ucsd.edu", datetime.now(), "858-65386",
-                "yo I am Adam. P dope. ADAMNNNNNNNNN. YOOOOOOO", 'Senior',
+                "yo I am Adam. P dope. ADAMNNNNNNNNN. YOOOOOOO", 'Third',
                 "Computer Science and Engineering",
                 session)
 keenan = add_user(KEENAN, "keenan@ucsd.edu", datetime.now(), "858-4675432",
@@ -56,61 +55,75 @@ adam_move_in = add_move_in(
     "Anytime", "January", "Late(21-31)", "October", session)
 
 # Add mock Attribute
-attr_gym = add_attribute('Gym room', 'facilities', session)
-attr_park = add_attribute('Parking', 'facilities', session)
-attr_ele = add_attribute('Elevator', 'facilities', session)
-attr_male = add_attribute('male', 'other', session)
-attr_pri = add_attribute('private', 'other', session)
-attr_female = add_attribute('female', 'other', session)
+attr_pets = add_attribute('Pets Friendly', 'facilities', session)
+attr_common = add_attribute('Common Area', 'facilities', session)
+attr_furnished = add_attribute('Furnished', 'facilities', session)
+attr_female = add_attribute('Female only', 'other', session)
+attr_coed = add_attribute('Co-ed', 'other', session)
+attr_lgbtq = add_attribute('LGBTQ+ friendly', 'other', session)
 
 # Add Room
-cris_room = add_room(datetime.now(), "single", 1000, True, "Damn it LOOOOOOL", 2,
+cris_room = add_room(datetime.now(), "Single", 1000, True, "Damn it LOOOOOOL", 2,
                      "16 mins",
                      "Costa Verde Village, Costa Verde Boulevard, San Diego, CA, USA",
-                     cris, cris_move_in, session)
-amit_room = add_room(datetime.now(), "single", 2000, True, "Damn it LOOOOOOL", 10,
+                     cris, cris_move_in, 4, 4, session)
+amit_room = add_room(datetime.now(), "Single", 2000, True, "Damn it LOOOOOOL", 10,
                      "5 mins",
                      "Solazzo Apartment Homes, Villa La Jolla Drive, La Jolla, CA, USA",
-                     amit, amit_move_in, session)
-keenan_room = add_room(datetime.now(), "single", 3000, False, "Damn it LOOOOOOL", 5,
+                     amit, amit_move_in, 2, 2, session)
+keenan_room = add_room(datetime.now(), "Single", 3000, False, "Damn it LOOOOOOL", 5,
                        "65 mins",
                        "Regents Court, Regents Road, San Diego, CA, USA",
-                       keenan, keenan_move_in, session)
-adam_room = add_room(datetime.now(), "livingRoom", 5000, False, "Damn it LOOOOOOL", 9,
+                       keenan, keenan_move_in, 2, 2, session)
+adam_room = add_room(datetime.now(), "Living room", 5000, False, "Damn it LOOOOOOL", 9,
                      "60 mins",
                      "Towers At Costa Verde, Costa Verde Boulevard, San Diego, CA, USA",
-                     adam, adam_move_in, session)
-cris_room = add_room(datetime.now(), "single", 1000, True, "Damn it LOOOOOOL", 2,
+                     adam, adam_move_in, 2, 2, session)
+cris2_room = add_room(datetime.now(), "Single", 1000, True, "Damn it LOOOOOOL", 2,
                      "16 mins",
                      "Costa Verde Village, Costa Verde Boulevard, San Diego, CA, USA",
-                     cris, cris_move_in, session)
-amit_room = add_room(datetime.now(), "single", 2000, True, "Damn it LOOOOOOL", 10,
+                     cris, cris_move_in, 2, 2, session)
+amit2_room = add_room(datetime.now(), "Single", 2000, True, "Damn it LOOOOOOL", 10,
                      "5 mins",
                      "Solazzo Apartment Homes, Villa La Jolla Drive, La Jolla, CA, USA",
-                     amit, amit_move_in, session)
-keenan_room = add_room(datetime.now(), "single", 3000, False, "Damn it LOOOOOOL", 5,
+                     amit, amit_move_in, 1, 1, session)
+keenan2_room = add_room(datetime.now(), "Single", 3000, False, "Damn it LOOOOOOL", 5,
                        "65 mins",
                        "Regents Court, Regents Road, San Diego, CA, USA",
-                       keenan, keenan_move_in, session)
-adam_room = add_room(datetime.now(), "livingRoom", 5000, False, "Damn it LOOOOOOL", 9,
+                       keenan, keenan_move_in, 1, 1, session)
+adam2_room = add_room(datetime.now(), "Living room", 5000, False, "Damn it LOOOOOOL", 9,
                      "60 mins",
                      "Towers At Costa Verde, Costa Verde Boulevard, San Diego, CA, USA",
-                     adam, adam_move_in, session)
+                     adam, adam_move_in, 3, 3, session)
 
 # Add House_Attribute
-add_house_attribute(cris_room, attr_gym, session)
-add_house_attribute(cris_room, attr_park, session)
-add_house_attribute(cris_room, attr_male, session)
-add_house_attribute(amit_room, attr_gym, session)
-add_house_attribute(amit_room, attr_ele, session)
-add_house_attribute(amit_room, attr_park, session)
-add_house_attribute(keenan_room, attr_male, session)
-add_house_attribute(keenan_room, attr_ele, session)
-add_house_attribute(keenan_room, attr_park, session)
-add_house_attribute(keenan_room, attr_pri, session)
+add_house_attribute(cris_room, attr_pets, session)
+add_house_attribute(cris_room, attr_common, session)
+add_house_attribute(cris_room, attr_furnished, session)
+add_house_attribute(amit_room, attr_female, session)
+add_house_attribute(amit_room, attr_coed, session)
+add_house_attribute(amit_room, attr_lgbtq, session)
+add_house_attribute(keenan_room, attr_pets, session)
+add_house_attribute(keenan_room, attr_furnished, session)
+add_house_attribute(keenan_room, attr_coed, session)
+add_house_attribute(keenan_room, attr_lgbtq, session)
 add_house_attribute(adam_room, attr_female, session)
-add_house_attribute(adam_room, attr_ele, session)
-add_house_attribute(adam_room, attr_park, session)
-add_house_attribute(adam_room, attr_pri, session)
+add_house_attribute(adam_room, attr_common, session)
+add_house_attribute(adam_room, attr_furnished, session)
+add_house_attribute(adam_room, attr_coed, session)
+add_house_attribute(cris2_room, attr_pets, session)
+add_house_attribute(cris2_room, attr_common, session)
+add_house_attribute(cris2_room, attr_furnished, session)
+add_house_attribute(amit2_room, attr_female, session)
+add_house_attribute(amit2_room, attr_coed, session)
+add_house_attribute(amit2_room, attr_lgbtq, session)
+add_house_attribute(keenan2_room, attr_pets, session)
+add_house_attribute(keenan2_room, attr_furnished, session)
+add_house_attribute(keenan2_room, attr_coed, session)
+add_house_attribute(keenan2_room, attr_lgbtq, session)
+add_house_attribute(adam2_room, attr_female, session)
+add_house_attribute(adam2_room, attr_common, session)
+add_house_attribute(adam2_room, attr_furnished, session)
+add_house_attribute(adam2_room, attr_coed, session)
 
 print("created Mock Database!")

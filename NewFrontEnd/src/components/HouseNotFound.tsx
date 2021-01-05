@@ -1,9 +1,13 @@
 import React from 'react';
-import { Container, Row } from 'react-bootstrap';
+import { Container, Row, Button } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 import { filterIcons } from '../assets/icons/all';
-import FilterButton from './FilterButton';
+import { setShow } from '../redux/slices/filter';
 
 const HouseNotFound: React.FC = () => {
+  const dispatch = useDispatch();
+  const setShowFilter = (value: boolean) => dispatch(setShow(value));
+
   return (
     <Container>
       <Row className="justify-content-center">
@@ -18,7 +22,7 @@ const HouseNotFound: React.FC = () => {
         <p className="displayText">Edit your Criteria & Try again !</p>
       </Row>
       <Row className="justify-content-center">
-        <FilterButton name={'Edit Criteria'} />
+        <Button onClick={() => setShowFilter(true)}>Edit Criteria</Button>
       </Row>
     </Container>
   );

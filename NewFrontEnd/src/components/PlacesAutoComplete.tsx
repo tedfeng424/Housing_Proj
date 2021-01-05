@@ -1,59 +1,84 @@
 import React, { useState } from 'react';
 import PlacesAutocomplete from 'react-places-autocomplete';
-import { setPost, selectPost } from '../redux/slices/posting';
-import { useSelector, useDispatch } from 'react-redux';
-import { getDurationInMinutes } from '../apis/google';
+import { Form } from 'react-bootstrap';
+import Input, { InputProps } from './basics/Input';
+// import { useSelector, useDispatch } from 'react-redux';
+// import { setPost, selectPost } from '../redux/slices/posting';
+// import { getDurationInMinutes } from '../apis/google';
 
-interface PathProps {
-  className?: string;
+interface PathProps extends Omit<InputProps, 'onChange' | 'onSelect'> {
+  onChange?: (value: string) => void;
+  onSelect?: (value: string) => void;
+  initialAddress?: string;
 }
 
-const AutoComplete: React.FC<PathProps> = ({ className = '' }) => {
-  const address = useSelector(selectPost).address;
-  const dispatch = useDispatch();
-
+const AutoComplete: React.FC<PathProps> = ({
+  className = '',
+  onChange,
+  onSelect,
+  initialAddress = '',
+  ...inputProps
+}) => {
+  const [address, setAddress] = useState<string>(initialAddress);
+  // TODO
+  // (add) => {
+  //   dispatch(setPost(['address', add]));
+  //   getDurationInMinutes(add).then((distance: any) => {
+  //     dispatch(setPost(['distance', distance ? distance : 'unknown']));
+  //   });
+  // }
   return (
     <PlacesAutocomplete
       value={address}
-      onChange={(add) => dispatch(setPost(['address', add]))}
-      onSelect={(add) => {
-        dispatch(setPost(['address', add]));
-        getDurationInMinutes(add).then((distance: any) => {
-          dispatch(setPost(['distance', distance ? distance : 'unknown']));
-        });
+      onChange={(value) => {
+        setAddress(value);
+        if (onChange) onChange(value);
+      }}
+      onSelect={(value) => {
+        // TODO this gets called even when a user doesn't select one of the dropdown suggestions
+        setAddress(value);
+        if (onSelect) onSelect(value);
       }}
     >
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
         <>
-          <input
-            // TODO fix 'Prop spreading is forbidden'
+          {/* <Form.Control
+            // TODO fix prop spread is forbidden
             {...getInputProps({
               placeholder: 'Search Places ...',
               className,
             })}
-          />
-          <div>
-            {loading && <div>Loading...</div>}
-            {suggestions.map((suggestion) => (
-              // TODO: Missing "key" prop for element in iterator
-              <div
-                key={suggestion}
-                {
-                  /* TODO fix 'Prop spreading is forbidden' */
-                  ...getSuggestionItemProps(suggestion, {
-                    className: suggestion.active
-                      ? 'suggestion-item--active'
-                      : 'suggestion-item',
-                    style: suggestion.active
-                      ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                      : { backgroundColor: '#ffffff', cursor: 'pointer' },
-                  })
-                }
-              >
-                <span>{suggestion.description}</span>
-              </div>
-            ))}
-          </div>
+            isValid={isValid}
+            isInvalid={isInvalid}
+          /> */}
+          <Input
+            {...getInputProps({
+              placeholder: 'Search Places ...',
+              className,
+            })}
+            {...inputProps}
+          >
+            <div>
+              {loading && <div>Loading...</div>}
+              {suggestions.map((suggestion) => (
+                // TODO: Missing "key" prop for element in iterator
+                <div
+                  {
+                    /* TODO fix 'Prop spreading is forbidden' */
+                    ...getSuggestionItemProps(suggestion, {
+                      className: 'suggestion-item',
+                      // style: suggestion.active
+                      //   ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                      //   : { backgroundColor: '#ffffff', cursor: 'pointer' },
+                    })
+                  }
+                  key={suggestion.description}
+                >
+                  {suggestion.description}
+                </div>
+              ))}
+            </div>
+          </Input>
         </>
       )}
     </PlacesAutocomplete>

@@ -23,13 +23,13 @@ def add_user(name, email, date_created, phone, description, school_year, major,
 
 def add_room(date_created, room_type, price, negotiable, description,
              stay_period,
-             distance, address, user, move_in, session):
+             distance, address, user, move_in, no_rooms, no_bathrooms, session):
     Room_to_add = Room(date_created=date_created, room_type=room_type,
                        price=price,
                        negotiable=negotiable,
                        description=description, stay_period=stay_period,
                        distance=distance, address=address,
-                       user=user, move_in=move_in)
+                       user=user, move_in=move_in, no_rooms=no_rooms, no_bathrooms=no_bathrooms)
     add_and_commit(Room_to_add, session)
     return Room_to_add
 
@@ -125,7 +125,9 @@ def room_json(room, session):
         'profilePhoto': 'https://houseit.s3.us-east-2.amazonaws.com/' +
         get_images(house_user.email, category="profile")[0],
         'roomId': r_json['id'],
-        'negotiable': r_json['negotiable']
+        'negotiable': r_json['negotiable'],
+        'numBaths': r_json['no_bathrooms'],
+        'numBeds': r_json['no_rooms']
     }
     return return_json
 
@@ -158,30 +160,38 @@ def write_room(room_json, session):
     # TODO: might need to add error handling upon database fail
     # check if user exists
     room_owner = check_exist(
-        User, session, **{'email': room_json['leaserEmail']})
-    room_name = room_json['address'].split(",")[0]
+        User, session, **{'email': room_json['email']})
+    room_name = room_json['location'].split(",")[0]
     # if it is first time post
-    if len(room_owner.school_year) == 0:
-        update_field(
-            User, session, {'email': room_json['leaserEmail']},
-            {'school_year': room_json['leaserSchoolYear'],
-             'major': room_json['leaserMajor'],
-             'description': room_json['leaserIntro'],
-             'phone': room_json['leaserPhone']
-             })
-    new_move_in = add_move_in(room_json['earlyInterval'],
-                              room_json['earlyMonth'],
-                              room_json['lateInterval'],
-                              room_json['lateMonth'], session)
+    # TODO not sure if this should be commented out?:
+    # if len(room_owner.school_year) == 0:
+    #     update_field(
+    #         User, session, {'email': room_json['leaserEmail']},
+    #         {'school_year': room_json['leaserSchoolYear'],
+    #          'major': room_json['leaserMajor'],
+    #          'description': room_json['leaserIntro'],
+    #          'phone': room_json['leaserPhone']
+    #          })
+
+    # TODO evenually change it to do the following:
+    # new_move_in = add_move_in(room_json['earlyInterval'],
+    #                           room_json['earlyMonth'],
+    #                           room_json['lateInterval'],
+    #                           room_json['lateMonth'], session)
+    new_move_in = add_move_in(room_json['early'],
+                              '',
+                              room_json['late'],
+                              '', session)
+
     new_room = add_room(datetime.now(),
                         room_json['roomType'],
-                        room_json['price'],
+                        room_json['pricePerMonth'],
                         room_json['negotiable'],
                         '',  # room_json['description'],
                         room_json['stayPeriod'],
                         room_json['distance'],
-                        room_json['address'],
-                        room_owner, new_move_in, session)
+                        room_json['location'],
+                        room_owner, new_move_in, room_json['numBeds'], room_json['numBaths'], session)
     write_attr(room_json['other'], 'other', new_room, session)
     write_attr(room_json['facilities'], 'facilities', new_room, session)
     # add photo

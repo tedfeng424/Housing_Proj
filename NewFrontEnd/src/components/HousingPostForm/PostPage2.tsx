@@ -1,107 +1,130 @@
-import React, { useState } from 'react';
-import { Container, Row, Col, Button, Form } from 'react-bootstrap';
-import { roomTypeIcons, roomTypeUnchosen } from '../../assets/icons/all';
+import React from 'react';
+import { Container, Row, Col, Form } from 'react-bootstrap';
+import * as z from 'zod';
+import { roomTypeIconsTemp } from '../../assets/icons/all';
 import AutoComplete from '../PlacesAutoComplete';
-import { setPost, selectPost } from '../../redux/slices/posting';
-import { useSelector, useDispatch } from 'react-redux';
+import { RoomType } from '../../assets/constants';
+import { WizardFormStep } from '../WizardForm';
+import Input from '../basics/Input';
+import Dropdown from '../basics/Dropdown';
+import ToggleGroup from '../basics/ToggleGroup';
 
-type RoomType = { [P in keyof typeof roomTypeUnchosen]: boolean };
-const PostPage2: React.FC<{}> = () => {
-  const dispatch = useDispatch();
-  const [roomType, setRoomType] = useState<RoomType>({
-    single: false,
-    double: false,
-    triple: false,
-    livingRoom: false,
-    suite: false,
-    studio: false,
-  });
-  const price = useSelector(selectPost).price;
+export const page2Schema = z.object({
+  locationSearch: z.string(),
+  selectedLocation: z.string().nonempty('Make sure to select an address.'),
+  propertyType: z.string().nonempty('Make sure to select a property type.'),
+  // apartmentName: z.string(),
+  numBeds: z.string().nonempty('Please enter number of bedrooms.'),
+  numBaths: z.string().nonempty('Please enter number of bathrooms.'),
+  roomTypes: z
+    .nativeEnum(RoomType)
+    .array()
+    .min(1, 'Please choose at least one room type.'),
+});
+
+export type Page2Store = z.infer<typeof page2Schema>;
+
+export const page2InitialStore: Page2Store = {
+  locationSearch: '',
+  selectedLocation: '',
+  propertyType: 'Townhouse', // TODO
+  // apartmentName: '',
+  numBeds: '',
+  numBaths: '',
+  roomTypes: [],
+};
+
+const Page2: React.FC<WizardFormStep<Page2Store>> = ({
+  locationSearch,
+  selectedLocation,
+  propertyType,
+  // apartmentName,
+  numBeds,
+  numBaths,
+  roomTypes,
+  validations,
+  setStore,
+}) => {
   return (
     <Container>
       <Row>
         <Col>
-          <span className="post-title">
-            ...about the room, time & stay period
-          </span>
+          <span className="post-title">Room Information</span>
         </Col>
       </Row>
 
-      <Form.Row className="justify-content-center m-2 my-4">
-        <Form.Label className="title">Location</Form.Label>
-        <AutoComplete className="single-line-input w-100" />
+      <Form.Row className="justify-content-center m-2">
+        <Col>
+          {/* TODO need to check if the address is valid! Currently, if the user types something in and then clicks enter, it marks it as ok. This issue stems from an issue in PlaceAutoComplete.tsx */}
+          <AutoComplete
+            label="Address"
+            initialAddress={locationSearch}
+            onChange={(value) => {
+              if (selectedLocation === '') setStore({ locationSearch: value });
+              else setStore({ locationSearch: value, selectedLocation: '' });
+            }}
+            onSelect={(value) => {
+              setStore({ locationSearch: value, selectedLocation: value });
+            }}
+            isValid={validations?.selectedLocation?.success}
+            error={validations?.selectedLocation?.error}
+            required
+          />
+        </Col>
       </Form.Row>
 
-      <Row className="justify-content-center">
-        {/* Room Type */}
-        <Col
-          md={12}
-          lg={{ span: 5, offset: 1 }}
-          className="justify-content-center"
-        >
-          <Row className="justify-content-center">
-            <div className="title">Room Type</div>
-          </Row>
-          <Row className="justify-content-center">
-            {(Object.keys(roomType) as Array<keyof typeof roomType>).map(
-              (key) => {
-                const RoomTypeUnchosen = roomTypeIcons[key];
-                const RoomTypeChosen =
-                  roomTypeIcons[`${key}Chosen` as keyof typeof roomTypeIcons];
-                return (
-                  <Button
-                    className="btn-filter"
-                    onClick={() => {
-                      const changed = { ...roomType };
-                      changed[key] = !roomType[key];
-                      if (changed[key]) {
-                        dispatch(setPost(['roomType', key]));
-                      }
-                      setRoomType({
-                        ...changed,
-                      });
-                    }}
-                  >
-                    {roomType[key] ? <RoomTypeChosen /> : <RoomTypeUnchosen />}
-                  </Button>
-                );
-              },
-            )}
-          </Row>
+      <Form.Row className="m-2 align-bottom">
+        <Form.Label className="post-word">
+          Unit Size<span className="required-asterisk"> *</span>
+        </Form.Label>
+        <Col md={5}>
+          <Dropdown
+            inlineText="Bedrooms"
+            options={['1', '2', '3', '4', '5', '6+']}
+            initialSelected={numBeds}
+            isValid={validations?.numBeds?.success}
+            error={validations?.numBeds?.error}
+            onSelect={(s) => setStore({ numBeds: s !== null ? s : undefined })}
+            noFilter
+          />
         </Col>
-
-        {/* Price Range. TODO: only use one price */}
-        <Col
-          md={12}
-          lg={{ span: 5, offset: 1 }}
-          className="justify-content-center"
-        >
-          <Row className="justify-content-center">
-            <div className="title">Price</div>
-          </Row>
-
-          <Form.Row className="justify-content-center m-2">
-            <Form.Label className="word mr-3">$USD</Form.Label>
-            <Col>
-              <Form.Control
-                className="single-line-input"
-                type="number"
-                min={0}
-                value={price}
-                onChange={(event) => {
-                  dispatch(setPost(['price', parseInt(event.target.value)]));
-                }}
-                isValid={price !== undefined && price > 0}
-                isInvalid={price === undefined || price <= 0}
-                placeholder="price"
-              />
-            </Col>
-          </Form.Row>
+        <Col md={{ span: 5, offset: 1 }}>
+          <Dropdown
+            inlineText="Bathrooms"
+            options={['0', '0.5', '1', '1.5', '2', '2.5', '3', '3.5', '4']}
+            initialSelected={numBaths}
+            isValid={validations?.numBaths?.success}
+            error={validations?.numBaths?.error}
+            onSelect={(s) => setStore({ numBaths: s !== null ? s : undefined })}
+            noFilter
+          />
         </Col>
-        <Col lg={1} />
-      </Row>
+      </Form.Row>
+
+      <Form.Row className="m-2">
+        <ToggleGroup
+          content={[
+            { label: RoomType.Single, icon: roomTypeIconsTemp.single },
+            { label: RoomType.Double, icon: roomTypeIconsTemp.double },
+            { label: RoomType.Triple, icon: roomTypeIconsTemp.triple },
+          ]}
+          label="Room Type (select all that apply)"
+          required
+          initialSelected={roomTypes}
+          onSelect={({ label, selected }) => {
+            if (selected) {
+              setStore({ roomTypes: [...roomTypes, label as RoomType] });
+            } else {
+              setStore({
+                roomTypes: roomTypes.filter((roomType) => roomType !== label),
+              });
+            }
+          }}
+          error={validations?.roomTypes?.error}
+        />
+      </Form.Row>
     </Container>
   );
 };
 
-export default PostPage2;
+export default Page2 as React.FC;

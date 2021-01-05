@@ -13,26 +13,46 @@ months = [
     'November',
     'December'
 ]
+
 intervals = [
     'Anytime',
     'Early(1-10)',
     'Mid(11-20)',
     'Late(21-31)'
 ]
+
 others = [
-    'Female',
-    'Male',
-    'Pets',
-    'LGBTQ',
-    'Private',
-    '420',
+    'Female only',
+    'Male only',
+    'Co-ed',
+    'Clean',
+    'Quiet',
+    'Party OK',
+    'No party',
+    'Extrovert',
+    'Introvert',
+    'Night owl',
+    'Early bird',
+    '420 friendly',
+    'Smoke free',
+    'LGBTQ+ friendly',
+    'Overnight guest OK',
+    'No overnight Guest',
 ]
+
 facilities = [
-    'Parking',
-    'Elevator',
-    'Gym room',
-    'Swimming pool',
-    'Pets friendly',
-    'Indoor washer'
+    "Pets Friendly",
+    "Common Area",
+    "Furnished",
+    "A/C",
+    "No Smoking",
+    "Indoor Laundry",
+    "Outdoor Parking",
+    "Indoor Parking",
+    "Swimming Pool",
+    "Hardwood Floor",
+    "Elevator",
+    "Gym"
 ]
-school_years = ['First', 'Sophomore', 'Junior', 'Senior', 'Fifth', 'Grad']
+
+school_years = ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Grad']

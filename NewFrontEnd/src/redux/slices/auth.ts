@@ -1,25 +1,26 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import Cookies from 'universal-cookie';
 import { AppThunk, RootState } from '../store'; // TODO
-import { userLogIn, userLogOut, userEditProfile } from '../../apis/index';
-import { User } from '../../assets/models/User';
+import {
+  userLogIn,
+  userLogOut,
+  userEditProfile,
+  createNewUserApi,
+} from '../../apis/index';
+import { User, UserNameEmail } from '../../assets/models/User';
 
 const cookies = new Cookies();
 
 interface AuthState {
   user?: User;
-  userDraft?: User;
+  userDraft?: User; // TODO change this to not be stored in redux and cookies
+  showNewUserPopup?: UserNameEmail;
 }
 
 const initialState: AuthState = {
   user: cookies.get<User>('user'),
   userDraft: cookies.get<User>('userDraft'),
-  // TODO temp for fake logged in user: {
-  //   name: 'Amit Bar',
-  //   email: "'noneofyobusiness@gmail.com",
-  //   imageUrl: 'image',
-  //   token: 'fake',
-  // },
+  showNewUserPopup: undefined,
 };
 
 export const authSlice = createSlice({
@@ -48,11 +49,25 @@ export const authSlice = createSlice({
         cookies.remove('userDraft');
       }
     },
+    startNewUserFlow: (
+      state,
+      action: PayloadAction<UserNameEmail | undefined>,
+    ) => {
+      state.showNewUserPopup = action.payload;
+    },
+    endNewUserFlow: (state) => {
+      state.showNewUserPopup = undefined;
+    },
   },
 });
 
 // Export actions that were defined with createSlice
-export const { setUser, setUserDraft } = authSlice.actions;
+export const {
+  setUser,
+  setUserDraft,
+  startNewUserFlow,
+  endNewUserFlow,
+} = authSlice.actions;
 
 // Thunks here
 export const login = (name: string, email: string): AppThunk => async (
@@ -60,28 +75,34 @@ export const login = (name: string, email: string): AppThunk => async (
 ) => {
   const response = await userLogIn(name, email);
   if (response) {
-    dispatch(
-      setUser({
-        name: response.name,
-        email: response.email,
-        token: response.token,
-        description: response.description,
-        major: response.major,
-        schoolYear: response.schoolYear,
-        phone: response.phone,
-      }),
-    );
-    dispatch(
-      setUserDraft({
-        name: response.name,
-        email: response.email,
-        token: response.token,
-        description: response.description,
-        major: response.major,
-        schoolYear: response.schoolYear,
-        phone: response.phone,
-      }),
-    );
+    if ('newUser' in response) {
+      console.log('HERE');
+      console.log(response);
+      dispatch(startNewUserFlow({ name, email }));
+    } else {
+      dispatch(
+        setUser({
+          name: response.name,
+          email: response.email,
+          token: response.token,
+          description: response.description,
+          major: response.major,
+          schoolYear: response.schoolYear,
+          phone: response.phone,
+        }),
+      );
+      dispatch(
+        setUserDraft({
+          name: response.name,
+          email: response.email,
+          token: response.token,
+          description: response.description,
+          major: response.major,
+          schoolYear: response.schoolYear,
+          phone: response.phone,
+        }),
+      );
+    }
   }
 };
 
@@ -95,6 +116,26 @@ export const logout = (): AppThunk => async (dispatch, getState) => {
   if (response) {
     dispatch(setUser(undefined));
     dispatch(setUserDraft(undefined)); // TODO not sure if this is needed
+  }
+};
+
+export const createNewUser = (user: Omit<User, 'token'>): AppThunk => async (
+  dispatch,
+  getState,
+) => {
+  console.log('creating new user');
+  // TODO const token = getState().auth.user?.token;
+  // if (!token) return;
+  // console.log('token exists');
+
+  const response = await createNewUserApi(user); // TODO , token
+  console.log('response');
+  console.log(response);
+
+  if (response) {
+    dispatch(setUser(response));
+    dispatch(setUserDraft(response));
+    dispatch(endNewUserFlow());
   }
 };
 
@@ -114,7 +155,9 @@ export const editProfile = (
 // Selects here
 const selectUser = (state: RootState) => state.auth.user;
 const selectUserDraft = (state: RootState) => state.auth.userDraft;
-export { selectUser, selectUserDraft };
+const selectShowNewUserPopup = (state: RootState) =>
+  state.auth.showNewUserPopup;
+export { selectUser, selectUserDraft, selectShowNewUserPopup };
 
 // Export everything
 export default authSlice.reducer;
