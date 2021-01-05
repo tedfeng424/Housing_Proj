@@ -7,6 +7,7 @@ def compareMonth(early, late, curr):
     ear_interval, ear_month = early  # tuple
     lat_interval, lat_month = late
     interval, month = curr
+    print(curr, interval, month)
     interval_rank, month_rank = intervals.index(interval), months.index(month)
     earinterval_rank, earmonth_rank = intervals.index(
         ear_interval), months.index(ear_month)
@@ -28,11 +29,13 @@ def checkOther(house, request):
 def search(room_json, session):
     print(room_json)
     res = session.query(Room).filter(room_json['price_min'] <= Room.price,
-                                    Room.price <= room_json['price_max'],
-                                    Room.distance < room_json['distance'],
-                                    Room.stay_period == room_json['stay_period'],
-                                    Room.no_rooms >= float(room_json['numBeds']),
-                                    Room.no_bathrooms >= float(room_json['numBaths']),
+                                     Room.price <= room_json['price_max'],
+                                     Room.distance < room_json['distance'],
+                                     Room.stay_period == room_json['stay_period'],
+                                     Room.no_rooms >= float(
+                                         room_json['numBeds']),
+                                     Room.no_bathrooms >= float(
+                                         room_json['numBaths']),
                                      ).all()
     return [convert_room_json(elem, session) for elem in res if
             elem.room_type in room_json['room_type']
