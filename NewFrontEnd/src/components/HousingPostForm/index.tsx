@@ -55,8 +55,8 @@ const tempEmptyHouseData: Omit<CreateHousePostProperties, 'photos'> & {
   other: [],
   facilities: [],
   negotiable: false,
-  numBeds: 0,
-  numBaths: 0,
+  numBeds: '0',
+  numBaths: '0',
 };
 
 function refreshPage() {
