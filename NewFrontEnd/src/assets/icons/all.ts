@@ -39,11 +39,7 @@ export {
   bookmarkIcons,
   loading,
   profileIcons,
-<<<<<<< HEAD
-  landingIcons,
-=======
   smallAmenitiesIcons,
   largeAmenitiesIcons,
   amenitiesTranslations,
->>>>>>> new-user-popup
 };
