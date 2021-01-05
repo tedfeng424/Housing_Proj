@@ -84,8 +84,8 @@ const storeToHouseData = ({
     early: `${earlyInterval} ${earlyMonth}`,
     late: `${lateInterval} ${lateMonth}`,
     roomType: roomTypes[0], // TODO need to change database to hold array of strings
-    numBeds: parseInt(numBeds),
-    numBaths: parseInt(numBaths),
+    numBeds: numBeds,
+    numBaths: numBaths,
     photos: pictures.map((picture) => URL.createObjectURL(picture)), // TODO need to change a ton of things to be able to display files as well as strings pictures,
     other: preferences,
     facilities: amenities as (keyof typeof facilityToIcon)[],
