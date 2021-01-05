@@ -36,7 +36,7 @@ const PostPage6: React.FC<WizardFormStep<Page6Store>> = ({
           withPreview
           label=""
           onChange={(p) => {
-            setStore({ pictures: [...pictures, ...p] });
+            setStore({ pictures: [...p] });
           }}
           imgExtension={['.jpg', '.png', '.jpeg']}
           maxFileSize={5242880}
