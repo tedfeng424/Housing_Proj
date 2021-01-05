@@ -20,6 +20,7 @@ import {
   contactIcons,
   miscIcons,
   facilityIcons,
+  largeAmenitiesIcons,
   amenitiesTranslations,
 } from '../assets/icons/all';
 import { LOGIN_TO_VIEW } from '../assets/constants/messages';
@@ -42,30 +43,30 @@ const Ellipse: React.FC<{}> = () => (
 );
 
 export const facilityToIcon = {
-  Parking: <facilityIcons.parking />,
-  Elevator: <facilityIcons.elevator />,
-  'Gym room': <facilityIcons.gym />,
-  'Swimming pool': <facilityIcons.swimmingPool />,
-  'Pets friendly': <facilityIcons.petsFriendly />,
-  'Indoor washer': <facilityIcons.indoorWasher />,
+  // Parking: <facilityIcons.parking />,
+  // Elevator: <facilityIcons.elevator />,
+  // 'Gym room': <facilityIcons.gym />,
+  // 'Swimming pool': <facilityIcons.swimmingPool />,
+  // 'Pets friendly': <facilityIcons.petsFriendly />,
+  // 'Indoor washer': <facilityIcons.indoorWasher />,
 
   // TODO need to edit above icons in new format and make actual icons for the below ones
-  'Pets Friendly': undefined,
-  'Common Area': undefined,
-  Furnished: undefined,
-  'A/C': undefined,
-  'No Smoking': undefined,
-  'Indoor Laundry': undefined,
-  'Outdoor Parking': undefined,
-  'Indoor Parking': undefined,
-  'Swimming Pool': undefined,
-  'Hardwood Floor': undefined,
-  // Elevator: undefined,
-  Gym: undefined,
+  'Pets Friendly': <largeAmenitiesIcons.petsFriendly />,
+  'Common Area': <largeAmenitiesIcons.sharedCommonSpace />,
+  Furnished: <largeAmenitiesIcons.furnished />,
+  'A/C': <largeAmenitiesIcons.airConditioning />,
+  'No Smoking': <largeAmenitiesIcons.smokeFree />,
+  'Indoor Laundry': <largeAmenitiesIcons.indoorWasher />,
+  'Outdoor Parking': <largeAmenitiesIcons.outdoorParking />,
+  'Indoor Parking': <largeAmenitiesIcons.indoorParking />,
+  'Swimming Pool': <largeAmenitiesIcons.swimmingPool />,
+  'Hardwood Floor': <largeAmenitiesIcons.hardwoodFloor />,
+  Elevator: <largeAmenitiesIcons.elevator />,
+  Gym: <largeAmenitiesIcons.gym />,
 };
 
 const GetIcon: React.FC<{ str: keyof typeof facilityToIcon }> = ({ str }) => (
-  <div className="mt-2">{facilityToIcon[str]}</div>
+  <div className="mt-2 house-profile-amenity-icon">{facilityToIcon[str]}</div>
 );
 
 // type Preview = { roomId: undefined; photos: File[] };
@@ -291,7 +292,9 @@ const HouseProfile: React.FC<HouseProfileProps> = ({
                     }
                   }}
                 >
-                  {roomId && favorites && favorites[roomId] ? '-' : '+'}
+                  {roomId && favorites && favorites[roomId]
+                    ? 'Unfavorite'
+                    : 'Add to favorites'}
                 </Button>
                 <Button variant="no-show">
                   <contactIcons.share />
@@ -299,7 +302,7 @@ const HouseProfile: React.FC<HouseProfileProps> = ({
               </div>
 
               <div className="address-related-text">
-                <b>~ {distance}</b>&nbsp;public transit
+                <b>~ {distance}</b>&nbsp;public transit from Price Center
               </div>
               <div className="secondary-text">
                 {abbreviateAddress(location)}
