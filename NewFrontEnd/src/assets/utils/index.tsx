@@ -59,8 +59,6 @@ const moveInSelect = (
  * @param month - the month to abbreviate (must be in the enum 'months')
  */
 const abbreviateMonth = (month: Month): MonthAbrv => monthsUnabrvToAbrv[month];
-<<<<<<< HEAD
-=======
 
 /**
  * Use to format roomType string, as returned from BE
@@ -68,7 +66,6 @@ const abbreviateMonth = (month: Month): MonthAbrv => monthsUnabrvToAbrv[month];
  */
 const formatRoomType = (roomType: string): RoomType =>
   RoomType[roomType as keyof typeof RoomType];
->>>>>>> new-user-popup
 
 /**
  * Use to abbreviate address to only everything before the first comma
