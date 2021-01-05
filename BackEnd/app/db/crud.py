@@ -172,7 +172,7 @@ def write_room(room_json, session):
     #          'description': room_json['leaserIntro'],
     #          'phone': room_json['leaserPhone']
     #          })
-
+    print(room_json)
     # TODO evenually change it to do the following:
     earlyInterval, earlyMonth = room_json['early'].split()
     lateInterval, lateMonth = room_json['early'].split()
