@@ -47,14 +47,12 @@ def showRooms():
     rooms_db = []
     rooms_db = read_rooms(session)
     rooms = [room_json(room, session) for room in rooms_db]
-    print(rooms)
     return generateResponse(elem=rooms)
 
 
 @ app.route('/postRoom', methods=['POST', 'OPTIONS'])
 def postRooms():
     # TODO check if logged in
-    print(datetime.now())
     if request.method == 'OPTIONS':
         return generateResponse()
     photo = request.files.getlist("photos")

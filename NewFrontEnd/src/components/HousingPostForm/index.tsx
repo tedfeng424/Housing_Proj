@@ -59,6 +59,10 @@ const tempEmptyHouseData: Omit<CreateHousePostProperties, 'photos'> & {
   numBaths: 0,
 };
 
+function refreshPage() {
+  window.location.reload(false);
+}
+
 const storeToHouseData = ({
   propertyType,
   selectedLocation,
@@ -157,6 +161,7 @@ const HousingPost: React.FC<HousingPostProps> = ({ show, setShow }) => {
                       photos: previewData?.pictures as File[],
                     }),
                   );
+                  refreshPage();
                 }
 
                 // TODO need to reset the form here
