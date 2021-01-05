@@ -29,11 +29,9 @@ def login():
         json_response = {'newUser': True} # maybe also do: , 'access_token': access_token
         response = generateResponse(json_response)
         response.set_cookie('access_token', access_token)
-        print(access_token)
         return response
 
     login_session["user_id"] = user.id
-    print(user.serialize)
     json_response = {'name': requested_json['name'],
                      'email': requested_json['email'],
                      'access_token': access_token,
@@ -45,7 +43,6 @@ def login():
                      }
     response = generateResponse(json_response)
     response.set_cookie('access_token', access_token)
-    print(access_token)
     return response
 
 
