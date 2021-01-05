@@ -44,10 +44,10 @@ def editProfile():
 
 @ app.route('/getRoom', methods=['GET'])
 def showRooms():
-    print(datetime.now())
     rooms_db = []
     rooms_db = read_rooms(session)
     rooms = [room_json(room, session) for room in rooms_db]
+    print(rooms)
     return generateResponse(elem=rooms)
 
 
