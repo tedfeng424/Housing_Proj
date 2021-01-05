@@ -13,6 +13,7 @@ import mapIcons from './map/all';
 import bookmarkIcons from './bookmarks/all';
 import loading from './loading/all';
 import profileIcons from './profile/all';
+import landingIcons from './landing/all';
 import * as roomTypeIconsTemp from './roomTypeCorrect/all'; // TODO rename correctly
 import {
   smallAmenitiesIcons,
@@ -39,6 +40,7 @@ export {
   bookmarkIcons,
   loading,
   profileIcons,
+  landingIcons,
   smallAmenitiesIcons,
   largeAmenitiesIcons,
   amenitiesTranslations,
