@@ -17,7 +17,6 @@ import json
 from db.crud import room_json, read_rooms, write_room, add_bookmark, \
     remove_bookmark, update_field
 
-password = os.environ["DBPASSWORD"]
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///db/housing.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
