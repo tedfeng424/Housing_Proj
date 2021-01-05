@@ -10,6 +10,12 @@
   }
 }
 
+@mixin lg-and-larger {
+  @include media-breakpoint-up('lg') {
+    @content;
+  }
+}
+
 /**
  * STYLE GUIDE TYPOGRAPHY MIXINS.
  */
@@ -26,8 +32,12 @@
     font-size: $xs-font-size;
     color: $primary-dark-color;
   } @else if $type == 'address-related' {
-    font-weight: $bold-font-weight;
+    font-weight: $regular-font-weight;
     font-size: $sm-font-size;
+    color: $primary-dark-color;
+  } @else if $type == 'tooltip' {
+    font-weight: $regular-font-weight;
+    font-size: $md-font-size;
     color: $primary-dark-color;
   } @else if $type == 'primary-input-text' {
     font-weight: $bold-font-weight;

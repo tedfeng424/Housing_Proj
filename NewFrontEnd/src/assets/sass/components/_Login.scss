@@ -9,3 +9,21 @@
   transition: 0.5s ease;
   background-color: black;
 }
+.tooltip {
+  width: 100%;
+  justify-items: center;
+  // margin-left: 50%;
+}
+
+.tooltip > .tooltip-inner {
+  @include font-type('tooltip');
+  background-color: $primary-1-color;
+  border-radius: 20px 0px 20px 20px;
+  margin-right: 20px;
+  // margin-left: 50%;
+  // width: 2000px;
+}
+
+.tooltip > .arrow {
+  display: none;
+}

@@ -19,8 +19,13 @@ import { SlideShowItem } from './SlideShow';
 import { contactIcons, miscIcons, facilityIcons } from '../assets/icons/all';
 import { LOGIN_TO_VIEW } from '../assets/constants/messages';
 import { HousePost } from '../assets/models/PostModels';
-import { months } from '../assets/constants';
-import { removeParentheses, abbreviateMonth } from '../assets/utils';
+import { Month } from '../assets/constants';
+import {
+  removeParentheses,
+  abbreviateAddress,
+  abbreviateMonth,
+  abbreviateMoveIn,
+} from '../assets/utils';
 import { selectUser } from '../redux/slices/auth';
 
 const Ellipse: React.FC<{}> = () => (
@@ -91,19 +96,26 @@ const HouseProfile: React.FC<PathProps> = ({
 
   // abbreviate the move in date
   useEffect(() => {
-    const [earlyInt, earlyMonth] = early.split(' ') as [string, months];
-    const [lateInt, lateMonth] = late.split(' ') as [string, months];
+    const [earlyInt, earlyMonth] = early.split(' ') as [string, Month];
+    const [lateInt, lateMonth] = late.split(' ') as [string, Month];
 
     // TODO temporary, 'anytime' should not be in the database (same with the removeParentheses)
     const earlyIntDisplayed =
-      earlyInt.toLowerCase() === 'anytime' ? '' : removeParentheses(earlyInt);
+      earlyInt.toLowerCase() === 'anytime'
+        ? earlyInt
+        : removeParentheses(earlyInt);
     const lateIntDisplayed =
-      lateInt.toLowerCase() === 'anytime' ? '' : removeParentheses(lateInt);
+      lateInt.toLowerCase() === 'anytime'
+        ? lateInt
+        : removeParentheses(lateInt);
 
     setMoveIn(
-      `${earlyIntDisplayed} ${abbreviateMonth(
+      abbreviateMoveIn(
+        earlyIntDisplayed,
         earlyMonth,
-      )} - ${lateIntDisplayed} ${abbreviateMonth(lateMonth)}`,
+        lateIntDisplayed,
+        lateMonth,
+      ),
     );
   }, [early, late]);
 
@@ -115,10 +127,14 @@ const HouseProfile: React.FC<PathProps> = ({
       centered
       className="house-profile-modal"
     >
-      <Container className="p-0">
-        <Row>
+      <Container className="p-0 house-profile-container">
+        <Row className="h-100">
           {/* first column */}
           <Col sm={12} lg={4}>
+            {/* Close button overlay */}
+            <div onClick={() => setShow(false)} className="house-profile-close">
+              <miscIcons.greenX className="d-block" />
+            </div>
             <PreviewSlideShow
               items={slideShowItems}
               className="house-profile-preview-slideshow"
@@ -129,7 +145,7 @@ const HouseProfile: React.FC<PathProps> = ({
           <Col sm={12} md={6} lg={4}>
             {/* mt-3 mt-lg-5 mt-md-4 */}
             <Container className="d-flex flex-column justify-content-around mx-3 mx-lg-0 h-100">
-              <Row className="justify-content-center flex-grow-0">
+              <Row className="justify-content-left flex-grow-0">
                 <span className="housing-profile-house-type">{name}</span>
               </Row>
 
@@ -222,19 +238,19 @@ const HouseProfile: React.FC<PathProps> = ({
                   }
                 }}
               >
-                {favorites && favorites[roomId]
-                  ? 'Remove bookmark!'
-                  : 'Add bookmark!'}
+                {favorites && favorites[roomId] ? '-' : '+'}
               </Button>
 
               <div className="address-related-text">
-                {distance} public transit to school
+                <b>~ {distance}</b>&nbsp;public transit
               </div>
-              <div className="secondary-text">{location}</div>
-              <GoogleMap address={location} />
+              <div className="secondary-text">
+                {abbreviateAddress(location)}
+              </div>
+              <GoogleMap address={location} className="house-profile-map" />
             </div>
 
-            <Container className="housing-profile-bio h-50">
+            <Container className="housing-profile-bio">
               <Row>
                 <Col xs={8} lg={9} className="text-center">
                   <div className="primary-text">{leaserName}</div>

@@ -5,8 +5,8 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import SlideShow, { SlideShowItem } from './SlideShow';
 import HouseProfile from './HouseProfile';
-import { abbreviateMonth, removeParentheses } from '../assets/utils';
-import { months } from '../assets/constants';
+import { removeParentheses, abbreviateMoveIn } from '../assets/utils';
+import { Month } from '../assets/constants';
 import { HousePost } from '../assets/models/PostModels';
 
 // change this to PathProps extends HousePost {} to include other props
@@ -50,20 +50,30 @@ const HouseCard: React.FC<PathProps> = ({
 
   // abbreviate the move in date
   useEffect(() => {
-    const [earlyInt, earlyMonth] = early.split(' ') as [string, months];
-    const [lateInt, lateMonth] = late.split(' ') as [string, months];
+    const [earlyInt, earlyMonth] = early.split(' ') as [string, Month];
+    const [lateInt, lateMonth] = late.split(' ') as [string, Month];
 
     // TODO temporary, 'anytime' should not be in the database (same with the removeParentheses)
     const earlyIntDisplayed =
-      earlyInt.toLowerCase() === 'anytime' ? '' : removeParentheses(earlyInt);
+      earlyInt.toLowerCase() === 'anytime'
+        ? earlyInt
+        : removeParentheses(earlyInt);
     const lateIntDisplayed =
-      lateInt.toLowerCase() === 'anytime' ? '' : removeParentheses(lateInt);
+      lateInt.toLowerCase() === 'anytime'
+        ? lateInt
+        : removeParentheses(lateInt);
 
     setMoveIn(
-      `${earlyIntDisplayed} ${abbreviateMonth(
+      abbreviateMoveIn(
+        earlyIntDisplayed,
         earlyMonth,
-      )} - ${lateIntDisplayed} ${abbreviateMonth(lateMonth)}`,
+        lateIntDisplayed,
+        lateMonth,
+      ),
     );
+    // `${earlyIntDisplayed} ${abbreviateMonth(
+    //   earlyMonth,
+    // )} - ${lateIntDisplayed} ${abbreviateMonth(lateMonth)}`,
   }, [early, late]);
 
   return (
@@ -102,30 +112,49 @@ const HouseCard: React.FC<PathProps> = ({
                 onImageClick={() => setShow(true)}
               />
             </Row>
+
+            {/* 1st row */}
             <Row className="px-2">
-              <Col md={4} className="price-related-large-text">
+              <Col md={6} className="price-related-large-text">
                 <Row>
                   {negotiable && '~'}${pricePerMonth}
                 </Row>
               </Col>
-              <Col md={8} className="pt-1">
+              <Col md={6} className="pt-2">
                 <Row>
                   <div className="w-100 text-right secondary-text">
                     {roomType}
-                    <span className="divider"> | </span> baths
+                    {/* currently doesn't make sense to include this for single room rentals */}
+                    {/* <span className="divider"> | </span> baths */}
                   </div>
                 </Row>
-                <div className="text-right secondary-text">
-                  Move in {moveIn}
-                </div>
               </Col>
             </Row>
+
+            {/* 2nd row */}
             <Row className="px-2">
-              <Col md={4} className="address-related-text">
-                <Row>{distance}</Row>
+              <Col md={6}>
+                <Row className="address-related-text">
+                  <b>~ {distance}</b>&nbsp;transit
+                </Row>
+              </Col>
+              <Col md={6}>
+                <Row>
+                  <div className="w-100 text-right secondary-text text-truncate">
+                    Move in {moveIn}
+                  </div>
+                </Row>
+              </Col>
+            </Row>
+
+            {/* 3rd row */}
+            <Row className="px-2">
+              <Col md={6} className="address-related-text">
+                {/* <Row>{distance}</Row> */}
+                <Row>To Price Center</Row>
               </Col>
 
-              <Col md={8} className="secondary-text">
+              <Col md={6} className="secondary-text">
                 <Row>
                   <div className="w-100 text-right text-truncate">
                     {location}

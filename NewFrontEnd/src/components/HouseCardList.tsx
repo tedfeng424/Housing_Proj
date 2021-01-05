@@ -13,7 +13,7 @@ import {
   SearchingMode,
 } from '../redux/slices/housing';
 
-const HousingList: React.FC = () => {
+const HouseCardList: React.FC = () => {
   const cards = useSelector(selectHousingPosts);
   const searchMode = useSelector(selectHousingSearchMode);
   const dispatch = useDispatch();
@@ -61,4 +61,4 @@ const HousingList: React.FC = () => {
   );
 };
 
-export default HousingList;
+export default HouseCardList;

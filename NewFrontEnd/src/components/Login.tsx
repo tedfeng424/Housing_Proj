@@ -7,7 +7,10 @@ import {
   GoogleLoginResponseOffline,
 } from 'react-google-login';
 import { useSelector, useDispatch } from 'react-redux';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { selectUser, login } from '../redux/slices/auth';
+import { miscIcons } from '../assets/icons/all';
+import { LOGIN_INFO_TOOLTIP } from '../assets/constants/messages';
 
 // https://developers.google.com/identity/sign-in/web/sign-in
 interface PathProps {
@@ -43,7 +46,14 @@ const Login: React.FC<PathProps> = ({ handleClose, show }) => {
         <Button variant="no-show" onClick={() => handleClose()}>
           <img className="pl-2" src="/close.svg" alt="Close" />
         </Button>
+        <OverlayTrigger
+          placement="bottom-end"
+          overlay={<Tooltip id="tooltip">{LOGIN_INFO_TOOLTIP}</Tooltip>}
+        >
+          <miscIcons.infoCircle className="float-right pr-2 pt-1" />
+        </OverlayTrigger>
       </div>
+
       <img src="/login.svg" alt="LogIn" />
       <GoogleLogin
         className="g-auth"
