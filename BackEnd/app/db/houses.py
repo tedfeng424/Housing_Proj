@@ -79,19 +79,19 @@ adam_room = add_room(datetime.now(), "Living room", 5000, False, "Damn it LOOOOO
                      "60 mins",
                      "Towers At Costa Verde, Costa Verde Boulevard, San Diego, CA, USA",
                      adam, adam_move_in, 2, 2, session)
-cris_room = add_room(datetime.now(), "Single", 1000, True, "Damn it LOOOOOOL", 2,
+cris2_room = add_room(datetime.now(), "Single", 1000, True, "Damn it LOOOOOOL", 2,
                      "16 mins",
                      "Costa Verde Village, Costa Verde Boulevard, San Diego, CA, USA",
                      cris, cris_move_in, 2, 2, session)
-amit_room = add_room(datetime.now(), "Single", 2000, True, "Damn it LOOOOOOL", 10,
+amit2_room = add_room(datetime.now(), "Single", 2000, True, "Damn it LOOOOOOL", 10,
                      "5 mins",
                      "Solazzo Apartment Homes, Villa La Jolla Drive, La Jolla, CA, USA",
                      amit, amit_move_in, 1, 1, session)
-keenan_room = add_room(datetime.now(), "Single", 3000, False, "Damn it LOOOOOOL", 5,
+keenan2_room = add_room(datetime.now(), "Single", 3000, False, "Damn it LOOOOOOL", 5,
                        "65 mins",
                        "Regents Court, Regents Road, San Diego, CA, USA",
                        keenan, keenan_move_in, 1, 1, session)
-adam_room = add_room(datetime.now(), "Living room", 5000, False, "Damn it LOOOOOOL", 9,
+adam2_room = add_room(datetime.now(), "Living room", 5000, False, "Damn it LOOOOOOL", 9,
                      "60 mins",
                      "Towers At Costa Verde, Costa Verde Boulevard, San Diego, CA, USA",
                      adam, adam_move_in, 3, 3, session)
@@ -110,6 +110,20 @@ add_house_attribute(keenan_room, attr_lgbtq, session)
 add_house_attribute(adam_room, attr_female, session)
 add_house_attribute(adam_room, attr_common, session)
 add_house_attribute(adam_room, attr_furnished, session)
-add_house_attribute(adam_room, attr_female, session)
+add_house_attribute(adam_room, attr_coed, session)
+add_house_attribute(cris2_room, attr_pets, session)
+add_house_attribute(cris2_room, attr_common, session)
+add_house_attribute(cris2_room, attr_furnished, session)
+add_house_attribute(amit2_room, attr_female, session)
+add_house_attribute(amit2_room, attr_coed, session)
+add_house_attribute(amit2_room, attr_lgbtq, session)
+add_house_attribute(keenan2_room, attr_pets, session)
+add_house_attribute(keenan2_room, attr_furnished, session)
+add_house_attribute(keenan2_room, attr_coed, session)
+add_house_attribute(keenan2_room, attr_lgbtq, session)
+add_house_attribute(adam2_room, attr_female, session)
+add_house_attribute(adam2_room, attr_common, session)
+add_house_attribute(adam2_room, attr_furnished, session)
+add_house_attribute(adam2_room, attr_coed, session)
 
 print("created Mock Database!")

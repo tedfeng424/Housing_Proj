@@ -113,3 +113,10 @@
     height: $lg-modal-height/4;
   }
 }
+
+.house-profile-amenity-icon {
+  & svg {
+    fill: $secondary-color;
+    stroke: none;
+  }
+}
