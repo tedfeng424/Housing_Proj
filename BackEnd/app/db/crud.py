@@ -174,14 +174,14 @@ def write_room(room_json, session):
     #          })
 
     # TODO evenually change it to do the following:
-    # new_move_in = add_move_in(room_json['earlyInterval'],
-    #                           room_json['earlyMonth'],
-    #                           room_json['lateInterval'],
-    #                           room_json['lateMonth'], session)
-    new_move_in = add_move_in(room_json['early'],
-                              '',
-                              room_json['late'],
-                              '', session)
+    new_move_in = add_move_in(room_json['earlyInterval'],
+                              room_json['earlyMonth'],
+                              room_json['lateInterval'],
+                              room_json['lateMonth'], session)
+    # new_move_in = add_move_in(room_json['early'],
+    #                           '',
+    #                           room_json['late'],
+    #                           '', session)
 
     new_room = add_room(datetime.now(),
                         room_json['roomType'],
