@@ -126,6 +126,7 @@ export const newHousingPost = (
 
   const result = await newHousingPostAPI({ ...housePost, email });
   if (result) {
+    window.location.reload(false);
     // TODO cannot do the below until the newHousingPostAPI is changed to return roomId
     // dispatch(
     //   appendToHousingPosts([
