@@ -38,6 +38,8 @@ const PostPage6: React.FC<WizardFormStep<Page6Store>> = ({
           onChange={(p) => {
             setStore({ pictures: [...p] });
           }}
+          defaultFiles={pictures}
+          defaultImages={pictures.map((picture) => URL.createObjectURL(picture))}
           imgExtension={['.jpg', '.png', '.jpeg']}
           maxFileSize={5242880}
           className="house-post-image-uploader"
