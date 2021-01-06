@@ -1,7 +1,7 @@
 import React from 'react';
 import * as z from 'zod';
 import { Container, Row, Col, Button } from 'react-bootstrap';
-import ImageUploader from 'react-images-upload';
+import ImageUploader from 'homehub-images-upload';
 import { WizardFormStep } from '../WizardForm';
 
 export const page6Schema = z.object({
