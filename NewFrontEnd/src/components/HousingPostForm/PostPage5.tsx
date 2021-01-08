@@ -48,10 +48,10 @@ const PostPage5: React.FC<WizardFormStep<Page5Store>> = ({
       initialSelected={preferences}
       onSelect={({ label, selected }) => {
         if (selected) {
-          setStore({ preferences: [...preferences, label] });
+          setStore({ preferences: preferences?[...preferences, label]:[label] });
         } else {
           setStore({
-            preferences: preferences.filter((amenity) => amenity !== label),
+            preferences: preferences?.filter((amenity) => amenity !== label),
           });
         }
       }}

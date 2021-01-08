@@ -121,7 +121,7 @@ def room_json(room, session):
         'leaserSchoolYear': house_user.school_year,
         'leaserMajor': house_user.major,
         'leaserIntro': house_user.description,
-        'photos': get_images(house_user.email, extra_path=room_name),
+        'photos': get_images(house_user.email, extra_path=room_name), # add Room Id
         'profilePhoto': 'https://houseit.s3.us-east-2.amazonaws.com/' +
         get_images(house_user.email, category="profile")[0],
         'roomId': r_json['id'],
@@ -196,5 +196,5 @@ def write_room(room_json, session):
     for photo in room_json['photos']:
         path_name = "/".join([room_owner.email, 'housing',
                               room_name, photo.filename])
-        upload_file_wobject(photo, 'houseit', path_name)
+        upload_file_wobject(photo, 'houseit', path_name) # Change to ID
     return True

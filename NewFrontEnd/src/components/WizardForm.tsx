@@ -23,7 +23,7 @@ type ValidationErrors<P> = Partial<
  */
 type SubmitForm = () => Promise<{ success: boolean; message?: string }>;
 type SetStore<P> = (value: Partial<P>) => void;
-export type WizardFormStep<P> = P & {
+export type WizardFormStep<P> = Partial<P> & {
   exitWizardForm: () => void;
   nextStep: () => void;
   prevStep: () => void;

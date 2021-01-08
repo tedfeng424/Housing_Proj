@@ -50,10 +50,12 @@ const FilterPage6: React.FC<WizardFormStep<Page6Store>> = ({
           initialSelected={preferences}
           onSelect={({ label, selected }) => {
             if (selected) {
-              setStore({ preferences: [...preferences, label] });
+              setStore({
+                preferences: preferences ? [...preferences, label] : [label],
+              });
             } else {
               setStore({
-                preferences: preferences.filter(
+                preferences: preferences?.filter(
                   (preference) => preference !== label,
                 ),
               });

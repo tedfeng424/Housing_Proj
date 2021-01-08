@@ -16,10 +16,7 @@ export const page2Schema = z.object({
   // apartmentName: z.string(),
   numBeds: z.string().nonempty('Please enter number of bedrooms.'),
   numBaths: z.string().nonempty('Please enter number of bathrooms.'),
-  roomTypes: z
-    .nativeEnum(RoomType)
-    .array()
-    .min(1, 'Please choose at least one room type.'),
+  roomType: z.nativeEnum(RoomType),
 });
 
 export type Page2Store = z.infer<typeof page2Schema>;
@@ -31,7 +28,7 @@ export const page2InitialStore: Page2Store = {
   // apartmentName: '',
   numBeds: '',
   numBaths: '',
-  roomTypes: [],
+  roomType: RoomType.Single,
 };
 
 const Page2: React.FC<WizardFormStep<Page2Store>> = ({
@@ -41,7 +38,7 @@ const Page2: React.FC<WizardFormStep<Page2Store>> = ({
   // apartmentName,
   numBeds,
   numBaths,
-  roomTypes,
+  roomType,
   validations,
   setStore,
 }) => {
@@ -103,24 +100,21 @@ const Page2: React.FC<WizardFormStep<Page2Store>> = ({
 
       <Form.Row className="m-2">
         <ToggleGroup
+          singleSelect
           content={[
             { label: RoomType.Single, icon: roomTypeIconsTemp.single },
             { label: RoomType.Double, icon: roomTypeIconsTemp.double },
             { label: RoomType.Triple, icon: roomTypeIconsTemp.triple },
           ]}
-          label="Room Type (select all that apply)"
+          label="Room Type"
           required
-          initialSelected={roomTypes}
+          initialSelected={roomType}
           onSelect={({ label, selected }) => {
-            if (selected) {
-              setStore({ roomTypes: [...roomTypes, label as RoomType] });
-            } else {
-              setStore({
-                roomTypes: roomTypes.filter((roomType) => roomType !== label),
-              });
-            }
+            setStore({
+              roomType: selected ? (label as RoomType) : undefined,
+            });
           }}
-          error={validations?.roomTypes?.error}
+          error={validations?.roomType?.error}
         />
       </Form.Row>
     </Container>

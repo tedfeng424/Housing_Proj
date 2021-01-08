@@ -35,10 +35,10 @@ const PostPage4: React.FC<WizardFormStep<Page4Store>> = ({
       initialSelected={amenities}
       onSelect={({ label, selected }) => {
         if (selected) {
-          setStore({ amenities: [...amenities, label] });
+          setStore({ amenities: amenities ? [...amenities, label] : [label] });
         } else {
           setStore({
-            amenities: amenities.filter((amenity) => amenity !== label),
+            amenities: amenities?.filter((amenity) => amenity !== label),
           });
         }
       }}

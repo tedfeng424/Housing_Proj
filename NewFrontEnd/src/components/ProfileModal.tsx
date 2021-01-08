@@ -247,7 +247,7 @@ const ProfileModal: React.FC<PathProps> = ({ show, setShow }) => {
                         />
                       </Form.Group>
                     </Form.Row>
-
+                    {/* tenary form for toggle group and display as a string*/}
                     <Form.Row className="m-2 px-0">
                       <Form.Group as={Col} controlId="profileSchoolYear">
                         <Form.Label className="profile-form-label">

@@ -8,6 +8,7 @@ import { WizardFormStep } from '../WizardForm';
 import { SchoolYear, NON_EMPTY_ERR_MSG, majors } from '../../assets/constants';
 import Input from '../basics/Input';
 import Dropdown from '../basics/Dropdown';
+import ToggleGroup from '../basics/ToggleGroup';
 
 const nonSelectStyle = 'post-word-sub';
 const selectStyle = 'post-word-sub post-word-sub-selected';
@@ -81,97 +82,20 @@ const Page1: React.FC<WizardFormStep<Page1Store>> = ({
         </Col>
 
         <Col md={12}>
-          <Row className="post-word">School year</Row>
-          <br />
           <Row>
-            <div
-              className={
-                schoolYear === SchoolYear.First ? SelectBg : nonSelectBg
-              }
-            >
-              <span
-                className={
-                  schoolYear === SchoolYear.First ? selectStyle : nonSelectStyle
-                }
-                onClick={() => setStore({ schoolYear: SchoolYear.First })}
-              >
-                First
-              </span>
-            </div>
-            <div
-              className={
-                schoolYear === SchoolYear.Second ? SelectBg : nonSelectBg
-              }
-            >
-              <span
-                className={
-                  schoolYear === SchoolYear.Second
-                    ? selectStyle
-                    : nonSelectStyle
-                }
-                onClick={() => setStore({ schoolYear: SchoolYear.Second })}
-              >
-                Sophomore
-              </span>
-            </div>
-            <div
-              className={
-                schoolYear === SchoolYear.Third ? SelectBg : nonSelectBg
-              }
-            >
-              <span
-                className={
-                  schoolYear === SchoolYear.Third ? selectStyle : nonSelectStyle
-                }
-                onClick={() => setStore({ schoolYear: SchoolYear.Third })}
-              >
-                Junior
-              </span>
-            </div>
-            <div
-              className={
-                schoolYear === SchoolYear.Fourth ? SelectBg : nonSelectBg
-              }
-            >
-              <span
-                className={
-                  schoolYear === SchoolYear.Fourth
-                    ? selectStyle
-                    : nonSelectStyle
-                }
-                onClick={() => setStore({ schoolYear: SchoolYear.Fourth })}
-              >
-                Senior
-              </span>
-            </div>
-            <div
-              className={
-                schoolYear === SchoolYear.Fifth ? SelectBg : nonSelectBg
-              }
-            >
-              <span
-                className={
-                  schoolYear === SchoolYear.Fifth ? selectStyle : nonSelectStyle
-                }
-                onClick={() => setStore({ schoolYear: SchoolYear.Fifth })}
-              >
-                Fifth
-              </span>
-            </div>
-            <div
-              className={
-                schoolYear === SchoolYear.Grad ? SelectBg : nonSelectBg
-              }
-            >
-              <span
-                className={
-                  schoolYear === SchoolYear.Grad ? selectStyle : nonSelectStyle
-                }
-                onClick={() => setStore({ schoolYear: SchoolYear.Grad })}
-              >
-                Grad
-              </span>
-            </div>
+            <ToggleGroup
+              singleSelect
+              content={Object.values(SchoolYear)}
+              label="School Year"
+              required
+              initialSelected={schoolYear}
+              onSelect={({ label, selected }) => {
+                setStore({
+                  schoolYear: selected ? (label as SchoolYear) : undefined,
+                });
+              }}
+              error={validations?.schoolYear?.error}
+            />
           </Row>
         </Col>
 
