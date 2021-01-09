@@ -67,7 +67,7 @@ const getDurationInMinutes = async (
   const result = await getDuration(address);
   if (!result) return undefined;
 
-  const minutes = result.value / 60;
+  const minutes = Math.round(result.value / 60);
 
   return `${minutes} min`;
 };
@@ -87,6 +87,10 @@ const testGetDuration = async () => {
   tests.forEach((address) => {
     getDuration(address).then((result) => {
       console.log(`The result for the address ${address} is:`);
+      console.log(result);
+    });
+    getDurationInMinutes(address).then((result) => {
+      console.log(`The result for the address ${address} in minutes is:`);
       console.log(result);
     });
   });

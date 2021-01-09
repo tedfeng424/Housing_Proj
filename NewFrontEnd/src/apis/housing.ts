@@ -81,18 +81,18 @@ const newHousingPostAPI = async (
   try {
     // TODO distance calculation not working for some reason
     // calculate distance to location
-    // const distance = await getDurationInMinutes(roomForm.location);
-    // console.log('distance');
-    // console.log(distance);
-    // if (!distance) {
-    // throw Error("Bad request - can't calculate the distance to the address.");
-    // }
+    const distance = await getDurationInMinutes(roomForm.location);
+    console.log('distance');
+    console.log(distance);
+    if (!distance) {
+      throw Error("Bad request - can't calculate the distance to the address.");
+    }
 
     const formData = new FormData();
     roomForm.photos.forEach((photo) => formData.append('photos', photo));
     formData.append(
       'json',
-      JSON.stringify({ ...roomForm, photos: undefined, distance: '15 min' }),
+      JSON.stringify({ ...roomForm, photos: undefined, distance }),
     );
 
     const result = await backendAPI.post(

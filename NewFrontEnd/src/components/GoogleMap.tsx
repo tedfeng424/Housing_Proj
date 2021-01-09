@@ -44,13 +44,14 @@ const GoogleMap: React.FC<PathProps> = ({
 
   return (
     <div className={className}>
-      <GoogleMapReact
+      {/* TODO: find a different package for google maps */}
+      {/* <GoogleMapReact
         bootstrapURLKeys={{ key: 'AIzaSyDP7ZDv6xGzfVe7y7Sgb3MsYMqCVLNljeY' }} // TODO put key in an .env
         center={center}
         defaultZoom={zoom}
       >
         <MapPin lat={center.lat} lng={center.lng} />
-      </GoogleMapReact>
+      </GoogleMapReact> */}
     </div>
   );
 };
