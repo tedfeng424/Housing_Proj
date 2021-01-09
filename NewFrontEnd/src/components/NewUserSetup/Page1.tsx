@@ -82,21 +82,20 @@ const Page1: React.FC<WizardFormStep<Page1Store>> = ({
         </Col>
 
         <Col md={12}>
-          <Row>
-            <ToggleGroup
-              singleSelect
-              content={Object.values(SchoolYear)}
-              label="School Year"
-              required
-              initialSelected={schoolYear}
-              onSelect={({ label, selected }) => {
-                setStore({
-                  schoolYear: selected ? (label as SchoolYear) : undefined,
-                });
-              }}
-              error={validations?.schoolYear?.error}
-            />
-          </Row>
+          <ToggleGroup
+            singleSelect
+            content={Object.values(SchoolYear)}
+            label="School Year"
+            toggleClassName="my-0"
+            required
+            initialSelected={schoolYear}
+            onSelect={({ label, selected }) => {
+              setStore({
+                schoolYear: selected ? (label as SchoolYear) : undefined,
+              });
+            }}
+            error={validations?.schoolYear?.error}
+          />
         </Col>
 
         <Col md={12}>

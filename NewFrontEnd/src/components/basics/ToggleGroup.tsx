@@ -58,9 +58,9 @@ const ToggleGroup: React.FC<ToggleGroupProps> = ({
   center,
   onSelect,
   label,
-  labelClassName,
+  labelClassName = '',
   error,
-  errorClassName,
+  errorClassName = '',
   toggleClassName = '',
   required,
   className = '',
@@ -75,7 +75,9 @@ const ToggleGroup: React.FC<ToggleGroupProps> = ({
   );
 
   return (
-    <Form.Group className={`toggle-group ${center && 'toggle-group-center'}`}>
+    <Form.Group
+      className={`toggle-group ${center ? 'toggle-group-center' : ''}`}
+    >
       {(label || required) && (
         <Form.Label className={`toggle-group-label ${labelClassName}`}>
           {label}
@@ -88,7 +90,7 @@ const ToggleGroup: React.FC<ToggleGroupProps> = ({
       <div
         {...wrapperProps}
         className={`toggle-group-wrapper ${
-          center && 'toggle-group-center'
+          center ? 'toggle-group-center' : ''
         } ${className}`}
       >
         {(content as [string | ToggleContent]).map((c, index) => {
@@ -120,7 +122,7 @@ const ToggleGroup: React.FC<ToggleGroupProps> = ({
               }}
               key={curLabel}
               className={`${toggleClassName} + ${
-                !center && ' toggle-group-line-up-toggle'
+                !center ? ' toggle-group-line-up-toggle' : ''
               }`}
             />
           );
