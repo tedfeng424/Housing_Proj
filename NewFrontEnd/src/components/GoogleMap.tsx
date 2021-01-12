@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import GoogleMapReact, { Coords } from 'google-map-react';
+import {
+  GoogleMap as GoogleMapAPI,
+  withGoogleMap,
+  Marker,
+} from 'react-google-maps';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import { mapIcons } from '../assets/icons/all';
+import { mapIcons, Icon } from '../assets/icons/all';
+
+interface Coords {
+  lat: number;
+  lng: number;
+}
 
 const MapPin: React.FC<Coords> = () => (
   <div>
@@ -41,17 +50,24 @@ const GoogleMap: React.FC<PathProps> = ({
       mounted = false;
     };
   }, [address, setCenter]);
-
+  const GoogleMapRender = withGoogleMap(() => (
+    <GoogleMapAPI center={center} defaultZoom={zoom}>
+      {/* <MapPin position={center} /> */}
+      <Marker
+        position={center}
+        icon={{
+          url: 'https://houseit.s3.us-east-2.amazonaws.com/assets/mapPin.svg',
+          anchor: new google.maps.Point(17, 46),
+        }}
+      />
+    </GoogleMapAPI>
+  ));
   return (
     <div className={className}>
-      {/* TODO: find a different package for google maps */}
-      {/* <GoogleMapReact
-        bootstrapURLKeys={{ key: 'AIzaSyDP7ZDv6xGzfVe7y7Sgb3MsYMqCVLNljeY' }} // TODO put key in an .env
-        center={center}
-        defaultZoom={zoom}
-      >
-        <MapPin lat={center.lat} lng={center.lng} />
-      </GoogleMapReact> */}
+      <GoogleMapRender
+        containerElement={<div style={{ height: `100%` }} />}
+        mapElement={<div style={{ height: `100%` }} />}
+      />
     </div>
   );
 };
