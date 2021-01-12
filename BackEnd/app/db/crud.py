@@ -110,7 +110,7 @@ def room_json(room, session):
     return_json = {
         'name': room_name,
         'location': room.address.serialize['address'],
-        'distance': room.address.serialize['address']['distance'],
+        'distance': room.address.serialize['distance'],
         'pricePerMonth': r_json['price'],
         'stayPeriod': r_json['stay_period'],
         'early': house_move_in.early_interval + " " + house_move_in.early_month,
