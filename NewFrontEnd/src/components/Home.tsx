@@ -53,9 +53,9 @@ const Home: React.FC = () => {
             <Filter />
           </div>
 
-          <div>
+          {/* <div>
             <Button onClick={() => testGetDuration()}>Click me!</Button>
-          </div>
+          </div> */}
 
           <div>
             <HouseCardList />
