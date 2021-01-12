@@ -3,8 +3,9 @@ import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 import Dropdown from './basics/Dropdown';
 import { useSelector, useDispatch } from 'react-redux';
 import Image from 'react-bootstrap/Image';
-import { majors } from '../assets/constants';
+import { SchoolYear, majors } from '../assets/constants';
 import Input from './basics/Input';
+import ToggleGroup from './basics/ToggleGroup';
 import { miscIcons, profileIcons } from '../assets/icons/all';
 import {
   selectUser,
@@ -249,46 +250,36 @@ const ProfileModal: React.FC<PathProps> = ({ show, setShow }) => {
                     </Form.Row>
                     {/* tenary form for toggle group and display as a string*/}
                     <Form.Row className="m-2 px-0">
-                      <Form.Group as={Col} controlId="profileSchoolYear">
+                      <Form.Group
+                        as={Col}
+                        controlId="profileSchoolYear"
+                      >
                         <Form.Label className="profile-form-label">
                           School Year
                         </Form.Label>
-                        <Form.Row className="profile-year-row pl-1">
-                          {[
-                            'First',
-                            'Sophomore',
-                            'Junior',
-                            'Senior',
-                            'Fifth',
-                            'Grad',
-                          ].map((year) => (
-                            <Form.Group
-                              controlId={`profileSchoolYear${year}`}
-                              className={
-                                userSelectedDraft.schoolYear === year
-                                  ? SelectBg
-                                  : nonSelectBg
-                              }
-                            >
-                              <Form.Label
-                                className={
-                                  userSelectedDraft.schoolYear === year
-                                    ? selectStyle
-                                    : nonSelectStyle
-                                }
-                                onClick={() => {
-                                  dispatch(
-                                    setUserDraft({
-                                      ...userSelectedDraft,
-                                      schoolYear: year,
-                                    }),
-                                  );
-                                }}
-                              >
-                                {year}
-                              </Form.Label>
-                            </Form.Group>
-                          ))}
+                        <Form.Row className="pl-1 profile-school-year">
+                          {!activeIndicator ? (
+                            <ToggleGroup
+                              singleSelect
+                              content={Object.values(SchoolYear)}
+                              initialSelected={userSelectedDraft.schoolYear}
+                              onSelect={({ label }) => {
+                                dispatch(
+                                  setUserDraft({
+                                    ...userSelectedDraft,
+                                    schoolYear: label as SchoolYear,
+                                  }),
+                                );
+                              }}
+                            />
+                          ) : (
+                            <Input
+                              type="text"
+                              value={userSelectedDraft.schoolYear}
+                              readOnly
+                              placeholder="School Year"
+                            />
+                          )}
                         </Form.Row>
                       </Form.Group>
                     </Form.Row>
