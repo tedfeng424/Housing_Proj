@@ -25,7 +25,7 @@ def add_room(date_created, room_type, price, negotiable, description,
              stay_period,
              distance, address, user, move_in, no_rooms, no_bathrooms,
              session):
-    address_to_add = Address(address=address, distance=address)
+    address_to_add = Address(address=address, distance=distance)
     Room_to_add = Room(date_created=date_created, room_type=room_type,
                        price=price,
                        negotiable=negotiable,
@@ -107,7 +107,6 @@ def room_json(room, session):
         other_map[category_name].append(ha.attribute_name)
     r_json = room.serialize
     room_name = room.address.serialize['address'].split(",")[0]
-    print("room_name", room_name)
     return_json = {
         'name': room_name,
         'location': room.address.serialize['address'],
