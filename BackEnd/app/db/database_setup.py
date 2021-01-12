@@ -45,14 +45,14 @@ class Room(Base):
     negotiable = Column(Boolean, nullable=False)
     description = Column(String(1000), nullable=False)
     stay_period = Column(String(250), nullable=False)
-    distance = Column(String(250), nullable=False)
-    address = Column(String(250), nullable=False)
     move_in_id = Column(Integer, ForeignKey("move_in.id"))
+    address_id = Column(Integer, ForeignKey("address.id"))
     no_rooms = Column(Integer, nullable=False)
     no_bathrooms = Column(FLOAT, nullable=False)
     house_attribute = relationship("House_Attribute", backref="room")
     move_in = relationship("Move_In", backref="room")
     bookmark = relationship("Bookmark", backref="room")
+    address = relationship("Address", backref="room")
 
     @property
     def serialize(self):
@@ -65,13 +65,25 @@ class Room(Base):
             'negotiable': self.negotiable,
             'description': self.description,
             'stay_period': self.stay_period,
-            'distance': self.distance,
-            'address': self.address,
             'no_rooms': self.no_rooms,
             'no_bathrooms': self.no_bathrooms
         }
 
-# TODO Need to refactor this, it is not unique
+
+class Address(Base):
+    __tablename__ = 'address'
+    id = Column(Integer, primary_key=True)
+    distance = Column(String(250), nullable=False)
+    address = Column(String(250), nullable=False)
+
+    @property
+    def serialize(self):
+        """Return object data in easily serializeable format"""
+        return {
+            'id': self.id,
+            'distance': self.distance,
+            'address': self.address,
+        }
 
 
 class Move_In(Base):

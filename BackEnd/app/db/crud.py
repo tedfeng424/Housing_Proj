@@ -1,5 +1,5 @@
 from app.db.database_setup import User, Room, Move_In,\
-    House_Attribute, Attribute, Bookmark
+    House_Attribute, Attribute, Bookmark, Address
 from app.util.aws.s3 import get_images, upload_file_wobject
 from datetime import datetime
 
@@ -23,13 +23,16 @@ def add_user(name, email, date_created, phone, description, school_year, major,
 
 def add_room(date_created, room_type, price, negotiable, description,
              stay_period,
-             distance, address, user, move_in, no_rooms, no_bathrooms, session):
+             distance, address, user, move_in, no_rooms, no_bathrooms,
+             session):
+    address_to_add = Address(address=address, distance=address)
     Room_to_add = Room(date_created=date_created, room_type=room_type,
                        price=price,
                        negotiable=negotiable,
                        description=description, stay_period=stay_period,
-                       distance=distance, address=address,
-                       user=user, move_in=move_in, no_rooms=no_rooms, no_bathrooms=no_bathrooms)
+                       address=address_to_add,
+                       user=user, move_in=move_in, no_rooms=no_rooms,
+                       no_bathrooms=no_bathrooms)
     add_and_commit(Room_to_add, session)
     return Room_to_add
 
@@ -159,29 +162,24 @@ def write_attr(names, category, room, session):
 
 def write_room(room_json, session):
     # TODO: might need to add error handling upon database fail
-    # check if user exists
+    # gets room owner, assuming when a new room gets added the user exists
     room_owner = check_exist(
         User, session, **{'email': room_json['email']})
     room_name = room_json['location'].split(",")[0]
-    # if it is first time post
-    # TODO not sure if this should be commented out?:
-    # if len(room_owner.school_year) == 0:
-    #     update_field(
-    #         User, session, {'email': room_json['leaserEmail']},
-    #         {'school_year': room_json['leaserSchoolYear'],
-    #          'major': room_json['leaserMajor'],
-    #          'description': room_json['leaserIntro'],
-    #          'phone': room_json['leaserPhone']
-    #          })
     print(room_json)
-    # TODO evenually change it to do the following:
-    earlyInterval, earlyMonth = room_json['early'].split()
-    lateInterval, lateMonth = room_json['early'].split()
-    new_move_in = add_move_in(earlyInterval,
-                              earlyMonth,
-                              lateInterval,
-                              lateMonth, session)
-
+    early_interval, early_month = room_json['early'].split()
+    late_interval, late_month = room_json['early'].split()
+    new_move_in = check_exist(Move_In, session, **{
+        'early_interval': early_interval,
+        'early_month': early_month,
+        'late_interval': late_interval,
+        'late_month': late_month
+    })
+    if not new_move_in:
+        new_move_in = add_move_in(early_interval,
+                                  early_month,
+                                  late_interval,
+                                  late_month, session)
     new_room = add_room(datetime.now(),
                         room_json['roomType'],
                         room_json['pricePerMonth'],
