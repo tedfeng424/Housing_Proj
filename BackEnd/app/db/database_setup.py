@@ -71,6 +71,8 @@ class Room(Base):
             'no_bathrooms': self.no_bathrooms
         }
 
+# TODO Need to refactor this, it is not unique
+
 
 class Move_In(Base):
     __tablename__ = 'move_in'

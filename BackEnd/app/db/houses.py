@@ -3,10 +3,11 @@ from database_setup import User, Room, Move_In, \
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
-from app.util.aws.s3 import get_images
+from app.util.aws.s3 import get_images, upload_file_wname
 from crud import add_user, \
     add_room, add_move_in, add_house_attribute, add_attribute
 import os
+import random
 
 engine = create_engine('sqlite:///housing.db')
 # Bind the engine to the metadata of the Base class so that the
@@ -80,21 +81,21 @@ adam_room = add_room(datetime.now(), "Living room", 5000, False, "Damn it LOOOOO
                      "Towers At Costa Verde, Costa Verde Boulevard, San Diego, CA, USA",
                      adam, adam_move_in, 2, 2, session)
 cris2_room = add_room(datetime.now(), "Single", 1000, True, "Damn it LOOOOOOL", 2,
-                     "16 mins",
-                     "Costa Verde Village, Costa Verde Boulevard, San Diego, CA, USA",
-                     cris, cris_move_in, 2, 2, session)
+                      "16 mins",
+                      "Costa Verde Village, Costa Verde Boulevard, San Diego, CA, USA",
+                      cris, cris_move_in, 2, 2, session)
 amit2_room = add_room(datetime.now(), "Single", 2000, True, "Damn it LOOOOOOL", 10,
-                     "5 mins",
-                     "Solazzo Apartment Homes, Villa La Jolla Drive, La Jolla, CA, USA",
-                     amit, amit_move_in, 1, 1, session)
+                      "5 mins",
+                      "Solazzo Apartment Homes, Villa La Jolla Drive, La Jolla, CA, USA",
+                      amit, amit_move_in, 1, 1, session)
 keenan2_room = add_room(datetime.now(), "Single", 3000, False, "Damn it LOOOOOOL", 5,
-                       "65 mins",
-                       "Regents Court, Regents Road, San Diego, CA, USA",
-                       keenan, keenan_move_in, 1, 1, session)
+                        "65 mins",
+                        "Regents Court, Regents Road, San Diego, CA, USA",
+                        keenan, keenan_move_in, 1, 1, session)
 adam2_room = add_room(datetime.now(), "Living room", 5000, False, "Damn it LOOOOOOL", 9,
-                     "60 mins",
-                     "Towers At Costa Verde, Costa Verde Boulevard, San Diego, CA, USA",
-                     adam, adam_move_in, 3, 3, session)
+                      "60 mins",
+                      "Towers At Costa Verde, Costa Verde Boulevard, San Diego, CA, USA",
+                      adam, adam_move_in, 3, 3, session)
 
 # Add House_Attribute
 add_house_attribute(cris_room, attr_pets, session)
@@ -125,5 +126,33 @@ add_house_attribute(adam2_room, attr_female, session)
 add_house_attribute(adam2_room, attr_common, session)
 add_house_attribute(adam2_room, attr_furnished, session)
 add_house_attribute(adam2_room, attr_coed, session)
+
+# Create Mock Images
+file_dir = "../assets/room_mock_images/"
+file_name1 = "beauty.jpg"
+file_name2 = "beauty2.png"
+file_name3 = "evening1.jpg"
+file_name4 = "evening2.jpg"
+file_name5 = "evening3.jpg"
+file_name6 = "tower.jpg"
+
+users = [adam, cris, amit, keenan]
+rooms_mapping = {adam: [adam_room, adam2_room],
+                 cris: [cris_room, cris2_room],
+                 amit: [amit_room, amit2_room],
+                 keenan: [keenan_room, keenan2_room]
+                 }
+files = [file_name1, file_name2, file_name3,
+         file_name4, file_name5, file_name6]
+
+for user in users:
+    for room in rooms_mapping[user]:
+        path_name = "/".join([user.email, 'housing',
+                              str(room.id)])
+        random_files = random.sample(files, 4)
+        for file_name in random_files:
+            upload_file_wname(file_dir+file_name, 'houseit',
+                              path_name+"/"+file_name)
+
 
 print("created Mock Database!")
