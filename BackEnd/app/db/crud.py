@@ -106,11 +106,11 @@ def room_json(room, session):
             Attribute.name == ha.attribute_name).first().category
         other_map[category_name].append(ha.attribute_name)
     r_json = room.serialize
-    room_name = r_json['address'].split(",")[0]
+    room_name = room.address.serialize['address'].split(",")[0]
     return_json = {
         'name': room_name,
-        'location': r_json['address'],
-        'distance': r_json['distance'],
+        'location': room.address.serialize['address'],
+        'distance': room.address.serialize['address']['distance'],
         'pricePerMonth': r_json['price'],
         'stayPeriod': r_json['stay_period'],
         'early': house_move_in.early_interval + " " + house_move_in.early_month,
