@@ -107,6 +107,7 @@ def room_json(room, session):
         other_map[category_name].append(ha.attribute_name)
     r_json = room.serialize
     room_name = room.address.serialize['address'].split(",")[0]
+    print("room_name", room_name)
     return_json = {
         'name': room_name,
         'location': room.address.serialize['address'],
