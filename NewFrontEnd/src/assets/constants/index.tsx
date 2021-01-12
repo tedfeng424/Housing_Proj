@@ -81,6 +81,18 @@ const monthsUnabrvToAbrv = {
   [Month.November]: MonthAbrv.November,
   [Month.December]: MonthAbrv.December,
 };
+// #TODO ADD all the files in a central place
+const BackendMapping = {
+  schoolYear: 'school_year',
+  RoomType: 'room_type',
+  stayPeriod: 'stay_period',
+  token: 'token',
+  description: 'description',
+  major: 'major',
+  phone: 'phone',
+  name: 'name',
+  email: 'email',
+};
 
 enum SchoolYear {
   First = 'First',
@@ -277,4 +289,5 @@ export {
   RoomType,
   majors,
   schoolYears,
+  BackendMapping,
 };

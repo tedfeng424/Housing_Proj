@@ -3,7 +3,7 @@ import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 import Dropdown from './basics/Dropdown';
 import { useSelector, useDispatch } from 'react-redux';
 import Image from 'react-bootstrap/Image';
-import { SchoolYear, majors } from '../assets/constants';
+import { SchoolYear, majors, BackendMapping } from '../assets/constants';
 import Input from './basics/Input';
 import ToggleGroup from './basics/ToggleGroup';
 import { miscIcons, profileIcons } from '../assets/icons/all';
@@ -61,12 +61,19 @@ const phoneFormat = (phone: string, previousPhone: string) => {
 };
 
 // Will only be called during confirmation
+
 const generateUpdates = (original: User, draft: User) => {
   const updatePairs: { [k: string]: any } = {};
   const updateKeys = (Object.keys(original) as Array<keyof User>).filter(
     (key) => original[key] !== draft[key],
   );
-  updateKeys.forEach((key) => (updatePairs[key] = draft[key]));
+  updateKeys.forEach((key) => {
+    if (Object.keys(BackendMapping).includes(key)) {
+      updatePairs[BackendMapping[key] as string] = draft[key];
+    } else {
+      updatePairs[key] = draft[key];
+    }
+  });
   return updatePairs;
 };
 
@@ -250,10 +257,7 @@ const ProfileModal: React.FC<PathProps> = ({ show, setShow }) => {
                     </Form.Row>
                     {/* tenary form for toggle group and display as a string*/}
                     <Form.Row className="m-2 px-0">
-                      <Form.Group
-                        as={Col}
-                        controlId="profileSchoolYear"
-                      >
+                      <Form.Group as={Col} controlId="profileSchoolYear">
                         <Form.Label className="profile-form-label">
                           School Year
                         </Form.Label>
