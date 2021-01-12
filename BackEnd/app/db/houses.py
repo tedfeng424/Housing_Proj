@@ -146,6 +146,13 @@ files = [file_name1, file_name2, file_name3,
          file_name4, file_name5, file_name6]
 
 for user in users:
+    # create icons
+    icon_path = '../assets/profile_default_icons/'
+    selected_icon = random.choice(
+        os.listdir(icon_path))
+    path_name = "/".join([user.email,
+                          'profile', selected_icon])
+    upload_file_wname(icon_path+selected_icon, 'houseit', path_name)
     for room in rooms_mapping[user]:
         path_name = "/".join([user.email, 'housing',
                               str(room.id)])
