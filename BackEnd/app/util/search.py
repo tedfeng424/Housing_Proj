@@ -1,5 +1,5 @@
 from app.assets.options import months, intervals
-from app.db.database_setup import Room, Move_In
+from app.db.database_setup import Room, Move_In, Address
 from app.db.crud import room_json as convert_room_json
 
 
@@ -29,7 +29,7 @@ def checkOther(house, request):
 def search(room_json, session):
     res = session.query(Room).filter(room_json['price_min'] <= Room.price,
                                      Room.price <= room_json['price_max'],
-                                     Room.address.any(distance < room_json['distance']),
+                                     Room.address.any(Address.distance < room_json['distance']),
                                      Room.stay_period == room_json['stay_period'],
                                      Room.no_rooms >= float(
                                          room_json['numBeds']),
