@@ -133,6 +133,7 @@ def room_json(room, session):
         'numBaths': r_json['no_bathrooms'],
         'numBeds': r_json['no_rooms']
     }
+    print(len(return_json['photos']))
     return return_json
 
 
