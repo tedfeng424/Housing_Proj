@@ -125,7 +125,7 @@ def room_json(room, session):
         'leaserMajor': house_user.major,
         'leaserIntro': house_user.description,
         # add Room Id
-        'photos': get_images(house_user.email, extra_path=str(room.id)),
+        'photos': get_images(house_user.email, extra_path=str(room.id)+"/"),
         'profilePhoto': 'https://houseit.s3.us-east-2.amazonaws.com/' +
         get_images(house_user.email, category="profile")[0],
         'roomId': r_json['id'],
