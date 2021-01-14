@@ -102,15 +102,14 @@ def generateMock(k=30):
         for temp_attr in mock_attrs[i]:
             add_house_attribute(temp_room, temp_attr, session)
         mock_rooms.append(temp_room)
-    for user in people:
-        print(user.email)
-        for room in mock_rooms:
-            path_name = "/".join([user.email, 'housing',
-                                str(room.id)])
-            random_files = random.sample(files, 4)
-            for file_name in random_files:
-                upload_file_wname(file_dir+file_name, 'houseit',
-                                path_name+"/"+file_name)
+    for i in range(k):
+        path_name = "/".join([people[i].email, 'housing',
+                            str(mock_rooms[i].id)])
+        random_files = random.sample(files, 4)
+        for file_name in random_files:
+            upload_file_wname(file_dir+file_name, 'houseit',
+                            path_name+"/"+file_name)
+
 
 generateMock()
 print("created Mock Database!")
