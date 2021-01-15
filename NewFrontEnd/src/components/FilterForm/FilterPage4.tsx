@@ -58,7 +58,7 @@ const FilterPage4: React.FC<WizardFormStep<Page4Store>> = ({
 
       <Form.Row className="m-2">
         <Col>
-          <Form.Label className="filterform-word">Move-In Timeframe</Form.Label>
+          <Form.Label className="filterform-word">When would you like to move in?</Form.Label>
         </Col>
       </Form.Row>
       <Form.Row className="m-2">
@@ -139,7 +139,7 @@ const FilterPage4: React.FC<WizardFormStep<Page4Store>> = ({
       <Form.Row className="m-2 mt-4">
         <Col md={12}>
           <Dropdown
-            label="Stay Period"
+            label="For How Long?"
             options={[
               '1',
               '2',

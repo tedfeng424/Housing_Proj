@@ -48,12 +48,14 @@ const Login: React.FC<PathProps> = ({ handleClose, show }) => {
         <Button variant="no-show" onClick={() => handleClose()}>
           <img className="pl-2" src="/close.svg" alt="Close" />
         </Button>
-        Why School Account?
         <OverlayTrigger
           placement="bottom-end"
           overlay={<Tooltip id="tooltip">{LOGIN_INFO_TOOLTIP}</Tooltip>}
         >
-          <miscIcons.infoCircle className="float-right pr-2 pt-1" />
+          <div className="float-right pr-2 pt-1" >
+          <span className="login-why-text">Why school account? </span>
+          <miscIcons.infoCircle/>
+          </div>
         </OverlayTrigger>
       </div>
 
