@@ -25,9 +25,9 @@ room_types = [
     'Single',
     'Double',
     'Triple',
-    'Studio',
-    'Suite',
-    'Living room',
+    # 'Studio',
+    # 'Suite',
+    # 'Living room',
 ]
 
 others = [
