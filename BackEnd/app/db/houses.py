@@ -75,41 +75,46 @@ for user in users:
     path_name = "/".join([user.email,
                           'profile', selected_icon])
     upload_file_wname(icon_path+selected_icon, 'houseit', path_name)
+
+
 def generateMock(k=30):
     attributes = []
     for attr in others:
         attributes.append(add_attribute(attr, 'other', session))
     for attr in facilities:
         attributes.append(add_attribute(attr, 'facilities', session))
-    move_combos = [(random.choice(intervals),months[6],random.choice(intervals),months[7]) for _ in range(k)]
-    move_ins = [add_move_in(elem[0],elem[1],elem[2],elem[3], session) for elem in move_combos]
+    move_combos = [(random.choice(intervals), months[6],
+                    random.choice(intervals), months[7]) for _ in range(k)]
+    move_ins = [add_move_in(elem[0], elem[1], elem[2],
+                            elem[3], session) for elem in move_combos]
     mock_room_types = [random.choice(room_types) for _ in range(k)]
-    mock_prices =  [random.randint(200,1000) for _ in range(k)]
-    houses =  [random.choice(addresses_generate) for _ in range(k)]
-    people =  [random.choice(users) for _ in range(k)]
-    negotiables =  [random.choice([True,False]) for _ in range(k)]
-    mock_stay_periods = [random.choice(list(range(1,13))) for _ in range(k)]
-    mock_eta = [str(random.choice(list(range(1,30))))+ " mins" for _ in range(k)]
-    mock_baths = [random.choice(list(range(1,4))) for _ in range(k)]
-    mock_beds = [random.choice(list(range(1,4))) for _ in range(k)]
-    mock_attrs = [list(set(random.sample(attributes,8))) for _ in range(k) ]
+    mock_prices = [random.randint(200, 1000) for _ in range(k)]
+    houses = [random.choice(addresses_generate) for _ in range(k)]
+    people = [random.choice(users) for _ in range(k)]
+    negotiables = [random.choice([True, False]) for _ in range(k)]
+    mock_stay_periods = [random.choice(list(range(1, 13))) for _ in range(k)]
+    mock_eta = [str(random.choice(list(range(1, 30)))) +
+                " mins" for _ in range(k)]
+    mock_baths = [random.choice(list(range(1, 4))) for _ in range(k)]
+    mock_beds = [random.choice(list(range(1, 4))) for _ in range(k)]
+    mock_attrs = [list(set(random.sample(attributes, 8))) for _ in range(k)]
     mock_rooms = []
     print(mock_room_types)
     for i in range(k):
         temp_room = add_room(datetime.now(), mock_room_types[i], mock_prices[i], negotiables[i], "Damn it LOOOOOOL", mock_stay_periods[0],
-                     mock_eta[i],
-                     houses[i],
-                     people[i], move_ins[i], mock_beds[i], mock_baths[i], session)
+                             mock_eta[i],
+                             houses[i],
+                             people[i], move_ins[i], mock_beds[i], mock_baths[i], session)
         for temp_attr in mock_attrs[i]:
             add_house_attribute(temp_room, temp_attr, session)
         mock_rooms.append(temp_room)
     for i in range(k):
         path_name = "/".join([people[i].email, 'housing',
-                            str(mock_rooms[i].id)])
-        random_files = random.sample(files, 4)
+                              str(mock_rooms[i].id)])
+        random_files = random.sample(os.listdir(file_dir), 4)
         for file_name in random_files:
             upload_file_wname(file_dir+file_name, 'houseit',
-                            path_name+"/"+file_name)
+                              path_name+"/"+file_name)
 
 
 generateMock()
