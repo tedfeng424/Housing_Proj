@@ -81,7 +81,7 @@ def generateMock(k=30):
         attributes.append(add_attribute(attr, 'other', session))
     for attr in facilities:
         attributes.append(add_attribute(attr, 'facilities', session))
-    move_combos = [(random.choice(intervals),random.choice(months),random.choice(intervals),random.choice(months)) for _ in range(k)]
+    move_combos = [(random.choice(intervals),random.choice(months[7:9]),random.choice(intervals),random.choice(months)) for _ in range(k)]
     move_ins = [add_move_in(elem[0],elem[1],elem[2],elem[3], session) for elem in move_combos]
     mock_room_types = [random.choice(room_types) for _ in range(k)]
     mock_prices =  [random.randint(200,1000) for _ in range(k)]
