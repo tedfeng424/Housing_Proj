@@ -23,7 +23,7 @@ def compareMonth(early, late, curr):
 
 
 def checkOther(house, request):
-    return len(set(house).intersection(set(request))) >= 1
+    return len(set(house).intersection(set(request))) >= 1 or len(request) == 0
 
 
 def search(room_json, session):
