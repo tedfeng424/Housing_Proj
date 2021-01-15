@@ -54,7 +54,7 @@ const Page2: React.FC<WizardFormStep<Page2Store>> = ({
         <Col>
           {/* TODO need to check if the address is valid! Currently, if the user types something in and then clicks enter, it marks it as ok. This issue stems from an issue in PlaceAutoComplete.tsx */}
           <AutoComplete
-            label="Address(We automatically calculate time to PC for you)"
+            label="Address (We automatically calculate time to Price Center for you)"
             initialAddress={locationSearch}
             onChange={(value) => {
               if (selectedLocation === '') setStore({ locationSearch: value });
