@@ -89,9 +89,9 @@ def generateMock(k=30):
     people =  [random.choice(users) for _ in range(k)]
     negotiables =  [random.choice([True,False]) for _ in range(k)]
     mock_stay_periods = [random.choice(list(range(1,13))) for _ in range(k)]
-    mock_eta = [str(random.choice(list(range(1,60))))+ " mins" for _ in range(k)]
-    mock_baths = [random.choice(list(range(1,5))) for _ in range(k)]
-    mock_beds = [random.choice(list(range(1,5))) for _ in range(k)]
+    mock_eta = [str(random.choice(list(range(1,30))))+ " mins" for _ in range(k)]
+    mock_baths = [random.choice(list(range(1,4))) for _ in range(k)]
+    mock_beds = [random.choice(list(range(1,4))) for _ in range(k)]
     mock_attrs = [list(set(random.sample(attributes,8))) for _ in range(k) ]
     mock_rooms = []
     print(mock_room_types)
