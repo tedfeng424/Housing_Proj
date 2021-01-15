@@ -84,7 +84,7 @@ def generateMock(k=30):
     move_combos = [(random.choice(intervals),random.choice(months),random.choice(intervals),random.choice(months)) for _ in range(k)]
     move_ins = [add_move_in(elem[0],elem[1],elem[2],elem[3], session) for elem in move_combos]
     mock_room_types = [random.choice(room_types) for _ in range(k)]
-    mock_prices =  [random.randint(200,2500) for _ in range(k)]
+    mock_prices =  [random.randint(200,1000) for _ in range(k)]
     houses =  [random.choice(addresses_generate) for _ in range(k)]
     people =  [random.choice(users) for _ in range(k)]
     negotiables =  [random.choice([True,False]) for _ in range(k)]
@@ -94,6 +94,7 @@ def generateMock(k=30):
     mock_beds = [random.choice(list(range(1,5))) for _ in range(k)]
     mock_attrs = [list(set(random.sample(attributes,8))) for _ in range(k) ]
     mock_rooms = []
+    print(mock_room_types)
     for i in range(k):
         temp_room = add_room(datetime.now(), mock_room_types[i], mock_prices[i], negotiables[i], "Damn it LOOOOOOL", mock_stay_periods[0],
                      mock_eta[i],
