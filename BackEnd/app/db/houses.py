@@ -102,7 +102,7 @@ def generateMock(k=30):
         random_files = random.sample(os.listdir(file_dir), 4)
         for idx, file_name in enumerate(random_files):
             upload_file_wname(file_dir+file_name, 'houseit',
-                              path_name+"/"+str(idx))
+                              path_name+"/"+str(idx)+".jpg")
 
 
 generateMock()
