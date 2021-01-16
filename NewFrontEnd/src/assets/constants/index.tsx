@@ -92,6 +92,7 @@ const BackendMapping = {
   phone: 'phone',
   name: 'name',
   email: 'email',
+  profilePhoto: 'profile_photo',
 };
 
 enum SchoolYear {
