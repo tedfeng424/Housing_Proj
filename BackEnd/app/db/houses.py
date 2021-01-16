@@ -54,6 +54,7 @@ keenan = add_user(KEENAN, "keenan@ucsd.edu", datetime.now(), "858-4675432",
                   "Computer Science and Engineering",
                   session)
 users = [adam, cris, amit, keenan]
+file_dir = '../assets/room_mock_images'
 for user in users:
     # create icons
     icon_path = '../assets/profile_default_icons/'
