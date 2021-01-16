@@ -52,7 +52,10 @@ const Login: React.FC<PathProps> = ({ handleClose, show }) => {
           placement="bottom-end"
           overlay={<Tooltip id="tooltip">{LOGIN_INFO_TOOLTIP}</Tooltip>}
         >
-          <miscIcons.infoCircle className="float-right pr-2 pt-1" />
+          <div className="float-right pr-2 pt-1" >
+          <span className="login-why-text">Why school account? </span>
+          <miscIcons.infoCircle/>
+          </div>
         </OverlayTrigger>
       </div>
 

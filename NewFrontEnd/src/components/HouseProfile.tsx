@@ -202,6 +202,7 @@ const HouseProfile: React.FC<HouseProfileProps> = ({
                   <Row>
                     {negotiable && '~'}${pricePerMonth}
                   </Row>
+                  <Row className="profile-text-price-related">Rent/month</Row>
                 </Col>
                 <Col md={{ span: 5, offset: 2 }}>
                   <Row className="subtitle-text">Room type</Row>

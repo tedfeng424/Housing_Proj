@@ -132,12 +132,12 @@ const ProfileModal: React.FC<PathProps> = ({ show, setShow }) => {
               <Col md={4} className="align-self-center">
                 <div className="profile-wrap">
                   <Image
-                    src="https://houseit.s3.us-east-2.amazonaws.com/ambar%40ucsd.edu/profile/Mask+Group-1.jpg" // TODO shouldnt use constant for the src
+                    src="https://houseit.s3.us-east-2.amazonaws.com/amit%40ucsd.edu/profile/Mask+Group-3.jpg" // TODO shouldnt use constant for the src
                     roundedCircle
                     className="profile-icon"
                   />
                 </div>
-                <div className="profile-name">Jacob Jones</div>
+                <div className="profile-name">{userSelectedDraft.name}</div>
                 <div className="profile-verified">
                   <profileIcons.tickMark />
                   UCSD Email Verified

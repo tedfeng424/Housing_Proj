@@ -21,6 +21,15 @@ intervals = [
     'Late(21-31)'
 ]
 
+room_types = [
+    'Single',
+    'Double',
+    'Triple',
+    # 'Studio',
+    # 'Suite',
+    # 'Living room',
+]
+
 others = [
     'Female only',
     'Male only',
@@ -56,3 +65,10 @@ facilities = [
 ]
 
 school_years = ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Grad']
+
+addresses_generate = [
+    "Costa Verde Village, Costa Verde Boulevard, San Diego, CA, USA",
+    "Solazzo Apartment Homes, Villa La Jolla Drive, La Jolla, CA, USA",
+    "Regents Court, Regents Road, San Diego, CA, USA",
+    "Towers At Costa Verde, Costa Verde Boulevard, San Diego, CA, USA"
+]

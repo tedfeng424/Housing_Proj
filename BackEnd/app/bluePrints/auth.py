@@ -26,7 +26,8 @@ def login():
     user = check_exist(User, session, **{'email': requested_json['email']})
     if not user:
         # User doesn't exist
-        json_response = {'newUser': True} # maybe also do: , 'access_token': access_token
+        # maybe also do: , 'access_token': access_token
+        json_response = {'newUser': True}
         response = generateResponse(json_response)
         response.set_cookie('access_token', access_token)
         return response
@@ -52,9 +53,12 @@ def logout():
         return generateResponse()
     client_token = request.json.get('access_token')
     message, status = 'Successful Logout!', 200
+    # delete the user id
     if not client_token or (client_token != login_session["access_token"]):
         message, status = 'Logout is Forbidden due to wrong token', 403
         print(client_token, login_session["access_token"])
+    else:
+        del login_session["user_id"]
     return generateResponse(elem=message, status=status)
 
 
@@ -76,6 +80,7 @@ def create_user():
                     requested_json["schoolYear"],
                     requested_json["major"],
                     session)
+    login_session["user_id"] = user.id
     icon_path = './assets/profile_default_icons/'
     selected_icon = random.choice(
         os.listdir(icon_path))

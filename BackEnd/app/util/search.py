@@ -1,5 +1,5 @@
 from app.assets.options import months, intervals
-from app.db.database_setup import Room, Move_In
+from app.db.database_setup import Room, Move_In, Address
 from app.db.crud import room_json as convert_room_json
 
 
@@ -23,13 +23,13 @@ def compareMonth(early, late, curr):
 
 
 def checkOther(house, request):
-    return len(set(request) - set(house)) == 0
+    return len(set(house).intersection(set(request))) >= 1 or len(request) == 0
 
 
 def search(room_json, session):
     res = session.query(Room).filter(room_json['price_min'] <= Room.price,
                                      Room.price <= room_json['price_max'],
-                                     Room.distance < room_json['distance'],
+                                     Room.address.has(Address.distance < room_json['distance']),
                                      Room.stay_period == room_json['stay_period'],
                                      Room.no_rooms >= float(
                                          room_json['numBeds']),

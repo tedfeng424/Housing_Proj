@@ -12,14 +12,6 @@ interface Coords {
   lng: number;
 }
 
-const MapPin: React.FC<Coords> = () => (
-  <div>
-    <div style={{ marginLeft: '-17px', marginTop: '-46px' }}>
-      <mapIcons.mapPin />
-    </div>
-  </div>
-);
-
 interface PathProps {
   address: string;
   className?: string;
