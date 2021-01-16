@@ -132,7 +132,7 @@ const ProfileModal: React.FC<PathProps> = ({ show, setShow }) => {
               <Col md={4} className="align-self-center">
                 <div className="profile-wrap">
                   <Image
-                    src={userSelectedDraft.profilePhoto} // TODO shouldnt use constant for the src
+                    src={`https://houseit.s3.us-east-2.amazonaws.com/${userSelectedDraft.profilePhoto}`} // TODO shouldnt use constant for the src
                     roundedCircle
                     className="profile-icon"
                   />

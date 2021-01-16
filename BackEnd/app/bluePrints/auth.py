@@ -32,7 +32,7 @@ def login():
         response.set_cookie('access_token', access_token)
         return response
     path_name = "/".join(["user"+str(user.id),
-                          'profile', ".jpg"])
+                          'profile', "headshot.jpg"])
     login_session["user_id"] = user.id
     json_response = {'name': requested_json['name'],
                      'email': requested_json['email'],
