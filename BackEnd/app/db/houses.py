@@ -61,7 +61,7 @@ for user in users:
     selected_icon = random.choice(
         os.listdir(icon_path))
     path_name = "/".join(["user"+str(user.id),
-                          'profile', "headshot"])
+                          'profile', "headshot.jpg"])
     upload_file_wname(icon_path+selected_icon, 'houseit', path_name)
 
 

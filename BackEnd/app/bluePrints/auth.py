@@ -32,7 +32,7 @@ def login():
         response.set_cookie('access_token', access_token)
         return response
     path_name = "/".join(["user"+str(user.id),
-                          'profile', "headshot"])
+                          'profile', ".jpg"])
     login_session["user_id"] = user.id
     json_response = {'name': requested_json['name'],
                      'email': requested_json['email'],
@@ -87,7 +87,7 @@ def create_user():
     selected_icon = random.choice(
         os.listdir(icon_path))
     path_name = "/".join(["user"+str(user.id),
-                          'profile', "headshot"])
+                          'profile', "headshot.jpg"])
     upload_file_wname(icon_path+selected_icon, 'houseit', path_name)
 
     json_response = {'name': requested_json['name'],
