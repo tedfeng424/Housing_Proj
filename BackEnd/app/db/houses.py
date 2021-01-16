@@ -101,7 +101,7 @@ def generateMock(k=30):
     mock_rooms = []
     print(mock_room_types)
     for i in range(k):
-        temp_room = add_room(datetime.now(), mock_room_types[i], mock_prices[i], negotiables[i], "Damn it LOOOOOOL", mock_stay_periods[0],
+        temp_room = add_room(datetime.now(), mock_room_types[i], mock_prices[i], negotiables[i], "Damn it LOOOOOOL", mock_stay_periods[i],
                              mock_eta[i],
                              houses[i],
                              people[i], move_ins[i], mock_beds[i], mock_baths[i], session)
