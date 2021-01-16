@@ -53,9 +53,12 @@ def logout():
         return generateResponse()
     client_token = request.json.get('access_token')
     message, status = 'Successful Logout!', 200
+    # delete the user id
     if not client_token or (client_token != login_session["access_token"]):
         message, status = 'Logout is Forbidden due to wrong token', 403
         print(client_token, login_session["access_token"])
+    else:
+        del login_session["user_id"]
     return generateResponse(elem=message, status=status)
 
 
