@@ -133,6 +133,7 @@ const createNewUserApi = async (user: Omit<User, 'token'>) => {
     if (response.request?.status !== 201) throw Error('Bad request');
 
     return {
+      profilePhoto:response.data.profile_photo,
       name: response.data.name,
       email: response.data.email,
       token: response.data.access_token,
