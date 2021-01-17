@@ -43,7 +43,6 @@ interface WizardFormProps<T = {}> {
   initialStore: Partial<T>[];
   schemas: ZodSchema<Partial<T>>[];
   lastButtonAsInactiveArrow?: boolean;
-  // TODO customLastButton?: React.ReactElement<HTMLButtonElement>;
   lastButtonText?: string;
 }
 
@@ -63,7 +62,6 @@ const WizardForm = <T extends {}>({
   initialStore,
   schemas,
   lastButtonAsInactiveArrow,
-  // TODO customLastButton,
   lastButtonText = 'Submit',
 }: WizardFormProps<T>) => {
   const [curIndex, setCurIndex] = useState<number>(0);
@@ -73,29 +71,18 @@ const WizardForm = <T extends {}>({
   );
   const [CurStep, setCurStep] = useState<React.ReactElement>(children[0]);
 
-  const [store, setCompleteStore] = useState<Array<Partial<T>>>(initialStore); // TODO maybe add useEffect so that whenever the initialStore changes, it updates the store (might cause issues tho, if the user makes changes and then we change the initialState, it'll override the changes). maybe what you should do is just not display the modal unless the show is true -- then you could have a useeffect on the show, and whenever the show becomes true, you should update the intialState with the current value?
-  // TODO const [curStore, setCurStore] = useState<>
+  const [store, setCompleteStore] = useState<Array<Partial<T>>>(initialStore);
 
   // keeps track of the errors for each field
   const [validations, setValidations] = useState<
     Array<ValidationErrors<Partial<T>> | undefined>
   >(children.map(() => undefined));
-  // TODO maybe add a thing to keep track of whether or not an entire step is validated. Then use this in the dots to display which have errors? (i.e. make them red dots)
-  // const [validSteps, setValidSteps] = useState<boolean[]>(
-  //   children.map(() => false),
-  // );
-  // TODO const [isCurStepValid, setIsCurStepValid] = useState<boolean>();
 
   useEffect(() => {
     setCurStep(children[curIndex]);
     setIsFirst(curIndex === 0);
     setIsLast(curIndex === children.length - 1);
   }, [curIndex, children]);
-
-  // update if the current one is updated each time validations is updated
-  // TODO useEffect(() => {
-
-  // }, [validations, setIsCurStepValid]);
 
   /**
    * Use this to exit the wizard form without submitting.
@@ -159,12 +146,7 @@ const WizardForm = <T extends {}>({
       [i]: { ...validations[i], ...stepValidations },
     });
 
-    // TODO const noErrors = (Object.values(stepValidations) as Array<
-    //   { success: true; error: undefined } | { success: false; error: ZodIssue }
-    // >).reduce((pre, cur) => pre && cur.success, true);
     const stepValidation: boolean = combineSuccesses(stepValidations);
-
-    // TODO setValidSteps({ ...validSteps, [i]: stepValidation });
 
     return stepValidation;
   };
@@ -272,7 +254,6 @@ const WizardForm = <T extends {}>({
     });
   };
 
-  // TODO need to figure out how to have loading thing on top
   return (
     <Modal
       dialogClassName="wizard-form-modal-dialog"
@@ -281,17 +262,14 @@ const WizardForm = <T extends {}>({
       centered
     >
       <div className="h-100 w-100">
-        {/* TODO add border-radius to top and bottom rows */}
         <div className="wizard-form-top-bar">
           <Button variant="no-show" onClick={() => setShow(false)}>
             <miscIcons.orangeX />
           </Button>
           <div className="title">{title}</div>
-          {/* <span className="reset">Reset</span> */}
           <div />
         </div>
 
-        {/* TODO <div className="d-flex align-items-center justify-content-around h-100"> */}
         <div className="wizard-form-middle">
           {React.cloneElement(CurStep, {
             nextStep,
@@ -335,7 +313,6 @@ const WizardForm = <T extends {}>({
 
             <div className="ml-2 align-self-center">
               {isLast ? (
-                // TODO customLastButton ||
                 (lastButtonAsInactiveArrow && (
                   <Button variant="no-show">
                     <miscIcons.smallRightArrowDisabled />
