@@ -4,6 +4,7 @@ export interface UserNameEmail {
 }
 
 export interface User extends UserNameEmail {
+  profilePhoto: string;
   token: string;
   description: string;
   major: string;
@@ -12,6 +13,7 @@ export interface User extends UserNameEmail {
 }
 
 export const dummyUser = {
+  profilePhoto: '',
   name: '',
   email: '',
   token: '',

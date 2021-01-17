@@ -53,27 +53,15 @@ keenan = add_user(KEENAN, "keenan@ucsd.edu", datetime.now(), "858-4675432",
                   descriptions[KEENAN],  'Grad',
                   "Computer Science and Engineering",
                   session)
-# Create Mock Images
-file_dir = "../assets/room_mock_images/"
-file_name1 = "beauty.jpg"
-file_name2 = "beauty2.png"
-file_name3 = "evening1.jpg"
-file_name4 = "evening2.jpg"
-file_name5 = "evening3.jpg"
-file_name6 = "tower.jpg"
-
-files = [file_name1, file_name2, file_name3,
-         file_name4, file_name5, file_name6]
-
-
 users = [adam, cris, amit, keenan]
+file_dir = '../assets/room_mock_images/'
 for user in users:
     # create icons
     icon_path = '../assets/profile_default_icons/'
     selected_icon = random.choice(
         os.listdir(icon_path))
-    path_name = "/".join([user.email,
-                          'profile', selected_icon])
+    path_name = "/".join(["user"+str(user.id),
+                          'profile', "headshot.jpg"])
     upload_file_wname(icon_path+selected_icon, 'houseit', path_name)
 
 
@@ -109,12 +97,12 @@ def generateMock(k=30):
             add_house_attribute(temp_room, temp_attr, session)
         mock_rooms.append(temp_room)
     for i in range(k):
-        path_name = "/".join([people[i].email, 'housing',
+        path_name = "/".join(["user"+str(people[i].id), 'housing',
                               str(mock_rooms[i].id)])
         random_files = random.sample(os.listdir(file_dir), 4)
-        for file_name in random_files:
+        for idx, file_name in enumerate(random_files):
             upload_file_wname(file_dir+file_name, 'houseit',
-                              path_name+"/"+file_name)
+                              path_name+"/"+str(idx)+".jpg")
 
 
 generateMock()

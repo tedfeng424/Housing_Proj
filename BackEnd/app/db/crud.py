@@ -125,9 +125,10 @@ def room_json(room, session):
         'leaserMajor': house_user.major,
         'leaserIntro': house_user.description,
         # add Room Id
-        'photos': get_images(house_user.email, extra_path=str(room.id)+"/"),
+        'photos': get_images("user"+str(house_user.id),
+                             extra_path=str(room.id)+"/"),
         'profilePhoto': 'https://houseit.s3.us-east-2.amazonaws.com/' +
-        get_images(house_user.email, category="profile")[0],
+        get_images("user"+str(house_user.id), category="profile")[0],
         'roomId': r_json['id'],
         'negotiable': r_json['negotiable'],
         'numBaths': r_json['no_bathrooms'],
@@ -194,7 +195,7 @@ def write_room(room_json, session):
     write_attr(room_json['facilities'], 'facilities', new_room, session)
     # add photo
     for photo in room_json['photos']:
-        path_name = "/".join([room_owner.email, 'housing',
+        path_name = "/".join(["user"+str(room_owner.id), 'housing',
                               str(new_room.id), photo.filename])
         upload_file_wobject(photo, 'houseit', path_name)  # Change to ID
     return True

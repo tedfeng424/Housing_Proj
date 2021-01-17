@@ -31,7 +31,8 @@ def login():
         response = generateResponse(json_response)
         response.set_cookie('access_token', access_token)
         return response
-
+    path_name = "/".join(["user"+str(user.id),
+                          'profile', "headshot.jpg"])
     login_session["user_id"] = user.id
     json_response = {'name': requested_json['name'],
                      'email': requested_json['email'],
@@ -40,7 +41,8 @@ def login():
                      'description': user.description,
                      'phone': user.phone,
                      'schoolYear': user.school_year,
-                     'major': user.major
+                     'major': user.major,
+                     'profile_photo': path_name
                      }
     response = generateResponse(json_response)
     response.set_cookie('access_token', access_token)
@@ -84,8 +86,8 @@ def create_user():
     icon_path = './assets/profile_default_icons/'
     selected_icon = random.choice(
         os.listdir(icon_path))
-    path_name = "/".join([requested_json['email'],
-                          'profile', selected_icon])
+    path_name = "/".join(["user"+str(user.id),
+                          'profile', "headshot.jpg"])
     upload_file_wname(icon_path+selected_icon, 'houseit', path_name)
 
     json_response = {'name': requested_json['name'],
@@ -95,7 +97,8 @@ def create_user():
                      'description': user.description,
                      'phone': user.phone,
                      'schoolYear': user.school_year,
-                     'major': user.major
+                     'major': user.major,
+                     'profile_photo': path_name
                      }
     response = generateResponse(json_response, 201)
     response.set_cookie('access_token', login_session["access_token"])

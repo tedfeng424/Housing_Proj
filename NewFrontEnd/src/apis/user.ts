@@ -4,6 +4,7 @@ import { backendAPI } from './apiBases';
 export interface UserLoginResponse extends Omit<User, 'token'> {
   access_token: string;
   message: string;
+  profile_photo: string;
 }
 
 /**
@@ -33,6 +34,7 @@ const userLogIn = async (name: string, email: string) => {
     }
 
     const data: User = {
+      profilePhoto: response.data.profile_photo,
       name: response.data.name,
       email: response.data.email,
       token: response.data.access_token,
@@ -131,6 +133,7 @@ const createNewUserApi = async (user: Omit<User, 'token'>) => {
     if (response.request?.status !== 201) throw Error('Bad request');
 
     return {
+      profilePhoto:response.data.profile_photo,
       name: response.data.name,
       email: response.data.email,
       token: response.data.access_token,

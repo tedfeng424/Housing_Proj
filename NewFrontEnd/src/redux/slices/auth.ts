@@ -82,6 +82,7 @@ export const login = (name: string, email: string): AppThunk => async (
     } else {
       dispatch(
         setUser({
+          profilePhoto: response.profilePhoto,
           name: response.name,
           email: response.email,
           token: response.token,
@@ -93,6 +94,7 @@ export const login = (name: string, email: string): AppThunk => async (
       );
       dispatch(
         setUserDraft({
+          profilePhoto: response.profilePhoto,
           name: response.name,
           email: response.email,
           token: response.token,
