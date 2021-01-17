@@ -121,10 +121,9 @@ export const logout = (): AppThunk => async (dispatch, getState) => {
   }
 };
 
-export const createNewUser = (user: Omit<User, 'token'>): AppThunk => async (
-  dispatch,
-  getState,
-) => {
+export const createNewUser = (
+  user: Omit<User, 'token' | 'profilePhoto'>,
+): AppThunk => async (dispatch, getState) => {
   console.log('creating new user');
   // TODO const token = getState().auth.user?.token;
   // if (!token) return;

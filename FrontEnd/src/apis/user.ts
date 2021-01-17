@@ -116,7 +116,7 @@ const userEditProfile = async (email: string, kvPairs: any) => {
  * @returns - undefined if error occured, otherwise UserLoginResponse, which includes an access token,
  *            email, message, user, imageUrl
  */
-const createNewUserApi = async (user: Omit<User, 'token'>) => {
+const createNewUserApi = async (user: Omit<User, 'token' | 'profilePhoto'>) => {
   try {
     const response = await backendAPI.post<UserLoginResponse>(
       '/createUser',
@@ -133,7 +133,7 @@ const createNewUserApi = async (user: Omit<User, 'token'>) => {
     if (response.request?.status !== 201) throw Error('Bad request');
 
     return {
-      profilePhoto:response.data.profile_photo,
+      profilePhoto: response.data.profile_photo,
       name: response.data.name,
       email: response.data.email,
       token: response.data.access_token,
