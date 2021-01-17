@@ -113,7 +113,6 @@ export const searchHousingPosts = (housePost: FilterModel): AppThunk => async (
     dispatch(setSearchingMode(SearchingMode.FINISHED));
   } catch (err) {
     // handle error
-    console.error(err);
   }
 };
 
@@ -138,28 +137,28 @@ export const newHousingPost = (
   }
 };
 
-// TODO add a check for if the user is signed in
+export const resetHousingFavorites = (): AppThunk => async (dispatch) => {
+  dispatch(setHousingFavorites([]));
+};
+
 export const getHousingFavorites = (): AppThunk => async (
   dispatch,
   getState,
 ) => {
-  // if not logged in
   const { user } = getState().auth;
   if (!user) return;
 
   const favorites = await getHousingBookmarksAPI();
   if (favorites) {
     dispatch(setHousingFavorites(favorites));
-  } else {
-    // handle errors here
   }
+  // handle errors here
 };
 
 export const newHousingFavorite = (housePost: HousePost): AppThunk => async (
   dispatch,
   getState,
 ) => {
-  // if not logged in
   const { user } = getState().auth;
   if (!user) {
     dispatch(addToHousingFavorites(housePost));
@@ -179,7 +178,6 @@ export const removeHousingFavorite = (roomId: number): AppThunk => async (
   dispatch,
   getState,
 ) => {
-  // if not logged in
   const { user } = getState().auth;
   if (!user) {
     dispatch(removeFromHousingFavorites(roomId));
@@ -191,6 +189,18 @@ export const removeHousingFavorite = (roomId: number): AppThunk => async (
     dispatch(removeFromHousingFavorites(roomId));
   } else {
     // handle error here
+  }
+};
+
+export const postAllHousingFavorites = (): AppThunk => async (
+  dispatch,
+  getState,
+) => {
+  const { favorites } = getState().housing;
+  if (favorites) {
+    Object.values(favorites).forEach((favorite) => {
+      addHousingBookmarkAPI(favorite.roomId);
+    });
   }
 };
 

@@ -6,8 +6,14 @@ import {
   userLogOut,
   userEditProfile,
   createNewUserApi,
+  addHousingBookmarkAPI,
 } from '../../apis/index';
 import { User, UserNameEmail } from '../../assets/models/User';
+import {
+  getHousingFavorites,
+  postAllHousingFavorites,
+  resetHousingFavorites,
+} from './housing';
 
 const cookies = new Cookies();
 
@@ -76,8 +82,6 @@ export const login = (name: string, email: string): AppThunk => async (
   const response = await userLogIn(name, email);
   if (response) {
     if ('newUser' in response) {
-      console.log('HERE');
-      console.log(response);
       dispatch(startNewUserFlow({ name, email }));
     } else {
       dispatch(
@@ -104,6 +108,8 @@ export const login = (name: string, email: string): AppThunk => async (
           phone: response.phone,
         }),
       );
+      await dispatch(postAllHousingFavorites());
+      dispatch(getHousingFavorites());
     }
   }
 };
@@ -118,26 +124,21 @@ export const logout = (): AppThunk => async (dispatch, getState) => {
   if (response) {
     dispatch(setUser(undefined));
     dispatch(setUserDraft(undefined)); // TODO not sure if this is needed
+    dispatch(resetHousingFavorites());
   }
 };
 
 export const createNewUser = (
   user: Omit<User, 'token' | 'profilePhoto'>,
-): AppThunk => async (dispatch, getState) => {
-  console.log('creating new user');
-  // TODO const token = getState().auth.user?.token;
-  // if (!token) return;
-  // console.log('token exists');
-
-  const response = await createNewUserApi(user); // TODO , token
-  console.log('response');
-  console.log(response);
-
-  if (response) {
-    dispatch(setUser(response));
-    dispatch(setUserDraft(response));
-    dispatch(endNewUserFlow());
+): AppThunk => async (dispatch) => {
+  const response = await createNewUserApi(user);
+  if (!response) {
+    // handle error
+    return;
   }
+
+  await dispatch(login(response.name, response.email));
+  dispatch(endNewUserFlow());
 };
 
 export const editProfile = (

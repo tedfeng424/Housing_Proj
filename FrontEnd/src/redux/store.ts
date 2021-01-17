@@ -12,7 +12,7 @@ export const store = configureStore({
 });
 
 export type RootState = ReturnType<typeof store.getState>;
-export type AppThunk<ReturnType = void> = ThunkAction<
+export type AppThunk<ReturnType = Promise<void>> = ThunkAction<
   ReturnType,
   RootState,
   unknown,

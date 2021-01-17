@@ -61,8 +61,10 @@ def add_attribute(name, category, session):
 
 
 def add_bookmark(room_id, user_id, session):
+    exists = check_exist(Bookmark, session, **{'room_id':room_id, 'user_id':user_id})
     bookmark_to_add = Bookmark(room_id=room_id, user_id=user_id)
-    add_and_commit(bookmark_to_add, session)
+    if not exists:
+        add_and_commit(bookmark_to_add, session)
     return bookmark_to_add
 
 
