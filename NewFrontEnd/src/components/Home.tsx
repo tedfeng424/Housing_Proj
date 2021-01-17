@@ -14,8 +14,6 @@ import HousingPost from './HousingPostForm';
 import BookmarksList from './BookmarksList';
 import NewUserSetup from './NewUserSetup';
 
-import { testGetDuration } from '../apis/google';
-
 const Home: React.FC = () => {
   const showNewUserPopup = useSelector(selectShowNewUserPopup);
   const user = useSelector(selectUser);
@@ -52,10 +50,6 @@ const Home: React.FC = () => {
           <div className="mb-5">
             <Filter />
           </div>
-
-          {/* <div>
-            <Button onClick={() => testGetDuration()}>Click me!</Button>
-          </div> */}
 
           <div>
             <HouseCardList />

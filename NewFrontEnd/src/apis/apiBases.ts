@@ -6,9 +6,7 @@ export const googleMapsAPI = axios.create({
 
 // TODO add a middleware to check for an error and throw an error if there is one. Otherwise, extract only the data
 export const backendAPI = axios.create({
-  baseURL: 'https://homehubdope.com:3001/',
-});
-
-export const backendAPIFake = axios.create({
-  baseURL: 'http://localhost:4001/',
+  baseURL: process.env.REACT_APP_USE_LOCAL_BACKEND
+    ? 'http://localhost:3002/'
+    : 'htps://homehubdope.com:3001/',
 });
