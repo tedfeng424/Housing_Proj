@@ -122,4 +122,9 @@
     fill: $secondary-color;
     stroke: none;
   }
+
+  &-use-stroke svg {
+    fill: none;
+    stroke: $secondary-color;
+  }
 }

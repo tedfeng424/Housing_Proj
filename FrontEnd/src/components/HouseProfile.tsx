@@ -65,8 +65,19 @@ export const facilityToIcon = {
   Gym: <largeAmenitiesIcons.gym />,
 };
 
-const GetIcon: React.FC<{ str: keyof typeof facilityToIcon }> = ({ str }) => (
-  <div className="mt-2 house-profile-amenity-icon">{facilityToIcon[str]}</div>
+const GetIcon: React.FC<{
+  str: keyof typeof facilityToIcon;
+  useStroke?: boolean;
+}> = ({ str, useStroke }) => (
+  <div
+    className={`mt-2 ${
+      useStroke
+        ? 'house-profile-amenity-icon-use-stroke'
+        : 'house-profile-amenity-icon'
+    } `}
+  >
+    {facilityToIcon[str]}
+  </div>
 );
 
 // type Preview = { roomId: undefined; photos: File[] };
@@ -232,7 +243,10 @@ const HouseProfile: React.FC<HouseProfileProps> = ({
                     key={facility}
                     className="text-center"
                   >
-                    <GetIcon str={facility} />
+                    <GetIcon
+                      str={facility}
+                      useStroke={facility === 'Hardwood Floor'}
+                    />
                     {facility}
                   </Col>
                 ))}
