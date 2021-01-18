@@ -27,7 +27,11 @@ const SlideShow: React.FC<PathProps> = ({
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <div className={`slideshow ${className}`}>
+    <div
+      className={`slideshow ${
+        images.length > 5 ? 'slideshow-overflow' : ''
+      } ${className}`}
+    >
       <Carousel
         activeIndex={activeIndex}
         onSelect={setActiveIndex}

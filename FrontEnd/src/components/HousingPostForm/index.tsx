@@ -5,33 +5,33 @@ import { selectUser } from '../../redux/slices/auth';
 import { newHousingPost } from '../../redux/slices/housing';
 import { dummyUser, User } from '../../assets/models/User';
 import HouseProfile, { facilityToIcon } from '../HouseProfile';
+import Page1, { Page1Store, page1InitialStore, page1Schema } from './PostPage1';
 import Page2, { Page2Store, page2InitialStore, page2Schema } from './PostPage2';
 import Page3, { Page3Store, page3InitialStore, page3Schema } from './PostPage3';
 import Page4, { Page4Store, page4InitialStore, page4Schema } from './PostPage4';
 import Page5, { Page5Store, page5InitialStore, page5Schema } from './PostPage5';
-import Page6, { Page6Store, page6InitialStore, page6Schema } from './PostPage6';
-import WizardForm from '../WizardForm';
+import WizardForm from '../basics/WizardForm';
 import {
   CreateHousePostProperties,
   HousePostUserData,
 } from '../../assets/models/PostModels';
 
-type Store = Page2Store & Page3Store & Page4Store & Page5Store & Page6Store; // Page1Store &
+type Store = Page1Store & Page2Store & Page3Store & Page4Store & Page5Store; // Page1Store &
 
 const initialStore = [
+  page1InitialStore,
   page2InitialStore,
   page3InitialStore,
   page4InitialStore,
   page5InitialStore,
-  page6InitialStore,
 ];
 
 const schemas = [
+  page1Schema,
   page2Schema,
   page3Schema,
   page4Schema,
   page5Schema,
-  page6Schema,
 ];
 
 interface HousingPostProps {
@@ -83,9 +83,9 @@ const storeToHouseData = ({
     stayPeriod,
     early: `${earlyInterval} ${earlyMonth}`,
     late: `${lateInterval} ${lateMonth}`,
-    roomType: roomType, // TODO need to change database to hold array of strings
-    numBeds: numBeds,
-    numBaths: numBaths,
+    roomType, // TODO need to change database to hold array of strings
+    numBeds,
+    numBaths,
     photos: pictures.map((picture) => URL.createObjectURL(picture)), // TODO need to change a ton of things to be able to display files as well as strings pictures,
     other: preferences,
     facilities: amenities as (keyof typeof facilityToIcon)[],
@@ -199,11 +199,11 @@ const HousingPost: React.FC<HousingPostProps> = ({ show, setShow }) => {
         //   </Button>
         // }
       >
+        <Page1 />
         <Page2 />
         <Page3 />
         <Page4 />
         <Page5 />
-        <Page6 />
       </WizardForm>
     </>
   );

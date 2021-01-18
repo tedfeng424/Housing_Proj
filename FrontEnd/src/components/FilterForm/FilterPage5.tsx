@@ -5,7 +5,7 @@ import {
   largeAmenitiesIcons,
   amenitiesTranslations,
 } from '../../assets/icons/all';
-import { WizardFormStep } from '../WizardForm';
+import { WizardFormStep } from '../basics/WizardForm';
 import ToggleGroup from '../basics/ToggleGroup';
 
 type Amenity = keyof typeof largeAmenitiesIcons;

@@ -1,44 +1,54 @@
 import React from 'react';
 import { Container, Row, Col, Form } from 'react-bootstrap';
 import * as z from 'zod';
-import { roomTypeIconsTemp } from '../../assets/icons/all';
-import AutoComplete from '../PlacesAutoComplete';
-import { RoomType } from '../../assets/constants';
-import { WizardFormStep } from '../WizardForm';
+import { Month, Interval } from '../../assets/constants';
+import { moveInSelect } from '../../assets/utils/index';
+import { WizardFormStep } from '../basics/WizardForm';
 import Input from '../basics/Input';
 import Dropdown from '../basics/Dropdown';
-import ToggleGroup from '../basics/ToggleGroup';
 
-export const page2Schema = z.object({
-  locationSearch: z.string(),
-  selectedLocation: z.string().nonempty('Make sure to select an address.'),
-  propertyType: z.string().nonempty('Make sure to select a property type.'),
-  // apartmentName: z.string(),
-  numBeds: z.string().nonempty('Please enter number of bedrooms.'),
-  numBaths: z.string().nonempty('Please enter number of bathrooms.'),
-  roomType: z.nativeEnum(RoomType),
-});
+export const page2Schema = z
+  .object({
+    stayPeriod: z.number(),
+    earlyInterval: z.nativeEnum(Interval),
+    earlyMonth: z.nativeEnum(Month),
+    lateInterval: z.nativeEnum(Interval),
+    lateMonth: z.nativeEnum(Month),
+    price: z
+      .number()
+      .positive('Make sure price is valid.')
+      .max(10000, 'This is not feasible for a college student!'),
+  })
+  .refine(
+    (data) =>
+      moveInSelect(
+        data.earlyInterval,
+        data.earlyMonth,
+        data.lateInterval,
+        data.lateMonth,
+      ),
+    { message: 'Choose a valid date range', path: ['earlyInterval'] },
+  );
 
 export type Page2Store = z.infer<typeof page2Schema>;
+type Page2CorrectlyTypedStore = Partial<Page2Store>;
 
-export const page2InitialStore: Page2Store = {
-  locationSearch: '',
-  selectedLocation: '',
-  propertyType: 'Townhouse', // TODO
-  // apartmentName: '',
-  numBeds: '',
-  numBaths: '',
-  roomType: RoomType.Single,
+export const page2InitialStore: Page2CorrectlyTypedStore = {
+  stayPeriod: 12,
+  earlyInterval: Interval.Anytime,
+  earlyMonth: Month.Anytime,
+  lateInterval: Interval.Anytime,
+  lateMonth: Month.Anytime,
+  price: undefined,
 };
 
-const Page2: React.FC<WizardFormStep<Page2Store>> = ({
-  locationSearch,
-  selectedLocation,
-  propertyType,
-  // apartmentName,
-  numBeds,
-  numBaths,
-  roomType,
+const Page2: React.FC<WizardFormStep<Page2CorrectlyTypedStore>> = ({
+  stayPeriod,
+  earlyInterval,
+  earlyMonth,
+  lateInterval,
+  lateMonth,
+  price,
   validations,
   setStore,
 }) => {
@@ -46,76 +56,146 @@ const Page2: React.FC<WizardFormStep<Page2Store>> = ({
     <Container>
       <Row>
         <Col>
-          <span className="post-title">Room Information</span>
+          <div className="post-title">Rental Dates</div>
         </Col>
       </Row>
 
-      <Form.Row className="justify-content-center m-2">
+      <Form.Row className="m-2">
         <Col>
-          {/* TODO need to check if the address is valid! Currently, if the user types something in and then clicks enter, it marks it as ok. This issue stems from an issue in PlaceAutoComplete.tsx */}
-          <AutoComplete
-            label="Address (We automatically calculate time to Price Center)"
-            initialAddress={locationSearch}
-            onChange={(value) => {
-              if (selectedLocation === '') setStore({ locationSearch: value });
-              else setStore({ locationSearch: value, selectedLocation: '' });
-            }}
-            onSelect={(value) => {
-              setStore({ locationSearch: value, selectedLocation: value });
-            }}
-            isValid={validations?.selectedLocation?.success}
-            error={validations?.selectedLocation?.error}
-            required
+          <Form.Label className="post-word">Move-In Timeframe</Form.Label>
+        </Col>
+      </Form.Row>
+      <Form.Row className="m-2">
+        <Col md={2}>
+          <Form.Label className="post-word my-2">From</Form.Label>
+        </Col>
+        <Col md={5}>
+          <Dropdown
+            options={Object.keys(Interval)}
+            initialSelected={earlyInterval}
+            placeholder="Date"
+            // className="filterform-short-dropdown"
+            isValid={validations?.earlyInterval?.success}
+            error={validations?.earlyInterval?.error}
+            onSelect={(s) =>
+              setStore({
+                earlyInterval:
+                  s !== null ? Interval[s as keyof typeof Interval] : undefined,
+              })
+            }
+          />
+        </Col>
+        <Col md={5}>
+          <Dropdown
+            options={Object.keys(Month)}
+            initialSelected={earlyMonth}
+            placeholder="Month"
+            // className="filterform-short-dropdown"
+            isValid={validations?.earlyMonth?.success}
+            error={validations?.earlyMonth?.error}
+            onSelect={(s) =>
+              setStore({
+                earlyMonth:
+                  s !== null ? Month[s as keyof typeof Month] : undefined,
+              })
+            }
           />
         </Col>
       </Form.Row>
-
-      <Form.Row className="m-2 align-bottom">
-        <Form.Label className="post-word">
-          Unit Size<span className="required-asterisk"> *</span>
-        </Form.Label>
+      <Form.Row className="m-2">
+        <Col md={2}>
+          <Form.Label className="post-word my-2">To</Form.Label>
+        </Col>
         <Col md={5}>
           <Dropdown
-            inlineText="Bedrooms"
-            options={['1', '2', '3', '4', '5', '6+']}
-            initialSelected={numBeds}
-            isValid={validations?.numBeds?.success}
-            error={validations?.numBeds?.error}
-            onSelect={(s) => setStore({ numBeds: s !== null ? s : undefined })}
-            noFilter
+            options={Object.keys(Interval)}
+            initialSelected={lateInterval}
+            placeholder="Date"
+            // className="filterform-short-dropdown"
+            isValid={validations?.lateInterval?.success}
+            error={validations?.lateInterval?.error}
+            onSelect={(s) =>
+              setStore({
+                lateInterval:
+                  s !== null ? Interval[s as keyof typeof Interval] : undefined,
+              })
+            }
           />
         </Col>
-        <Col md={{ span: 5, offset: 1 }}>
+        <Col md={5}>
           <Dropdown
-            inlineText="Bathrooms"
-            options={['0', '0.5', '1', '1.5', '2', '2.5', '3', '3.5', '4']}
-            initialSelected={numBaths}
-            isValid={validations?.numBaths?.success}
-            error={validations?.numBaths?.error}
-            onSelect={(s) => setStore({ numBaths: s !== null ? s : undefined })}
-            noFilter
+            options={Object.keys(Month)}
+            initialSelected={lateMonth}
+            placeholder="Month"
+            // className="filterform-short-dropdown"
+            isValid={validations?.lateMonth?.success}
+            error={validations?.lateMonth?.error}
+            onSelect={(s) =>
+              setStore({
+                lateMonth:
+                  s !== null ? Month[s as keyof typeof Month] : undefined,
+              })
+            }
           />
         </Col>
       </Form.Row>
 
       <Form.Row className="m-2">
-        <ToggleGroup
-          singleSelect
-          content={[
-            { label: RoomType.Single, icon: roomTypeIconsTemp.single },
-            { label: RoomType.Double, icon: roomTypeIconsTemp.double },
-            { label: RoomType.Triple, icon: roomTypeIconsTemp.triple },
-          ]}
-          label="Room Type"
-          required
-          initialSelected={roomType}
-          onSelect={({ label, selected }) => {
-            setStore({
-              roomType: selected ? (label as RoomType) : undefined,
-            });
-          }}
-          error={validations?.roomType?.error}
-        />
+        <Col md={12}>
+          <Dropdown
+            options={[
+              '1',
+              '2',
+              '3',
+              '4',
+              '5',
+              '6',
+              '7',
+              '8',
+              '9',
+              '10',
+              '11',
+              '12',
+            ]}
+            initialSelected={stayPeriod?.toString()}
+            // className="filterform-short-dropdown"
+            label="Stay Period"
+            isValid={validations?.stayPeriod?.success}
+            error={validations?.stayPeriod?.error}
+            onSelect={(s, e) =>
+              setStore({ stayPeriod: s !== null ? parseInt(s) : undefined })
+            }
+            inlineText="Months"
+            required
+          />
+        </Col>
+      </Form.Row>
+
+      <Row className="mt-5">
+        <Col>
+          <div className="post-title">Price</div>
+        </Col>
+      </Row>
+
+      <Form.Row className="m-2">
+        <Col md={12}>
+          <Input
+            value={price}
+            type="number"
+            onChange={(e) =>
+              setStore({
+                price: e.target.value ? parseInt(e.target.value) : undefined,
+              })
+            }
+            className="mb-2"
+            label="Rent"
+            inlinePostText="USD/Month"
+            isValid={validations?.price?.success}
+            isInvalid={validations?.price && !validations?.price?.success}
+            error={validations?.price?.error}
+            required
+          />
+        </Col>
       </Form.Row>
     </Container>
   );

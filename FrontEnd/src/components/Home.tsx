@@ -51,39 +51,6 @@ const Home: React.FC = () => {
             <Filter />
           </div>
 
-          <div style={{ height: '200px', width: '300px' }}>
-            <SlideShow images={testSlideShow} />
-          </div>
-          <div style={{ height: '200px', width: '300px' }}>
-            <SlideShow
-              images={testSlideShow}
-              onImageClick={(i) => console.log(`clicked ${i}`)}
-            />
-          </div>
-          <div style={{ height: '200px', width: '300px' }}>
-            <SlideShow images={testSlideShow} showPreview />
-          </div>
-          <div style={{ height: '200px', width: '300px' }}>
-            <SlideShow
-              images={[
-                ...testSlideShow,
-                ...testSlideShow,
-                ...testSlideShow,
-                ...testSlideShow,
-              ]}
-              showPreview
-            />
-          </div>
-          <div
-            style={{ height: '200px', width: '300px', marginBottom: '250px' }}
-          >
-            <SlideShow
-              images={testSlideShow}
-              onImageClick={(i) => console.log(`clicked ${i}`)}
-              showPreview
-            />
-          </div>
-
           <div>
             <HouseCardList />
           </div>

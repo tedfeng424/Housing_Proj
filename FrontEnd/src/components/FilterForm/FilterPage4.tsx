@@ -3,7 +3,7 @@ import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 import * as z from 'zod';
 import { Interval, Month } from '../../assets/constants';
 import { moveInSelect } from '../../assets/utils';
-import { WizardFormStep } from '../WizardForm';
+import { WizardFormStep } from '../basics/WizardForm';
 import Dropdown from '../basics/Dropdown';
 
 export const page4Schema = z
@@ -58,7 +58,9 @@ const FilterPage4: React.FC<WizardFormStep<Page4Store>> = ({
 
       <Form.Row className="m-2">
         <Col>
-          <Form.Label className="filterform-word">When would you like to move in?</Form.Label>
+          <Form.Label className="filterform-word">
+            When would you like to move in?
+          </Form.Label>
         </Col>
       </Form.Row>
       <Form.Row className="m-2">

@@ -16,29 +16,38 @@
       height: 80%;
     }
   }
-}
 
-.slideshow-thumbnail {
-  // @extend .disappear-on-xs;
-  height: 20%;
-  display: flex;
-  overflow-x: auto;
-  justify-content: center;
-  background-color: #EEE;
+ &-thumbnail {
+    height: 20%;
+    display: flex;
+    overflow-x: auto;
+    justify-content: center;
+    background-color: #EEE;
 
-  & button {
-    $width: 20%;
+    & button {
+      $width: 20%;
 
-    padding: 0;
-    border: none;
-    width: $width;
-    min-width: $width;
-    height: 100%;
-
-    & img {
-      display: block;
+      padding: 0;
+      border: none;
+      // width: $width;
+      min-width: $width;
       height: 100%;
-      width: 100%;
+
+      & img {
+        display: block;
+        height: 100%;
+        width: 100%;
+      }
+    }
+  }
+
+  &-overflow {
+    .slideshow-carousel-preview {
+      height: 75%;
+    }
+
+    .slideshow-thumbnail {
+      height: 25%;
     }
   }
 }

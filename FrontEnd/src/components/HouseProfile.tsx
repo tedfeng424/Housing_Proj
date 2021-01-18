@@ -14,14 +14,11 @@ import {
   removeHousingFavorite,
 } from '../redux/slices/housing';
 import GoogleMap from './GoogleMap';
-import PreviewSlideShow from './PreviewSlideShow';
-import { SlideShowItem } from './SlideShow';
+import SlideShow, { SlideShowItem } from './basics/SlideShow/index';
 import {
   contactIcons,
   miscIcons,
-  facilityIcons,
   largeAmenitiesIcons,
-  amenitiesTranslations,
 } from '../assets/icons/all';
 import { LOGIN_TO_VIEW } from '../assets/constants/messages';
 import { HousePost } from '../assets/models/PostModels';
@@ -194,9 +191,10 @@ const HouseProfile: React.FC<HouseProfileProps> = ({
             >
               <miscIcons.greenX />
             </Button>
-            <PreviewSlideShow
-              items={slideShowItems}
+            <SlideShow
+              images={slideShowItems}
               className="house-profile-preview-slideshow"
+              showPreview
             />
           </Col>
 

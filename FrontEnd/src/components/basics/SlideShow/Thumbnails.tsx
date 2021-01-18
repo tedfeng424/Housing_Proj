@@ -1,6 +1,8 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
-import { SlideShowItem } from '../../SlideShow';
+import { SlideShowItem } from './index';
+
+const widthPercent = (numCols: number, maxNumCols: number) =>
+  `${Math.ceil(100 / Math.min(numCols, maxNumCols))}%`;
 
 interface ThumbnailsProps {
   images: SlideShowItem[];
@@ -15,7 +17,11 @@ const Thumbnails: React.FC<ThumbnailsProps> = ({
 }) => (
   <div className="slideshow-thumbnail">
     {images.map((image, index) => (
-      <button type="button" onClick={() => onClick && onClick(index)}>
+      <button
+        type="button"
+        style={{ width: widthPercent(images.length, 10) }}
+        onClick={() => onClick && onClick(index)}
+      >
         <img
           className={activeIndex === index ? 'selected-img' : ''}
           src={image.src}

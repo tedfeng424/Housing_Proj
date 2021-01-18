@@ -1,179 +1,123 @@
 import React from 'react';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { Container, Row, Col, Form } from 'react-bootstrap';
 import * as z from 'zod';
-import { Form } from 'react-bootstrap';
-import { WizardFormStep } from '../WizardForm';
-import { SchoolYear, NON_EMPTY_ERR_MSG } from '../../assets/constants';
-
-const nonSelectStyle = 'post-word-sub';
-const selectStyle = 'post-word-sub post-word-sub-selected';
-const nonSelectBg = 'post-word-sub-bg';
-const SelectBg = 'post-word-sub-bg post-word-sub-bg-selected';
-
-// TODO put in constants
-const phoneRegex = /^([ ]*\+?[ ]*[0-9]{0,4}[ ]*(-|\()?[0-9]{3}[ ]*(-|\))?[ ]*[0-9]{3}[ ]*-?[ ]*[0-9]{4}[ ]*)$/;
+import { roomTypeIconsTemp } from '../../assets/icons/all';
+import AutoComplete from '../PlacesAutoComplete';
+import { RoomType } from '../../assets/constants';
+import { WizardFormStep } from '../basics/WizardForm';
+import Dropdown from '../basics/Dropdown';
+import ToggleGroup from '../basics/ToggleGroup';
 
 export const page1Schema = z.object({
-  leaserPhone: z
-    .string()
-    .nonempty(NON_EMPTY_ERR_MSG)
-    .regex(phoneRegex, 'Phone number is not a valid format.'),
-  schoolYear: z.nativeEnum(SchoolYear),
-  major: z.string().nonempty(NON_EMPTY_ERR_MSG).min(1, 'Not long enough.'),
+  locationSearch: z.string(),
+  selectedLocation: z.string().nonempty('Make sure to select an address.'),
+  propertyType: z.string().nonempty('Make sure to select a property type.'),
+  // apartmentName: z.string(),
+  numBeds: z.string().nonempty('Please enter number of bedrooms.'),
+  numBaths: z.string().nonempty('Please enter number of bathrooms.'),
+  roomType: z.nativeEnum(RoomType),
 });
 
 export type Page1Store = z.infer<typeof page1Schema>;
 
 export const page1InitialStore: Page1Store = {
-  leaserPhone: '',
-  schoolYear: SchoolYear.First,
-  major: '',
+  locationSearch: '',
+  selectedLocation: '',
+  propertyType: 'Townhouse', // TODO
+  // apartmentName: '',
+  numBeds: '',
+  numBaths: '',
+  roomType: RoomType.Single,
 };
 
 const Page1: React.FC<WizardFormStep<Page1Store>> = ({
-  leaserPhone,
-  schoolYear,
-  major,
+  locationSearch,
+  selectedLocation,
+  propertyType,
+  // apartmentName,
+  numBeds,
+  numBaths,
+  roomType,
   validations,
   setStore,
 }) => {
   return (
     <Container>
-      <Form.Row className="justify-content-center m-2">
-        <Form.Label className="post-word">Phone</Form.Label>
-        <Form.Control
-          className="single-line-input"
-          type="text"
-          value={leaserPhone}
-          onChange={(e) => setStore({ leaserPhone: e.target.value })}
-          isValid={validations?.leaserPhone?.success}
-          placeholder="Phone number"
-        />
-        <div className="wizard-form-invalid-feedback">
-          {!validations?.leaserPhone?.success &&
-            validations?.leaserPhone?.error}
-        </div>
-      </Form.Row>
-      <br />
       <Row>
         <Col>
-          <Row className="post-word">School year</Row>
-          <br />
-          <Row>
-            <div
-              className={
-                schoolYear === SchoolYear.First ? SelectBg : nonSelectBg
-              }
-            >
-              <span
-                className={
-                  schoolYear === SchoolYear.First ? selectStyle : nonSelectStyle
-                }
-                onClick={() => setStore({ schoolYear: SchoolYear.First })}
-              >
-                First
-              </span>
-            </div>
-            <div
-              className={
-                schoolYear === SchoolYear.Second ? SelectBg : nonSelectBg
-              }
-            >
-              <span
-                className={
-                  schoolYear === SchoolYear.Second
-                    ? selectStyle
-                    : nonSelectStyle
-                }
-                onClick={() => setStore({ schoolYear: SchoolYear.Second })}
-              >
-                Sophomore
-              </span>
-            </div>
-            <div
-              className={
-                schoolYear === SchoolYear.Third ? SelectBg : nonSelectBg
-              }
-            >
-              <span
-                className={
-                  schoolYear === SchoolYear.Third ? selectStyle : nonSelectStyle
-                }
-                onClick={() => setStore({ schoolYear: SchoolYear.Third })}
-              >
-                Junior
-              </span>
-            </div>
-            <div
-              className={
-                schoolYear === SchoolYear.Fourth ? SelectBg : nonSelectBg
-              }
-            >
-              <span
-                className={
-                  schoolYear === SchoolYear.Fourth
-                    ? selectStyle
-                    : nonSelectStyle
-                }
-                onClick={() => setStore({ schoolYear: SchoolYear.Fourth })}
-              >
-                Senior
-              </span>
-            </div>
-            <div
-              className={
-                schoolYear === SchoolYear.Fifth ? SelectBg : nonSelectBg
-              }
-            >
-              <span
-                className={
-                  schoolYear === SchoolYear.Fifth ? selectStyle : nonSelectStyle
-                }
-                onClick={() => setStore({ schoolYear: SchoolYear.Fifth })}
-              >
-                Fifth
-              </span>
-            </div>
-            <div
-              className={
-                schoolYear === SchoolYear.Grad ? SelectBg : nonSelectBg
-              }
-            >
-              <span
-                className={
-                  schoolYear === SchoolYear.Grad ? selectStyle : nonSelectStyle
-                }
-                onClick={() => setStore({ schoolYear: SchoolYear.Grad })}
-              >
-                Grad
-              </span>
-            </div>
-          </Row>
+          <span className="post-title">Room Information</span>
         </Col>
       </Row>
-      <br />
-      <Form.Group>
-        <Form.Row className="justify-content-center m-2">
-          <Form.Label className="post-word">Major</Form.Label>
-          <Form.Control
-            className="single-line-input"
-            type="text"
-            value={major || ''}
-            onChange={(e) => setStore({ major: e.target.value })}
-            isValid={validations?.major?.success}
-            placeholder="Major"
+
+      <Form.Row className="justify-content-center m-2">
+        <Col>
+          {/* TODO need to check if the address is valid! Currently, if the user types something in and then clicks enter, it marks it as ok. This issue stems from an issue in PlaceAutoComplete.tsx */}
+          <AutoComplete
+            label="Address (We automatically calculate time to Price Center)"
+            initialAddress={locationSearch}
+            onChange={(value) => {
+              if (selectedLocation === '') setStore({ locationSearch: value });
+              else setStore({ locationSearch: value, selectedLocation: '' });
+            }}
+            onSelect={(value) => {
+              setStore({ locationSearch: value, selectedLocation: value });
+            }}
+            isValid={validations?.selectedLocation?.success}
+            error={validations?.selectedLocation?.error}
+            required
           />
-          <div className="wizard-form-invalid-feedback">
-            {!validations?.major?.success && validations?.major?.error}
-          </div>
-        </Form.Row>
-      </Form.Group>
+        </Col>
+      </Form.Row>
+
+      <Form.Row className="m-2 align-bottom">
+        <Form.Label className="post-word">
+          Unit Size<span className="required-asterisk"> *</span>
+        </Form.Label>
+        <Col md={5}>
+          <Dropdown
+            inlineText="Bedrooms"
+            options={['1', '2', '3', '4', '5', '6+']}
+            initialSelected={numBeds}
+            isValid={validations?.numBeds?.success}
+            error={validations?.numBeds?.error}
+            onSelect={(s) => setStore({ numBeds: s !== null ? s : undefined })}
+            noFilter
+          />
+        </Col>
+        <Col md={{ span: 5, offset: 1 }}>
+          <Dropdown
+            inlineText="Bathrooms"
+            options={['0', '0.5', '1', '1.5', '2', '2.5', '3', '3.5', '4']}
+            initialSelected={numBaths}
+            isValid={validations?.numBaths?.success}
+            error={validations?.numBaths?.error}
+            onSelect={(s) => setStore({ numBaths: s !== null ? s : undefined })}
+            noFilter
+          />
+        </Col>
+      </Form.Row>
+
+      <Form.Row className="m-2">
+        <ToggleGroup
+          singleSelect
+          content={[
+            { label: RoomType.Single, icon: roomTypeIconsTemp.single },
+            { label: RoomType.Double, icon: roomTypeIconsTemp.double },
+            { label: RoomType.Triple, icon: roomTypeIconsTemp.triple },
+          ]}
+          label="Room Type"
+          required
+          initialSelected={roomType}
+          onSelect={({ label, selected }) => {
+            setStore({
+              roomType: selected ? (label as RoomType) : undefined,
+            });
+          }}
+          error={validations?.roomType?.error}
+        />
+      </Form.Row>
     </Container>
   );
 };
 
-// NOTE: need the "as React.FC" since typescript doesn't know that WizardForm parent component will
-// provide the WizardFormStep props
 export default Page1 as React.FC;

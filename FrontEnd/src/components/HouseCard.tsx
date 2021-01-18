@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
-import SlideShow, { SlideShowItem } from './SlideShow';
+import SlideShow, { SlideShowItem } from './basics/SlideShow/index';
 import HouseProfile from './HouseProfile';
 import {
   removeParentheses,
