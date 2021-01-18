@@ -1,14 +1,6 @@
 import React, { useState } from 'react';
-import Container from 'react-bootstrap/Container';
-import {
-  // Carousel,
-  CarouselItem,
-  CarouselControl,
-  CarouselIndicators,
-  CarouselCaption,
-} from 'reactstrap';
+import { CarouselItem } from 'reactstrap';
 import Col from 'react-bootstrap/esm/Col';
-import Row from 'react-bootstrap/esm/Row';
 import Carousel from 'react-bootstrap/Carousel';
 import { SlideShowItem } from './SlideShow';
 import { carouselIcons } from '../assets/icons/all';
