@@ -4,7 +4,6 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-// import { Dropdown, DropdownButton, InputGroup } from 'react-bootstrap';
 import { selectShowNewUserPopup, selectUser } from '../redux/slices/auth';
 import HouseCardList from './HouseCardList';
 import Filter from './Filter';
