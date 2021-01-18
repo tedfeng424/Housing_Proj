@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import NavBar from './components/NavBar';
 import Home from './components/Home';
 import Landing from './components/Landing';
+import Facebook from './components/Facebook';
 import { setUser } from './redux/slices/auth';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
@@ -24,6 +25,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/landing" component={Landing} />
+          <Route exact path="/facebook" component={Facebook} />
         </Switch>
       </div>
     </Router>

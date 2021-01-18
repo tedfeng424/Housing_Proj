@@ -29,8 +29,36 @@
     <title>HomeHub</title>
   </head>
   <body>
+    <script
+      async
+      defer
+      crossorigin="anonymous"
+      src="https://connect.facebook.net/en_US/sdk.js"
+    ></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDP7ZDv6xGzfVe7y7Sgb3MsYMqCVLNljeY&libraries=geometry,drawing,places"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.774.0.min.js"></script>
+    <script>
+      window.fbAsyncInit = function () {
+        FB.init({
+          appId: '1302030239939119',
+          xfbml: true,
+          version: 'v9.0',
+        });
+        FB.AppEvents.logPageView();
+      };
+
+      (function (d, s, id) {
+        var js,
+          fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+          return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk.js';
+        fjs.parentNode.insertBefore(js, fjs);
+      })(document, 'script', 'facebook-jssdk');
+    </script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--

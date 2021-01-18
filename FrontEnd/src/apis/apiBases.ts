@@ -8,5 +8,5 @@ export const googleMapsAPI = axios.create({
 export const backendAPI = axios.create({
   baseURL: process.env.REACT_APP_USE_LOCAL_BACKEND
     ? 'http://localhost:3002/'
-    : 'htps://homehubdope.com:3001/',
+    : 'https://homehubdope.com:3001/',
 });
