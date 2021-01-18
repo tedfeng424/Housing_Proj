@@ -12,6 +12,7 @@ import Login from './Login';
 import HousingPost from './HousingPostForm';
 import BookmarksList from './BookmarksList';
 import NewUserSetup from './NewUserSetup';
+import SlideShow, { testSlideShow } from './basics/SlideShow/index';
 
 const Home: React.FC = () => {
   const showNewUserPopup = useSelector(selectShowNewUserPopup);
@@ -48,6 +49,39 @@ const Home: React.FC = () => {
         <Col md={{ span: 8, offset: 1 }} className="my-auto">
           <div className="mb-5">
             <Filter />
+          </div>
+
+          <div style={{ height: '200px', width: '300px' }}>
+            <SlideShow images={testSlideShow} />
+          </div>
+          <div style={{ height: '200px', width: '300px' }}>
+            <SlideShow
+              images={testSlideShow}
+              onImageClick={(i) => console.log(`clicked ${i}`)}
+            />
+          </div>
+          <div style={{ height: '200px', width: '300px' }}>
+            <SlideShow images={testSlideShow} showPreview />
+          </div>
+          <div style={{ height: '200px', width: '300px' }}>
+            <SlideShow
+              images={[
+                ...testSlideShow,
+                ...testSlideShow,
+                ...testSlideShow,
+                ...testSlideShow,
+              ]}
+              showPreview
+            />
+          </div>
+          <div
+            style={{ height: '200px', width: '300px', marginBottom: '250px' }}
+          >
+            <SlideShow
+              images={testSlideShow}
+              onImageClick={(i) => console.log(`clicked ${i}`)}
+              showPreview
+            />
           </div>
 
           <div>

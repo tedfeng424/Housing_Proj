@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 import { carouselIcons } from '../assets/icons/all';
 
@@ -10,35 +10,55 @@ export interface SlideShowItem {
 interface PathProps {
   images: SlideShowItem[];
   onImageClick?: () => any;
+  className?: string;
+  showPreview?: boolean;
 }
 
-const SlideShow: React.FC<PathProps> = ({ images, onImageClick }) => {
+const SlideShow: React.FC<PathProps> = ({
+  images,
+  onImageClick,
+  className = '',
+  showPreview,
+}) => {
+  // need to track animation so the user cannot click on a preview during animation
+  const [animating, setAnimating] = useState(false);
+  const [imageIndex, setImageIndex] = useState<number>(0);
+
+  const goToIndex = (index: number) => {
+    if (animating) return;
+    setImageIndex(index);
+  };
+
   return (
-    <Carousel
-      nextIcon={<carouselIcons.rightArrow />}
-      prevIcon={<carouselIcons.leftArrow />}
-      interval={null}
-      className="w-100"
+    <div
+      className={`h-100 d-flex flex-column align-items-stretch align-content-stretch ${className}`}
     >
-      {images.map((image) => (
-        <Carousel.Item key={image.src}>
-          <button
-            className="no-show w-100 h-100"
-            type="button"
-            onClick={onImageClick}
-            onKeyDown={
-              onImageClick && (({ key }) => key === 'Enter' && onImageClick())
-            }
-          >
-            <img
-              className="d-block w-100 h-100"
-              src={image.src}
-              alt={image.alt}
-            />
-          </button>
-        </Carousel.Item>
-      ))}
-    </Carousel>
+      <Carousel
+        nextIcon={<carouselIcons.rightArrow />}
+        prevIcon={<carouselIcons.leftArrow />}
+        interval={null}
+        className="w-100"
+      >
+        {images.map((image) => (
+          <Carousel.Item key={image.src}>
+            <button
+              className="no-show w-100 h-100"
+              type="button"
+              onClick={onImageClick}
+              onKeyDown={
+                onImageClick && (({ key }) => key === 'Enter' && onImageClick())
+              }
+            >
+              <img
+                className="d-block w-100 h-100"
+                src={image.src}
+                alt={image.alt}
+              />
+            </button>
+          </Carousel.Item>
+        ))}
+      </Carousel>
+    </div>
   );
 };
 
