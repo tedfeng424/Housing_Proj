@@ -30,7 +30,6 @@ const HouseCard: React.FC<PathProps> = ({
   leaserName,
   leaserSchoolYear,
   leaserMajor,
-  leaserIntro,
   leaserEmail,
   leaserPhone,
   roomId,
@@ -39,6 +38,7 @@ const HouseCard: React.FC<PathProps> = ({
   negotiable,
   numBaths,
   numBeds,
+  roomDescription,
 }) => {
   const [show, setShow] = useState<boolean>(false);
   const [moveIn, setMoveIn] = useState<string>('');
@@ -102,7 +102,7 @@ const HouseCard: React.FC<PathProps> = ({
         leaserEmail={leaserEmail}
         leaserPhone={leaserPhone}
         profilePhoto={profilePhoto}
-        leaserIntro={leaserIntro}
+        roomDescription={roomDescription}
         roomId={roomId}
         show={show}
         onHide={() => setShow(false)}

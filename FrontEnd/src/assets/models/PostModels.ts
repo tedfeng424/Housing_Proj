@@ -14,7 +14,6 @@ export interface HousePost {
   leaserPhone: string;
   leaserSchoolYear: string; // TODO number;
   leaserMajor: string;
-  leaserIntro: string;
   photos: string[];
   profilePhoto: string;
   roomId: number;
@@ -23,6 +22,7 @@ export interface HousePost {
   negotiable: boolean;
   numBaths: string;
   numBeds: string;
+  roomDescription: string;
 }
 
 export type HousePostDisplayedProperties = Omit<HousePost, 'roomId'>;
@@ -35,7 +35,6 @@ export interface CreateHousePostProperties
     | 'leaserPhone'
     | 'leaserSchoolYear'
     | 'leaserMajor'
-    | 'leaserIntro'
     | 'profilePhoto'
     | 'roomId'
     | 'photos' // change photos to be of File type
@@ -50,6 +49,5 @@ export type HousePostUserData = Pick<
   | 'leaserPhone'
   | 'leaserSchoolYear'
   | 'leaserMajor'
-  | 'leaserIntro'
   | 'profilePhoto'
 >;

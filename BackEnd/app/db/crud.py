@@ -125,7 +125,6 @@ def room_json(room, session):
         'leaserPhone': house_user.phone,
         'leaserSchoolYear': house_user.school_year,
         'leaserMajor': house_user.major,
-        'leaserIntro': house_user.description,
         # add Room Id
         'photos': get_images("user"+str(house_user.id),
                              extra_path=str(room.id)+"/"),
@@ -134,7 +133,8 @@ def room_json(room, session):
         'roomId': r_json['id'],
         'negotiable': r_json['negotiable'],
         'numBaths': r_json['no_bathrooms'],
-        'numBeds': r_json['no_rooms']
+        'numBeds': r_json['no_rooms'],
+        'roomDescription': r_json['description'],
     }
     print(len(return_json['photos']))
     return return_json
@@ -188,7 +188,7 @@ def write_room(room_json, session):
                         room_json['roomType'],
                         room_json['pricePerMonth'],
                         room_json['negotiable'],
-                        '',  # room_json['description'],
+                        room_json['roomDescription'],
                         room_json['stayPeriod'],
                         room_json['distance'],
                         room_json['location'],

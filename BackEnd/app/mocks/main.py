@@ -35,7 +35,7 @@ fakeRooms = [
         'leaserPhone': "911",
         'leaserSchoolYear': 3,
         'leaserMajor': "Computer Science and Engineering",
-        'leaserIntro': "Live with me. YOLO huiwhfuwiehrviwhteuvtherluvtherlvtherlvthweluvthewlvhtwlevrhtelvuthelvtheuvlterhuvtewhewrlvherwlvherlvtheruvtlewruvw",
+        'roomDescription': "Live with me. YOLO huiwhfuwiehrviwhteuvtherluvtherlvtherlvthweluvthewlvhtwlevrhtelvuthelvtheuvlterhuvtewhewrlvherwlvherlvtheruvtlewruvw",
         'photo': get_images(user_name="cris", extra_path="Costa Verde Village"),
         'profilePhoto': "https://cdn130.picsart.com/283184513034211.png"
     },
@@ -56,7 +56,7 @@ fakeRooms = [
         'leaserPhone': "911",
         'leaserSchoolYear': 3,
         'leaserMajor': "Computer Science and Engineering",
-        'leaserIntro': "Wassupppp, Amit here! I'm looking for a dope-ass subleaser to rent my place cause covid screwed me over! yayyyy, alright so who's in? hit me up!",
+        'roomDescription': "Wassupppp, Amit here! I'm looking for a dope-ass subleaser to rent my place cause covid screwed me over! yayyyy, alright so who's in? hit me up!",
         'photo': get_images(user_name="amit", extra_path="Solazzo Apartment Homes"),
         'profilePhoto': "https://cdn130.picsart.com/283184513034211.png"
     },
@@ -77,7 +77,7 @@ fakeRooms = [
         'leaserPhone': "911",
         'leaserSchoolYear': 3,
         'leaserMajor': "Computer Science and Engineering",
-        'leaserIntro': "Live with me. YOLO",
+        'roomDescription': "Live with me. YOLO",
         'photo': get_images(user_name="keenan", extra_path="Regents Court"),
         'profilePhoto': "https://cdn130.picsart.com/283184513034211.png"
     },
@@ -98,7 +98,7 @@ fakeRooms = [
         'leaserPhone': "911",
         'leaserSchoolYear': 3,
         'leaserMajor': "Computer Science and Engineering",
-        'leaserIntro': "Live with me. YOLO",
+        'roomDescription': "Live with me. YOLO",
         'photo': get_images(user_name="adam", extra_path="Towers At Costa Verde"),
         'profilePhoto': "https://cdn130.picsart.com/283184513034211.png"
     }

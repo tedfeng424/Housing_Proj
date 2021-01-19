@@ -105,7 +105,6 @@ const HouseProfile: React.FC<HouseProfileProps> = ({
   leaserName,
   leaserSchoolYear,
   leaserMajor,
-  leaserIntro,
   leaserEmail,
   leaserPhone,
   localURL,
@@ -120,6 +119,7 @@ const HouseProfile: React.FC<HouseProfileProps> = ({
   negotiable,
   numBaths,
   numBeds,
+  roomDescription,
 }) => {
   const favorites = useSelector(selectHousingFavorites);
   const user = useSelector(selectUser);
@@ -290,7 +290,7 @@ const HouseProfile: React.FC<HouseProfileProps> = ({
                       leaserEmail,
                       leaserPhone,
                       profilePhoto,
-                      leaserIntro,
+                      roomDescription,
                       roomId,
                       negotiable,
                       numBaths,
@@ -378,7 +378,9 @@ const HouseProfile: React.FC<HouseProfileProps> = ({
                 </Col>
               </Row>
 
-              <div className="housing-profile-speech-bubble">{leaserIntro}</div>
+              <div className="housing-profile-speech-bubble">
+                {roomDescription}
+              </div>
             </Container>
           </Col>
         </Row>

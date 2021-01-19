@@ -28,7 +28,7 @@ def testPost():
     testRoomJson = {'distance': '30 mins', 'room_type': 'livingRoom', 'price': 5000,
                     'early_interval': 'Anytime', 'early_month': 'January', 'late_interval': 'Early', 'late_month': 'September', 'stay_period': 9,
                     'other': ['male'], 'facilities': ['parking'], 'address': 'Village Square Apartments, Via Mallorca, La Jolla, CA, USA',
-                    'name': 'Ali', 'leaserEmail': 'yixi@ucsd.edu', 'leaserPhone': '', 'leaserIntro': 'happy person happy life', 'leaserSchoolYear': 3,
+                    'name': 'Ali', 'leaserEmail': 'yixi@ucsd.edu', 'leaserPhone': '', 'roomDescription': 'happy person happy life', 'leaserSchoolYear': 3,
                     'leaserMajor': 'Cogs HCI', 'description': 'P DOPE PLACE. TRY IT',
                     'photo': photos
                     }
