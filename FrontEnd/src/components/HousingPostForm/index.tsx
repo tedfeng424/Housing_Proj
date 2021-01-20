@@ -10,13 +10,19 @@ import Page2, { Page2Store, page2InitialStore, page2Schema } from './PostPage2';
 import Page3, { Page3Store, page3InitialStore, page3Schema } from './PostPage3';
 import Page4, { Page4Store, page4InitialStore, page4Schema } from './PostPage4';
 import Page5, { Page5Store, page5InitialStore, page5Schema } from './PostPage5';
+import Page6, { Page6Store, page6InitialStore, page6Schema } from './PostPage6';
 import WizardForm from '../basics/WizardForm';
 import {
   CreateHousePostProperties,
   HousePostUserData,
 } from '../../assets/models/PostModels';
 
-type Store = Page1Store & Page2Store & Page3Store & Page4Store & Page5Store; // Page1Store &
+type Store = Page1Store &
+  Page2Store &
+  Page3Store &
+  Page4Store &
+  Page5Store &
+  Page6Store;
 
 const initialStore = [
   page1InitialStore,
@@ -24,6 +30,7 @@ const initialStore = [
   page3InitialStore,
   page4InitialStore,
   page5InitialStore,
+  page6InitialStore,
 ];
 
 const schemas = [
@@ -32,6 +39,7 @@ const schemas = [
   page3Schema,
   page4Schema,
   page5Schema,
+  page6Schema,
 ];
 
 interface HousingPostProps {
@@ -57,6 +65,7 @@ const tempEmptyHouseData: Omit<CreateHousePostProperties, 'photos'> & {
   negotiable: false,
   numBeds: '0',
   numBaths: '0',
+  roomDescription: 'Loading...',
 };
 
 const storeToHouseData = ({
@@ -74,6 +83,7 @@ const storeToHouseData = ({
   pictures,
   preferences,
   amenities,
+  roomDescription,
 }: Store): Omit<CreateHousePostProperties, 'photos'> & { photos: string[] } => {
   return {
     name: propertyType,
@@ -90,6 +100,7 @@ const storeToHouseData = ({
     other: preferences,
     facilities: amenities as (keyof typeof facilityToIcon)[],
     negotiable: false, // TODO not in the house post yet
+    roomDescription,
   };
 };
 
@@ -99,13 +110,11 @@ const userToHousePostUser = ({
   phone,
   major,
   schoolYear,
-  description,
 }: User): HousePostUserData => ({
   leaserName: name,
   leaserEmail: email,
   leaserPhone: phone,
   leaserSchoolYear: schoolYear,
-  leaserIntro: description,
   leaserMajor: major,
   profilePhoto: '', // TODO need to actually have profile photo here
 });
@@ -204,6 +213,7 @@ const HousingPost: React.FC<HousingPostProps> = ({ show, setShow }) => {
         <Page3 />
         <Page4 />
         <Page5 />
+        <Page6 />
       </WizardForm>
     </>
   );

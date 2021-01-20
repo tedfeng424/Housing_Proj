@@ -47,7 +47,7 @@ const HouseCardList: React.FC = () => {
                 leaserName={card.leaserName}
                 leaserSchoolYear={card.leaserSchoolYear}
                 leaserMajor={card.leaserMajor}
-                leaserIntro={card.leaserIntro}
+                roomDescription={card.roomDescription}
                 leaserEmail={card.leaserEmail}
                 leaserPhone={card.leaserPhone}
                 roomId={card.roomId}
