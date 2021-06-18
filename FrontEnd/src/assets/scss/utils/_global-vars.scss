@@ -1,0 +1,93 @@
+// Variables that will be used across the site should go here (try to use
+// bootstrap's variables whenever possible).
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400,500,80);
+@import url(https://fonts.googleapis.com/css?family=Roboto+Slab|Open+Sans:400italic,700italic,400,700);
+
+/**
+ * STYLE GUIDE COLORS.
+ */
+// Primary colors
+$primary-50-color: #fdf4f0;
+$primary-100-color: #f3cfbf;
+$primary-200-color: #edb096;
+$primary-300-color: #e7936d;
+$primary-400-color: #e37f4e;
+$primary-500-color: #e36b2c;
+$primary-600-color: #d96528;
+$primary-700-color: #cb5d24;
+$primary-800-color: #be5620;
+$primary-900-color: #a64919;
+$primary-light-color: $primary-300-color;
+$primary-dark-color: $primary-800-color;
+
+// Secondary colors
+$secondary-50-color: #eff4e9;
+$secondary-100-color: #d7e3c8;
+$secondary-200-color: #bed1a5;
+$secondary-300-color: #a5bf84;
+$secondary-400-color: #94b36c;
+$secondary-500-color: #81a750;
+$secondary-600-color: #749849;
+$secondary-700-color: #62853e;
+$secondary-800-color: #507235;
+$secondary-900-color: #325123;
+$secondary-light-color: $secondary-300-color;
+$secondary-dark-color: $secondary-800-color;
+
+// Disabled colors
+$disabled-low-emphasis-color: #aaaaaa;
+$disabled-medium-emphasis-color: #797979;
+$disabled-high-emphasis-color: #3d3d3d;
+$disabled-default-color: $disabled-low-emphasis-color;
+
+// Other colors.
+$highlight-color: #f3d990;
+$error-color: #e16161;
+$black-color: #202020;
+$link-color: #6d83e7;
+$background-color: #fffaf8;
+$border-color: #f8e6d8;
+
+/**
+ * STYLE GUIDE TYPOGRAPHY.
+ */
+// Font stacks
+$primary-font-stack: 'Montserrat', 'Courier New', Courier, monospace;
+
+// Font Weights
+$bold-font-weight: 600;
+$regular-font-weight: 400;
+$light-font-weight: 300;
+
+// Font sizes
+$xxxl-font-size: 3.625rem; // old value was: 60px (which was +0.125rem of what it is now)
+$xxl-font-size: 2.875rem; // old value was: 48px (which was +0.125rem of what it is now)
+$xl-font-size: 2rem; // old value was: 34px (which was +0.125rem of what it is now)
+$lg-font-size: 1.375rem; // old value was: 24px (which was +0.125rem of what it is now)
+$md-font-size: 1rem; // old value was: 20px (which was +0.125rem of what it is now)
+$sm-font-size: 0.875rem; // old value was: 16px (which was +0.125rem of what it is now)
+$xs-font-size: 0.75rem; // old value was: 14px (which was +0.125rem of what it is now)
+$xxs-font-size: 0.625rem; // old value was: 12px (which was +0.125rem of what it is now)
+
+/**
+ * STYLE GUIDE OTHER VARS.
+ */
+$lg-border-radius: 1.25rem; // 20px
+$sm-border-radius: 0.5rem; // 8px
+$input-border-radius: 0.5rem; // 8px
+
+$lg-modal-height: 37.5rem; // 600px
+
+$default-border-width: 0.1875rem; // 3px
+
+/**
+ * WEBSITE DESIGN VARIABLES.
+ */
+$entire-site-margin-x: 8vw;
+$navbar-height: 4.375rem; // 70px
+$bookmarks-list-width: 13.75rem; // 220px
+$filter-height: 5vh;
+$filter-top-margin: 5vh;
+
+$rounded-lg: 2.5rem; // 40px
+

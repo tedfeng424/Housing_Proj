@@ -1,0 +1,37 @@
+.profileImage {
+  border: $default-border-width solid $primary-light-color;
+  border-radius: 50%;
+  width: 3.375rem;
+  height: 3.375rem;
+}
+
+.profileToggle::after {
+  content: none !important;
+}
+
+.dropdown {
+  flex-grow: 1;
+  .dropdownMenu {
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: white;
+    border-radius: $input-border-radius;
+    border: 3px solid $border-color;
+
+    .dropdownItem {
+      text-decoration: none;
+      color: black;
+
+      &:active,
+      &.active,
+      &:hover,
+      &:focus {
+        background-color: $primary-50-color;
+      }
+
+      .isSelected {
+        color: $primary-400-color;
+      }
+    }
+  }
+}

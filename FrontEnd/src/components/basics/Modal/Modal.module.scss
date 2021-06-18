@@ -1,0 +1,27 @@
+.materialUIModal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  display: block;
+  outline: 0;
+  background-color: #fff;
+  max-height: 90vh;
+  border-radius: $sm-border-radius;
+  overflow-y: auto;
+}
+
+// TODO need to add appropriate breakpoints for different screen sizes
+.md {
+  width: 450px;
+
+  @include bp-down('sm') {
+    width: 90%;
+  }
+}
+
+.lg {
+  width: 90vw;
+}

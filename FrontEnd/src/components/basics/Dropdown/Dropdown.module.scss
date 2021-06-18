@@ -1,0 +1,143 @@
+@mixin valid-border-element-states {
+  &:valid,
+  &.is-valid {
+    border-color: $primary-light-color;
+    &:focus {
+      border-color: $primary-light-color;
+    }
+  }
+}
+
+.root { // used only for specificity to override bootstrap css
+  .moreSpecificity { // similarly needed to override bootstrap css specificity (still looking for a better solution than this...)
+
+    .unfilled {
+      @include font-type('body 1');
+      color: $primary-light-color;
+      border: 2px solid $primary-100-color;
+      border-radius: $input-border-radius;
+      box-shadow: none !important; // TODO set the flag in bootstrap instead of doing this
+
+      &:focus {
+        @include font-type('body 1');
+        color: $primary-light-color;
+        border-color: $primary-light-color;
+      }
+
+      @include valid-border-element-states;
+    }
+
+    .invalid {
+      border: 3px solid $error-color !important;
+      color: $error-color !important;
+    }
+
+    .filled {
+      @extend .unfilled;
+      border-color: $primary-light-color;
+
+      @include valid-border-element-states;
+    }
+
+    // TODO is this used?
+    .dropdown-readonly {
+      @extend .filled;
+      background-color: $primary-50-color !important;
+    }
+
+    .label {
+      @include font-type('subtitle 1');
+      color: $primary-dark-color;
+    }
+
+    .inlineText {
+      @include font-type('subtitle 1');
+
+      color: $primary-dark-color;
+      margin-left: 15px;
+      align-self: center;
+    }
+
+    .error {
+      @include font-type('caption');
+
+      color: $error-color;
+    }
+
+    .straightenRight {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    .dropBtn {
+      border-radius: 0 $input-border-radius $input-border-radius 0;
+      box-shadow: none !important;
+      display: flex;
+    }
+
+    .dropBtnUnfilled {
+      background-color: $primary-100-color;
+    }
+
+    .dropBtnFilled {
+      background-color: $primary-light-color;
+    }
+
+    .dropBtnInvalid {
+      background-color: $error-color;
+    }
+
+    .dropBtnArrow {
+      align-self: center;
+      height: 4px;
+      width: 0px;
+      border: 8.5px transparent solid;
+      border-bottom: 0;
+      border-top: 12.5px white solid;
+      border-radius: 10%;
+    }
+
+    .toggle {
+      width: 100%;
+      box-shadow: none;
+      padding-left: 0;
+
+      input,
+      .form-control:disabled,
+      .form-control[readonly] {
+        cursor: pointer;
+        background-color: white;
+      }
+
+      &::after {
+        // hide the default dropdown button
+        content: none;
+        width: 0;
+        padding: 0;
+        margin: 0;
+      }
+    }
+
+    .dropdown {
+      flex-grow: 1;
+      .dropdownMenu {
+        max-height: 200px;
+        overflow-y: auto;
+        background-color: $background-color;
+  
+        .dropdownItem {
+          background-color: $background-color;
+          color: $primary-dark-color;
+  
+          &:active,
+          &.active,
+          &:hover,
+          &:focus {
+            background-color: $primary-50-color;
+          }
+        }
+      }
+    }
+
+  }
+}

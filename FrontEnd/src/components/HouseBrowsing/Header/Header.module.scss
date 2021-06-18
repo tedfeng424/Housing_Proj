@@ -1,0 +1,12 @@
+.filter {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border: $primary-100-color solid 3px;
+  box-shadow: 2px 4px 8px rgba(164, 97, 62, 0.3);
+  border-radius: $input-border-radius;
+}
+
+.homehubOrange {
+  color: $primary-400-color;
+}

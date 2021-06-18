@@ -1,0 +1,48 @@
+/**
+ * Setup the theme here (use variables whenever possible so they can be reused) in other files.
+ */
+
+body {
+  font-family: $primary-font-stack;
+  background-color: $background-color;
+}
+
+/**
+ * Needed for dropdown toggle... temporary.
+ */
+.show > .btn-success.dropdown-toggle {
+  background-color: $primary-light-color;
+  border-color: $primary-light-color;
+
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+h1 {
+  @include font-type('h1');
+}
+
+h2 {
+  @include font-type('h2');
+}
+
+h3 {
+  @include font-type('h3');
+}
+
+h4 {
+  @include font-type('h4');
+}
+
+h5 {
+  @include font-type('h5');
+}
+
+b {
+  font-weight: $bold-font-weight;
+}
+
+a {
+  @include font-type('link');
+}

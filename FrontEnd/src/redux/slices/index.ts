@@ -1,5 +1,5 @@
-import auth from './auth';
-import housing from './housing';
-import filter from './filter';
+export { default as authReducer } from './auth';
+export * from './auth';
 
-export { auth, housing, filter };
+export { default as filterReducer } from './filter';
+export * from './filter';

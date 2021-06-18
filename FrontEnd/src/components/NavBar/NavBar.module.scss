@@ -1,0 +1,21 @@
+.wrapper {
+  background-color: white;
+  box-shadow: 0 4px 10px 0 rgba(199, 131, 95, 0.1);
+  width: 100%;
+}
+
+.logo {
+  height: 60px;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  margin: 0 $entire-site-margin-x;;
+  width: 100%;
+  height: $navbar-height;
+}
+
+.logoutText{
+  color: rgba(32, 32, 32, 0.6);
+}

@@ -1,0 +1,95 @@
+@use 'bootstrap-breakpoints';
+@use 'global-vars' as *;
+
+// Breakpoint wrappers for bootstrap's media breakpoints
+@mixin bp($size) {
+  @include bootstrap-breakpoints.media-breakpoint-only($size) {
+    @content;
+  }
+}
+
+@mixin bp-up($size) {
+  @include bootstrap-breakpoints.media-breakpoint-up($size) {
+    @content;
+  }
+}
+
+@mixin bp-down($size) {
+  @include bootstrap-breakpoints.media-breakpoint-down($size) {
+    @content;
+  }
+}
+
+/**
+ * STYLE GUIDE TYPOGRAPHY MIXINS.
+ */
+// Mixin for the type of font. Argument should be one of the strings in the following if statements.
+// If the string doesn't match one of the options, an error will be thrown.
+@mixin font-type($type) {
+  font-family: $primary-font-stack;
+
+  @if $type == 'h1' {
+    font-weight: $light-font-weight;
+    font-size: $xxxl-font-size;
+  } @else if $type == 'h2' {
+    font-weight: $bold-font-weight;
+    font-size: $xxl-font-size;
+  } @else if $type == 'h3' {
+    font-weight: $regular-font-weight;
+    font-size: $xl-font-size;
+  } @else if $type == 'h4' {
+    font-weight: $bold-font-weight;
+    font-size: $lg-font-size;
+  } @else if $type == 'h5' {
+    font-weight: $bold-font-weight;
+    font-size: $md-font-size;
+  } @else if $type == 'subtitle 1' {
+    font-weight: $regular-font-weight;
+    font-size: $md-font-size;
+  } @else if $type == 'subtitle 2' {
+    font-weight: $bold-font-weight;
+    font-size: $xs-font-size;
+  } @else if $type == 'body 1' {
+    font-weight: $bold-font-weight;
+    font-size: $sm-font-size;
+  } @else if $type == 'body 2' {
+    font-weight: $regular-font-weight;
+    font-size: $sm-font-size;
+  } @else if $type == 'link' {
+    font-weight: $regular-font-weight;
+    font-size: $sm-font-size;
+    text-decoration-line: underline;
+  } @else if $type == 'caption' {
+    font-weight: $regular-font-weight;
+    font-size: $sm-font-size;
+  } @else {
+    @error "#{$type} is not one of the available font styles. \
+            Check _mixins.scss to see which font styles you can use.";
+  }
+}
+
+@mixin box-shadow($color: $primary-dark-color) {
+  box-shadow: 2px 4px 8px rgba($color, $alpha: 0.3) !important;
+}
+
+@mixin thin-border($size: 'lg', $color: $secondary-100-color) {
+  @if $size == 'sm' {
+    border: 2px solid $color;
+  } @else if $size == 'md' {
+    border: 4px solid $color;
+  } @else if $size == 'lg' {
+    border: 6px solid $color;
+  } @else {
+    @error "#{$size} is not one of the available border sizes. \
+            Check _mixins.scss to see which sizes you can use.";
+  }
+}
+
+@mixin rounded-pill-shape {
+  border-radius: 5000rem; // overloading border-radius results in a "pill like" shape
+}
+
+// NOTE: width and height must be the same for this to be circular
+@mixin circular-shape {
+  border-radius: 50%;
+}

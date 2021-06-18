@@ -1,0 +1,140 @@
+.wrapper {
+  max-width: 100%;
+}
+
+.content {
+  margin-top: 3rem;
+}
+
+.titleSelected {
+  height: 3rem;
+  margin-top: 1rem;
+  font-weight: 600;
+  font-size: $md-font-size;
+  color: $primary-400-color;
+  display: flex;
+}
+
+.phoneNum {
+  margin-top: 0.5rem;
+  width: 10rem;
+  height: 2rem;
+
+  @include bp-down('md') {
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
+.selectOff {
+  color: rgba(32, 32, 32, 0.6);
+}
+
+.selectItem {
+  padding-top: 0.25rem;
+  font-size: 1.25rem;
+}
+
+.divider {
+  height: 45px;
+  width: 5px;
+  background-color: $primary-400-color;
+  border-radius: 6.5rem;
+  margin: 0 1.5rem;
+}
+
+.dividerOff {
+  visibility: hidden;
+}
+
+.middleSection {
+  width: 100%;
+
+  @include bp-down('md') {
+    text-align: center;
+  }
+}
+
+.name {
+  width: 100%;
+  height: 25px;
+  font-family: Montserrat;
+  font-size: $lg-font-size;
+  font-weight: bold;
+  color: #202020;
+  display:inline-block;
+}
+
+.verified {
+  color: #81A750;
+  font-size: 0.75rem;
+  font-weight: bold;
+  height: 25px;
+  padding: 0.5rem 0;
+  display:inline-block;
+}
+
+.label {
+  width: 100%;
+  height: 23px;
+  font-family: Montserrat;
+  font-size: 20px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: black;
+}
+
+.charCheck {
+  position: absolute;
+  right: 15px;
+  bottom: 0;
+  color: $primary-dark-color;
+}
+
+.bioText {
+  resize: none;
+  height: 16rem !important;
+}
+
+.smallText {
+  font-size: 12px;
+  margin-left: 0.5rem;
+  font-weight: normal;
+}
+
+.UserIdentifier {
+  color: #A64919;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
+.icon {
+  border-style: solid;
+  border-width: thin;
+  border-color: $primary-light-color;
+  width: 54px;
+  height: 54px;
+  margin-left:1rem;
+
+  @include bp-down('md') {
+    margin-left:0;
+  }
+}
+
+.dropdown {
+  width: 65%;
+}
+
+.bio {
+  width: 85%;
+}
+
+.textInfo {
+  margin-top: 1.5rem;
+  margin-left: 1.5rem;
+}

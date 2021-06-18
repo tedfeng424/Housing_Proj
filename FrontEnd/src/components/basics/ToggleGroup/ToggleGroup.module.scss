@@ -1,0 +1,27 @@
+
+
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.center {
+  justify-content: center;
+  text-align: center;
+}
+
+.label {
+  @include font-type('subtitle 1');
+
+  color: $primary-dark-color;
+}
+
+.error {
+  @include font-type('caption');
+
+  color: $error-color;
+}
+
+.lineUpToggle:first-child {
+  margin-left: 0;
+}

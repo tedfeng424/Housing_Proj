@@ -1,0 +1,10 @@
+.layout {
+    margin-right: $entire-site-margin-x;
+    margin-left: $entire-site-margin-x;
+    margin-top: $filter-top-margin;
+
+    @include bp-down('sm') {
+      margin-right: 0;
+      margin-left: 0;
+    }
+  }

@@ -1,188 +1,84 @@
-/* eslint-disable @typescript-eslint/camelcase */
-import {
-  CreateHousePostProperties,
-  HousePost,
-} from '../assets/models/PostModels';
-import { FilterModel } from '../assets/models/FilterModel';
-import { backendAPI } from './apiBases';
-import { getDurationInMinutes } from '.';
+import { HousePost, LandlordHousePost } from '@models';
+import { backendAPI, getDurationInMinutes } from '@apis';
 
-const getHousingPostsAPI = async () => {
-  try {
-    const result = await backendAPI.get<HousePost[]>('/getRoom', {
-      withCredentials: true,
-    });
-    console.log(result);
-    // handle errors
-    if (result.request?.status !== 200) throw Error('Bad request');
+/**
+ * Get IDs of recent room posts made.
+ *
+ * @returns array of id numbers
+ */
+export const getRecentHousingPostIds = async () => {
+  const response = await backendAPI.get<number[]>('/getRecentRoomIds');
 
-    return result.data;
-  } catch (err) {
-    console.error(err);
-    return undefined;
-  }
+  return response.data;
 };
 
-const searchHousingPostsAPI = async ({
-  distance,
-  roomType,
-  priceMin,
-  priceMax,
-  earlyInterval,
-  earlyMonth,
-  lateInterval,
-  lateMonth,
-  stayPeriod,
-  other,
-  facilities,
-  numBeds,
-  numBaths,
-}: FilterModel): Promise<HousePost[] | undefined> => {
-  try {
-    const result = await backendAPI.post(
-      '/searchRoom',
-      JSON.stringify({
-        distance,
-        room_type: roomType,
-        price_min: priceMin,
-        price_max: priceMax,
-        early_interval: earlyInterval,
-        early_month: earlyMonth,
-        late_interval: lateInterval,
-        late_month: lateMonth,
-        stay_period: stayPeriod,
-        other,
-        facilities,
-        numBeds,
-        numBaths,
-      }),
-      {
-        headers: {
-          'content-type': 'application/json',
-        },
-        withCredentials: true,
-      },
-    );
-    console.log(result);
-    // handle errors
-    if (result.request?.status !== 200) throw Error('Bad request');
+/**
+ * Get IDs of recent landlord room posts made.
+ *
+ * @returns array of id numbers
+ */
+export const getRecentLandlordHousingPostIds = async () => {
+  const response = await backendAPI.get<number[]>('/getRecentLandlordRoomIds');
 
-    return result.data;
-  } catch (err) {
-    console.error(err);
-    return undefined;
-  }
+  return response.data;
 };
 
-const newHousingPostAPI = async (
-  roomForm: CreateHousePostProperties & { email: string }, // TODO double check that this is the correct type for param, and you need to type the promise
-): Promise<any[] | undefined> => {
-  console.log('starting the new housing post api');
-  try {
-    // TODO distance calculation not working for some reason
-    // calculate distance to location
-    const distance = await getDurationInMinutes(roomForm.location);
-    console.log('distance');
-    console.log(distance);
-    if (!distance) {
-      throw Error("Bad request - can't calculate the distance to the address.");
-    }
+/**
+ * Get Room JSON of recent room posts made.
+ *
+ * @returns landlord Room JSONs of a particular room
+ */
+export const getRecentLandlordHousingJSONs = async (roomId: number) => {
+  const response = await backendAPI.get<LandlordHousePost>(
+    `/getRecentLandlordRooms/${roomId}`,
+  );
 
-    const formData = new FormData();
-    roomForm.photos.forEach((photo) => formData.append('photos', photo));
-    formData.append(
-      'json',
-      JSON.stringify({ ...roomForm, photos: undefined, distance }),
-    );
-
-    const result = await backendAPI.post(
-      '/postRoom',
-      // TODO { roomForm, distance: '15 min' },
-      formData,
-      {
-        headers: {
-          'content-type': 'multipart/form-data',
-        },
-        withCredentials: true,
-      },
-    );
-    console.log(result, 'get result');
-    // handle errors
-    if (result.request?.status !== 201) throw Error('Bad request');
-    return result.data;
-  } catch (err) {
-    console.error(err);
-    return undefined;
-  }
+  return response.data;
 };
 
-const getHousingBookmarksAPI = async () => {
-  try {
-    const result = await backendAPI.get<HousePost[]>('/bookmark', {
-      headers: {
-        'content-type': 'application/json',
-      },
-      withCredentials: true,
-    });
-    console.log(result);
-    if (result.request?.status !== 200) throw Error('Bad request');
+/**
+ * Get room information of a specific house post by ID.
+ *
+ * @param roomId - the room id of the house
+ * @returns room information of the house id provided
+ */
+export const getHousingPost = async (roomId: number) => {
+  const response = await backendAPI.get<HousePost>(`/getRoom/${roomId}`);
 
-    return result.data;
-  } catch (err) {
-    console.error(err);
-    return undefined;
-  }
+  return response.data;
 };
 
-const addHousingBookmarkAPI = async (roomId: number) => {
-  try {
-    const result = await backendAPI.post(
-      '/bookmark',
-      JSON.stringify({ room_id: roomId, action: 'add' }),
-      {
-        headers: {
-          'content-type': 'application/json',
-        },
-        withCredentials: true,
-      },
-    );
-    console.log(result);
-    if (result.request?.status !== 201) throw Error('Bad request');
+/**
+ * Get bookmarked rooms of current user by ID.
+ *
+ * @returns array of room IDs that are bookmarked by current user
+ */
+export const getHousingBookmarks = async () => {
+  const response = await backendAPI.get<number[]>('/bookmark');
 
-    return true;
-  } catch (err) {
-    console.error(err);
-    return undefined;
-  }
+  return response.data;
 };
 
-const removeHousingBookmarkAPI = async (roomId: number) => {
-  try {
-    const result = await backendAPI.post(
-      '/bookmark',
-      JSON.stringify({ room_id: roomId, action: 'remove' }),
-      {
-        headers: {
-          'content-type': 'application/json',
-        },
-        withCredentials: true,
-      },
-    );
-    console.log(result);
-    if (result.request?.status !== 200) throw Error('Bad request');
-
-    return true;
-  } catch (err) {
-    console.error(err);
-    return undefined;
-  }
+/**
+ * Bookmark a room (specified by the provided roomId).
+ *
+ * @param roomId - the room to bookmark
+ */
+export const addHousingBookmark = async (roomId: number) => {
+  await backendAPI.post('/bookmark', {
+    roomId,
+    action: 'add',
+  });
 };
 
-export {
-  getHousingPostsAPI,
-  searchHousingPostsAPI,
-  newHousingPostAPI,
-  getHousingBookmarksAPI,
-  addHousingBookmarkAPI,
-  removeHousingBookmarkAPI,
+/**
+ * Unbookmark a room (specified by the provided roomId).
+ *
+ * @param roomId - the room to unbookmark
+ */
+export const removeHousingBookmark = async (roomId: number) => {
+  await backendAPI.post('/bookmark', {
+    roomId,
+    action: 'remove',
+  });
 };
