@@ -29,7 +29,10 @@ class Filter(object):
         for value in room_type.values():
             if type(value)!=tuple:
                 return False
-        
+        # asserting valid keys
+        if((room_type.get("Bedrooms")==None) or (room_type.get("Bedrooms")==None)):
+            return False
+
         bed_count = room_type["Bedrooms"][0]
         bath_count = room_type["Bathrooms"][0]
         bed_operator = room_type["Bedrooms"][1]
@@ -50,14 +53,18 @@ class Filter(object):
 
     def verify_distance(self, distance: tuple) -> bool:
         # asserting that input is given as tuple of distance and operator
-        if((type(distance)!=tuple) or (type(distance[0])!=str) or (len(distance[0])<3)):
+        if((type(distance)!=tuple) or (len(distance)!=2)):
             return False
-        else:
-            time_per = distance[0][:2]
-            distance_op = distance[1]
-            # asserting that distance is given as numbers and operators are either >= or <=
-            if((not time_per.isdigit()) or (distance_op!=operator.le) or (distance_op!=operator.ge)):
-                return False
+      
+        if((type(distance[0])!=str) or (len(distance[0])<3)):
+            return False
+
+        time_per = distance[0][:2]
+        distance_op = distance[1]
+        valid_operators = [operator.le, operator.ge]
+        # asserting that distance is given as numbers and operators are either >= or <=
+        if((not time_per.isdigit()) or (distance_op not in valid_operators)):
+            return False
 
         return True
 
@@ -66,9 +73,13 @@ class Filter(object):
         if((type(availability)!=dict) or (len(availability)!=2)):
             return False
         # asserting that all values of dictionary are strings
-        for value in availability.values():
-            if type(value)!=str:
+        for key,value in availability.items():
+            if ((type(key)!=str) or (type(value)!=str)):
                 return False
+
+        if((availability.get("Month")==None) or (availability.get("Year")==None)):
+            return False
+
         month = availability["Month"]
         year = availability["Year"]
         valid_months = ["january", "february", "march", "april", "may", "june", "july",
