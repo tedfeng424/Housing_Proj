@@ -1,5 +1,4 @@
 import unittest
-import boto3
 
 
 class TestJsonFilterOperations(unittest.TestCase):
