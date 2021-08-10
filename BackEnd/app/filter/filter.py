@@ -1,6 +1,5 @@
 from attr import attrs, attrib
-import operator
-from datetime import datetime
+from assets import options
 
 @attrs
 class Filter(object):
@@ -26,34 +25,44 @@ class Filter(object):
         if((type(room_type)!=dict) or (len(room_type)!=2)):
             return False
 
-        # asserting that all values of dictionary are tuples
+        # asserting that all values of dictionary are strings
         for value in room_type.values():
-            if type(value)!=tuple:
+            if type(value)!=str:
                 return False
         # asserting valid keys
-        if((room_type.get("Bedrooms") is None) or (room_type.get("Bedrooms") is None)):
+        if((room_type.get("Bedrooms") is None) or (room_type.get("Bathrooms") is None)):
             return False
 
-        bed_count = room_type["Bedrooms"]
-        bath_count = room_type["Bathrooms"]
+        # assign correct counts to variables 
+        if(room_type["Bedrooms"][-1]=="+"):
+            bed_count = room_type["Bedrooms"][0:-1]
+        else:
+            bed_count = room_type["Bedrooms"]
+        if(room_type["Bathrooms"][-1]=="+"):
+            bath_count = room_type["Bathrooms"][0:-1]
+        else:
+            bath_count = room_type["Bathrooms"]
 
         # asserting that all bedroom counts are positive ints 
-        if((type(bed_count)!=int) or (bed_count<0)):
+        if((not bed_count.isdigit())):
             return False
         # asserting that all bathroom counts are positive floats 
-        if((type(bath_count)!=float) or (bath_count<0)):
+        if((not bath_count.replace(".","",1).isdigit())):
             return False
 
         return True
 
     def verify_distance(self, distance: str) -> bool:
         # asserting that input is given as 3 character string like "<20"
-        if((type(distance)!=str) or (len(distance)!=3)):
+        if(type(distance)!=str):
             return False
-        
-        distance_op = distance[0]
-        time_per = distance[1:]
-        valid_operators = ["<", ">"]
+        try:
+            distance_op = distance[0]
+            time_per = distance[1:-5]
+            valid_operators = ["<", ">"]
+        except IndexError:
+            return False
+
         # asserting that distance is given as numbers and operators are either > or <
         if((not time_per.isdigit()) or (distance_op not in valid_operators)):
             return False
@@ -78,27 +87,10 @@ class Filter(object):
 
         month = availability["Month"]
         year = availability["Year"]
-        valid_months = [
-        "Anytime",
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-        ]
-
+        valid_months = options.months
         # assert month and year are valid inputs 
         if((month not in valid_months)):
             return False
         if((len(year)!=4) or (not year.isdigit())):
             return False
         return True
-
-    
