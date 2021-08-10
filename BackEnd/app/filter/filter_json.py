@@ -5,7 +5,7 @@ import os
 from app.util.util import *
 import operator
 from datetime import datetime
-        
+
 # load the aws credentials
 try:
     aws_config = json.loads(os.environ["AWS_CONFIG"])
@@ -21,6 +21,8 @@ DIR = "data/time_series/landlord"
 client = boto3.client('s3', **aws_config)
 
 # helper function to get the latest data
+
+
 def get_latest_data(bucket, dir):
     """
     get the latest scraped json file, load the file with json and return as a list
@@ -42,10 +44,12 @@ def get_latest_data(bucket, dir):
     data = json.loads(str_file)
     return data
 
+
 @attrs
 class JSONFilter(object):
     filter_json = attrib()
     data = get_latest_data()
+
     def filter(self):
         criteria = (self)
 
@@ -104,8 +108,10 @@ class JSONFilter(object):
         """
         Check whether the roomType of the listing at index satisfy the criteria
         """
-        criterias = {key: self.convert_room_type_input(val) for key, val in criterias.items()}
-        listing_room_type = self.process_room_type(self.data[index]['roomType'])
+        criterias = {key: self.convert_room_type_input(
+            val) for key, val in criterias.items()}
+        listing_room_type = self.process_room_type(
+            self.data[index]['roomType'])
         bool_bed = criterias['Bedroom'][1](
             listing_room_type['Bedroom'], criterias['Bedroom'][0])
         bool_bath = criterias['Bathroom'][1](
@@ -130,7 +136,7 @@ class JSONFilter(object):
         # converts user input dict to datetime object
         month = input_dict["Month"]
         year = input_dict["Year"]
-        date_str = month+ " 1 " + year
+        date_str = month + " 1 " + year
         return datetime.strptime(date_str, "%B %d %Y")
 
     def filter_availability(self, criteria, index):
@@ -140,8 +146,9 @@ class JSONFilter(object):
         if((listing_availability == "now") or (listing_availability == "today")):
             return True
         else:
-            listing_availability = datetime.strptime(listing_availability, "%m/%d/%Y")
-            if(listing_availability<criteria):
-                return True 
+            listing_availability = datetime.strptime(
+                listing_availability, "%m/%d/%Y")
+            if(listing_availability < criteria):
+                return True
             else:
                 return False
