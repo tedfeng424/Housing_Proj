@@ -1,5 +1,5 @@
 from attr import attrs, attrib
-from assets import options
+from app.assets import options
 
 @attrs
 class Filter(object):

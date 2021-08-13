@@ -4,6 +4,13 @@ import json
 import os
 from app.util.util import *
 
+@attrs
+class JSONFilter(object):
+    filter_json = attrib()
+
+    def filter(self):
+        criteria = (self)
+        
 # load the aws credentials
 try:
     aws_config = json.loads(os.environ["AWS_CONFIG"])
@@ -51,10 +58,3 @@ data = get_latest_data(BUCKET, DIR)
 # example: get rent of the 1st listing
 print(data[0]['rent'])
 
-
-@attrs
-class JSONFilter(object):
-    filter_json = attrib()
-
-    def filter(self):
-        criteria = (self)
