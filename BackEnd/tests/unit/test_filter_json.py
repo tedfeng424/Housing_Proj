@@ -10,7 +10,9 @@ class TestJsonFilterOperations(unittest.TestCase):
         f = open('tests/unit/json_filter_test_data.json', )
         self.data = json.load(f)
 
+    # test one criteria
     def test_rent(self):
+        # when both max and min rent are specified
         criteria = {'rent': [1000, 2500], 'room_type': None,
                     'distance': None, 'availability': None}
         # creating a JSONFilter object with criterias and data as attributes
@@ -32,3 +34,75 @@ class TestJsonFilterOperations(unittest.TestCase):
             # check whether all the filtered listings satisfies the criteria
             self.assertTrue(arr_rent[0] >= 1000)
             self.assertTrue(arr_rent[1] <= 2500)
+
+    def test_rent_no_min(self):
+        # when min rent is not specified
+        criteria = {'rent': [None, 2500], 'room_type': None,
+                    'distance': None, 'availability': None}
+        # creating a JSONFilter object with criterias and data as attributes
+        json_filter_rent = JSONFilter(criterias=criteria, data=self.data)
+        # adjusted indexed for json file
+        listing_ids = json_filter_rent.filter()-1
+        # go through all the output indexes
+        for index in listing_ids:
+            # convert the format of rent from json files
+            rent = self.data[index]['rent'].split('-')
+            arr_rent = []
+            if len(rent) == 2:
+                arr_rent.append(json_filter_rent.clean_rent(rent[0]))
+                arr_rent.append(json_filter_rent.clean_rent(rent[1]))
+            else:
+                arr_rent.append(json_filter_rent.clean_rent(rent[0]))
+                arr_rent.append(json_filter_rent.clean_rent(rent[0]))
+
+            # check whether all the filtered listings satisfies the criteria
+            self.assertTrue(arr_rent[0] >= 0)
+            self.assertTrue(arr_rent[1] <= 2500)
+
+    def test_rent_no_max(self):
+        # when min rent is not specified
+        criteria = {'rent': [1000, None], 'room_type': None,
+                    'distance': None, 'availability': None}
+        # creating a JSONFilter object with criterias and data as attributes
+        json_filter_rent = JSONFilter(criterias=criteria, data=self.data)
+        # adjusted indexed for json file
+        listing_ids = json_filter_rent.filter()-1
+        # go through all the output indexes
+        for index in listing_ids:
+            # convert the format of rent from json files
+            rent = self.data[index]['rent'].split('-')
+            arr_rent = []
+            if len(rent) == 2:
+                arr_rent.append(json_filter_rent.clean_rent(rent[0]))
+                arr_rent.append(json_filter_rent.clean_rent(rent[1]))
+            else:
+                arr_rent.append(json_filter_rent.clean_rent(rent[0]))
+                arr_rent.append(json_filter_rent.clean_rent(rent[0]))
+
+            # check whether all the filtered listings satisfies the criteria
+            self.assertTrue(arr_rent[0] >= 1000)
+            self.assertTrue(arr_rent[1] <= 99999)
+
+    def test_no_rent(self):
+        # when min rent is not specified
+        criteria = {'rent': None, 'room_type': None,
+                    'distance': None, 'availability': None}
+        # creating a JSONFilter object with criterias and data as attributes
+        json_filter_rent = JSONFilter(criterias=criteria, data=self.data)
+        # adjusted indexed for json file
+        listing_ids = json_filter_rent.filter()-1
+        # go through all the output indexes
+        for index in listing_ids:
+            # convert the format of rent from json files
+            rent = self.data[index]['rent'].split('-')
+            arr_rent = []
+            if len(rent) == 2:
+                arr_rent.append(json_filter_rent.clean_rent(rent[0]))
+                arr_rent.append(json_filter_rent.clean_rent(rent[1]))
+            else:
+                arr_rent.append(json_filter_rent.clean_rent(rent[0]))
+                arr_rent.append(json_filter_rent.clean_rent(rent[0]))
+
+            # check whether all the filtered listings satisfies the criteria
+            self.assertTrue(arr_rent[0] >= 0)
+            self.assertTrue(arr_rent[1] <= 99999)
