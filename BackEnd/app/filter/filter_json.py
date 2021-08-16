@@ -106,7 +106,7 @@ class JSONFilter(Filter):
         else:
             return True
 
-    def convert_room_type_input(input_str):
+    def convert_room_type_input(self, input_str):
         """
         Convert input of roomType Criteria to a tuple of number and operator
         """
@@ -115,7 +115,7 @@ class JSONFilter(Filter):
         else:
             return (float(input_str), operator.eq)
 
-    def process_room_type(room_type):
+    def process_room_type(self, room_type):
         """
         Process roomType of listings in JSON files
         """
@@ -133,7 +133,6 @@ class JSONFilter(Filter):
         # so always return True
         if bool_room_type == False:
             return True
-
         criterias = {key: self.convert_room_type_input(
             val) for key, val in criterias.items()}
         listing_room_type = self.process_room_type(
