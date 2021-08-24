@@ -191,7 +191,6 @@ class TestJsonFilterOperations(unittest.TestCase):
             {"Month": datetime.now().strftime("%B"), "Year": str(datetime.now().year+100)})
         self.assertTrue(arr_availability<=avail_crit)
 
-
     
 
 
