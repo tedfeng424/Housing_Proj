@@ -18,6 +18,11 @@
     border-radius: $input-border-radius;
     border: 3px solid $border-color;
 
+    // these three lines are needed to counter the weird behaviors of bootstrap drop down menu
+    opacity: 1 !important;
+    top: auto !important;
+    pointer-events: auto !important;
+
     .dropdownItem {
       text-decoration: none;
       color: black;

@@ -34,7 +34,7 @@ const HomehubWelcomeInfo: FunctionComponent = () => {
         </div>
       </div>
       <div className={styles.center}>
-        <Button onClick={routeToHouseListings}>
+        <Button onClick={() => router.push('/housing')}>
           <div className={styles.buttonInner}>Check it Out</div>
         </Button>
       </div>
@@ -79,9 +79,6 @@ const WhyHomeHubInfo: FunctionComponent = () => (
 
 const Landing: FunctionComponent = () => {
   const router = useRouter();
-  const routeToHouseListings = () => {
-    router.push('/housing', undefined, { shallow: true });
-  };
 
   return (
     <Container className={styles.container}>
@@ -107,7 +104,7 @@ const Landing: FunctionComponent = () => {
         </Row>
         <WhyHomeHubInfo></WhyHomeHubInfo>
         <Row className={styles.center}>
-          <Button onClick={routeToHouseListings}>
+          <Button onClick={() => router.push('/housing')}>
             <div className={styles.buttonInner}>Check it Out</div>
           </Button>
         </Row>

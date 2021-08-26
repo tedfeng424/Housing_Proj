@@ -31,6 +31,7 @@ interface ToggleGroupProps
   toggleClassName?: string;
   required?: boolean;
   readOnly?: boolean;
+  vertical?: boolean;
 }
 
 /**
@@ -79,6 +80,7 @@ const ToggleGroup: FunctionComponent<ToggleGroupProps> = ({
   required,
   className,
   readOnly,
+  vertical,
   ...wrapperProps
 }) => {
   const typedInitialSelected = useRef<undefined | boolean[]>(
@@ -136,6 +138,7 @@ const ToggleGroup: FunctionComponent<ToggleGroupProps> = ({
                 [styles.lineUpToggle]: !center,
               })}
               readOnly={readOnly}
+              vertical={vertical}
             />
           );
         })}

@@ -32,7 +32,7 @@ const Button: FunctionComponent<ButtonProps> = ({
   variant = 'solid',
   children,
   icon,
-  className,
+  className = '',
   ...buttonProps
 }) => {
   // Configure icon

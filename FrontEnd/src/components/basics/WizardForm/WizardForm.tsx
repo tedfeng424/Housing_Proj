@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import Modal from 'react-bootstrap/Modal';
-import { Button } from '@basics';
+import { Button, Modal } from '@basics';
 import { ZodSchema, ZodIssue } from 'zod';
 import { miscIcons } from '@icons';
 import styles from './WizardForm.module.scss';
+import cn from 'classnames';
 
 type ValidationError =
   | { success: true; error: undefined; data?: string }
@@ -40,6 +40,7 @@ interface WizardFormProps<T = {}> {
   show: boolean;
   onHide: () => any;
   title: string;
+  pageTitles?: string[];
   onSubmit: (store: T) => boolean;
   initialStore: Partial<T>[];
   schemas: ZodSchema<Partial<T>>[];
@@ -47,10 +48,7 @@ interface WizardFormProps<T = {}> {
   lastButtonText?: string;
 }
 
-/**
- * Not using FunctionComponent as a work around to allow for generics for Wizard Form.
- * Do not do this normally. I will try to find a better way to do this
- */
+// Not using FunctionComponent as a work around to allow for generics for Wizard Form. Do not do this normally.
 /**
  * Wizard Form React Component.
  */
@@ -59,6 +57,7 @@ const WizardForm = <T extends {}>({
   show,
   onHide,
   title,
+  pageTitles,
   onSubmit,
   initialStore,
   schemas,
@@ -92,6 +91,11 @@ const WizardForm = <T extends {}>({
     onHide();
   };
 
+  /**
+   * combineSuccesses combines Validation Successes into one boolean value. If any
+   * of the provided ValidationErrors are unsuccessful, then it will return false.
+   * Otherwise this will return true.
+   */
   const combineSuccesses = (v: ValidationErrors<Partial<T>>): boolean => {
     return (
       (Object.values(v) as Array<ValidationError>).find(
@@ -100,38 +104,58 @@ const WizardForm = <T extends {}>({
     );
   };
 
-  const validatePickedValues = <P extends {} | unknown = unknown>(
+  /**
+   * validatePickedValues is used to validate toParse using the provided schema. It
+   * only validates the keys provided in toValidate. This means that you don't have to
+   * validate everything inside of toParse (this is helpful so that you don't validate
+   * an entire page of the wizard form when only one input is changed).
+   *
+   * @param schema is the schema used to validate toParse
+   * @param toParse holds the values that should be validated/parsed
+   * @param toValidate is an array of keys within toParse that should be validated/parsed
+   * @returns
+   */
+  const validatePickedValues = <P extends Partial<T>>(
     schema: ZodSchema<P>,
-    toParse: Partial<P>,
+    toParse: P,
     toValidate: Array<keyof P>,
-  ) => {
-    const result = schema.safeParse(toParse);
-    let changedErrors: ValidationErrors<P> | undefined;
-    if (!result.success) {
-      const { fieldErrors } = result.error.formErrors;
-      changedErrors = toValidate.reduce(
-        (pre, key) => {
-          if (fieldErrors[key as string]) {
-            return {
-              ...pre,
-              [key]: { success: false, error: fieldErrors[key as string][0] },
-            };
-          }
-          return { ...pre, [key]: { success: true, error: undefined } };
-        },
-        { ...validations[curIndex] } as ValidationErrors<P>,
-      );
-    } else {
-      changedErrors = toValidate.reduce(
-        (pre, key) => ({ ...pre, [key]: { success: true, error: undefined } }),
-        { ...validations[curIndex] } as ValidationErrors<P>,
-      );
-    }
-    return changedErrors;
+  ): ValidationErrors<P> => {
+    const parseResult = schema.safeParse(toParse);
+    const { success } = parseResult;
+    const initialValidationErrors: ValidationErrors<P> = {
+      ...validations[curIndex],
+    };
+
+    // extractFirstError returns the first error from all the errors in a field `key` (if there are any errors in that field)
+    const extractFirstError = (
+      fieldErrors: { [k: string]: string[] },
+      key: keyof P,
+    ): string | undefined => {
+      const keyExists = key in fieldErrors;
+      if (!keyExists) return undefined;
+
+      return fieldErrors[key as string][0];
+    };
+
+    // combineErrorsReducer is a reducer to combine the validation errors of the provided keys in toValidate
+    const combineErrorsReducer = (
+      prevErrors: ValidationErrors<P>,
+      curKey: keyof P,
+    ): ValidationErrors<P> => {
+      // use parseResult.success instead of success because TypeScript can't compute discriminated unions from destructured values
+      const error = parseResult.success
+        ? undefined
+        : extractFirstError(parseResult.error.formErrors.fieldErrors, curKey);
+
+      return { ...prevErrors, [curKey]: { success, error } };
+    };
+
+    return toValidate.reduce(combineErrorsReducer, initialValidationErrors);
   };
 
   /**
    * Validates and updates current step.
+   *
    * @param i The step to validate.
    * @return If the data is all valid.
    */
@@ -147,17 +171,15 @@ const WizardForm = <T extends {}>({
       [i]: { ...validations[i], ...stepValidations },
     });
 
-    const stepValidation: boolean = combineSuccesses(stepValidations);
-
-    return stepValidation;
+    return combineSuccesses(stepValidations);
   };
 
   /**
    * Validates current form step.
+   *
    * @return If the data is all valid.
    */
   const validateCurrent = (): boolean => {
-    // validate everything that hasn't been validated yet
     return validateStep(curIndex);
   };
 
@@ -166,6 +188,7 @@ const WizardForm = <T extends {}>({
    * This will validate all the steps from the current step
    * to the selected step and navigate to either the first
    * step that is invalid or to the selected step.
+   *
    * @param step The step to change to.
    */
   const setStep = (step: number) => {
@@ -191,7 +214,6 @@ const WizardForm = <T extends {}>({
    * move to the next one if possible.
    */
   const nextStep = () => {
-    // first validate
     const dataIsValid = validateCurrent();
 
     if (dataIsValid && curIndex + 1 < children.length) {
@@ -230,6 +252,12 @@ const WizardForm = <T extends {}>({
     return { success };
   };
 
+  /**
+   * Updates the store and revalidates everything that was changed.
+   *
+   * @param value is the value to be updated, it should come as an object where the key is the key
+   * of the value in the store schema and the value is the new update.
+   */
   const setStore: SetStore<T> = (value: Partial<T>) => {
     const changedValues = { ...store[curIndex], ...value };
     setCompleteStore({ ...store, [curIndex]: changedValues });
@@ -255,85 +283,104 @@ const WizardForm = <T extends {}>({
     });
   };
 
-  return (
-    <Modal
-      className={styles.root}
-      dialogClassName={styles.modalDialog}
-      contentClassName={styles.modalContent}
-      show={show}
-      onHide={onHide}
-      centered
-    >
-      <div className="h-100 w-100">
-        <div className={`${styles.topBar} px-3 py-2`}>
-          <Button variant="wrapper" onClick={onHide}>
-            <miscIcons.orangeX />
-          </Button>
-          <div className={styles.title}>{title}</div>
-          <div />
-        </div>
-
-        <div className={`${styles.middle} my-4 px-4`}>
-          {React.cloneElement(CurStep, {
-            nextStep,
-            prevStep,
-            setStep,
-            exitWizardForm,
-            submitForm,
-            setStore,
-            validations: validations[curIndex],
-            ...store[curIndex],
-          })}
-        </div>
-
-        <div className={`${styles.bottomBar} px-4 pb-4 pt-2`}>
-          <div className="d-flex">
-            {React.Children.map(children, (c, i) => (
-              <div className="mx-1">
-                <Button variant="wrapper" onClick={() => setStep(i)}>
-                  {i === curIndex ? (
-                    <miscIcons.smallEllipseActive />
-                  ) : (
-                    <miscIcons.smallEllipseInactive />
-                  )}
-                </Button>
-              </div>
-            ))}
-          </div>
-
-          <div className="d-flex">
-            <div className="mr-2 align-self-center">
-              {isFirst ? (
-                <Button variant="wrapper">
-                  <miscIcons.smallLeftArrowDisabled />
-                </Button>
-              ) : (
-                <Button variant="wrapper" onClick={prevStep}>
-                  <miscIcons.smallLeftArrow />
-                </Button>
-              )}
-            </div>
-
-            <div className="ml-2 align-self-center">
-              {isLast ? (
-                (lastButtonAsInactiveArrow && (
-                  <Button variant="wrapper">
-                    <miscIcons.smallRightArrowDisabled />
-                  </Button>
-                )) || (
-                  <Button size="secondary" className="m-0" onClick={submitForm}>
-                    {lastButtonText}
-                  </Button>
-                )
-              ) : (
-                <Button variant="wrapper" onClick={nextStep}>
-                  <miscIcons.smallRightArrow />
-                </Button>
-              )}
-            </div>
-          </div>
-        </div>
+  const TopBar = () => (
+    <div className={styles.topBar}>
+      <Button variant="wrapper" onClick={onHide}>
+        <miscIcons.orangeX />
+      </Button>
+      <div>
+        <h4>{title}</h4>
       </div>
+      <div />
+    </div>
+  );
+
+  const FirstArrow = () => {
+    return isFirst ? (
+      <Button variant="wrapper">
+        <miscIcons.smallLeftArrowDisabled />
+      </Button>
+    ) : (
+      <Button variant="wrapper" onClick={prevStep}>
+        <miscIcons.smallLeftArrow />
+      </Button>
+    );
+  };
+
+  const LastArrow = () => {
+    if (isLast) {
+      return lastButtonAsInactiveArrow ? (
+        <Button variant="wrapper">
+          <miscIcons.smallRightArrowDisabled />
+        </Button>
+      ) : (
+        <Button size="secondary" className="m-0" onClick={submitForm}>
+          {lastButtonText}
+        </Button>
+      );
+    }
+
+    return (
+      <Button variant="wrapper" onClick={nextStep}>
+        <miscIcons.smallRightArrow />
+      </Button>
+    );
+  };
+
+  const PageSelectors = () => (
+    <div className={styles.pageSelectors}>
+      {React.Children.map(children, (c, i) => (
+        <div className="mx-1">
+          <Button variant="wrapper" onClick={() => setStep(i)}>
+            {i === curIndex ? (
+              <miscIcons.smallEllipseActive />
+            ) : (
+              <miscIcons.smallEllipseInactive />
+            )}
+          </Button>
+        </div>
+      ))}
+    </div>
+  );
+
+  const BottomBar = () => (
+    <div className={styles.bottomBar}>
+      <div className="mr-4 align-self-center">
+        <FirstArrow />
+      </div>
+
+      <PageSelectors />
+
+      <div className="ml-4 align-self-center">
+        <LastArrow />
+      </div>
+    </div>
+  );
+
+  return (
+    <Modal open={show} onClose={onHide} className={styles.modal}>
+      <TopBar />
+
+      <div className={styles.middle}>
+        {pageTitles && (
+          <div className={styles.pageTitle}>
+            <h5>{pageTitles[curIndex]}</h5>
+          </div>
+        )}
+
+        {React.cloneElement(CurStep, {
+          nextStep,
+          prevStep,
+          setStep,
+          exitWizardForm,
+          submitForm,
+          setStore,
+          validations: validations[curIndex],
+          ...store[curIndex],
+        })}
+      </div>
+
+      <BottomBar />
     </Modal>
   );
 };

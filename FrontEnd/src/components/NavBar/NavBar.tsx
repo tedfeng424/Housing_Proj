@@ -4,22 +4,27 @@ import Navbar from 'react-bootstrap/Navbar';
 import { useDispatch } from 'react-redux';
 import { showLogin } from '@redux';
 import { landingIcons } from '@icons';
-import styles from './NavBar.module.scss';
 import { Row } from 'react-bootstrap';
 import { useUser } from '@hooks';
+import { useRouter } from 'next/router';
+import styles from './NavBar.module.scss';
 
 const NavBar: FunctionComponent = () => {
   const dispatch = useDispatch();
   const { data: user, logout } = useUser();
+  const router = useRouter();
+  const currentPathName = router?.pathname.slice(1);
   const itemProps = [
     {
       href: '/profile',
       label: 'Profile',
+      selected: currentPathName === 'profile',
     },
     {
       label: 'Logout',
       labelClassName: styles.logoutText,
       onClick: logout,
+      selected: currentPathName === 'logout',
     },
   ];
 
@@ -32,7 +37,7 @@ const NavBar: FunctionComponent = () => {
           </a>
         </div>
         <Row className="align-items-center">
-          <Link href="/" undecorated>
+          <Link href="/about" undecorated>
             <h5 className="mb-0">About</h5>
           </Link>
           {user.isLoggedIn ? (

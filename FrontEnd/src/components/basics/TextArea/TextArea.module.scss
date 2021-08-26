@@ -1,0 +1,32 @@
+.charCheck {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0;
+  color: $primary-dark-color;
+}
+
+.label {
+  @include font-type('subtitle 1');
+}
+
+.content {
+  @include font-type('body 2');
+  resize: none;
+  border: 0.125rem solid $primary-300-color;
+  &:focus {
+    border-color: $primary-300-color !important;
+    box-shadow: none;
+  }
+}
+
+.unfilled {
+  border-color: $border-color;
+}
+
+.readOnly {
+  background-color: $primary-50-color !important;
+}
+
+.placeHolder {
+  color: #797979;
+}

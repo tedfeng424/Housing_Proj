@@ -1,0 +1,76 @@
+.card {
+  width: 22.125rem;
+  height: 11.125rem;
+  border-radius: $sm-border-radius !important;
+  overflow: hidden;
+  border: 0.25rem solid $border-color !important;
+}
+
+.firstCol {
+  width: 17.625rem;
+  height: 11rem;
+
+  display: flex;
+  order: 0;
+  flex-direction: column;
+
+  border-right: $sm-border-radius solid $border-color;
+  box-sizing: border-box;
+}
+
+.information {
+  padding: 1.5rem 0.5rem 1.5rem 2.25rem;
+}
+
+.nameInfo {
+  flex: display;
+  margin: 0rem 0.5rem;
+  align-self: center;
+  letter-spacing: 0.03em;
+
+  .name {
+    color: $black-color;
+  }
+
+  .title {
+    color: $black-color;
+  }
+}
+
+.caption {
+  color: $black-color;
+  letter-spacing: 0.025em;
+  margin: 1rem 0rem;
+}
+
+.secondCol {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+
+  width: 4.5rem;
+  height: 11.125rem;
+
+  box-sizing: border-box;
+}
+
+.design {
+  background: $secondary-300-color;
+}
+
+.engineer {
+  background: $primary-300-color;
+}
+
+.business {
+  background: $link-color;
+}
+
+.picture {
+  border: 0.0229rem solid $primary-300-color;
+  border-radius: 0.34375rem;
+
+  height: 4rem;
+  width: 4rem;
+}

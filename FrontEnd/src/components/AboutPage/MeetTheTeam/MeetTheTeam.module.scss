@@ -1,0 +1,52 @@
+.cardsListContainer {
+  background-color: white;
+  padding: 7.5rem 0rem;
+}
+
+.cardsListTitle {
+  text-align: center;
+}
+
+.wrapper {
+  justify-self: center;
+}
+
+.cardsList {
+  display: flex;
+  flex-wrap: wrap;
+
+  @media (max-width: 743px) {
+    max-width: 22.125rem !important;
+  }
+
+  @media (max-width: 1438px) {
+    max-width: calc(2 * 22.125rem + 2.25rem);
+  }
+
+  @media (min-width: 1439px) {
+    max-width: 70.875rem;
+  }
+
+  > div {
+    margin-bottom: 1.5rem;
+
+    @media (max-width: 743px) {
+      &:nth-child(n) {
+        margin-right: 0 !important;
+      }
+    }
+
+    @media (max-width: 1438px) {
+      &:nth-child(odd) {
+        margin-right: 2.25rem;
+      }
+    }
+
+    @media (min-width: 1439px) {
+      &:nth-child(3n + 2) {
+        margin-left: 2.25rem;
+        margin-right: 2.25rem;
+      }
+    }
+  }
+}

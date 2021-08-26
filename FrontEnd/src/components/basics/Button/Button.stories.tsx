@@ -1,8 +1,8 @@
 import React, { ComponentProps } from 'react';
-import { Story } from '@storybook/react';
 import Button from './Button';
 import { contactIcons, amenityIcons, Icon, IconObject } from '@icons';
 import { joinObjects } from '@utils';
+import { StoryTemplate } from '@utils';
 
 type StorybookMapping = { [key: string]: { icon: Icon } };
 
@@ -36,8 +36,8 @@ export default {
   },
 };
 
-const Template: Story<ComponentProps<typeof Button>> = (args) => (
-  <Button {...args} />
+const Template = StoryTemplate<ComponentProps<typeof Button>, typeof Button>(
+  Button,
 );
 
 export const Default = Template.bind({});

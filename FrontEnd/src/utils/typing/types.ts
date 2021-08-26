@@ -9,3 +9,10 @@ export type ObjectValidationChecks<T> = {
  * Use as a type for "one of the variables from P".
  */
 export type OneFrom<P> = { [K in keyof P]: Pick<P, K> };
+
+/**
+ * Use as a type for component props.
+ */
+export type Props = {
+  [key: string]: any;
+};

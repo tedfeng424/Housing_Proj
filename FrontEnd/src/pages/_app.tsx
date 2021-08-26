@@ -1,9 +1,8 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import type { AppProps } from 'next/app';
 import { reduxNextWrapper } from '@redux';
-import Login from '@components/Login';
+import { Login, Layout } from '@components';
 import '../assets/scss/global/index.scss';
-import Layout from '@components/Layout';
 import { InitGA } from '@components/ga';
 import TagManager from 'react-gtm-module';
 import { Head as DefaultHead } from '@basics';
