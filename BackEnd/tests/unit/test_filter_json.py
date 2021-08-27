@@ -138,16 +138,16 @@ class TestJsonFilterOperations(unittest.TestCase):
         for index in listing_ids:
             arr_distance = []
             # convert the format of distance from json files
-            distance = int(self.data[index]['distance'][1:-5])
+            distance = int(self.data[index]['distance'][0:-5])
             arr_distance.append(distance)
-        # check whether all the filtered listings satisfies the criteria
-        self.assertTrue(arr_distance>= 0)
-        self.assertTrue(arr_distance<= 1000)
+            self.assertTrue(distance>0)
+            self.assertTrue(distance<=1000)
+
 
     def test_availability(self):
         # checking with a valid input of availability
         criteria = {'rent': None, 'room_type': None,
-                'distance': None, 'availability': {"Month": "January", "Year": "2021"}}
+                'distance': None, 'availability': {"Month": "January", "Year": "2022"}}
         
         #creating a JSONFilter object with criterias and data as attributes
         json_filter_availability = JSONFilter(criterias=criteria, data=self.data)
