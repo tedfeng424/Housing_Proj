@@ -220,7 +220,6 @@ class TestJsonFilterOperations(unittest.TestCase):
         listing_ids = json_filter_distance.filter()-1
         # go through all the output indexes
         for index in listing_ids:
-            arr_distance = []
             # convert the format of distance from json files
             distance = int(self.data[index]['distance'][0:-5])
             print(distance)
@@ -242,7 +241,6 @@ class TestJsonFilterOperations(unittest.TestCase):
             criteria['availability'])
         print(avail_crit)
         for index in listing_ids:
-            arr_availability = []
             # convert the format of availability from json files
             availability = self.data[index]['availability']
             if((availability.lower() == 'now') or (availability.lower() == 'today')):
