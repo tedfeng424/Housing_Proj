@@ -25,9 +25,10 @@ Werkzeug==1.0.0
 boto3
 awscli
 Flask-SQLAlchemy
-mysqlclient
+#mysqlclient
 pytest
 google-auth==1.24.0
 inflection
 webdriver_manager
 selenium
+attr

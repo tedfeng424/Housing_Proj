@@ -1,10 +1,11 @@
 import os
 import sys
 from sqlalchemy import create_engine
-from sqlalchemy.orm import relationship, backref
+from sqlalchemy.orm import column_property, relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, ForeignKey, Integer, String, FLOAT, DateTime, \
     Boolean
+import re
 
 sys.path.insert(0, os.path.dirname(__file__))
 
@@ -87,7 +88,7 @@ class Address(Base):
     id = Column(Integer, primary_key=True)
     distance = Column(String(250), nullable=False)
     address = Column(String(250), nullable=False)
-
+    distance_int = Column(Integer, nullable=False)
     @property
     def serialize(self):
         """Return object data in easily serializeable format"""
