@@ -21,7 +21,6 @@ class DBFilter(Filter):
        results = self.session.query(database_setup.Room).join(database_setup.Stay_Period, database_setup.Address).filter(self.beds_criteria(), self.baths_criteria(), self.availability_criteria(),
             self.price_criteria_lower(), self.price_criteria_higher(), self.distance_criteria()).all()
        
-       results_json = []
 
        return results
    
