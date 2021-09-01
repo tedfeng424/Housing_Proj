@@ -13,8 +13,10 @@ DEFAULT_AVAILABILITY_YEAR = str(datetime.datetime.now().year+100)
 DEFAULT_AVAILABILITY_MONTH = datetime.datetime.now().strftime("%B")
 
 
+
 @attrs
 class Filter(object):
+
     #input_json = attrib()
     criterias = attrib()
 
@@ -132,3 +134,18 @@ class Filter(object):
         if((len(year) != 4) or (not year.isdigit())):
             return False
         return True
+
+    input_json = attrib()
+
+    def verify_price_range(self, price_range: list) -> bool:
+        return True
+
+    def verify_room_type(self, room_type: dict) -> bool:
+        return True
+
+    def verify_distance(self, distance: str) -> bool:
+        return True
+
+    def verify_availability(self, availability: dict) -> bool:
+        return True
+
