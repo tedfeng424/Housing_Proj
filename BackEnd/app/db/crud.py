@@ -52,7 +52,8 @@ def add_address(distance, address, session):
     """
     add a row to the Address table
     """
-    address_to_add = Address(address=address, distance=distance)
+    distance_int = int(distance[0:-5])
+    address_to_add = Address(address=address, distance=distance, distance_int=distance_int)
     add_and_commit(address_to_add, session)
     return address_to_add
 
