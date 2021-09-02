@@ -15,7 +15,6 @@ DEFAULT_AVAILABILITY_MONTH = datetime.datetime.now().strftime("%B")
 
 @attrs
 class Filter(object):
-    #input_json = attrib()
     criterias = attrib()
 
     def verify_price_range(self, price_range: list) -> bool:
@@ -133,8 +132,6 @@ class Filter(object):
             return False
         return True
 
-    input_json = attrib()
-
     def verify_price_range(self, price_range: list) -> bool:
         # asserting that the input is a list of 2 items
         if((type(price_range) != list) or (len(price_range) != 2)):
@@ -249,4 +246,3 @@ class Filter(object):
         if((len(year) != 4) or (not year.isdigit())):
             return False
         return True
-
