@@ -53,7 +53,8 @@ def add_address(distance, address, session):
     add a row to the Address table
     """
     distance_int = int(distance[0:-5])
-    address_to_add = Address(address=address, distance=distance, distance_int=distance_int)
+    address_to_add = Address(
+        address=address, distance=distance, distance_int=distance_int)
     add_and_commit(address_to_add, session)
     return address_to_add
 
@@ -172,7 +173,6 @@ def read_all(base, session):
 def read_criteria(base, condition_dict, session, mode="s"):
     """
     get entries from db that fits a criteria
-
     mode supports single("s") and multiple("m")
     """
     try:
@@ -193,7 +193,6 @@ def room_json(room, session, offline_test_mode=False, login_session=None):
     in the Room table, also including its attributes
     (House_Attribute), preferred move-in time (Move_In),
     and the user to post the room (User)
-
     offline_test_mode is used to separate online logic from offline logic since online method is tested separately
     in this method, test mode would disable fetching images from s3 bucket
     """
@@ -295,7 +294,6 @@ def write_attribute(attributes, category, room, session):
 def write_room(room_json, user_id, session, offline_test_mode=False, test_mode=False):
     """
     write a new room to the db with the json 
-
     Assume the function would only be called when all entries in room_json are valid, user_id exists.
     offline_test_mode is used to separate online logic from offline logic since online method is tested separately
     """
@@ -354,7 +352,6 @@ def write_room(room_json, user_id, session, offline_test_mode=False, test_mode=F
 def remove_entry(base, entry_id, session):
     """
     removes an entry from a db with its unique id
-
     return number of deleted rows
     """
     deleted_rows = session.query(base).filter_by(id=entry_id).delete()

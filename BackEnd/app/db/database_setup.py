@@ -14,8 +14,10 @@ Base = declarative_base()
 
 class User(Base):
     __tablename__ = "user"
-    __user_write_permission_field__ = {"phone","name","school_year","major","description"}
-    __user_read_permission_field__ = {"email","phone","name","school_year","major","description"}
+    __user_write_permission_field__ = {
+        "phone", "name", "school_year", "major", "description"}
+    __user_read_permission_field__ = {
+        "email", "phone", "name", "school_year", "major", "description"}
 
     id = Column(Integer, primary_key=True)
     email = Column(String(250), nullable=False)
@@ -44,8 +46,10 @@ class User(Base):
 
 class Room(Base):
     __tablename__ = "room"
-    __user_write_permission_field__ = {"room_type","price_per_month","negotiable","room_description","num_beds","num_baths"}
-    __user_read_permission_field__ = {"id","date_created","room_type","price_per_month","negotiable","room_description","num_beds","num_baths","user_id"}
+    __user_write_permission_field__ = {
+        "room_type", "price_per_month", "negotiable", "room_description", "num_beds", "num_baths"}
+    __user_read_permission_field__ = {"id", "date_created", "room_type", "price_per_month",
+                                      "negotiable", "room_description", "num_beds", "num_baths", "user_id"}
 
     id = Column(Integer, primary_key=True)
     date_created = Column(DateTime, nullable=False)
@@ -83,12 +87,13 @@ class Room(Base):
 class Address(Base):
     __tablename__ = "address"
     __user_write_permission_field__ = {"address"}
-    __user_read_permission_field__ = {"distance","address"}
+    __user_read_permission_field__ = {"distance", "address"}
 
     id = Column(Integer, primary_key=True)
     distance = Column(String(250), nullable=False)
     address = Column(String(250), nullable=False)
     distance_int = Column(Integer, nullable=False)
+
     @property
     def serialize(self):
         """Return object data in easily serializeable format"""
@@ -101,8 +106,8 @@ class Address(Base):
 
 class Stay_Period(Base):
     __tablename__ = "stay_period"
-    __user_write_permission_field__ = {"from_month","to_month"}
-    __user_read_permission_field__ = {"from_month","to_month"}
+    __user_write_permission_field__ = {"from_month", "to_month"}
+    __user_read_permission_field__ = {"from_month", "to_month"}
 
     id = Column(Integer, primary_key=True)
     from_month = Column(DateTime, nullable=False)
@@ -120,8 +125,8 @@ class Stay_Period(Base):
 
 class Move_In(Base):
     __tablename__ = "move_in"
-    __user_write_permission_field__ = {"early_date","late_date"}
-    __user_read_permission_field__ = {"early_date","late_date"}
+    __user_write_permission_field__ = {"early_date", "late_date"}
+    __user_read_permission_field__ = {"early_date", "late_date"}
 
     id = Column(Integer, primary_key=True)
     early_date = Column(DateTime, nullable=False)
@@ -140,7 +145,7 @@ class Move_In(Base):
 class House_Attribute(Base):
     __tablename__ = "house_attribute"
     __user_write_permission_field__ = {"attribute_name"}
-    __user_read_permission_field__ = {"room_id","attribute_name"}
+    __user_read_permission_field__ = {"room_id", "attribute_name"}
 
     id = Column(Integer, primary_key=True)
     room_id = Column(Integer, ForeignKey("room.id"))
@@ -161,7 +166,7 @@ class House_Attribute(Base):
 class Attribute(Base):
     __tablename__ = "attribute"
     __user_write_permission_field__ = {}
-    __user_read_permission_field__ = {"name","category"}
+    __user_read_permission_field__ = {"name", "category"}
 
     name = Column(String(250), primary_key=True)
     category = Column(String(250), nullable=False)
@@ -178,7 +183,7 @@ class Attribute(Base):
 class Favorite(Base):
     __tablename__ = "favorite"
     __user_write_permission_field__ = {}
-    __user_read_permission_field__ = {"room_id","user_id"}
+    __user_read_permission_field__ = {"room_id", "user_id"}
 
     id = Column(Integer, primary_key=True)
     room_id = Column(Integer, ForeignKey("room.id"))
