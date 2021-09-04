@@ -6,6 +6,7 @@ import os
 TEST_DB_NAME = "housing_test.db"
 TEST_DB_STRING = "sqlite:///housing_test.db"
 
+
 def create_test_db():
     createDB(TEST_DB_STRING)
     session = crud.getSession(TEST_DB_STRING)
@@ -17,7 +18,8 @@ def create_test_db():
     user_description = "cultured man"
     user_school_year = "Third"
     user_major = "Data Science"
-    user = crud.add_user(user_name,user_email,created_time,user_phone,user_description,user_school_year,user_major, session)
+    user = crud.add_user(user_name, user_email, created_time, user_phone,
+                         user_description, user_school_year, user_major, session)
 
     room_1(user, session)
     room_2(user, session)
@@ -41,7 +43,7 @@ def create_test_db():
     room_20(user, session)
 
     return session
-    
+
 
 def room_1(user, session):
     date_created = datetime(2021, 8, 15)
@@ -58,7 +60,8 @@ def room_1(user, session):
     distance = "20 mins"
     address = ""
     address_object = crud.add_address(distance, address, session)
-    crud.add_room(date_created, room_type, ppm, negotiable, description, stay_period, address_object, user, move_in, num_beds, num_baths, session)
+    crud.add_room(date_created, room_type, ppm, negotiable, description,
+                  stay_period, address_object, user, move_in, num_beds, num_baths, session)
 
 
 def room_2(user, session):
@@ -76,7 +79,9 @@ def room_2(user, session):
     distance = "30 mins"
     address = ""
     address_object = crud.add_address(distance, address, session)
-    crud.add_room(date_created, room_type, ppm, negotiable, description, stay_period, address_object, user, move_in, num_beds, num_baths, session)
+    crud.add_room(date_created, room_type, ppm, negotiable, description,
+                  stay_period, address_object, user, move_in, num_beds, num_baths, session)
+
 
 def room_3(user, session):
     date_created = datetime(2021, 8, 15)
@@ -93,7 +98,9 @@ def room_3(user, session):
     distance = "25 mins"
     address = ""
     address_object = crud.add_address(distance, address, session)
-    crud.add_room(date_created, room_type, ppm, negotiable, description, stay_period, address_object, user, move_in, num_beds, num_baths, session)
+    crud.add_room(date_created, room_type, ppm, negotiable, description,
+                  stay_period, address_object, user, move_in, num_beds, num_baths, session)
+
 
 def room_4(user, session):
     date_created = datetime(2021, 8, 15)
@@ -110,7 +117,8 @@ def room_4(user, session):
     distance = "35 mins"
     address = ""
     address_object = crud.add_address(distance, address, session)
-    crud.add_room(date_created, room_type, ppm, negotiable, description, stay_period, address_object, user, move_in, num_beds, num_baths, session)
+    crud.add_room(date_created, room_type, ppm, negotiable, description,
+                  stay_period, address_object, user, move_in, num_beds, num_baths, session)
 
 
 def room_5(user, session):
@@ -128,7 +136,9 @@ def room_5(user, session):
     distance = "30 mins"
     address = ""
     address_object = crud.add_address(distance, address, session)
-    crud.add_room(date_created, room_type, ppm, negotiable, description, stay_period, address_object, user, move_in, num_beds, num_baths, session)
+    crud.add_room(date_created, room_type, ppm, negotiable, description,
+                  stay_period, address_object, user, move_in, num_beds, num_baths, session)
+
 
 def room_6(user, session):
     date_created = datetime(2021, 8, 15)
@@ -145,7 +155,9 @@ def room_6(user, session):
     distance = "20 mins"
     address = ""
     address_object = crud.add_address(distance, address, session)
-    crud.add_room(date_created, room_type, ppm, negotiable, description, stay_period, address_object, user, move_in, num_beds, num_baths, session)
+    crud.add_room(date_created, room_type, ppm, negotiable, description,
+                  stay_period, address_object, user, move_in, num_beds, num_baths, session)
+
 
 def room_7(user, session):
     date_created = datetime(2021, 8, 15)
@@ -162,7 +174,9 @@ def room_7(user, session):
     distance = "10 mins"
     address = ""
     address_object = crud.add_address(distance, address, session)
-    crud.add_room(date_created, room_type, ppm, negotiable, description, stay_period, address_object, user, move_in, num_beds, num_baths, session)
+    crud.add_room(date_created, room_type, ppm, negotiable, description,
+                  stay_period, address_object, user, move_in, num_beds, num_baths, session)
+
 
 def room_8(user, session):
     date_created = datetime(2021, 8, 15)
@@ -179,7 +193,8 @@ def room_8(user, session):
     distance = "25 mins"
     address = ""
     address_object = crud.add_address(distance, address, session)
-    crud.add_room(date_created, room_type, ppm, negotiable, description, stay_period, address_object, user, move_in, num_beds, num_baths, session)
+    crud.add_room(date_created, room_type, ppm, negotiable, description,
+                  stay_period, address_object, user, move_in, num_beds, num_baths, session)
 
 
 def room_9(user, session):
@@ -197,7 +212,9 @@ def room_9(user, session):
     distance = "30 mins"
     address = ""
     address_object = crud.add_address(distance, address, session)
-    crud.add_room(date_created, room_type, ppm, negotiable, description, stay_period, address_object, user, move_in, num_beds, num_baths, session)
+    crud.add_room(date_created, room_type, ppm, negotiable, description,
+                  stay_period, address_object, user, move_in, num_beds, num_baths, session)
+
 
 def room_10(user, session):
     date_created = datetime(2021, 8, 15)
@@ -214,7 +231,9 @@ def room_10(user, session):
     distance = "30 mins"
     address = ""
     address_object = crud.add_address(distance, address, session)
-    crud.add_room(date_created, room_type, ppm, negotiable, description, stay_period, address_object, user, move_in, num_beds, num_baths, session)
+    crud.add_room(date_created, room_type, ppm, negotiable, description,
+                  stay_period, address_object, user, move_in, num_beds, num_baths, session)
+
 
 def room_11(user, session):
     date_created = datetime(2021, 8, 15)
@@ -231,7 +250,8 @@ def room_11(user, session):
     distance = "30 mins"
     address = ""
     address_object = crud.add_address(distance, address, session)
-    crud.add_room(date_created, room_type, ppm, negotiable, description, stay_period, address_object, user, move_in, num_beds, num_baths, session)
+    crud.add_room(date_created, room_type, ppm, negotiable, description,
+                  stay_period, address_object, user, move_in, num_beds, num_baths, session)
 
 
 def room_12(user, session):
@@ -249,7 +269,9 @@ def room_12(user, session):
     distance = "25 mins"
     address = ""
     address_object = crud.add_address(distance, address, session)
-    crud.add_room(date_created, room_type, ppm, negotiable, description, stay_period, address_object, user, move_in, num_beds, num_baths, session)
+    crud.add_room(date_created, room_type, ppm, negotiable, description,
+                  stay_period, address_object, user, move_in, num_beds, num_baths, session)
+
 
 def room_13(user, session):
     date_created = datetime(2021, 8, 15)
@@ -266,7 +288,9 @@ def room_13(user, session):
     distance = "15 mins"
     address = ""
     address_object = crud.add_address(distance, address, session)
-    crud.add_room(date_created, room_type, ppm, negotiable, description, stay_period, address_object, user, move_in, num_beds, num_baths, session)
+    crud.add_room(date_created, room_type, ppm, negotiable, description,
+                  stay_period, address_object, user, move_in, num_beds, num_baths, session)
+
 
 def room_14(user, session):
     date_created = datetime(2021, 8, 15)
@@ -283,7 +307,9 @@ def room_14(user, session):
     distance = "20 mins"
     address = ""
     address_object = crud.add_address(distance, address, session)
-    crud.add_room(date_created, room_type, ppm, negotiable, description, stay_period, address_object, user, move_in, num_beds, num_baths, session)
+    crud.add_room(date_created, room_type, ppm, negotiable, description,
+                  stay_period, address_object, user, move_in, num_beds, num_baths, session)
+
 
 def room_15(user, session):
     date_created = datetime(2021, 8, 15)
@@ -300,7 +326,9 @@ def room_15(user, session):
     distance = "15 mins"
     address = ""
     address_object = crud.add_address(distance, address, session)
-    crud.add_room(date_created, room_type, ppm, negotiable, description, stay_period, address_object, user, move_in, num_beds, num_baths, session)
+    crud.add_room(date_created, room_type, ppm, negotiable, description,
+                  stay_period, address_object, user, move_in, num_beds, num_baths, session)
+
 
 def room_16(user, session):
     date_created = datetime(2021, 8, 15)
@@ -317,7 +345,9 @@ def room_16(user, session):
     distance = "20 mins"
     address = ""
     address_object = crud.add_address(distance, address, session)
-    crud.add_room(date_created, room_type, ppm, negotiable, description, stay_period, address_object, user, move_in, num_beds, num_baths, session)
+    crud.add_room(date_created, room_type, ppm, negotiable, description,
+                  stay_period, address_object, user, move_in, num_beds, num_baths, session)
+
 
 def room_17(user, session):
     date_created = datetime(2021, 8, 15)
@@ -334,7 +364,8 @@ def room_17(user, session):
     distance = "10 mins"
     address = ""
     address_object = crud.add_address(distance, address, session)
-    crud.add_room(date_created, room_type, ppm, negotiable, description, stay_period, address_object, user, move_in, num_beds, num_baths, session)
+    crud.add_room(date_created, room_type, ppm, negotiable, description,
+                  stay_period, address_object, user, move_in, num_beds, num_baths, session)
 
 
 def room_18(user, session):
@@ -352,7 +383,9 @@ def room_18(user, session):
     distance = "20 mins"
     address = ""
     address_object = crud.add_address(distance, address, session)
-    crud.add_room(date_created, room_type, ppm, negotiable, description, stay_period, address_object, user, move_in, num_beds, num_baths, session)
+    crud.add_room(date_created, room_type, ppm, negotiable, description,
+                  stay_period, address_object, user, move_in, num_beds, num_baths, session)
+
 
 def room_19(user, session):
     date_created = datetime(2021, 8, 15)
@@ -369,7 +402,9 @@ def room_19(user, session):
     distance = "25 mins"
     address = ""
     address_object = crud.add_address(distance, address, session)
-    crud.add_room(date_created, room_type, ppm, negotiable, description, stay_period, address_object, user, move_in, num_beds, num_baths, session)
+    crud.add_room(date_created, room_type, ppm, negotiable, description,
+                  stay_period, address_object, user, move_in, num_beds, num_baths, session)
+
 
 def room_20(user, session):
     date_created = datetime(2021, 8, 15)
@@ -386,7 +421,9 @@ def room_20(user, session):
     distance = "20 mins"
     address = ""
     address_object = crud.add_address(distance, address, session)
-    crud.add_room(date_created, room_type, ppm, negotiable, description, stay_period, address_object, user, move_in, num_beds, num_baths, session)
+    crud.add_room(date_created, room_type, ppm, negotiable, description,
+                  stay_period, address_object, user, move_in, num_beds, num_baths, session)
+
 
 def removeDB():
     os.remove(TEST_DB_NAME)

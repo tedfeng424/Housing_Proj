@@ -68,6 +68,7 @@ class TestFilterDb(unittest.TestCase):
 
     @classmethod
     def tearDownClass(self):
+        self.session.close()
         mock_db.removeDB()
 
     def test_one_criteria(self):
