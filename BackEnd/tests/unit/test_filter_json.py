@@ -21,6 +21,7 @@ class TestJsonFilterOperations(unittest.TestCase):
         # creating a JSONFilter object with criterias and data as attributes
         json_filter = JSONFilter(criterias=criteria, data=self.data)
         # adjusted indexed for json file
+        # the list of ids returned start from index 1, the json file starts from index 0
         listing_ids = json_filter.filter()-1
         # go through all the output indexes
         avail_crit = json_filter.convert_availability_input(
