@@ -298,6 +298,7 @@ class TestJsonFilterOperations(unittest.TestCase):
 
 
 def main(argv):
+    # read the inputs
     criterias = {'rent': [int(sys.argv[1]), int(sys.argv[2])], 'room_type': {'Bedrooms': sys.argv[3], 'Bathrooms': sys.argv[4]},
                  'distance': sys.argv[5], 'availability': {'Month': sys.argv[6], 'Year': sys.argv[7]}}
     print(criterias)
@@ -305,6 +306,7 @@ def main(argv):
     data = json.load(f)
     df = pd.DataFrame(data)[['name', 'address', 'roomType',
                              'availability', 'rent', 'distance']]
+    # filter
     filter_test = JSONFilter(criterias=criterias, data=data)
     output_ids = filter_test.filter()
     print(df.iloc[np.array(output_ids)-1])
