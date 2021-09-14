@@ -20,10 +20,11 @@ export * as amenityIcons from './amenities';
 export * as imageUpload from './imageUpload';
 export * as aboutUsIcons from './aboutUs';
 export * as checkboxIcons from './checkbox';
+export * as MakeAPost from './makeAPost';
+export * as aboutIcons from './about';
 
 // import any logo to be used in the `Icon` type below
 import { default as ExampleIcon } from './misc/logo.svg';
-export * as aboutIcons from './about';
 
 export type Icon = typeof ExampleIcon;
 export type IconProps = React.SVGProps<SVGSVGElement>;

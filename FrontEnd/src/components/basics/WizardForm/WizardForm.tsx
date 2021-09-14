@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, FunctionComponent } from 'react';
 import { Button, Modal } from '@basics';
+import { Icon } from '@icons';
 import { ZodSchema, ZodIssue } from 'zod';
 import { miscIcons } from '@icons';
 import styles from './WizardForm.module.scss';
@@ -41,6 +42,7 @@ interface WizardFormProps<T = {}> {
   onHide: () => any;
   title: string;
   pageTitles?: string[];
+  pageNavigationIcons?: Icon[];
   onSubmit: (store: T) => boolean;
   initialStore: Partial<T>[];
   schemas: ZodSchema<Partial<T>>[];
@@ -58,6 +60,7 @@ const WizardForm = <T extends {}>({
   onHide,
   title,
   pageTitles,
+  pageNavigationIcons,
   onSubmit,
   initialStore,
   schemas,
@@ -254,7 +257,7 @@ const WizardForm = <T extends {}>({
   };
 
   /**
-   * Updates the store and revalidates everything that was changed.
+   * Updates the store and re-validates everything that was changed.
    *
    * @param value is the value to be updated, it should come as an object where the key is the key
    * of the value in the store schema and the value is the new update.
@@ -328,31 +331,58 @@ const WizardForm = <T extends {}>({
     );
   };
 
+  // TODO: add scrollTo feature so that when a page is selected, it's icon will scroll horiontally into view (only appropriate for when there is horizontal scroll)
   const PageSelectors = () => (
     <div className={styles.pageSelectors}>
-      {React.Children.map(children, (c, i) => (
-        <div className="mx-1">
-          <Button variant="wrapper" onClick={() => setStep(i)}>
-            {i === curIndex ? (
-              <miscIcons.smallEllipseActive />
-            ) : (
-              <miscIcons.smallEllipseInactive />
-            )}
-          </Button>
-        </div>
-      ))}
+      {React.Children.map(children, (c, i) => {
+        const Icon = pageNavigationIcons
+          ? pageNavigationIcons[i]
+          : miscIcons.smallEllipseActive;
+        const showDefaultIcons = !!pageNavigationIcons;
+
+        return (
+          <div
+            className={cn(styles.pageNavWrapper, {
+              [styles.pageNav]: showDefaultIcons,
+              [styles.activePageNav]: showDefaultIcons && i === curIndex,
+              [styles.inactivePageNav]: showDefaultIcons && i !== curIndex,
+              [styles.pageNavDefault]: !showDefaultIcons,
+              [styles.activePageNavDefault]:
+                !showDefaultIcons && i === curIndex,
+              [styles.inactivePageNavDefault]:
+                !showDefaultIcons && i !== curIndex,
+            })}
+          >
+            <Button variant="wrapper" onClick={() => setStep(i)}>
+              <Icon />
+            </Button>
+          </div>
+        );
+      })}
     </div>
   );
 
   const BottomBar = () => (
     <div className={styles.bottomBar}>
-      <div className="mr-4 align-self-center">
+      <div
+        className={cn(
+          'align-self-center',
+          styles.bottomRow,
+          'justify-content-start',
+        )}
+      >
         <FirstArrow />
       </div>
 
       <PageSelectors />
 
-      <div className="ml-4 align-self-center">
+      <div
+        className={cn(
+          'align-self-center',
+          styles.bottomRow,
+          'justify-content-end',
+        )}
+      >
         <LastArrow />
       </div>
     </div>

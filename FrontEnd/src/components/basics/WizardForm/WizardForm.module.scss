@@ -59,17 +59,67 @@ $middle-max-height: calc(
   .pageSelectors {
     display: flex;
     overflow-x: auto;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .bottomBar {
     width: 100%;
     height: $bottom-bar-height;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding-left: $padding-x;
     padding-right: $padding-x;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
   }
+}
+
+.pageNavWrapper {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
+.activePageNav {
+  @include svg-fill(white, 2.5rem, 2.5rem);
+  svg {
+    circle {
+      fill: $primary-300-color;
+    }
+  }
+}
+
+.inactivePageNav {
+  @include svg-fill($primary-light-color);
+}
+
+.pageNavDefault {
+  // TODO change to rem
+  svg {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+.activePageNavDefault {
+  // TODO replace with svg mixin once merged in
+  svg {
+    ellipse {
+      fill: $primary-light-color;
+    }
+  }
+}
+
+.inactivePageNavDefault {
+  // TODO replace with svg mixin once merged in
+  svg {
+    ellipse {
+      fill: $primary-100-color;
+    }
+  }
+}
+
+.bottomRow {
+  width: 6.75rem;
+  display: flex;
 }
