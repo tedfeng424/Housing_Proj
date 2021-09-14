@@ -23,60 +23,38 @@ const UnsupportedDomainPopupUI: FunctionComponent = () => {
       open={shouldShowUnsupportedDomainPopup}
       onClose={() => dispatch(hideUnsupportedDomainPopup())}
       className={styles.wrapper}
+      title="Oops, your email is incorrect..."
+      modalGraphic={{ src: '/triton.svg', alt: 'LogInNotSupported' }}
     >
-      <div>
+      <Subtitle1>
+        At the moment, we only allow email ends with <b>ucsd.edu</b> to sign up!
+      </Subtitle1>
+
+      <div className={styles.bottomRowButtons}>
         <Button
+          className={styles.tryAgainButton}
+          size="secondary"
           variant="wrapper"
-          onClick={() => dispatch(hideUnsupportedDomainPopup())}
+          onClick={async () => {
+            await dispatch(hideUnsupportedDomainPopup());
+            dispatch(showReportIssue());
+          }}
         >
-          <miscIcons.orangeX />
+          <div className={styles.reportIssue}>
+            <div>Report an issue</div>
+          </div>
         </Button>
-      </div>
 
-      <div className="d-flex justify-content-center border-0">
-        <img
-          className={styles.loginImg}
-          src="/triton.svg"
-          alt="LogInNotSupported"
-        />
-      </div>
-
-      <div className="d-flex flex-column text-center">
-        <div className={styles.label}>
-          <h4>Oops, your email is incorrect...</h4>
-        </div>
-
-        <Subtitle1>
-          At the moment, we only allow email ends with <b>ucsd.edu</b> to sign
-          up!
-        </Subtitle1>
-
-        <div className={styles.bottomRowButtons}>
-          <Button
-            className={styles.tryAgainButton}
-            size="secondary"
-            variant="wrapper"
-            onClick={async () => {
-              await dispatch(hideUnsupportedDomainPopup());
-              dispatch(showReportIssue());
-            }}
-          >
-            <div className={styles.reportIssue}>
-              <div>Report an issue</div>
-            </div>
-          </Button>
-
-          <Button
-            className={styles.tryAgainButton}
-            size="secondary"
-            onClick={async () => {
-              await dispatch(hideUnsupportedDomainPopup());
-              dispatch(showLogin());
-            }}
-          >
-            Try Again
-          </Button>
-        </div>
+        <Button
+          className={styles.tryAgainButton}
+          size="secondary"
+          onClick={async () => {
+            await dispatch(hideUnsupportedDomainPopup());
+            dispatch(showLogin());
+          }}
+        >
+          Try Again
+        </Button>
       </div>
     </Modal>
   );

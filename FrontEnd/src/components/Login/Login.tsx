@@ -62,16 +62,9 @@ const LoginUI: FunctionComponent = () => {
       open={shouldShowLogin}
       onClose={() => dispatch(hideLogin())}
       className={styles.wrapper}
+      modalGraphic={{ src: '/login.svg', alt: 'LogIn' }}
     >
-      <div>
-        <Button variant="wrapper" onClick={() => dispatch(hideLogin())}>
-          <miscIcons.orangeX />
-        </Button>
-      </div>
-
-      <div className="d-flex justify-content-center">
-        <img className={styles.loginImg} src="/login.svg" alt="LogIn" />
-      </div>
+      <Tooltip title={TooltipContent}>Why school account?</Tooltip>
 
       <GoogleLogin
         className={styles.gAuth}
@@ -90,8 +83,6 @@ const LoginUI: FunctionComponent = () => {
           Start with school account
         </Button>
       </GoogleLogin>
-
-      <Tooltip title={TooltipContent}>Why school account?</Tooltip>
     </Modal>
   );
 };
