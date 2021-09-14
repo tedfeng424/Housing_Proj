@@ -11,6 +11,24 @@
   max-height: 90vh;
   border-radius: $sm-border-radius;
   overflow-y: auto;
+  padding: 1rem;
+}
+
+.modalGraphic {
+  display: flex;
+  justify-content: center;
+}
+
+.text {
+  text-align: center;
+}
+
+.title {
+  margin: 1.5rem 0 0.5rem;
+}
+
+.caption {
+  margin-bottom: 2rem;
 }
 
 // TODO need to add appropriate breakpoints for different screen sizes
