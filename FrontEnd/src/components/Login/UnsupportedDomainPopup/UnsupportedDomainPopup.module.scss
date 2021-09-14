@@ -1,0 +1,36 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 2rem;
+}
+
+.loginImg {
+  width: 7.0625rem;
+  height: 4.8125rem;
+}
+
+.label {
+  margin: 1.5rem 0 0.5rem;
+}
+
+.bottomRowButtons {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  margin-top: 2rem;
+}
+
+.tryAgainButton {
+  margin: 0 !important;
+}
+
+.reportIssue {
+  color: $disabled-medium-emphasis-color;
+  font-weight: $bold-font-weight;
+  margin: 0.5rem 1rem;
+}
+
+.messages {
+  text-align: center;
+  align-content: center;
+}

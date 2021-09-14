@@ -247,6 +247,7 @@ const WizardForm = <T extends {}>({
       ...pre,
       ...cur,
     }));
+
     const success = await onSubmit(combined as T);
     if (success) exitWizardForm();
     return { success };

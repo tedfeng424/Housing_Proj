@@ -1,7 +1,6 @@
 import { User } from '@models';
 import { backendAPI } from './apiBases';
 import { formatWithAws } from '@utils';
-
 export type UserLoginResponse = User | { newUser: boolean };
 
 // potential new user
@@ -53,6 +52,7 @@ export const login = async (
       unsupportedDomain: false,
     };
   } catch (err) {
+    // todo, catch specific error for unsupportedDomain error popup
     return { unsupportedDomain: true };
   }
 };
@@ -116,4 +116,13 @@ export const getCurUser = async () => {
     isNewUser: undefined,
     unsupportedDomain: undefined,
   } as User;
+};
+
+/**
+ * Send an email.
+ * @returns - void
+ */
+export const sendEmail = async (content: string) => {
+  const response = await backendAPI.post('/sendEmail', { content: content });
+  return response.data;
 };

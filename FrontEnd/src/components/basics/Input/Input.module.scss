@@ -45,7 +45,7 @@
   .isValid {
     border-color: $secondary-300-color !important;
     padding-right: 0;
-    background-image: none;
+    background-image: none !important; // used to override bootstrap-provided valid checkmark
   }
   .invalid {
     border: 3px solid $error-color !important;

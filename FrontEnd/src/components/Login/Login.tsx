@@ -12,6 +12,7 @@ import styles from './Login.module.scss';
 import { NewUserSetup } from '@components';
 import { useUser } from '@hooks';
 import { TriggerButtonGA } from '@components/ga';
+import UnsupportedDomainPopup from './UnsupportedDomainPopup';
 
 // Used in tooltip as the title
 const TooltipContent = (
@@ -40,17 +41,15 @@ const LoginUI: FunctionComponent = () => {
       const { name, email } = userInfo;
 
       const result = await login(tokenId);
-      if (result.unsupportedDomain) {
-        // TODO this should display the not supported modal
-        // trigger event that user login fails
-        TriggerButtonGA('Button', 'Click', 'LogInNotSupported');
-        return;
-      }
+
+      if (result.unsupportedDomain) return;
+
       if (result.isNewUser) {
         TriggerButtonGA('Button', 'Click', 'LogInNewUser');
         dispatch(startNewUserFlow({ name, email }));
         return;
       }
+
       TriggerButtonGA('Button', 'Click', 'LogInSuccess');
     } else {
       console.log('User is offline');
@@ -107,6 +106,7 @@ const Login: FunctionComponent = () => {
     <>
       <LoginUI />
       <NewUserSetup />
+      <UnsupportedDomainPopup />
     </>
   );
 };
