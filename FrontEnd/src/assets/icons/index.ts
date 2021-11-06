@@ -20,6 +20,7 @@ export * as amenityIcons from './amenities';
 export * as imageUpload from './imageUpload';
 export * as aboutUsIcons from './aboutUs';
 export * as checkboxIcons from './checkbox';
+export * as unsupportedDomainPopup from './unsupportedDomainPopup';
 export * as MakeAPost from './makeAPost';
 export * as aboutIcons from './about';
 

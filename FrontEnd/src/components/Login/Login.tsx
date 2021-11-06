@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Modal, Button, Tooltip, Caption } from '@basics';
+import { Modal, Button, Tooltip } from '@basics';
 import {
   GoogleLogin,
   GoogleLoginResponse,
@@ -7,7 +7,7 @@ import {
 } from 'react-google-login';
 import { useDispatch } from 'react-redux';
 import { useShouldShowLogin, hideLogin, startNewUserFlow } from '@redux';
-import { miscIcons } from '@icons';
+import { miscIcons, unsupportedDomainPopup } from '@icons';
 import styles from './Login.module.scss';
 import { NewUserSetup } from '@components';
 import { useUser } from '@hooks';
@@ -62,7 +62,10 @@ const LoginUI: FunctionComponent = () => {
       open={shouldShowLogin}
       onClose={() => dispatch(hideLogin())}
       className={styles.wrapper}
-      modalGraphic={{ src: '/login.svg', alt: 'LogIn' }}
+      modalGraphic={{
+        icon: unsupportedDomainPopup.login,
+        alt: 'Login',
+      }}
     >
       <Tooltip title={TooltipContent}>Why school account?</Tooltip>
 

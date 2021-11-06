@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { Modal, Button, Subtitle1 } from '@basics';
 import { useDispatch } from 'react-redux';
 import { useShowEmailConfirmation, hideEmailConfirmation } from '@redux';
-import { miscIcons } from '@icons';
+import { miscIcons, unsupportedDomainPopup } from '@icons';
 import styles from './EmailConfirmation.module.scss';
 import cn from 'classnames';
 
@@ -17,7 +17,10 @@ const EmailConfirmation: FunctionComponent = () => {
       className={styles.wrapper}
       title="Email sent!"
       caption="Thanks for reporting. We hope to get back to you within 7 days."
-      modalGraphic={{ src: '/paperAirplane.svg', alt: 'Email Sent' }}
+      modalGraphic={{
+        icon: unsupportedDomainPopup.emailSent,
+        alt: 'Email Sent',
+      }}
     >
       <div
         className={cn(

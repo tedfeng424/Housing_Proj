@@ -30,6 +30,7 @@ MESSAGE_POST_FAV_DEL_SUCCESS = "Successfully deleted bookmark."
 MESSAGE_POST_FAV_METHOD_NOT_SUPPORTED= "The passed action isn't supported by the endpoint"
 MESSAGE_FAV_ROOM_NOT_EXIST = "room doesn't exist!"
 MESSAGE_USER_NOT_LOGGED_IN = "You cannot process this method if your aren't logged in!"
+MESSAGE_SEND_EMAIL_NO_JSON = "the request doesn’t contain json for sending emails…"
 
 REQUEST_TYPE_MULIFORM = "multipart/form-data"
 S3_BUCKET_UPLOAD_ERROR = "Upload to S3 has failed. Please try again later."

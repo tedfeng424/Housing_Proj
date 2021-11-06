@@ -6,17 +6,29 @@ import {
 import cn from 'classnames';
 import styles from './Modal.module.scss';
 import { Subtitle1, Button } from '@basics';
-import { miscIcons } from '@icons';
+import { Icon as IconType, miscIcons } from '@icons';
 
-export type ImageTypeName = { src: string; alt?: string };
+type ModalGraphicImage = { src: string; alt?: string };
+type ModalGraphicIcon = { icon: IconType; alt?: string };
+
+const isModalGraphicImage = (
+  t: ModalGraphicImage | ModalGraphicIcon,
+): t is ModalGraphicImage => 'src' in t;
 
 interface ModalProps
-  extends Omit<MaterialUIModalProps, 'disableBackdropClick' | 'children'> {
+  extends Omit<
+    MaterialUIModalProps,
+    'onClose' | 'disableBackdropClick' | 'children'
+  > {
   children?: (ReactElement | undefined | false)[];
   size?: 'md' | 'lg';
   title?: string;
   caption?: string;
-  modalGraphic?: string | ImageTypeName;
+  modalGraphic?: string | ModalGraphicImage | ModalGraphicIcon;
+  onClose?: (
+    event: {},
+    reason: 'backdropClick' | 'escapeKeyDown' | 'exitButtonClick',
+  ) => any;
 }
 
 /**
@@ -56,17 +68,24 @@ const Modal: FunctionComponent<ModalProps> = ({
     >
       <div className={cn(styles.modal, styles[size], className)}>
         <div>
-          <Button variant="wrapper" className={styles.close} onClick={onClose}>
+          <Button
+            variant="wrapper"
+            className={styles.close}
+            onClick={(e) => {
+              if (onClose) onClose(e, 'exitButtonClick');
+            }}
+          >
             <miscIcons.orangeX />
           </Button>
         </div>
-
         {modalGraphic && (
           <div className={styles.modalGraphic}>
             {typeof modalGraphic === 'string' ? (
               <img src={modalGraphic} />
-            ) : (
+            ) : isModalGraphicImage(modalGraphic) ? (
               <img src={modalGraphic.src} alt={modalGraphic.alt} />
+            ) : (
+              <img src={modalGraphic.icon} alt={modalGraphic.alt} />
             )}
           </div>
         )}

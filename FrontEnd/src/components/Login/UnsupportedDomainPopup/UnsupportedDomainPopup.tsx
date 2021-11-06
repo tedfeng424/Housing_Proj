@@ -13,6 +13,7 @@ import styles from './UnsupportedDomainPopup.module.scss';
 import { useUser } from '@hooks';
 import AfterReportIssue from './AfterReportIssue';
 import EmailConfirmation from './AfterReportIssue/EmailConfirmation';
+import { unsupportedDomainPopup } from '@icons';
 
 const UnsupportedDomainPopupUI: FunctionComponent = () => {
   const dispatch = useThunkDispatch();
@@ -24,7 +25,10 @@ const UnsupportedDomainPopupUI: FunctionComponent = () => {
       onClose={() => dispatch(hideUnsupportedDomainPopup())}
       className={styles.wrapper}
       title="Oops, your email is incorrect..."
-      modalGraphic={{ src: '/triton.svg', alt: 'LogInNotSupported' }}
+      modalGraphic={{
+        icon: unsupportedDomainPopup.triton,
+        alt: 'LogInNotSupported',
+      }}
     >
       <Subtitle1>
         At the moment, we only allow email ends with <b>ucsd.edu</b> to sign up!

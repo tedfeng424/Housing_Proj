@@ -7,7 +7,7 @@ import {
   showEmailConfirmation,
   useThunkDispatch,
 } from '@redux';
-import { contactIcons, miscIcons } from '@icons';
+import { contactIcons, unsupportedDomainPopup, miscIcons } from '@icons';
 import styles from './AfterReportIssue.module.scss';
 import * as z from 'zod';
 import { sendEmail } from '@apis';
@@ -26,7 +26,10 @@ const AfterReportIssue: FunctionComponent = () => {
       open={shouldShowReportIssue}
       onClose={() => dispatch(hideReportIssue())}
       title="Issue logging in? Report it to us"
-      modalGraphic={{ src: '/triton.svg', alt: 'LogInNotSupported' }}
+      modalGraphic={{
+        icon: unsupportedDomainPopup.triton,
+        alt: 'LogInNotSupported',
+      }}
     >
       <div className={cn(styles.wrapper, styles.inputWrapper)}>
         <Input
