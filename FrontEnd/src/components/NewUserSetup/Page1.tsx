@@ -3,12 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import * as z from 'zod';
-import {
-  SchoolYear,
-  NON_EMPTY_ERR_MSG,
-  majors,
-  phoneRegex,
-} from '../../constants';
+import { SchoolYear, NON_EMPTY_ERR_MSG, majors, phoneRegex } from '@constants';
 import { WizardFormStep, Input, Dropdown, ToggleGroup } from '@basics';
 
 export const page1Schema = z.object({

@@ -1,0 +1,22 @@
+.notChecked {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid #aaaaaa;
+  border-radius: 4px;
+}
+
+.checkbox {
+  display: flex;
+}
+
+.CheckBoxLabelBody {
+  max-width: 10rem;
+  align-self: center;
+  margin-left: 0.75rem;
+
+  @include text-overflow-ellipsis;
+
+  @include bp-down('xs') {
+    max-width: 5rem;
+  }
+}

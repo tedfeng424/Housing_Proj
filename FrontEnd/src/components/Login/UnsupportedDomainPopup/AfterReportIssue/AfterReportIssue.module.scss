@@ -1,0 +1,38 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 2rem;
+}
+
+.reportIssueLabel {
+  margin-top: 1.5rem;
+}
+
+.inputWrapper {
+  justify-content: center;
+  margin: 1.5rem 0;
+}
+
+.reportIssueWrapper {
+  text-align: center;
+  flex-direction: column;
+  align-content: center;
+}
+
+.sendReportButton {
+  margin: 0 !important;
+
+  &:disabled {
+    color: white;
+  }
+}
+
+.sendReportWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.loginImg {
+  width: 7.0625rem;
+  height: 4.8125rem;
+}

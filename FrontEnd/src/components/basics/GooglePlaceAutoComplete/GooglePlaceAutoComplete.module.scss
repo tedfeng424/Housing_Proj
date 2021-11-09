@@ -1,0 +1,33 @@
+$complete-width: 33.25rem;
+
+.suggestionWrapper {
+  width: $complete-width;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.18);
+}
+
+.suggestion {
+  display: flex;
+  align-items: center;
+  cursor: 'pointer';
+  width: $complete-width;
+  height: 3.125rem;
+  background-color: white;
+  color: $disabled-high-emphasis-color;
+  text-decoration-line: none;
+
+  .body2 {
+    margin-left: 2rem;
+    @include text-overflow-ellipsis;
+  }
+
+  &:active,
+  &.active,
+  &:hover,
+  &:focus {
+    background-color: $primary-50-color;
+  }
+}
+
+.input {
+  width: $complete-width;
+}

@@ -93,3 +93,25 @@
 @mixin circular-shape {
   border-radius: 50%;
 }
+
+@mixin text-overflow-ellipsis {
+  text-overflow: ellipsis;
+  // the below styles are necessary for text-overflow: ellipsis to work
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@mixin svg-fill($fill, $width: 1.5rem, $height: 1.5rem, $stroke: none) {
+  svg {
+    width: $width;
+    height: $height;
+
+    @content;
+
+    path {
+      fill: $fill;
+      stroke: $stroke;
+    }
+  }
+}

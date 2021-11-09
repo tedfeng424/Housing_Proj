@@ -4,6 +4,7 @@ import * as z from 'zod';
 import cn from 'classnames';
 import styles from './Input.module.scss';
 import RequiredAsterisk from '../RequiredAsterisk';
+import { Icon as IconType, miscIcons } from '@icons';
 
 export interface InputProps
   extends FormControlProps,
@@ -19,6 +20,7 @@ export interface InputProps
   postTextClassName?: string;
   required?: boolean;
   rows?: number; // TODO should be in the html attributes of htmltextareaelement???
+  icon?: IconType;
 }
 
 const Input: FunctionComponent<InputProps> = ({
@@ -36,10 +38,11 @@ const Input: FunctionComponent<InputProps> = ({
   isValid,
   value,
   children,
+  icon,
   ...formControlProps
 }) => {
   const [isEmpty, setIsEmpty] = useState<boolean>(!value || value === '');
-
+  const Icon = icon?.icon;
   return (
     <div className={styles.root}>
       <Form.Group>
@@ -49,7 +52,7 @@ const Input: FunctionComponent<InputProps> = ({
           </Form.Label>
         )}
 
-        <div className="d-flex">
+        <div className={cn('d-flex', styles.inputRow)}>
           <Form.Control
             {...formControlProps}
             value={value}
@@ -58,6 +61,7 @@ const Input: FunctionComponent<InputProps> = ({
               [styles.filled]: !isEmpty || readOnly,
               [styles.readOnly]: readOnly,
               [styles.invalid]: (isInvalid || error) && !readOnly,
+              [styles.isValid]: isValid,
             })}
             isValid={!readOnly && isValid}
             readOnly={readOnly}
@@ -66,7 +70,11 @@ const Input: FunctionComponent<InputProps> = ({
               if (onChange) onChange(e);
             }}
           />
-
+          {icon && <Icon className={styles.inputIcon} />}
+          {(isInvalid || error) && (
+            <miscIcons.alert className={styles.inputStatus} />
+          )}
+          {isValid && <miscIcons.valid className={styles.inputStatus} />}
           {inlinePostText && (
             <div className={cn(styles.inlineText, postTextClassName)}>
               {inlinePostText}

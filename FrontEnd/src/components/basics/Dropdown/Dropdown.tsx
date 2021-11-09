@@ -127,12 +127,21 @@ const Dropdown: FunctionComponent<DropdownProps> = ({
                 </div>
               </div>
             </BootstrapDropdown.Toggle>
-            
+
             {/* styles won't work unless you specify it explicitly aka: bootstrap style cannot be overriden by just adding a div with the same name */}
-            <BootstrapDropdown.Menu ref={dropdownMenuRef} className={styles.dropdownMenu}>
+            <BootstrapDropdown.Menu
+              ref={dropdownMenuRef}
+              className={styles.dropdownMenu}
+            >
               {filteredOptions.map((option) => (
-                <BootstrapDropdown.Item key={option} eventKey={option} className={styles.dropdownItem}>
-                  <Body2>{option}</Body2>
+                <BootstrapDropdown.Item
+                  key={option}
+                  eventKey={option}
+                  className={cn(styles.dropdownItem, {
+                    [styles.selected]: option === selected,
+                  })}
+                >
+                  <Body2 className={styles.bodyFixedHeight}>{option}</Body2>
                 </BootstrapDropdown.Item>
               ))}
             </BootstrapDropdown.Menu>

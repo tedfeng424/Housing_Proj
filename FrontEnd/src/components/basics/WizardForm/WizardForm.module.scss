@@ -1,45 +1,125 @@
-.root {
-  $wizard-form-middle-height: 90%;
+$padding-x: 1.75rem;
+$wizard-form-height: 42.5rem;
+$wizard-form-max-height: 90vh;
+$top-bar-height: 3.75rem;
+$bottom-bar-height: 5rem;
+$middle-height: calc(
+  #{$wizard-form-height} - #{$top-bar-height} - #{$bottom-bar-height}
+);
+$middle-max-height: calc(
+  #{$wizard-form-max-height} - #{$top-bar-height} - #{$bottom-bar-height}
+);
 
-  .topBar {
-    background-color: $primary-50-color;
-    width: 100%;
-    height: (100% - $wizard-form-middle-height) / 2;
-    display: flex;
-    justify-content: space-between;
-    border-radius: $lg-border-radius $lg-border-radius 0 0;
-    align-items: center;
+.modal {
+  border-radius: $lg-border-radius;
+  width: $wizard-form-height;
+  height: $wizard-form-height;
+  max-height: $wizard-form-max-height;
+  overflow: hidden;
+
+  @include bp-down('sm') {
+    width: 90%;
   }
 
-  .title {
-    @include font-type('h4');
-    color: $primary-dark-color;
-    font-weight: $regular-font-weight; // TODO make a font type for this
+  .topBar {
+    background-color: $primary-light-color;
+    width: 100%;
+    height: $top-bar-height;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    padding-top: 0.85rem;
+    padding-bottom: 0.6rem;
+    padding-left: $padding-x;
+    padding-right: $padding-x;
+
+    @include svg-fill(white, 1.1875rem, 1.1875rem);
+  }
+
+  .pageTitle {
+    color: $primary-light-color;
+    width: 100%;
+    text-align: center;
+    padding-left: $padding-x;
+    padding-right: $padding-x;
   }
 
   .middle {
     width: 100%;
-    height: $wizard-form-middle-height;
+    height: $middle-height;
+    max-height: $middle-max-height;
+    padding-left: $padding-x;
+    padding-right: $padding-x;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    overflow-y: auto;
+  }
+
+  .pageSelectors {
+    display: flex;
+    overflow-x: auto;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .bottomBar {
     width: 100%;
-    height: (100% - $wizard-form-middle-height) / 2;
+    height: $bottom-bar-height;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    padding-left: $padding-x;
+    padding-right: $padding-x;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
   }
+}
 
-  .modalDialog {
-    @include bp-up('md') {
-      max-width: 90%;
-      max-width: 700px;
+.pageNavWrapper {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
+.activePageNav {
+  @include svg-fill(white, 2.5rem, 2.5rem);
+  svg {
+    circle {
+      fill: $primary-300-color;
     }
   }
+}
 
-  .modalContent {
-    padding: 0;
-    border: 0;
-    border-radius: $lg-border-radius;
+.inactivePageNav {
+  @include svg-fill($primary-light-color);
+}
+
+.pageNavDefault {
+  // TODO change to rem
+  svg {
+    width: 12px;
+    height: 12px;
   }
+}
+
+.activePageNavDefault {
+  // TODO replace with svg mixin once merged in
+  svg {
+    ellipse {
+      fill: $primary-light-color;
+    }
+  }
+}
+
+.inactivePageNavDefault {
+  // TODO replace with svg mixin once merged in
+  svg {
+    ellipse {
+      fill: $primary-100-color;
+    }
+  }
+}
+
+.bottomRow {
+  width: 6.75rem;
+  display: flex;
 }

@@ -3,6 +3,7 @@ export {
   preferencesChosen,
   preferencesUnchosen,
 } from './preferences';
+export * as alertIcons from './alert';
 export * as roomTypeIcons from './roomType';
 export { default as contactIcons } from './contact';
 export * as miscIcons from './misc';
@@ -16,6 +17,12 @@ export * as profileIcons from './profile';
 export * as landingIcons from './landing';
 export * as roomTypeIconsTemp from './roomTypeCorrect'; // TODO rename correctly
 export * as amenityIcons from './amenities';
+export * as imageUpload from './imageUpload';
+export * as aboutUsIcons from './aboutUs';
+export * as checkboxIcons from './checkbox';
+export * as unsupportedDomainPopup from './unsupportedDomainPopup';
+export * as MakeAPost from './makeAPost';
+export * as aboutIcons from './about';
 
 // import any logo to be used in the `Icon` type below
 import { default as ExampleIcon } from './misc/logo.svg';

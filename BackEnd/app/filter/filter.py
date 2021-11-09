@@ -59,7 +59,7 @@ class Filter(object):
         # asserting valid keys
         if((room_type.get("Bedrooms") is None) or (room_type.get("Bathrooms") is None)):
             return False
-
+        
         # assign correct counts to variables
         if(room_type["Bedrooms"][-1] == "+"):
             bed_count = room_type["Bedrooms"][:-1]
@@ -98,7 +98,7 @@ class Filter(object):
         # asserting that distance is given as positive numbers and operators are either > or <
         if((not time_per.isdigit()) or (distance_op not in valid_operators)):
             return False
-
+         
         return True
 
     def verify_availability(self, availability: dict) -> bool:

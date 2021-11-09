@@ -3,32 +3,26 @@ import BootstrapDropdown, * as BootstrapDropdownMetadata from 'react-bootstrap/D
 import styles from './ImageDropdown.module.scss';
 import { Button } from '@basics';
 import cn from 'classnames';
-import { useRouter } from 'next/router';
-
-const ButtonWrapper: FunctionComponent = ({ children }) => (
-  <Button variant="wrapper">{children}</Button>
-);
 
 // TODO expand this
-interface itemConfig {
-  href?: string;
+export interface itemConfig {
   label: string;
+  href?: string;
   labelClassName?: string;
   onClick?: () => void;
+  selected?: boolean;
 }
 
-interface itemProps extends BootstrapDropdownMetadata.DropdownProps {
+interface ImageDropdownProps extends BootstrapDropdownMetadata.DropdownProps {
   items: itemConfig[];
   profileIcon: string;
 }
 
-const ImageDropdown: FunctionComponent<itemProps> = ({
+const ImageDropdown: FunctionComponent<ImageDropdownProps> = ({
   items,
   className,
   profileIcon,
 }) => {
-  const router = useRouter();
-
   return (
     <BootstrapDropdown className={cn(className, styles.dropdown)}>
       <BootstrapDropdown.Toggle
@@ -38,22 +32,18 @@ const ImageDropdown: FunctionComponent<itemProps> = ({
       >
         <img className={styles.profileImage} src={profileIcon}></img>
       </BootstrapDropdown.Toggle>
-      {/* might need to make the menu a basic  component itself */}
+      {/* TODO might need to make the menu a basic  component itself */}
       <BootstrapDropdown.Menu className={styles.dropdownMenu} align="right">
-        {items.map(({ href, label, labelClassName, onClick }) => (
+        {items.map(({ href, label, labelClassName, onClick, selected }) => (
           <BootstrapDropdown.Item
             href={href}
             className={styles.dropdownItem}
             onClick={onClick}
           >
             <h5
-              className={cn(
-                labelClassName,
-                'text-center',
-                router.pathname.toLowerCase().slice(1) === label.toLowerCase()
-                  ? styles.isSelected
-                  : '',
-              )}
+              className={cn(labelClassName, 'text-center', {
+                [styles.isSelected]: selected,
+              })}
             >
               {label}
             </h5>

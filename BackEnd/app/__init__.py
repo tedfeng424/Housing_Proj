@@ -44,11 +44,8 @@ def create_app(test_config=None):
     def edit_profile():
         """Function to let users edit their existing profiles
         edit profile photo currently is disabled
-
         content_type: application/json
-
         example of valid json request format:
-
         "updates": {"name": "Thanos",
                     "description": "Fun isn't something one considers when balancing the universe. But this... does put a smile on my face",
                     "phone": "858-888-2345",
@@ -122,7 +119,6 @@ def create_app(test_config=None):
     def get_recent_rooms():
         """
         Get recent rooms sorted by date created
-
         no additional request params needed
         """
         rooms_db = read_all(Room,session)
@@ -130,11 +126,29 @@ def create_app(test_config=None):
         room_ids = [room.id for room in rooms_db]
         return generate_response(elem=room_ids)
 
+    @ app.route("/sendEmail", methods=["POST", "OPTIONS"])
+    def send_email():
+        # handle pre-flight for browsers CORS access
+        if request.method == "OPTIONS":
+            return generate_response()
+        # part2: check json
+        checked_json, response, requested_json = check_json_form(
+            request, MESSAGE_BAD_JSON, MESSAGE_SEND_EMAIL_NO_JSON)
+        if checked_json != True:
+            return response
+        # part3: try send email
+        try:
+            email_content = requested_json["content"]
+            # TODO: Put send email here
+            return generate_message({"message": "successfully sent!"})
+        except KeyError:
+            status_code = 400
+            return generate_message({"message": "No content is provided"}, status_code)
+
     @ app.route("/getRoom/<room_id>")
     def get_room(room_id):
         """
         Get room of particular id
-
         room_id has to be an integer or an integer in a string form
         """
         try:
@@ -155,11 +169,8 @@ def create_app(test_config=None):
     def post_rooms():
         """
         The end point for posting new rooms
-
         request content type supported: multipart/form-data
-
         example of valid json request format:
-
         "json": 
             {"address": "75 Big Rock Cove St. Middletown, NY 10940",
              "distance": "20 mins", "pricePerMonth": 500,
@@ -222,18 +233,12 @@ def create_app(test_config=None):
     def favorite():
         """
         The end point for adding favorites
-
         user has to log in to use all the methods
-
         Get: no additional args are needed
         POST: add, delete
-
         content_type: application/json
-
         example of valid json request format:
-
         {"action": action(string), "room_id":room_id(integer)}
-
         """
         # handle pre-flight for browsers CORS access
         if request.method == "OPTIONS":

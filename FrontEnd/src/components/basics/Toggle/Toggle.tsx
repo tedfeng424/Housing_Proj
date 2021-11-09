@@ -16,6 +16,7 @@ interface ToggleProps extends Omit<ButtonProps, 'onClick'> {
     e: React.MouseEvent<HTMLElement, MouseEvent>,
   ) => any;
   readOnly?: boolean;
+  vertical?: boolean;
 }
 
 const Toggle: FunctionComponent<ToggleProps> = ({
@@ -29,6 +30,7 @@ const Toggle: FunctionComponent<ToggleProps> = ({
   onClick,
   children,
   readOnly,
+  vertical,
   ...buttonProps
 }) => {
   const [isSelected, setIsSelected] = useState<boolean>(initialSelected);
@@ -45,22 +47,30 @@ const Toggle: FunctionComponent<ToggleProps> = ({
         className={cn(className, styles.toggle, {
           [styles.selected]: isSelected,
           [styles.unselected]: !isSelected,
+          [styles.readOnly]: readOnly,
+          [styles.vertical]: vertical,
         })}
         onClick={(e) => {
-          if(readOnly) return;
+          if (readOnly) return;
           if (onClick) onClick(!isSelected, e);
           setIsSelected(!isSelected);
         }}
       >
-        {Icon && (
-          <div>
-            <Icon {...iconConfig} />
-          </div>
-        )}
+        <div className={cn(!vertical && 'd-flex')}>
+          {Icon && (
+            <div>
+              <Icon {...iconConfig} />
+            </div>
+          )}
 
-        {!hideLabel && <div>{label}</div>}
+          {!hideLabel && (
+            <div className={cn(styles.label, !vertical && Icon && 'ml-2')}>
+              {label}
+            </div>
+          )}
 
-        {children}
+          {children}
+        </div>
       </Button>
     </div>
   );

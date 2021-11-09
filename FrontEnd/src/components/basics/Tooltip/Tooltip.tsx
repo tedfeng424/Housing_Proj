@@ -1,14 +1,20 @@
 import React, { FunctionComponent, ReactElement } from 'react';
-import styles from './Tooltip.module.scss';
 import MaterialUITooltip, {
   TooltipProps as MaterialUITooltipProps,
 } from '@material-ui/core/Tooltip';
 import { miscIcons } from '@icons';
+import cn from 'classnames';
 import { Body2, Caption } from '@basics';
+import styles from './Tooltip.module.scss';
 
 export interface TooltipProps extends Omit<MaterialUITooltipProps, 'children'> {
   hideInfoIcon?: boolean; // hides the info icon
   children?: ReactElement<any, any> | string;
+  isSingleLine: boolean;
+}
+
+export interface PopperWrapperProps {
+  isSingleLine: boolean;
 }
 
 /**
@@ -23,11 +29,20 @@ const InfoIcon: FunctionComponent = () => (
 /**
  * Wrapper for the actual popup component to provide the correct styling.
  */
-const PopperWrapper: FunctionComponent = ({ children }) => (
-  <div className={styles.tooltip}>
-    <Body2>{children}</Body2>
-  </div>
-);
+const PopperWrapper: FunctionComponent<PopperWrapperProps> = ({
+  isSingleLine,
+  children,
+}) => {
+  return (
+    <div
+      className={cn(styles.tooltip, {
+        [styles.tooltipSingleLine]: isSingleLine,
+      })}
+    >
+      <Body2 className={styles.tooltipText}>{children}</Body2>
+    </div>
+  );
+};
 
 /**
  * Tooltip. `title` is what will appear in the popup. `children` is what the popup will
@@ -37,10 +52,11 @@ const Tooltip: FunctionComponent<TooltipProps> = ({
   hideInfoIcon,
   children,
   title,
+  isSingleLine,
   ...props
 }) => (
   <MaterialUITooltip
-    title={<PopperWrapper>{title}</PopperWrapper>}
+    title={<PopperWrapper isSingleLine={isSingleLine}>{title}</PopperWrapper>}
     classes={{ tooltip: styles.MUITooltip }}
     {...props}
   >

@@ -124,7 +124,4 @@ class DBFilter(Filter):
        return database_setup.Room.price_per_month <= upper_price_range
 
 
-      
-
-
 

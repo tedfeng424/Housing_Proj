@@ -23,8 +23,6 @@ DIR = "data/time_series/landlord"
 client = boto3.client('s3', **aws_config)
 
 # helper function to get the latest data
-
-
 def get_latest_data(bucket, dir):
     """
     get the latest scraped json file, load the file with json and return as a list

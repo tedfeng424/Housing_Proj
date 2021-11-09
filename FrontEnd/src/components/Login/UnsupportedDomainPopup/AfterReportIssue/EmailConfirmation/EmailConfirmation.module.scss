@@ -1,0 +1,28 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 2rem;
+}
+
+.label {
+  margin: 1.5rem 0 0.5rem;
+}
+
+.emailConfirmationWrapper {
+  text-align: center;
+  flex-direction: column;
+  align-content: center;
+}
+
+.bottomButtonWrapper {
+  margin-top: 2rem;
+}
+
+.bottomButton {
+  margin: 0 !important;
+}
+
+.confirmationImg {
+  width: 6.25rem;
+  height: 6.25rem;
+}
